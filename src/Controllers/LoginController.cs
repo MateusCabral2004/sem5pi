@@ -10,17 +10,17 @@ namespace Sempi5.Controllers
     [Route("[controller]")]
     public class LoginController : Controller
     {
-        [HttpGet("login")]
+        [HttpGet("loginAsPatient")]
         public IActionResult Login()
         {
-            var redirectUrl = Url.Action("GoogleResponse", "Login");
+            var redirectUrl = Url.Action("LoginResponse", "Login");
             var properties = new AuthenticationProperties { RedirectUri = redirectUrl };
             return Challenge(properties, GoogleDefaults.AuthenticationScheme);
         }
 
-        [HttpGet("google-response")]
+        [HttpGet("login-response")]
         [Authorize]
-        public async Task<IActionResult> GoogleResponse()
+        public async Task<IActionResult> LoginResponse()
         {
             var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
@@ -32,7 +32,7 @@ namespace Sempi5.Controllers
 
             if (!claimsIdentity.HasClaim(c => c.Type == ClaimTypes.Role && c.Value == "Doctor"))
             {
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Doctor"));
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
             }
 
             var authProperties = new AuthenticationProperties
@@ -46,8 +46,37 @@ namespace Sempi5.Controllers
             return Json(new { success = true, email, roles, name });
         }
 
+        [HttpGet("loginAsStaff")]
+        public async Task<IActionResult> LocalLogin()
+        {
+            // Hardcoded user details
+            var email = "admin@sempi.pt";
+            var name = "admin";
+            var role = "Admin";
+
+            // Create claims identity for the hardcoded user
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, email),
+                new Claim(ClaimTypes.Name, name),
+               // new Claim(ClaimTypes.Role, role)
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var authProperties = new AuthenticationProperties
+            {
+                IsPersistent = true
+            };
+
+            // Sign in the user with the created claims
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+
+            // Instead of calling GoogleResponse, redirect or return a success message
+            return Redirect("/Login/login-response");
+        }
+
         [HttpGet("teste1")]
-        [Authorize(Roles = "Teste")]
+        [Authorize]
         public IActionResult Teste1()
         {
             return Json(new { success = true, message = "Teste1" });
@@ -70,7 +99,7 @@ namespace Sempi5.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);            
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect("/Login");
         }
 
