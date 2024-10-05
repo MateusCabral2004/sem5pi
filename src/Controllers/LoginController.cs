@@ -30,9 +30,9 @@ namespace Sempi5.Controllers
 
             var claimsIdentity = (ClaimsIdentity)result.Principal.Identity;
 
-            if (!claimsIdentity.HasClaim(c => c.Type == ClaimTypes.Role && c.Value == "Teste"))
+            if (!claimsIdentity.HasClaim(c => c.Type == ClaimTypes.Role && c.Value == "Doctor"))
             {
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Teste"));
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Doctor"));
             }
 
             var authProperties = new AuthenticationProperties
@@ -58,6 +58,13 @@ namespace Sempi5.Controllers
         public IActionResult Teste2()
         {
             return Json(new { success = true, message = "Teste2" });
+        }
+
+        [HttpGet("teste3")]
+        [Authorize(Policy = "Staff")]
+        public IActionResult Teste3()
+        {
+            return Json(new { success = true, message = "Teste3" });
         }
 
         [HttpGet("logout")]

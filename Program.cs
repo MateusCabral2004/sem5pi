@@ -14,7 +14,18 @@ namespace Sempi5
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
- 
+
+            builder.Services.AddAuthorization(options => 
+            {
+                options.AddPolicy("Staff",
+                policy => policy.RequireRole("Doctor", "Nurse", "Admin", "Technician"));
+
+                options.AddPolicy("Patient",
+                policy => policy.RequireRole("Patient"));
+            });
+
+
+
             builder.Services.AddAuthentication(options => 
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -55,7 +66,6 @@ namespace Sempi5
             app.UseAuthorization();
 
             app.MapControllers();
-
 
             app.Run();
         }
