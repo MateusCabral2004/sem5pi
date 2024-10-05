@@ -1,12 +1,10 @@
-using System.Text.Json;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
 using Sempi5.Domain.Shared;
-using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
 using Sempi5.Infrastructure.TodoItemRepository;
 using IDatabase = Sempi5.Infrastructure.Databases.IDatabase;
+using Microsoft.AspNetCore.Authentication.Google;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 namespace Sempi5
 {
@@ -16,10 +14,26 @@ namespace Sempi5
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+ 
+            builder.Services.AddAuthentication(options => 
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+            }
+            ).AddCookie(options =>
+            {
+                options.LoginPath = "/Login/login";
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
+            }
+            ).AddGoogle(options => 
+            {
+                options.ClientId = builder.Configuration["Google:ClientId"];
+                options.ClientSecret = builder.Configuration["Google:Client_Secret"];
+                options.SaveTokens = true; 
+            });
 
-            // Add services to the container.
-
-            builder.Services.AddControllers();
+            builder.Services.AddControllersWithViews();
 
             CreateDataBase(builder);
 
@@ -34,55 +48,45 @@ namespace Sempi5
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseRouting();
 
+            app.UseAuthorization();
+
             app.MapControllers();
+
 
             app.Run();
         }
 
-        // See what database is
-        public static void CreateDataBase(WebApplicationBuilder builder)
-        {
-
+        public static void CreateDataBase(WebApplicationBuilder builder){
+          
             string name = "Sempi5.Infrastructure.Databases." + builder.Configuration["DataBase:Type"];
-
-            Type dbType = null;
-            try
+            Type? dbType = Type.GetType(name);
+            
+            if (dbType == null)
             {
-                dbType = Type.GetType(name);
-                _ = (IDatabase)Activator.CreateInstance(dbType);
+                Console.WriteLine("Database Type Invalid. Please check the configuration file!\nApplication will exit");
+                Environment.Exit(2);
+            }   
+
+            try{ 
+                ((IDatabase) Activator.CreateInstance(dbType)).connectDB(builder);                           
             }
             catch (Exception)
             {
-                // Exit application
-                Console.WriteLine("Database Type Invalid. Please check the configuration file!\nApplication will exit");
-                Environment.Exit(2);
-            }
-
-            try
-            {
-                ((IDatabase)Activator.CreateInstance(dbType)).connectDB(builder);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("ERROR: " + e.Message);
                 Console.WriteLine("Database not found\nApplication will exit");
                 Environment.Exit(3);
-                
             }
-
-        Console.WriteLine("Database Connected");
-
+                
         }
 
         public void ConfigureMyServices(IServiceCollection services)
         {
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUnitOfWork,UnitOfWork>();
 
-            services.AddTransient<ITodoItemRepository, TodoItemRepository>();
+            services.AddTransient<ITodoItemRepository,TodoItemRepository>();
             //services.AddTransient<CategoryService>();
         }
     }
