@@ -65,7 +65,7 @@ namespace Sempi5.Controllers
                     claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, staff.User.Role));
                 } else
                 {
-                    return Json("No account found "+ \n +"Its needed to create" +
+                    return Json("No account found Its needed to create" +
                     "a method that redirects to the register page for patients");
                 }
             }
