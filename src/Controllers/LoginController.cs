@@ -68,10 +68,8 @@ namespace Sempi5.Controllers
                 IsPersistent = true
             };
 
-            // Sign in the user with the created claims
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
 
-            // Instead of calling GoogleResponse, redirect or return a success message
             return Redirect("/Login/login-response");
         }
 

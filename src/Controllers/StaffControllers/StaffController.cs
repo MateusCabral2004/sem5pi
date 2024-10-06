@@ -54,12 +54,12 @@ namespace Sempi5.Controllers.StaffControllers
             return Ok(staffMembers);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<StaffDTO>> GetStaffMember(long id)
+        [HttpGet("{email}")]
+        public async Task<ActionResult<StaffDTO>> GetStaffMember(string email)
         {
             var staffMember = await dataBase.StaffMembers
                 .Include(s => s.User)
-                .FirstOrDefaultAsync(s => s.Id == id);
+                .FirstOrDefaultAsync(s => s.User.Email == email);
 
             if (staffMember == null)
             {

@@ -71,7 +71,7 @@ namespace Sempi5.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AvailabilitySlots = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false)
+                    Password = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     UserId = table.Column<long>(type: "bigint", nullable: false)
                 },
@@ -96,7 +96,8 @@ namespace Sempi5.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Staff_UserId",
                 table: "Staff",
-                column: "UserId");
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_Email",

@@ -58,7 +58,6 @@ namespace Sempi5.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
@@ -75,7 +74,8 @@ namespace Sempi5.Migrations
                     b.HasIndex("LicenseNumber")
                         .IsUnique();
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Staff", (string)null);
                 });
@@ -142,8 +142,8 @@ namespace Sempi5.Migrations
             modelBuilder.Entity("Sempi5.Domain.Staff.Staff", b =>
                 {
                     b.HasOne("Sempi5.Domain.User.SystemUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne()
+                        .HasForeignKey("Sempi5.Domain.Staff.Staff", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

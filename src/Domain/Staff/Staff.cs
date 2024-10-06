@@ -17,7 +17,7 @@ namespace Sempi5.Domain.Staff
         public string Specialization { get; set; }
         public string ContactInfo { get; set; }
         public List<string> AvailabilitySlots { get; set; }
-        public string Password { get; set; }
+        public string? Password { get; set; }
         public SystemUser User { get; set; }
 
     }

@@ -35,7 +35,6 @@ namespace Sempi5.Infrastructure.StaffRepository
                 .HasMaxLength(200);
 
             builder.Property(t => t.Password)
-                .IsRequired()
                 .HasMaxLength(200);
 
             /*
@@ -47,9 +46,12 @@ namespace Sempi5.Infrastructure.StaffRepository
             .HasMaxLength(200);
             */
             builder.HasOne(s => s.User)
-                .WithMany()
-                .HasForeignKey("UserId")
+                .WithOne()
+                .HasForeignKey<Staff>("UserId")
+                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            
 
         }
     }

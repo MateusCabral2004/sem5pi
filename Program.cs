@@ -153,7 +153,7 @@ namespace Sempi5
                         Specialization = "Cardiology",
                         ContactInfo = "doctor@example.com",
                         AvailabilitySlots = new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" },
-                        Password = "DoctorPassword123", // Consider storing hashed passwords
+                        Password = null, // Consider storing hashed passwords
                         User = doctorUser
                     };
 
