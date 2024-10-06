@@ -10,13 +10,7 @@ namespace Sempi5.Infrastructure.StaffRepository
         public void Configure(EntityTypeBuilder<Staff> builder)
         {
             builder.ToTable("Staff");
-            builder.HasKey(t => t.Id);
-
-            builder.Property(t => t.LicenseNumber)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            builder.HasIndex(t => t.LicenseNumber).IsUnique();
+            builder.HasKey(t => t.LicenseNumber);
 
             builder.Property(t => t.FirstName)
                 .IsRequired()
@@ -47,12 +41,9 @@ namespace Sempi5.Infrastructure.StaffRepository
             */
             builder.HasOne(s => s.User)
                 .WithOne()
-                .HasForeignKey<Staff>("UserId")
+                .HasForeignKey<Staff>("UserEmail")
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
-
-            
-
         }
     }
 }

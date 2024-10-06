@@ -3,12 +3,11 @@ using Sempi5.Domain.User;
 
 namespace Sempi5.Domain.Patient
 {
-    public class Patient : Entity<PatientId>, IAggregateRoot
+    public class Patient : IAggregateRoot
     {
 
         //Class can and should be modified so that fields are more representative 
         //of what they are instead of just strings
-        public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
