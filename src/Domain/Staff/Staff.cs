@@ -4,10 +4,9 @@ using Sempi5.Domain.Staff;
 
 namespace Sempi5.Domain.Staff
 {
-    public class Staff : Entity<StaffId>, IAggregateRoot
+    public class Staff : IAggregateRoot
     {
 
-        public long Id { get; set; }
         //Class can and should be modified so that fields are more representative 
         //of what they are instead of just strings
         public string FirstName { get; set; }

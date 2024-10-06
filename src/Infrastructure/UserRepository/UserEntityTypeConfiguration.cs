@@ -9,15 +9,13 @@ namespace Sempi5.Infrastructure.UserRepository
         public void Configure(EntityTypeBuilder<SystemUser> builder)
         {
             builder.ToTable("Users");
-            builder.HasKey(t => t.Id);
+            builder.HasKey(t => t.Email);
 
             builder.HasIndex(t => t.Username).IsUnique();
 
             builder.Property(t => t.Username)
                 .IsRequired()
                 .HasMaxLength(50);
-
-            builder.HasIndex(t => t.Email).IsUnique();
 
             builder.Property(t => t.Email)
                 .IsRequired()

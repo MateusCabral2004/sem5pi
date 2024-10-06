@@ -27,7 +27,6 @@ namespace Sempi5.Controllers.StaffControllers
             var staffMembers = await dataBase.StaffMembers
                 .Select(s => new StaffDTO
                 {
-                    Id = s.Id,
                     FirstName = s.FirstName,
                     LastName = s.LastName,
                     FullName = s.FullName,

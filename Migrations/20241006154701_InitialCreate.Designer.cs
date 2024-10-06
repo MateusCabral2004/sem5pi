@@ -11,7 +11,7 @@ using Sempi5.Infrastructure.Databases;
 namespace Sempi5.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20241006010405_InitialCreate")]
+    [Migration("20241006154701_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -24,13 +24,63 @@ namespace Sempi5.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
+            modelBuilder.Entity("Sempi5.Domain.Patient.Patient", b =>
+                {
+                    b.Property<string>("MedicalRecordNumber")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("AllergiesAndMedicalConditions")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AppointmentHistory")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BirthDate")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ContactInfo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EmergencyContact")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("MedicalRecordNumber");
+
+                    b.HasIndex("UserEmail")
+                        .IsUnique();
+
+                    b.ToTable("Patients", (string)null);
+                });
+
             modelBuilder.Entity("Sempi5.Domain.Staff.Staff", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+                    b.Property<string>("LicenseNumber")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("AvailabilitySlots")
                         .IsRequired()
@@ -55,11 +105,6 @@ namespace Sempi5.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<string>("LicenseNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
                     b.Property<string>("Password")
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
@@ -69,15 +114,13 @@ namespace Sempi5.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
 
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
+                    b.Property<string>("UserEmail")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
 
-                    b.HasKey("Id");
+                    b.HasKey("LicenseNumber");
 
-                    b.HasIndex("LicenseNumber")
-                        .IsUnique();
-
-                    b.HasIndex("UserId")
+                    b.HasIndex("UserEmail")
                         .IsUnique();
 
                     b.ToTable("Staff", (string)null);
@@ -110,14 +153,7 @@ namespace Sempi5.Migrations
 
             modelBuilder.Entity("Sempi5.Domain.User.SystemUser", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
-
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
@@ -131,10 +167,7 @@ namespace Sempi5.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
+                    b.HasKey("Email");
 
                     b.HasIndex("Username")
                         .IsUnique();
@@ -142,11 +175,22 @@ namespace Sempi5.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("Sempi5.Domain.Patient.Patient", b =>
+                {
+                    b.HasOne("Sempi5.Domain.User.SystemUser", "User")
+                        .WithOne()
+                        .HasForeignKey("Sempi5.Domain.Patient.Patient", "UserEmail")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Sempi5.Domain.Staff.Staff", b =>
                 {
                     b.HasOne("Sempi5.Domain.User.SystemUser", "User")
                         .WithOne()
-                        .HasForeignKey("Sempi5.Domain.Staff.Staff", "UserId")
+                        .HasForeignKey("Sempi5.Domain.Staff.Staff", "UserEmail")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -11,6 +11,8 @@ using Sempi5.Infrastructure.Databases;
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Services;
 using Sempi5.Infrastructure.UserRepository;
+using Sempi5.Infrastructure.PatientRepository;
+using Sempi5.Domain.Patient;
 namespace Sempi5
 {
 
@@ -33,18 +35,12 @@ namespace Sempi5
 
             builder.Services.AddAuthentication(options =>
             {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = GoogleDefaults.AuthenticationScheme;
+                options.DefaultScheme = "LocalCookie";
+                options.DefaultChallengeScheme = "LocalCookie";
             })
             .AddCookie("LocalCookie", options =>
             {
-                options.LoginPath = "/Login/local";
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            })
-            .AddCookie(options =>
-            {
-                options.LoginPath = "/Login/login";
+                options.LoginPath = "/Login";
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             })
@@ -82,7 +78,7 @@ namespace Sempi5
             try
             {
                 SeedData(app.Services);
-
+                SeedPatiens(app.Services);
             }
             catch (Exception e)
             {
@@ -125,7 +121,9 @@ namespace Sempi5
             services.AddTransient<ITodoItemRepository, TodoItemRepository>();
             services.AddTransient<IStaffRepository, StaffRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IPatientRepository, PatientRepository>();
             services.AddTransient<ManageStaffService>();
+            services.AddTransient<LoginService>();
         }
 
         public static void SeedData(IServiceProvider services)
@@ -196,6 +194,45 @@ namespace Sempi5
                 else
                 {
                     Console.WriteLine("Staff members already exist. Skipping seeding.");
+                }
+            }
+        }
+
+        public static void SeedPatiens(IServiceProvider services)
+        {
+            using (var scope = services.CreateScope())
+            {
+                var patientRepo = scope.ServiceProvider.GetRequiredService<IPatientRepository>();
+                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
+
+                // Check if there are any patients already in the database
+                if (!patientRepo.GetAllAsync().Result.Any())
+                {
+
+                    Console.WriteLine("Seeding patients...");
+                    SystemUser user1 = new SystemUser("mateuscabral12321@gmail.com", "Patient");
+                    // Create patients
+                    var patient1 = new Patient
+                    {
+                        FirstName = "Alice",
+                        LastName = "Doe",
+                        FullName = "Alice Doe",
+                        BirthDate = "01/01/1990",
+                        Gender = "Combat Helicopter",
+                        MedicalRecordNumber = "MRN12345",
+                        ContactInfo = "123",
+                        AllergiesAndMedicalConditions = new List<string> { "Peanuts", "Asthma" },
+                        EmergencyContact = "456",
+                        AppointmentHistory = new List<string> { "01/01/2021 9am-10am", "02/02/2021 10am-11am" },
+                        User = user1
+                    };
+
+                    // Add patients to repository
+                    patientRepo.AddAsync(patient1).Wait();
+
+                    // Save changes
+                    unitOfWork.CommitAsync().Wait();
                 }
             }
         }
