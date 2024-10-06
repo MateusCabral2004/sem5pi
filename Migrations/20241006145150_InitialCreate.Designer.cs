@@ -11,7 +11,7 @@ using Sempi5.Infrastructure.Databases;
 namespace Sempi5.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20241006010405_InitialCreate")]
+    [Migration("20241006145150_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -23,6 +23,65 @@ namespace Sempi5.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
+
+            modelBuilder.Entity("Sempi5.Domain.Patient.Patient", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("AllergiesAndMedicalConditions")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("AppointmentHistory")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("BirthDate")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ContactInfo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("EmergencyContact")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FullName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Gender")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("MedicalRecordNumber")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Patients", (string)null);
+                });
 
             modelBuilder.Entity("Sempi5.Domain.Staff.Staff", b =>
                 {
@@ -140,6 +199,17 @@ namespace Sempi5.Migrations
                         .IsUnique();
 
                     b.ToTable("Users", (string)null);
+                });
+
+            modelBuilder.Entity("Sempi5.Domain.Patient.Patient", b =>
+                {
+                    b.HasOne("Sempi5.Domain.User.SystemUser", "User")
+                        .WithOne()
+                        .HasForeignKey("Sempi5.Domain.Patient.Patient", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Sempi5.Domain.Staff.Staff", b =>

@@ -6,5 +6,6 @@ namespace Sempi5.Infrastructure.UserRepository
 {
     public interface IUserRepository : IRepository<SystemUser, SystemUserId>
     {
+        public Task<SystemUser> GetByEmail(string email);
     }
 }

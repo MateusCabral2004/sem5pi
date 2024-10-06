@@ -4,12 +4,28 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using Sempi5.Domain.Staff;
+using Sempi5.Domain.UsefullDTOs;
+using Sempi5.Domain.User;
+using Sempi5.Infrastructure.StaffRepository;
+using Sempi5.Infrastructure.UserRepository;
+using Sempi5.Services;
 
 namespace Sempi5.Controllers
 {
     [Route("[controller]")]
     public class LoginController : Controller
     {
+
+        private readonly LoginService loginService;
+
+        public LoginController(LoginService loginService)
+        {
+            this.loginService = loginService;
+        }
+
+
         [HttpGet("loginAsPatient")]
         public IActionResult Login()
         {
@@ -22,7 +38,7 @@ namespace Sempi5.Controllers
         [Authorize]
         public async Task<IActionResult> LoginResponse()
         {
-            var result = await HttpContext.AuthenticateAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            var result = await HttpContext.AuthenticateAsync("LocalCookie");
             var claims = result.Principal.Identities.FirstOrDefault()?.Claims;
 
             var email = claims?.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
@@ -30,9 +46,28 @@ namespace Sempi5.Controllers
 
             var claimsIdentity = (ClaimsIdentity)result.Principal.Identity;
 
-            if (!claimsIdentity.HasClaim(c => c.Type == ClaimTypes.Role && c.Value == "Doctor"))
+            string role = claimsIdentity.FindFirst(ClaimTypes.Role)?.Value;
+            if(!role.IsNullOrEmpty())
             {
-                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Admin"));
+               return Json(new { success = true, email, role, name }); 
+            }
+
+            if (await loginService.getPatientFromEmail(email) != null)
+            {
+                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Patient"));
+            }
+            else
+            {
+                var staff = await loginService.getStaffFromEmail(email);
+
+                if (staff != null)
+                {
+                    claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, staff.User.Role));
+                } else
+                {
+                    return Json("No account found "+ \n +"Its needed to create" +
+                    "a method that redirects to the register page for patients");
+                }
             }
 
             var authProperties = new AuthenticationProperties
@@ -40,26 +75,47 @@ namespace Sempi5.Controllers
                 IsPersistent = true
             };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            await HttpContext.SignInAsync("LocalCookie", new ClaimsPrincipal(claimsIdentity), authProperties);
 
             List<string> roles = claimsIdentity.FindAll(ClaimTypes.Role).Select(c => c.Value).ToList();
             return Json(new { success = true, email, roles, name });
         }
 
-        [HttpGet("loginAsStaff")]
-        public async Task<IActionResult> LocalLogin()
+        [HttpPost("loginAsStaff")]
+        public async Task<IActionResult> LocalLogin([FromBody] LoginDTO dto)
         {
-            // Hardcoded user details
-            var email = "admin@sempi.pt";
-            var name = "admin";
-            var role = "Admin";
 
-            // Create claims identity for the hardcoded user
+            if (dto == null)
+            {
+                return BadRequest("NULL DTO");
+            }
+
+            Console.WriteLine("teste");
+
+            if (dto == null || string.IsNullOrEmpty(dto.Email) || string.IsNullOrEmpty(dto.Password))
+            {
+                return BadRequest("Invalid email or password");
+            }
+
+            Staff staff = await loginService.getStaffFromEmail(dto.Email);
+
+            if (staff.User == null || staff == null)
+            {
+                return BadRequest("Invalid email or password");
+            }
+
+            if (staff.Password != dto.Password)
+            {
+                return BadRequest("Invalid email or password");
+            }
+
+            string name = staff.FullName;
+            string email = staff.User.Email;
+
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, email),
                 new Claim(ClaimTypes.Name, name),
-               // new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Email, email)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -68,7 +124,7 @@ namespace Sempi5.Controllers
                 IsPersistent = true
             };
 
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            await HttpContext.SignInAsync("LocalCookie", new ClaimsPrincipal(claimsIdentity), authProperties);
 
             return Redirect("/Login/login-response");
         }
@@ -97,7 +153,7 @@ namespace Sempi5.Controllers
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync("LocalCookie");
             return Redirect("/Login");
         }
 

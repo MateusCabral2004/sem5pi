@@ -1,12 +1,14 @@
+using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
 
 namespace Sempi5.Domain.Patient
 {
-    public class Patient
+    public class Patient : Entity<PatientId>, IAggregateRoot
     {
 
         //Class can and should be modified so that fields are more representative 
         //of what they are instead of just strings
+        public long Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
@@ -19,23 +21,5 @@ namespace Sempi5.Domain.Patient
         public List<string> AppointmentHistory { get; set; }
         public SystemUser User { get; set; }        
 
-        public Patient(string firstName, string lastName, string fullName,
-            string birthDate, string gender, string medicalRecordNumber,
-            string contactInfo, List<string> allergiesAndMedicalConditions,
-            string emergencyContact, List<string> appointmentHistory,
-            string email, string role)
-        {
-            User = new SystemUser(email, role);
-            FirstName = firstName;
-            LastName = lastName;
-            FullName = fullName;
-            BirthDate = birthDate;
-            Gender = gender;
-            MedicalRecordNumber = medicalRecordNumber;
-            ContactInfo = contactInfo;
-            AllergiesAndMedicalConditions = allergiesAndMedicalConditions;
-            EmergencyContact = emergencyContact;
-            AppointmentHistory = appointmentHistory;
-        }
     }
 }
