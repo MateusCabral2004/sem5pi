@@ -4,15 +4,13 @@ using Sempi5.Domain.Staff;
 
 namespace Sempi5.Domain.Staff
 {
-    public class Staff : IAggregateRoot
+    public class Staff : Entity<LicenseNumber>, IAggregateRoot
     {
 
-        //Class can and should be modified so that fields are more representative 
-        //of what they are instead of just strings
+        public LicenseNumber Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
-        public string LicenseNumber { get; set; }
         public string Specialization { get; set; }
         public string ContactInfo { get; set; }
         public List<string> AvailabilitySlots { get; set; }

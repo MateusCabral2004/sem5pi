@@ -12,6 +12,13 @@ namespace Sempi5.Infrastructure.TodoItemRepository
             builder.ToTable("TodoItems");
             builder.HasKey(t => t.Id);
             
+            builder.Property(t => t.Id)
+                .HasColumnName("Id")
+                .HasConversion(
+                    v => v.AsString(),  // Store the ID as a string in the database
+                    v => new TodoItemId(v)  // Convert the string back to TodoItemId when reading
+                );
+            
             builder.Property(t => t.Name)
                 .IsRequired();
 

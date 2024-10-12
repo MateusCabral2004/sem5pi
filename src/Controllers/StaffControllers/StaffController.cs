@@ -30,7 +30,7 @@ namespace Sempi5.Controllers.StaffControllers
                     FirstName = s.FirstName,
                     LastName = s.LastName,
                     FullName = s.FullName,
-                    LicenseNumber = s.LicenseNumber,
+                    LicenseNumber = s.Id.Value,
                     Specialization = s.Specialization,
                     ContactInfo = s.ContactInfo,
                     Email = s.User.Email,

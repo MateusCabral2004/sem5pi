@@ -48,7 +48,7 @@ namespace Sempi5.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTodoItem(long id, TodoItemDTO todoDTO)
         {
-            if (id != todoDTO.Id)
+            if (!id.Equals(todoDTO.Id))
             {
                 return BadRequest();
             }
@@ -81,8 +81,10 @@ namespace Sempi5.Controllers
         [HttpPost]
         public async Task<ActionResult<TodoItemDTO>> PostTodoItem(TodoItemDTO todoDTO)
         {
+
             var todoItem = new TodoItem
-            {
+            {   
+                Id = new TodoItemId(todoDTO.Id),
                 IsComplete = todoDTO.IsComplete,
                 Name = todoDTO.Name
             };
@@ -115,13 +117,13 @@ namespace Sempi5.Controllers
 
         private bool TodoItemExists(long id)
         {
-            return _context.TodoItems.Any(e => e.Id == id);
+            return _context.TodoItems.Any(e => e.Id.Equals(id));
         }
 
         private static TodoItemDTO ItemToDTO(TodoItem todoItem) =>
         new TodoItemDTO
         {
-            Id = todoItem.Id,
+            Id = todoItem.Id.ToString(),
             Name = todoItem.Name,
             IsComplete = todoItem.IsComplete
         };

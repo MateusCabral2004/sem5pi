@@ -10,11 +10,18 @@ namespace Sempi5.Infrastructure.PatientRepository
         public void Configure(EntityTypeBuilder<Patient> builder)
         {
             builder.ToTable("Patients");
-            builder.HasKey(p => p.MedicalRecordNumber);
+            builder.HasKey(p => p.Id).HasName("MedicalRecordNumber");
+            
+            builder.Property(p => p.Id)
+                .HasConversion(
+                    v => v.AsString(),
+                    v => new MedicalRecordNumber(v)
+                )
+                .IsRequired();
 
             builder.HasOne(s => s.User)
                 .WithOne()
-                .HasForeignKey<Patient>("UserEmail")
+                .HasForeignKey<Patient>("UserId")
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 

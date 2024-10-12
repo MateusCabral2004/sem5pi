@@ -4,9 +4,8 @@ using Sempi5.Domain.User;
 
 namespace Sempi5.Infrastructure.UserRepository
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<SystemUser,SystemUserId>
     {
         public Task<SystemUser> GetByEmail(string email);
-        public Task<SystemUser> AddAsync(SystemUser user);
     }
 }

@@ -154,6 +154,7 @@ namespace Sempi5.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync("LocalCookie");
+            
             return Redirect("/Login");
         }
 

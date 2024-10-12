@@ -10,7 +10,15 @@ namespace Sempi5.Infrastructure.StaffRepository
         public void Configure(EntityTypeBuilder<Staff> builder)
         {
             builder.ToTable("Staff");
-            builder.HasKey(t => t.LicenseNumber);
+            builder.HasKey(t => t.Id);
+            
+            builder.Property(t => t.Id)
+                .HasConversion(
+                    v => v.AsString(),
+                    v => new LicenseNumber(v)
+                )
+                .ValueGeneratedOnAdd()
+                .IsRequired();
 
             builder.Property(t => t.FirstName)
                 .IsRequired()
@@ -30,18 +38,10 @@ namespace Sempi5.Infrastructure.StaffRepository
 
             builder.Property(t => t.Password)
                 .HasMaxLength(200);
-
-            /*
-            builder.Property(t => t.AvailabilitySlots)
-                .HasConversion(
-                    v => string.Join(',', v),
-                    v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList()
-                )
-            .HasMaxLength(200);
-            */
+            
             builder.HasOne(s => s.User)
                 .WithOne()
-                .HasForeignKey<Staff>("UserEmail")
+                .HasForeignKey<Staff>("UserId")
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }

@@ -6,15 +6,13 @@ using Sempi5.Infrastructure.Shared;
 
 namespace Sempi5.Infrastructure.PatientRepository
 {
-    public class PatientRepository : IPatientRepository
+    public class PatientRepository : BaseRepository<Patient,MedicalRecordNumber>, IPatientRepository
     {
 
         private readonly DBContext context;
-
-        public PatientRepository(DBContext context)
-        {
-            this.context = context;
-        }
+        
+        public PatientRepository(DBContext context) : base(context.Patients)
+        { this.context = context; }
 
         public Task<Patient> AddAsync(Patient patient)
         {

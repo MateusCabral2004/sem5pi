@@ -5,15 +5,13 @@ using Sempi5.Infrastructure.Shared;
 
 namespace Sempi5.Infrastructure.UserRepository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository :BaseRepository<SystemUser,SystemUserId>, IUserRepository
     {
 
         private readonly DBContext context;
-
-        public UserRepository(DBContext context)
-        {
-            this.context = context;
-        }
+        
+        public UserRepository(DBContext context) : base(context.Users)
+        { this.context = context; }
 
         public async Task<SystemUser> GetByEmail(string email)
         {
@@ -27,12 +25,6 @@ namespace Sempi5.Infrastructure.UserRepository
 
             return user;
         }
-
-        public async Task<SystemUser> AddAsync(SystemUser user)
-        {
-            context.Users.Add(user);
-            context.SaveChanges();
-            return await Task.FromResult(user);
-        }
+        
     }
 }
