@@ -185,8 +185,6 @@ namespace Sempi5
                     // Add staff to repository
                     staffRepo.AddAsync(doctor).Wait();
                     staffRepo.AddAsync(nurse).Wait();
-                    unitOfWork.CommitAsync().Wait();
-
                     staffRepo.AddAsync(admin).Wait();
 
                     // Save changes
@@ -249,12 +247,10 @@ namespace Sempi5
 
                     // Add patients to repository
                     patientRepo.AddAsync(patient1).Wait();
-                    unitOfWork.CommitAsync().Wait();
-
                     patientRepo.AddAsync(patient2).Wait();
-                    unitOfWork.CommitAsync().Wait();
-
+                    
                     // Save changes
+                    unitOfWork.CommitAsync().Wait();
                 }
             }
         }
