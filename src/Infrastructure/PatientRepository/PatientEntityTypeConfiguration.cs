@@ -10,14 +10,15 @@ namespace Sempi5.Infrastructure.PatientRepository
         public void Configure(EntityTypeBuilder<Patient> builder)
         {
             builder.ToTable("Patients");
-            builder.HasKey(p => p.Id).HasName("MedicalRecordNumber");
+            builder.HasKey(p => p.Id);
             
             builder.Property(p => p.Id)
                 .HasConversion(
                     v => v.AsString(),
-                    v => new MedicalRecordNumber(v)
+                    v => new PatientId(v)
                 )
-                .IsRequired();
+                .IsRequired()
+                .ValueGeneratedOnAdd();
 
             builder.HasOne(s => s.User)
                 .WithOne()

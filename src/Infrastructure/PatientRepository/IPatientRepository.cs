@@ -4,7 +4,7 @@ using Sempi5.Domain.User;
 
 namespace Sempi5.Infrastructure.PatientRepository
 {
-    public interface IPatientRepository : IRepository<Patient,MedicalRecordNumber>
+    public interface IPatientRepository : IRepository<Patient,PatientId>
     {
         public Task<Patient> GetByEmail(string email);
     }

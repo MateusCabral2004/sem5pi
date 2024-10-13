@@ -3,18 +3,15 @@ using Sempi5.Domain.Shared;
 
 namespace Sempi5.Domain.Staff
 {
-    public class LicenseNumber : EntityId
+    public class StaffId : EntityId
     {
-        public LicenseNumber() : base(string.Empty)
+
+        public StaffId(string value) : base(value)
         {
         }
-
-        [JsonConstructor]
-        public LicenseNumber(string value) : base(value)
-        {
-        }
-
-        public override string AsString()
+        
+        override
+        public string AsString()
         {
             return (string)ObjValue;
         }

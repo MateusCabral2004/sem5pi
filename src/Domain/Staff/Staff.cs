@@ -4,10 +4,11 @@ using Sempi5.Domain.Staff;
 
 namespace Sempi5.Domain.Staff
 {
-    public class Staff : Entity<LicenseNumber>, IAggregateRoot
+    public class Staff : Entity<StaffId>, IAggregateRoot
     {
-
-        public LicenseNumber Id { get; set; }
+        
+        public StaffId Id { get; set; }
+        public string LicenseNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }

@@ -15,10 +15,10 @@ namespace Sempi5.Infrastructure.StaffRepository
             builder.Property(t => t.Id)
                 .HasConversion(
                     v => v.AsString(),
-                    v => new LicenseNumber(v)
+                    v => new StaffId(v)
                 )
-                .ValueGeneratedOnAdd()
-                .IsRequired();
+                .IsRequired()
+                .ValueGeneratedOnAdd();
 
             builder.Property(t => t.FirstName)
                 .IsRequired()

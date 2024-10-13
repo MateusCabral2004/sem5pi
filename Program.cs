@@ -83,6 +83,7 @@ namespace Sempi5
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
                 Console.WriteLine("Error seeding data");
             }
 
@@ -147,7 +148,7 @@ namespace Sempi5
                         FirstName = "John",
                         LastName = "Doe",
                         FullName = "Dr. John Doe",
-                        Id = new LicenseNumber("DR12345"),
+                        LicenseNumber = "DR12345",
                         Specialization = "Cardiology",
                         ContactInfo = "doctor@example.com",
                         AvailabilitySlots = new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" },
@@ -160,7 +161,7 @@ namespace Sempi5
                         FirstName = "Jane",
                         LastName = "Smith",
                         FullName = "Nurse Jane Smith",
-                        Id = new LicenseNumber("NR67890"),
+                        LicenseNumber = "NR67890",
                         Specialization = "General",
                         ContactInfo = "nurse@example.com",
                         AvailabilitySlots = new List<string> { "Tuesday 10am-3pm", "Thursday 9am-12pm" },
@@ -173,7 +174,7 @@ namespace Sempi5
                         FirstName = "Alice",
                         LastName = "Johnson",
                         FullName = "Admin Alice Johnson",
-                        Id = new LicenseNumber("AD54321"),
+                        LicenseNumber =  "AD54321",
                         Specialization = "Administration",
                         ContactInfo = "admin@example.com",
                         AvailabilitySlots = new List<string> { "Monday-Friday 9am-5pm" },
@@ -184,6 +185,8 @@ namespace Sempi5
                     // Add staff to repository
                     staffRepo.AddAsync(doctor).Wait();
                     staffRepo.AddAsync(nurse).Wait();
+                    unitOfWork.CommitAsync().Wait();
+
                     staffRepo.AddAsync(admin).Wait();
 
                     // Save changes
@@ -212,6 +215,7 @@ namespace Sempi5
 
                     Console.WriteLine("Seeding patients...");
                     SystemUser user1 = new SystemUser("mateuscabral12321@gmail.com", "Patient");
+                    SystemUser user2 = new SystemUser("mateuscabral2004@gmail.com", "Patient");
                     // Create patients
                     var patient1 = new Patient
                     {
@@ -220,7 +224,7 @@ namespace Sempi5
                         FullName = "Alice Doe",
                         BirthDate = "01/01/1990",
                         Gender = "Combat Helicopter",
-                        Id = new MedicalRecordNumber("MRN12345"),
+                        MedicalRecordNumber = "MRN12345",
                         ContactInfo = "123",
                         AllergiesAndMedicalConditions = new List<string> { "Peanuts", "Asthma" },
                         EmergencyContact = "456",
@@ -228,11 +232,29 @@ namespace Sempi5
                         User = user1
                     };
 
+                    var patient2 = new Patient
+                    {
+                        FirstName = "Bob",
+                        LastName = "Smith",
+                        FullName = "Bob Smith",
+                        BirthDate = "01/01/1990",
+                        Gender = "Ambulance",
+                        MedicalRecordNumber = "MRN67890",
+                        ContactInfo = "456",
+                        AllergiesAndMedicalConditions = new List<string> { "Shellfish", "Diabetes" },
+                        EmergencyContact = "789",
+                        AppointmentHistory = new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },
+                        User = user2
+                    };
+
                     // Add patients to repository
                     patientRepo.AddAsync(patient1).Wait();
+                    unitOfWork.CommitAsync().Wait();
+
+                    patientRepo.AddAsync(patient2).Wait();
+                    unitOfWork.CommitAsync().Wait();
 
                     // Save changes
-                    unitOfWork.CommitAsync().Wait();
                 }
             }
         }

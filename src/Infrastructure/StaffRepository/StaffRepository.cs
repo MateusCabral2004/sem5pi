@@ -5,7 +5,7 @@ using Sempi5.Infrastructure.Shared;
 
 namespace Sempi5.Infrastructure.StaffRepository
 {
-    public class StaffRepository : BaseRepository<Staff,LicenseNumber>, IStaffRepository
+    public class StaffRepository : BaseRepository<Staff,StaffId>, IStaffRepository
     {
 
         private readonly DBContext context;
