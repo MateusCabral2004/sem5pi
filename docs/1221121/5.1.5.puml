@@ -1,0 +1,23 @@
+﻿@startuml
+title Delete Account
+actor Patient
+participant "Surgical apointment system" as App
+participant "DataBase" as Base
+
+activate App
+activate Patient
+
+Patient -> App: Request account deletion (via profile settings)
+App -> Patient: Send confirmation email
+Patient -> App: Confirm deletion through email
+
+App -> Base: Delete personal data (win 30 days)
+Base --> App: Personal data deleted
+
+
+App -> Patient: Notify about deletion completion
+App -> Base: Retain anonymized data for legal/research purposes
+
+deactivate App
+deactivate Patient
+@enduml
