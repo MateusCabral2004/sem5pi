@@ -7,7 +7,7 @@ namespace Sempi5.Controllers.StaffControlers
 {
 
     [Route("[controller]")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class AdminController : Controller
     {
 
