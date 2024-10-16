@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Sempi5.Domain.Shared;
 using Sempi5.Infrastructure.Shared;
 using Sempi5.Infrastructure.TodoItemRepository;
@@ -9,13 +10,14 @@ using Sempi5.Domain.User;
 using Sempi5.Domain.Staff;
 using Sempi5.Infrastructure.Databases;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Sempi5.Services;
 using Sempi5.Infrastructure.UserRepository;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Domain.Patient;
+
 namespace Sempi5
 {
-
     public class Program
     {
         public static void Main(string[] args)
@@ -27,29 +29,46 @@ namespace Sempi5
             builder.Services.AddAuthorization(options =>
             {
                 options.AddPolicy("Staff",
-                policy => policy.RequireRole("Doctor", "Nurse", "Admin", "Technician"));
+                    policy => policy.RequireRole("Doctor", "Nurse", "Admin", "Technician"));
 
                 options.AddPolicy("Patient",
-                policy => policy.RequireRole("Patient"));
+                    policy => policy.RequireRole("Patient"));
             });
 
             builder.Services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = "LocalCookie";
-                options.DefaultChallengeScheme = "LocalCookie";
-            })
-            .AddCookie("LocalCookie", options =>
-            {
-                options.LoginPath = "/Login";
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            })
-            .AddGoogle(options =>
-            {
-                options.ClientId = builder.Configuration["Google:ClientId"];
-                options.ClientSecret = builder.Configuration["Google:Client_Secret"];
-                options.SaveTokens = true;
-            });
+                {
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+                {
+                    options.LoginPath = "/login/login";
+                    options.AccessDeniedPath = "/login/logout";
+                })
+                .AddGoogle(options =>
+                {
+                    options.ClientId = builder.Configuration["Google:ClientId"];
+                    options.ClientSecret = builder.Configuration["Google:Client_Secret"];
+                    options.SaveTokens = true;
+
+                    options.Events.OnCreatingTicket = async context =>
+                    {
+                        var claimsIdentity = (ClaimsIdentity)context.Principal.Identity;
+                        var claims = context.Principal.Identities.FirstOrDefault().Claims;
+                        var email = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
+
+                        var repo = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
+                        var user = repo.GetByEmail(email);
+                        if (user.Result == null)
+                        {
+                            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Patient"));
+                        }
+                        else
+                        {
+                            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Result.Role));
+                        }
+                    };
+                });
 
             builder.Services.AddControllersWithViews();
 
@@ -88,12 +107,10 @@ namespace Sempi5
             }
 
             app.Run();
-
         }
 
         public static void CreateDataBase(WebApplicationBuilder builder)
         {
-
             string name = "Sempi5.Infrastructure.Databases." + builder.Configuration["DataBase:Type"];
             Type? dbType = Type.GetType(name);
 
@@ -112,7 +129,6 @@ namespace Sempi5
                 Console.WriteLine("Database not found\nApplication will exit");
                 Environment.Exit(3);
             }
-
         }
 
         public static void ConfigureMyServices(IServiceCollection services)
@@ -138,7 +154,7 @@ namespace Sempi5
                 if (!staffRepo.GetAllAsync().Result.Any())
                 {
                     // Create the system users for staff
-                    var doctorUser = new SystemUser("doctor@example.com", "Doctor");
+                    var doctorUser = new SystemUser("mateuscabral2004@gmail.com", "Admin");
                     var nurseUser = new SystemUser("nurse@example.com", "Nurse");
                     var adminUser = new SystemUser("admin@example.com", "Admin");
 
@@ -174,7 +190,7 @@ namespace Sempi5
                         FirstName = "Alice",
                         LastName = "Johnson",
                         FullName = "Admin Alice Johnson",
-                        LicenseNumber =  "AD54321",
+                        LicenseNumber = "AD54321",
                         Specialization = "Administration",
                         ContactInfo = "admin@example.com",
                         AvailabilitySlots = new List<string> { "Monday-Friday 9am-5pm" },
@@ -210,10 +226,9 @@ namespace Sempi5
                 // Check if there are any patients already in the database
                 if (!patientRepo.GetAllAsync().Result.Any())
                 {
-
                     Console.WriteLine("Seeding patients...");
-                    SystemUser user1 = new SystemUser("mateuscabral12321@gmail.com", "Patient");
-                    SystemUser user2 = new SystemUser("mateuscabral2004@gmail.com", "Patient");
+                    SystemUser user1 = new SystemUser("mateuscabral123321@gmail.com", "Patient");
+                    SystemUser user2 = new SystemUser("mateuscabral20042@gmail.com", "Patient");
                     // Create patients
                     var patient1 = new Patient
                     {
@@ -248,7 +263,7 @@ namespace Sempi5
                     // Add patients to repository
                     patientRepo.AddAsync(patient1).Wait();
                     patientRepo.AddAsync(patient2).Wait();
-                    
+
                     // Save changes
                     unitOfWork.CommitAsync().Wait();
                 }

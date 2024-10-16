@@ -10,7 +10,7 @@ namespace Sempi5.Controllers.StaffControllers
     [Route("[controller]")]
     [ApiController]
     [Authorize]
-    public class StaffController : Controller
+    public class StaffController : ControllerBase
     {
 
         private readonly DBContext dataBase;
