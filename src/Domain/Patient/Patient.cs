@@ -19,7 +19,21 @@ namespace Sempi5.Domain.Patient
         public List<string> AllergiesAndMedicalConditions { get; set; }
         public string EmergencyContact { get; set; }
         public List<string> AppointmentHistory { get; set; }
+        
+        public Boolean IsConfirmed { get; set; }
         public SystemUser User { get; set; }        
+        public Patient(string firstName, string email, string medicalRecordNumber,Boolean isConfirmed)
+        {
+            FirstName = firstName;
+            ContactInfo = email;
+            MedicalRecordNumber = medicalRecordNumber;
+            IsConfirmed = isConfirmed;
+            AppointmentHistory = new List<string>(); // Initialize appointment history
+        }
 
+        public Patient()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
