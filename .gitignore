@@ -5,3 +5,5 @@
 /obj
 
 /Migrations
+
+*.sln.DotSettings.user
