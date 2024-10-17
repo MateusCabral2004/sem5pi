@@ -22,7 +22,7 @@ namespace Sempi5.Infrastructure.StaffRepository
 
             var staff = await Task.Run(() => context.StaffMembers
                 .Include(u => u.User)
-                .FirstOrDefault(u => u.User.Email.ToLower().Equals(email.ToLower())));
+                .FirstOrDefault(u => u.User.Email.ToString().ToLower().Equals(email.ToLower())));
 
             return staff;
         }

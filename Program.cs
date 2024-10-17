@@ -160,43 +160,38 @@ namespace Sempi5
 
                     // Create staff members
                     var doctor = new Staff
-                    {
-                        FirstName = "John",
-                        LastName = "Doe",
-                        FullName = "Dr. John Doe",
-                        LicenseNumber = "DR12345",
-                        Specialization = "Cardiology",
-                        ContactInfo = "doctor@example.com",
-                        AvailabilitySlots = new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" },
-                        Password = null, // Consider storing hashed passwords
-                        User = doctorUser
-                    };
+                    (
+                        doctorUser,
+                        new LicenseNumber(123),
+                        new Name("John"),
+                        new Name("Doe"),
+                        "Cardiology",
+                        new ContactInfo("doctor@example.com", 987654321),
+                        new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
+                    );
+
 
                     var nurse = new Staff
-                    {
-                        FirstName = "Jane",
-                        LastName = "Smith",
-                        FullName = "Nurse Jane Smith",
-                        LicenseNumber = "NR67890",
-                        Specialization = "General",
-                        ContactInfo = "nurse@example.com",
-                        AvailabilitySlots = new List<string> { "Tuesday 10am-3pm", "Thursday 9am-12pm" },
-                        Password = "NursePassword123",
-                        User = nurseUser
-                    };
+                    (
+                        nurseUser,
+                        new LicenseNumber(124),
+                        new Name("Jane"),
+                        new Name("Smith"),
+                        "General",
+                        new ContactInfo("nurse@example.com", 988654321),
+                        new List<string> { "Tuesday 10am-3pm", "Thursday 9am-12pm" }
+                    );
 
                     var admin = new Staff
-                    {
-                        FirstName = "Alice",
-                        LastName = "Johnson",
-                        FullName = "Admin Alice Johnson",
-                        LicenseNumber = "AD54321",
-                        Specialization = "Administration",
-                        ContactInfo = "admin@example.com",
-                        AvailabilitySlots = new List<string> { "Monday-Friday 9am-5pm" },
-                        Password = "AdminPassword123",
-                        User = adminUser
-                    };
+                    (
+                        adminUser,
+                        new LicenseNumber(125),
+                        new Name("Alice"),
+                        new Name("Johnson"),
+                        "Administration",
+                        new ContactInfo("admin@example.com", 977654321),
+                        new List<string> { "Monday-Friday 9am-5pm" }
+                    );
 
                     // Add staff to repository
                     staffRepo.AddAsync(doctor).Wait();

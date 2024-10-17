@@ -21,7 +21,7 @@ namespace Sempi5.Infrastructure.UserRepository
             }
 
             var user = await Task.Run(() => context.Users
-                .FirstOrDefault(u => u.Email.ToLower().Equals(email.ToLower())));
+                .FirstOrDefault(u => u.Email.ToString().ToLower().Equals(email.ToLower())));
 
             return user;
         }

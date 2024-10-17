@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
 
 namespace Sempi5.Infrastructure.UserRepository
@@ -19,7 +20,8 @@ namespace Sempi5.Infrastructure.UserRepository
                 )
                 .ValueGeneratedOnAdd();
                 
-
+    
+            
             builder.HasIndex(t => t.Username).IsUnique();
             builder.HasIndex(t => t.Email).IsUnique();
 
@@ -29,6 +31,10 @@ namespace Sempi5.Infrastructure.UserRepository
 
             builder.Property(t => t.Email)
                 .IsRequired()
+                .HasConversion(
+                    v => v.ToString(),
+                    v => new Email(v)
+                    )
                 .HasMaxLength(100);
 
             builder.Property(t => t.Role)

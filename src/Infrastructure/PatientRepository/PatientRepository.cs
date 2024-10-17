@@ -23,7 +23,7 @@ namespace Sempi5.Infrastructure.PatientRepository
 
             var patient = await Task.Run(() => context.Patients
                 .Include(p => p.User)
-                .FirstOrDefault(p => p.User.Email.ToLower().Equals(email.ToLower())));
+                .FirstOrDefault(p => p.User.Email.ToString().ToLower().Equals(email.ToLower())));
 
             return patient;
         }
