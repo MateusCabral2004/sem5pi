@@ -11,10 +11,12 @@ using Sempi5.Domain.Staff;
 using Sempi5.Infrastructure.Databases;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Sempi5.Domain;
 using Sempi5.Services;
 using Sempi5.Infrastructure.UserRepository;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Domain.Patient;
+using Sempi5.Domain.PersonalData;
 
 namespace Sempi5
 {

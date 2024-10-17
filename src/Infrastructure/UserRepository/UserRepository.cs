@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using Sempi5.Domain.Shared;
 using Sempi5.Domain.Staff;
 using Sempi5.Domain.User;
 using Sempi5.Infrastructure.Databases;
@@ -19,10 +21,9 @@ namespace Sempi5.Infrastructure.UserRepository
             {
                 return null;
             }
-
-            var user = await Task.Run(() => context.Users
-                .FirstOrDefault(u => u.Email.ToString().ToLower().Equals(email.ToLower())));
-
+            
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(new Email(email.ToLower())));
+           
             return user;
         }
         

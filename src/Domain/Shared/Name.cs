@@ -4,6 +4,8 @@ public class Name
 {
     private readonly string _name;
     
+    private Name () { } 
+    
     public Name(string name)
     {
         ValidateName(name);

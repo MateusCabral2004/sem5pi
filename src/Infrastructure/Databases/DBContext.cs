@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Sempi5.Domain;
 using Sempi5.Domain.Patient;
+using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Staff;
 using Sempi5.Domain.TodoItem;
 using Sempi5.Domain.User;
 using Sempi5.Infrastructure.PatientRepository;
+using Sempi5.Infrastructure.PersonRepository;
 using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Infrastructure.TodoItemRepository;
 using Sempi5.Infrastructure.UserRepository;
@@ -16,14 +19,13 @@ namespace Sempi5.Infrastructure.Databases
         public DbSet<Staff> StaffMembers { get; set; }
         public DbSet<SystemUser> Users { get; set; }
         public DbSet<Patient> Patients { get; set; }
+        public DbSet<Person> Person { get; set; }
         public DbSet<PatientIdTracker> PatientIdTracker { get; set; }
         public DbSet<StaffIdTracker> StaffIdTracker { get; set; }
 
         public DBContext(DbContextOptions<DBContext> options)
             : base(options)
-        {
-        }
-
+        { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +37,7 @@ namespace Sempi5.Infrastructure.Databases
             modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PatientIdTrackerEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffIdTrackerEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new PersonEntityTypeConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -21,31 +21,7 @@ namespace Sempi5.Infrastructure.StaffRepository
                 )
                 .IsRequired()
                 .ValueGeneratedOnAdd();
-
-            builder.Property(t => t.FirstName)
-                .IsRequired()
-                .HasConversion(
-                    v => v.ToString(),
-                    v => new Name(v)
-                    )
-                .HasMaxLength(100);
-
-            builder.Property(t => t.LastName)
-                .IsRequired()
-                .HasConversion(
-                    v => v.ToString(),
-                    v => new Name(v)
-                    )
-                .HasMaxLength(100);
-
-            builder.Property(t => t.FullName)
-                .IsRequired()
-                .HasConversion(
-                    v => v.ToString(),
-                    v => new Name(v)
-                    )
-                .HasMaxLength(200);
-
+            
             builder.Property(t => t.Specialization)
                 .IsRequired()
                 .HasMaxLength(200);
@@ -57,31 +33,15 @@ namespace Sempi5.Infrastructure.StaffRepository
                     v => new LicenseNumber(v)
                 );
             
-            builder.OwnsOne(t => t.ContactInfo, contactInfo =>
-            {
-                contactInfo.Property(ci => ci._email)
-                    .HasColumnName("Email") // Nome da coluna para o email
-                    .IsRequired()
-                    .HasConversion(
-                        ci => ci.ToString(),
-                        ci => new Email(ci))
-                    .HasMaxLength(100);
-
-                contactInfo.Property(ci => ci._phoneNumber)
-                    .HasColumnName("PhoneNumber")
-                    .HasConversion(
-                        ci => ci.phoneNumber(),
-                        ci => new PhoneNumber(ci)
-                        )
-                    .IsRequired();
-            });
-
-            
-            
-            
             builder.HasOne(s => s.User)
                 .WithOne()
                 .HasForeignKey<Staff>("UserId")
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+            
+            builder.HasOne(t => t.Person)
+                .WithOne()
+                .HasForeignKey<Staff>("PersonId")
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
         }

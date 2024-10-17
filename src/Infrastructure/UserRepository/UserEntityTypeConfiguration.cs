@@ -20,7 +20,6 @@ namespace Sempi5.Infrastructure.UserRepository
                 )
                 .ValueGeneratedOnAdd();
                 
-    
             
             builder.HasIndex(t => t.Username).IsUnique();
             builder.HasIndex(t => t.Email).IsUnique();

@@ -1,7 +1,6 @@
-using Sempi5.Domain.Patient;
+using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
-using Sempi5.Domain.Staff;
 
 namespace Sempi5.Domain.Staff
 {
@@ -10,12 +9,9 @@ namespace Sempi5.Domain.Staff
 
         public SystemUser User { get; set; }
         public StaffId Id { get; set; }
+        public Person Person { get; set; }
         public LicenseNumber LicenseNumber { get; set; }
-        public Name FirstName { get; set; }
-        public Name LastName { get; set; }
-        public Name FullName { get; set; }  //TODO: Factory / Builder
         public string Specialization { get; set; } //TODO: ENUM
-        public ContactInfo ContactInfo { get; set; }
         public List<string> AvailabilitySlots { get; set; }
         
         private Staff() { }
@@ -24,12 +20,9 @@ namespace Sempi5.Domain.Staff
         {
             User = user;
             LicenseNumber = licenseNumber;
-            FirstName = firstName;
-            LastName = lastName;
-            FullName = new Name(firstName + " " + lastName);
             Specialization = specialization;
-            ContactInfo = contactInfo;
             AvailabilitySlots = availabilitySlots;
+            Person = new Person(firstName, lastName, contactInfo);
         }
      
         

@@ -3,8 +3,7 @@
 public class Email
 {
     private readonly string _emailAddress;
-
-
+    
     public Email(string emailAddress)
     {
 
@@ -12,7 +11,6 @@ public class Email
         _emailAddress = emailAddress;
 
     }
-    
     
     private void ValidateEmailAddress(string emailAddress)
     {
@@ -37,7 +35,11 @@ public class Email
     public override string ToString()
     {
         return _emailAddress;
-
+    }
+    
+    public bool Equals(Email email)
+    {
+        return email._emailAddress == _emailAddress;
     }
     
 }
