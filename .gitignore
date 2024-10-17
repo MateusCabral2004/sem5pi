@@ -1,9 +1,12 @@
 /.idea
 /.vscode
 
-/bin
 /obj
+/bin
 
-/Migrations
+/**/Migrations
+/**/.idea
+/**/obj
+/**/bin
 
 *.sln.DotSettings.user
