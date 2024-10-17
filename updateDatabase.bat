@@ -1,5 +1,7 @@
 @echo off
 
+cd sempi5
+
 REM Remove the last migration
 echo Removing the last migration...
 rmdir /s /q "Migrations"
@@ -17,4 +19,7 @@ echo Updating the database...
 dotnet ef database update
 
 echo Migration update completed successfully!
+
+cd ..
+
 pause
