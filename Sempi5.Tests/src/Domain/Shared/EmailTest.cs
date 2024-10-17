@@ -14,7 +14,7 @@ public class EmailTest
     [TestMethod]
     public void validateEmailAddress_Null()
     {
-        Assert.ThrowsException<ArgumentException>(() =>new Email(null));
+        Assert.ThrowsException<ArgumentNullException>(() =>new Email(null));
     }
 
     [TestMethod]
