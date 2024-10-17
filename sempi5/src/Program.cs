@@ -24,6 +24,8 @@ namespace Sempi5
     {
         public static void Main(string[] args)
         {
+            teste(args).Wait();
+
             var builder = WebApplication.CreateBuilder(args);
 
             ConfigureMyServices(builder.Services);
@@ -110,6 +112,24 @@ namespace Sempi5
 
             app.Run();
         }
+        static async Task teste(string[] args)
+        {
+            // Crie uma instância do EmailService (você pode passar uma instância falsa de IConfiguration se não precisar dela)
+            var emailService = new EmailService(null);
+
+            // Email para testar
+            string email = "sandroluis720@gmail.com";
+
+            // Gerar um token de verificação (pode ser um GUID, por exemplo)
+            string verificationToken = Guid.NewGuid().ToString();
+
+            // Chame o método para enviar o email
+            string result = await emailService.SendEmailAsync(email, verificationToken);
+
+            // Exibir o resultado no console
+            Console.WriteLine(result);
+        }
+
 
         public static void CreateDataBase(WebApplicationBuilder builder)
         {
@@ -143,6 +163,7 @@ namespace Sempi5
             services.AddTransient<IPatientRepository, PatientRepository>();
             services.AddTransient<ManageStaffService>();
             services.AddTransient<LoginService>();
+            services.AddTransient<EmailService>();
         }
 
         public static void SeedData(IServiceProvider services)
