@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cd sempi5
+
 # Remove the last migration
 echo "Removing the last migration..."
 rm -rf ./Migrations
@@ -16,5 +18,7 @@ mysql -u root -pqyDWqxuLLhI6 -h vsgate-s1.dei.isep.ipp.pt -P 10712 -e "DROP DATA
 # Update the database
 echo "Updating the database..."
 dotnet ef database update
+
+cd ..
 
 echo "Migration update completed successfully!"
