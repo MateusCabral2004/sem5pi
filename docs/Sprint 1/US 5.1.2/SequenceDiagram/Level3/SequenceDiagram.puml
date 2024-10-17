@@ -1,0 +1,16 @@
+﻿@startuml
+actor Cliente
+participant Sistema
+participant "Módulo de Validação" as ModVal
+participant "Módulo de Processamento" as ModProc
+database "Banco de Dados" as BD
+
+Cliente -> Sistema: Enviar requisição
+Sistema -> ModVal: Validar dados
+ModVal -> Sistema: Retornar status
+Sistema -> ModProc: Processar requisição
+ModProc -> BD: Consultar dados
+BD -> ModProc: Retornar dados
+ModProc -> Sistema: Retornar resultado
+Sistema -> Cliente: Enviar resposta final
+@enduml

@@ -1,0 +1,11 @@
+﻿@startuml
+actor STAFF
+participant SurgeyApointmentSystem
+
+STAFF -> SurgeyApointmentSystem: Enviar requisição
+activate SurgeyApointmentSystem
+
+SurgeyApointmentSystem -> STAFF: Responder
+deactivate SurgeyApointmentSystem
+
+@enduml
