@@ -1,0 +1,42 @@
+@startuml
+
+title US 5.1.9-Sequence Diagram Level 3
+
+actor Admin
+participant SurgeryAppointmentSystem
+participant MasterData
+participant Backend
+participant DataBase
+
+activate Admin
+
+Admin -> SurgeryAppointmentSystem: edit patient's profile
+
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> MasterData: edit patient's profile
+
+activate MasterData
+
+MasterData -> Backend: edit patient's profile
+activate Backend
+
+Backend -> Backend: edit patient's profile
+
+Backend -> DataBase: insert patient's profile alterations
+activate DataBase
+
+DataBase --> Backend: patient's profile alterations inserted
+deactivate DataBase
+
+Backend --> MasterData: patient's profile edited
+
+deactivate Backend
+
+MasterData --> SurgeryAppointmentSystem: patient's profile edited
+
+deactivate MasterData
+
+SurgeryAppointmentSystem --> Admin: patient's profile edited
+
+@enduml
