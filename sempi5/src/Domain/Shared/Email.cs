@@ -1,4 +1,6 @@
-﻿namespace Sempi5.Domain.Shared;
+﻿using System.Text.RegularExpressions;
+
+namespace Sempi5.Domain.Shared;
 
 public class Email
 {
@@ -28,8 +30,11 @@ public class Email
         {
             throw new ArgumentException("Email address must contain an @ symbol.");
         }
-
-        //TODO: Add More Validations For Email Logic
+        
+        if(Regex.IsMatch(emailAddress, @"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"))
+        {
+            throw new ArgumentException("Invalid email format");
+        }
     }
 
     public override string ToString()
