@@ -1,0 +1,42 @@
+@startuml
+
+title US 5.1.10 Sequence Diagram Level 3
+
+actor Admin
+participant SurgeryAppointmentSystem
+participant MasterData
+participant Backend
+participant DataBase
+
+activate Admin
+
+Admin -> SurgeryAppointmentSystem: delete patient profile
+
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> MasterData: delete patient profile
+
+activate MasterData
+
+MasterData -> Backend: delete patient profile
+activate Backend
+
+Backend -> Backend: delete patient profile
+
+Backend -> DataBase: remove patient profile
+activate DataBase
+
+DataBase --> Backend: patient profile removed
+deactivate DataBase
+
+Backend --> MasterData: patient profile deleted
+
+deactivate Backend
+
+MasterData --> SurgeryAppointmentSystem: patient profile deleted
+
+deactivate MasterData
+
+SurgeryAppointmentSystem --> Admin: patient profile deleted
+
+@enduml

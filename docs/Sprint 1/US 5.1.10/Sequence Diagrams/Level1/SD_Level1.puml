@@ -1,0 +1,15 @@
+@startuml
+title US 5.1.10 Sequence Diagram Level 1
+
+actor Admin
+participant SurgeryAppointmentSystem
+
+activate Admin
+Admin-> SurgeryAppointmentSystem: delete patient profile
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem --> Admin: patient profile deleted
+deactivate SurgeryAppointmentSystem
+
+deactivate Admin
+@enduml
