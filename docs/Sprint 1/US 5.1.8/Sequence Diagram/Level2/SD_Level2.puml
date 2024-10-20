@@ -1,0 +1,24 @@
+@startuml
+
+title US 5.1.8-Sequence Diagram Level 2
+
+actor Admin
+participant SurgeryAppointmentSystem
+participant MasterData
+
+activate Admin
+
+Admin -> SurgeryAppointmentSystem: create new patient profile
+
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> MasterData: create new patient profile
+
+activate MasterData
+
+MasterData --> SurgeryAppointmentSystem: new patient profile created
+deactivate MasterData
+
+SurgeryAppointmentSystem --> Admin: new patient profile created
+deactivate SurgeryAppointmentSystem
+@enduml

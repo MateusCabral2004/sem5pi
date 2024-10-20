@@ -1,0 +1,42 @@
+@startuml
+
+title US 5.1.8-Sequence Diagram Level 3
+
+actor Admin
+participant SurgeryAppointmentSystem
+participant MasterData
+participant Backend
+participant DataBase
+
+activate Admin
+
+Admin -> SurgeryAppointmentSystem: create new patient profile
+
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> MasterData: create new patient profile
+
+activate MasterData
+
+MasterData -> Backend: create new patient profile
+activate Backend
+
+Backend -> Backend: create a new patient profile
+
+Backend -> DataBase: insert new patient profile
+activate DataBase
+
+DataBase --> Backend: new patient profile inserted
+deactivate DataBase
+
+Backend --> MasterData: new patient profile created
+
+deactivate Backend
+
+MasterData --> SurgeryAppointmentSystem: new patient profile created
+
+deactivate MasterData
+
+SurgeryAppointmentSystem --> Admin: new patient profile created
+
+@enduml
