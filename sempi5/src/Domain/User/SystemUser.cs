@@ -13,6 +13,7 @@ namespace Sempi5.Domain.User
         
         public SystemUser(string email, string role)
         {
+            Console.WriteLine("Creating user object with email: " + email + "...");
             Email = new Email(email);
             Username = email;
             Role = role;

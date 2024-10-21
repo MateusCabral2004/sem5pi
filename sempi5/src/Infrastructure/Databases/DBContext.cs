@@ -59,8 +59,8 @@ namespace Sempi5.Infrastructure.Databases
         
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            await GeneratePatientIdForNewPatient();
-            await GenerateStaffIdForNewStaff();
+           // await GeneratePatientIdForNewPatient();
+           // await GenerateStaffIdForNewStaff();
             return await base.SaveChangesAsync(cancellationToken);
         }
 

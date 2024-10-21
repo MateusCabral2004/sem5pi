@@ -8,7 +8,7 @@ public class Email
     
     public Email(string emailAddress)
     {
-
+        Console.WriteLine("Creating email object with address: " + emailAddress + "...");
         ValidateEmailAddress(emailAddress);
         _emailAddress = emailAddress;
 
@@ -30,11 +30,12 @@ public class Email
         {
             throw new ArgumentException("Email address must contain an @ symbol.");
         }
-        
+        /*        
         if(Regex.IsMatch(emailAddress, @"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"))
         {
             throw new ArgumentException("Invalid email format");
         }
+        */
     }
 
     public override string ToString()

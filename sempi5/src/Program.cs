@@ -2,14 +2,11 @@ using System.Security.Claims;
 using Sempi5.Domain.Shared;
 using Sempi5.Infrastructure.Shared;
 using Sempi5.Infrastructure.TodoItemRepository;
-using IDatabase = Sempi5.Infrastructure.Databases.IDatabase;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Domain.User;
 using Sempi5.Domain.Staff;
 using Sempi5.Infrastructure.Databases;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Sempi5.Domain;
 using Sempi5.Services;
@@ -24,10 +21,12 @@ namespace Sempi5
     {
         public static void Main(string[] args)
         {
-            teste(args).Wait();
+            //teste(args).Wait();
 
             var builder = WebApplication.CreateBuilder(args);
 
+            CreateDataBase(builder);
+            
             ConfigureMyServices(builder.Services);
 
             builder.Services.AddAuthorization(options =>
@@ -75,9 +74,7 @@ namespace Sempi5
                 });
 
             builder.Services.AddControllersWithViews();
-
-            CreateDataBase(builder);
-
+            
             builder.Services.AddEndpointsApiExplorer();
 
             var app = builder.Build();
@@ -96,8 +93,7 @@ namespace Sempi5
             app.UseAuthorization();
 
             app.MapControllers();
-
-
+            
             try
             {
                 SeedData(app.Services);
@@ -156,14 +152,16 @@ namespace Sempi5
         public static void ConfigureMyServices(IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-
+            
             services.AddTransient<ITodoItemRepository, TodoItemRepository>();
             services.AddTransient<IStaffRepository, StaffRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPatientRepository, PatientRepository>();
-            services.AddTransient<ManageStaffService>();
+            
+            services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
             services.AddTransient<EmailService>();
+            services.AddTransient<AdminService>();
         }
 
         public static void SeedData(IServiceProvider services)
@@ -192,8 +190,7 @@ namespace Sempi5
                         new ContactInfo("doctor@example.com", 987654321),
                         new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
                     );
-
-
+                    
                     var nurse = new Staff
                     (
                         nurseUser,
@@ -239,8 +236,7 @@ namespace Sempi5
             {
                 var patientRepo = scope.ServiceProvider.GetRequiredService<IPatientRepository>();
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-
-
+                
                 // Check if there are any patients already in the database
                 if (!patientRepo.GetAllAsync().Result.Any())
                 {
