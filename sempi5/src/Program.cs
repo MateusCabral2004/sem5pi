@@ -14,6 +14,8 @@ using Sempi5.Infrastructure.UserRepository;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.PersonalData;
+using Sempi5.Infrastructure.ConfirmationTokenRepository;
+using Sempi5.Infrastructure.PersonRepository;
 
 namespace Sempi5
 {
@@ -157,6 +159,8 @@ namespace Sempi5
             services.AddTransient<IStaffRepository, StaffRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<IPersonRepository,PersonRepository>();
+            services.AddTransient<IConfirmationTokenRepository, ConfirmationTokenRepository>();
             
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
