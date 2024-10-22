@@ -7,5 +7,7 @@ namespace Sempi5.Infrastructure.PatientRepository
     public interface IPatientRepository : IRepository<Patient,PatientId>
     {
         public Task<Patient> GetByEmail(string email);
+        public Task SavePatientAsync(Patient patient);
+        public Task<Patient> GetByPhoneNumber(string phoneNumber);
     }
 }

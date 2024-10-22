@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.User;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.PatientRepository;
 
@@ -12,9 +13,30 @@ public class PatientService
     private readonly DBContext context;
     private readonly IPatientRepository _patientRepository;
 
-    public PatientService()
+    public PatientService(IPatientRepository patientRepository)
     {
-        _patientRepository = new PatientRepository(context);
+        _patientRepository = patientRepository;
+    }
+    public async Task<bool> RegisterPatientUser(string email, string number)
+    {
+        var patient = await _patientRepository.GetByPhoneNumber(number);
+    
+        if (patient == null)
+        {
+            throw new Exception("Paciente não encontrado");
+        }
+    
+        // if (patient.User.IsVerified)
+        // {
+        //     throw new Exception("Email já confirmado");
+        // }
+    
+        patient.User = new SystemUser(new Email(email), "Patient");
+        
+    
+        await _patientRepository.SavePatientAsync(patient);
+    
+        return true;
     }
 
     public async Task confirmEmail(string email, string token)
@@ -34,7 +56,31 @@ public class PatientService
 
         patient.User.IsVerified = true;
 
-        await _patientRepository.AddAsync(patient);
+        await _patientRepository.SavePatientAsync(patient);
+    }
+
+    public async Task<List<string>> appointmentList(string email)
+    {
+        var patient = await _patientRepository.GetByEmail(email);
+
+        if (patient == null)
+        {
+            throw new Exception("Paciente não encontrado");
+        }
+
+        if (patient.User.IsVerified)
+        {
+            return patient.AppointmentHistory;
+        }
+
+        //retornar null ou uma lista vazia? melhor seria retornar request denied unauthorized acess(you need to confirm your account)
+        return null;
+    }
+
+    public async Task<bool> UserExist(string email)
+    {
+        var patient = await _patientRepository.GetByEmail(email);
+        return patient.User != null;
     }
 
 }

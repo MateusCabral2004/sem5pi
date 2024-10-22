@@ -23,7 +23,6 @@ namespace Sempi5.Infrastructure.PatientRepository
             builder.HasOne(s => s.User)
                 .WithOne()
                 .HasForeignKey<Patient>("UserId")
-                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
         }
