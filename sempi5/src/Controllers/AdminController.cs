@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Sempi5.Domain.Patient;
+using Sempi5.Domain.Shared;
+using Sempi5.Domain.Staff.DTOs;
+using Sempi5.Domain.Staff;
 using Sempi5.Domain.User;
+using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Services;
     
 namespace Sempi5.Controllers
@@ -37,13 +42,27 @@ namespace Sempi5.Controllers
             }
         }
         
+        [HttpGet("listPatientProfilesByName")]
+        public async Task<IActionResult> ListPatientProfilesByName(NameDTO nameDto)
+        {
+            try
+            {
+                var patientProfiles = await _adminService.ListPatientByName(nameDto);
+                return Ok(patientProfiles);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
         [HttpGet("listPatientProfilesByEmail")]
-        public async  Task<IActionResult> ListPatientProfilesByEmail(string email)
+        public async  Task<IActionResult> ListPatientProfilesByEmail(EmailDTO emailDto)
         {
             try
             {
                 
-                var patientProfiles = await _adminService.ListPatientByEmail(email);
+                var patientProfiles = await _adminService.ListPatientByEmail(emailDto);
                 return Ok(patientProfiles);
             }
             catch (Exception e)
@@ -52,19 +71,33 @@ namespace Sempi5.Controllers
             }
         }
         
-        [HttpGet("listPatientProfilesByName")]
-        public async Task<IActionResult> ListPatientProfilesByName(string name)
+        [HttpGet("listPatientProfilesByMedicalRecordNumber")]
+        public async Task<IActionResult> ListPatientProfilesByMedicalRecordNumber(MedicalRecordNumberDTO medicalRecordNumberDto)
         {
             try
             {
-                var patientProfiles = await _adminService.ListPatientByName(name);
+                var patientProfiles = await _adminService.ListPatientByMedicalRecordNumber(medicalRecordNumberDto);
                 return Ok(patientProfiles);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + e.StackTrace);
+                return BadRequest(e.Message);
             }
         }
+        
+        [HttpGet("listPatientProfilesByDateOfBirth")]
+        public async Task<IActionResult> ListPatientProfilesByDateOfBirth(DateDTO dateDto)
+        {
+            try
+            {
+                var patientProfiles = await _adminService.ListPatientByDateOfBirth(dateDto);
+                return Ok(patientProfiles);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        } 
 
         [HttpPost(template: "registerPatientProfile")]
         public async Task<IActionResult> RegisterPatientProfile(PatientDTO patient)

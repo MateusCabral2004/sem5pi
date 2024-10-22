@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.Staff;
+using Sempi5.Domain.UsefullDTOs;
 using Sempi5.Domain.User;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
 using Sempi5.Infrastructure.Databases;
@@ -15,8 +17,8 @@ namespace Sempi5.Services;
 public class AdminService
 {
     private readonly IStaffRepository _staffRepository;
-    private readonly IUserRepository _userRepository;
     private readonly IPatientRepository _patientRepository;
+    private readonly IUserRepository _userRepository;
     private readonly IConfirmationTokenRepository _confirmationRepository;
     private readonly IUnitOfWork _unitOfWork;
         
@@ -24,10 +26,10 @@ public class AdminService
                         IConfirmationTokenRepository confirmationRepository,IUnitOfWork unitOfWork)
     {
         _staffRepository = staffRepository;
+        _patientRepository = patientRepository;
         _userRepository = userRepository;
         _confirmationRepository = confirmationRepository;
         _unitOfWork = unitOfWork;
-        _patientRepository = patientRepository;
     }
         
     public async Task RegisterUser(SystemUserDTO userDTO)
@@ -40,25 +42,69 @@ public class AdminService
         
         var token = await _confirmationRepository.AddAsync(confirmationToken);
         Console.WriteLine("Token: " + token.Id);
-        Console.WriteLine("Confirmation Link:" + "http://localhost:5001/confirmToken/" + token.Id);
         
         await _unitOfWork.CommitAsync();
         //TODO - Send email verification
     }
-    
-    public async Task<IEnumerable<Patient>> ListPatientProfiles()
-    {
-        return await _patientRepository.GetAllAsync();
-    }
 
-    public async Task<Patient> ListPatientByEmail(string email)
+    public async Task<PatientDTO> ListPatientByName(NameDTO nameDto)
     {
-        return await _patientRepository.GetByEmail(email);
+        var name = nameDTOtoName(nameDto);
+        
+         var patient = await _patientRepository.GetByName(name.ToString());
+         
+         if (patient == null)
+         {
+             throw new ArgumentException("Patient not found");            
+         }
+         
+         return patientToPatientDto(patient);
     }
     
-    public async Task<Patient> ListPatientByName(string name)
+    public async Task<PatientDTO> ListPatientByEmail(EmailDTO emailDto)
     {
-        return await _patientRepository.GetByName(name);
+        var email = emailDTOtoEmail(emailDto);
+        
+        var patient =  await _patientRepository.GetByEmail(email.ToString());
+
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");            
+        }
+        
+        return patientToPatientDto(patient);
+    }
+    
+    public async Task<List<PatientDTO>> ListPatientByDateOfBirth(DateDTO dateDto)
+    {
+        var date = dateDTOtoDate(dateDto);
+    
+        var patients = await _patientRepository.GetByDateOfBirth(date);
+        
+        var patientDtoList = buildPatientDtoList(patients);
+
+        if (patientDtoList.Count == 0)
+        {
+            throw new ArgumentException("No patients found.");
+        }
+        
+        return patientDtoList;
+    }
+    
+    public async Task<PatientDTO> ListPatientByMedicalRecordNumber(MedicalRecordNumberDTO medicalRecordNumberDto)
+    {
+        var medicalRecordNumber = medicalRecordNumberDTOtoMedicalRecordNumber(medicalRecordNumberDto);
+        
+     //   var patient = await _patientRepository.GetByMedicalRecordNumber(medicalRecordNumber.ToString());
+        
+     //   if (patient == null)
+     //   {
+      //      throw new ArgumentException("Patient not found.");
+    //    }
+   //     
+    //    return patientToPatientDto(patient);
+
+    return null;
     }
     
     private SystemUser userDTOtoUser(SystemUserDTO user)
@@ -75,11 +121,54 @@ public class AdminService
         await _unitOfWork.CommitAsync();
 
     }
+    
+    private Email emailDTOtoEmail(EmailDTO email)
+    {
+        return new Email(email.email);
+    }
+    
+    private DateTime dateDTOtoDate(DateDTO date)
+    {
+        return new DateTime(date.year, date.month, date.day);
+    }
+    
+    private Name nameDTOtoName(NameDTO name)
+    {
+        return new Name(name.name);
+    }
+    
+    private MedicalRecordNumber medicalRecordNumberDTOtoMedicalRecordNumber(MedicalRecordNumberDTO medicalRecordNumber)
+    {
+       // return new MedicalRecordNumber(medicalRecordNumber.medicalrecordnumber);
+       return null;
+    }
+    
+    private PatientDTO patientToPatientDto(Patient patient)
+    {
+        return new PatientDTO
+        {
+            name = patient.Person.FullName.ToString(),
+            email = patient.Person.ContactInfo.email().ToString(),
+            birthDate = patient.BirthDate.ToString("MM/dd/yyyy")
+        };
+    }
+    
+    private List<PatientDTO> buildPatientDtoList(IEnumerable<Patient> patients)
+    {
+
+        List<PatientDTO> patientDtoList = new List<PatientDTO>();
+        
+        foreach (var patient in patients)
+        {
+            patientDtoList.Add(patientToPatientDto(patient));
+        }
+        
+        return patientDtoList;
+    }
 
     private Patient patientDTOToPatient(PatientDTO patient)
     {
-        return new Patient(null, patient.Person, patient.BirthDate, patient.Gender,
-            patient.AllergiesAndMedicalConditions, patient.EmergencyContact, patient.AppointmentHistory);
+        return null;
     }
 
     

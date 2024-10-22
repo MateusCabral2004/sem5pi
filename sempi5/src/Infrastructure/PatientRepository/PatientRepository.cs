@@ -28,7 +28,7 @@ namespace Sempi5.Infrastructure.PatientRepository
             return patient;
         }
 
-        public async Task<Patient> GetByName(string name)
+        public async Task<Patient?> GetByName(string name)
         {
             
             if (string.IsNullOrEmpty(name))
@@ -37,23 +37,35 @@ namespace Sempi5.Infrastructure.PatientRepository
             }
             
             var patient = context.Patients
-                .Include(p => p.User)
-                .FirstOrDefault(p => p.Person.FullName.ToString().ToLower().Equals(name.ToLower()));
+                .Include(p => p.Person)
+                .AsEnumerable()
+                .FirstOrDefault(p => p.Person.FullName._name.ToLower().Equals(name.ToLower()));
 
             return patient;
         }
 
-        public Task<Patient> GetByDateOfBirth(DateTime dateOfBirth)
+        public async Task<IEnumerable<Patient>> GetByDateOfBirth(DateTime? dateOfBirth)
         {
-            throw new NotImplementedException();
+            if (dateOfBirth == null)
+            {
+                return Enumerable.Empty<Patient>();  // Retorna uma lista vazia se a data for null
+            }
+
+            var patients = await context.Patients
+                .Include((p => p.Person))
+                .Where(p => p.BirthDate.Date == dateOfBirth.Value.Date)
+                .ToListAsync();
+
+            return patients;
         }
+
 
         public Task<Patient> GetByMedicalRecordNumber(string medicalRecordNumber)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<Patient> GetByPhoneNumber(string phoneNumber)
+        public async Task<Patient?> GetByPhoneNumber(string phoneNumber)
         {
             if (string.IsNullOrEmpty(phoneNumber))
             {

@@ -2,7 +2,7 @@
 
 public class Name
 {
-    private readonly string _name;
+    public string _name;
     
     private Name () { } 
     

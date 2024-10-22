@@ -8,14 +8,14 @@ namespace Sempi5.Infrastructure.PatientRepository
     {
         public Task<Patient> GetByEmail(string email);
         
-        public Task<Patient> GetByName(string name);
+        public Task<Patient?> GetByName(string name);
         
-        public Task<Patient> GetByDateOfBirth(DateTime dateOfBirth);
+        public Task<IEnumerable<Patient>> GetByDateOfBirth(DateTime? dateOfBirth);
         
-        public Task<Patient> GetByMedicalRecordNumber(string medicalRecordNumber);
+        public Task<Patient> GetByMedicalRecordNumber(string? medicalRecordNumber);
         
         public Task SavePatientAsync(Patient patient);
         
-        public Task<Patient> GetByPhoneNumber(string phoneNumber);
+        public Task<Patient?> GetByPhoneNumber(string phoneNumber);
     }
 }
