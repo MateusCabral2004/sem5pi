@@ -9,7 +9,7 @@ namespace Sempi5.Domain.Patient
 
         //Class can and should be modified so that fields are more representative 
         //of what they are instead of just strings
-        public SystemUser User { get; set; }      
+        public SystemUser? User { get; set; }      
         public MedicalRecordNumber Id { get; set; }
         public Person Person { get; set; }
         public DateTime BirthDate { get; set; }
@@ -18,6 +18,8 @@ namespace Sempi5.Domain.Patient
         public string EmergencyContact { get; set; }
         public List<string> AppointmentHistory { get; set; }
 
+        private Patient() {}
+        
         public Patient(SystemUser user, Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact, List<string> appointmentHistory)
         {
             User = user;
