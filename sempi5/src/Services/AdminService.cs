@@ -1,6 +1,8 @@
+using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.Staff;
 using Sempi5.Domain.User;
+using Sempi5.Infrastructure.ConfirmationTokenRepository;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
 using Sempi5.Infrastructure.StaffRepository;
@@ -12,12 +14,15 @@ public class AdminService
 {
     private readonly IStaffRepository _staffRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IConfirmationTokenRepository _confirmationRepository;
     private readonly IUnitOfWork _unitOfWork;
         
-    public AdminService(IStaffRepository staffRepository, IUserRepository userRepository, IUnitOfWork unitOfWork)
+    public AdminService(IStaffRepository staffRepository, IUserRepository userRepository,
+                        IConfirmationTokenRepository confirmationRepository,IUnitOfWork unitOfWork)
     {
         _staffRepository = staffRepository;
         _userRepository = userRepository;
+        _confirmationRepository = confirmationRepository;
         _unitOfWork = unitOfWork;
     }
         
@@ -25,6 +30,9 @@ public class AdminService
     {
         var user = userDTOtoUser(userDTO);
         await _userRepository.AddAsync(user);
+        var token = await _confirmationRepository.AddAsync(new ConfirmationToken(userDTO.email));
+        Console.WriteLine("Token: " + token.Id);
+        
         await _unitOfWork.CommitAsync();
         //generate email verification token
         //send email verification
