@@ -1,10 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Sempi5.Domain.Shared;
-using Sempi5.Domain.Staff.DTOs;
-using Sempi5.Domain.Staff;
+using Sempi5.Domain.Patient;
 using Sempi5.Domain.User;
-using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Services;
     
 namespace Sempi5.Controllers
@@ -63,6 +59,20 @@ namespace Sempi5.Controllers
             {
                 var patientProfiles = await _adminService.ListPatientByName(name);
                 return Ok(patientProfiles);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message + e.StackTrace);
+            }
+        }
+
+        [HttpPost(template: "registerPatientProfile")]
+        public async Task<IActionResult> RegisterPatientProfile(PatientDTO patient)
+        {
+            try
+            {
+                await _adminService.CreatePatientProfile(patient);
+                return Ok("Patient profile created successfully");
             }
             catch (Exception e)
             {

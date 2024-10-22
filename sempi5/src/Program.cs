@@ -267,26 +267,24 @@ namespace Sempi5
                     SystemUser user2 = new SystemUser("mateuscabral20042@gmail.com", "Patient");
                     // Create patients
                     var patient1 = new Patient
-                    {
-                        Person = new Person(new Name("Alice"), new Name("Doe"), new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654321))),
-                        BirthDate = new DateTime(1990, 1, 10),
-                        Gender = "Combat Helicopter",
-                        AllergiesAndMedicalConditions = new List<string> { "Peanuts", "Asthma" },
-                        EmergencyContact = "456",
-                        AppointmentHistory = new List<string> { "01/01/2021 9am-10am", "02/02/2021 10am-11am" },
-                        User = user1
-                    };
+                    (user1,
+                        new Person (new Name("Alice"), new Name("Doe"), new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654321))),
+                        new DateTime(1990, 1, 10),
+                        "Combat Helicopter",
+                        new List<string> { "Peanuts", "Asthma" },
+                        "456",
+                        new List<string> { "01/01/2021 9am-10am", "02/02/2021 10am-11am" }
+                    );
 
                     var patient2 = new Patient
-                    {
-                        Person = new Person(new Name("Bob"),new Name("Smith"), new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654321))),
-                        BirthDate = new DateTime(1990, 1, 10),
-                        Gender = "Ambulance",
-                        AllergiesAndMedicalConditions = new List<string> { "Shellfish", "Diabetes" },
-                        EmergencyContact = "789",
-                        AppointmentHistory = new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },
-                        User = user2
-                    };
+                    (user2,
+                        new Person (new Name("Bob"),new Name("Smith"), new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654321))),
+                        new DateTime(1990, 1, 10),
+                        "Ambulance",
+                        new List<string> { "Shellfish", "Diabetes" },
+                        "789",
+                        new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" }
+                    );
 
                     // Add patients to repository
                     patientRepo.AddAsync(patient1).Wait();

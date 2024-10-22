@@ -15,8 +15,8 @@ namespace Sempi5.Services;
 public class AdminService
 {
     private readonly IStaffRepository _staffRepository;
-    private readonly IPatientRepository _patientRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IPatientRepository _patientRepository;
     private readonly IConfirmationTokenRepository _confirmationRepository;
     private readonly IUnitOfWork _unitOfWork;
         
@@ -24,10 +24,10 @@ public class AdminService
                         IConfirmationTokenRepository confirmationRepository,IUnitOfWork unitOfWork)
     {
         _staffRepository = staffRepository;
-        _patientRepository = patientRepository;
         _userRepository = userRepository;
         _confirmationRepository = confirmationRepository;
         _unitOfWork = unitOfWork;
+        _patientRepository = patientRepository;
     }
         
     public async Task RegisterUser(SystemUserDTO userDTO)
@@ -61,4 +61,22 @@ public class AdminService
     {
         return new SystemUser(user.email, user.role);
     }
+
+    public async Task CreatePatientProfile(PatientDTO patientDTO)
+    {
+        var patient = patientDTOToPatient(patientDTO);
+        await _patientRepository.AddAsync(patient);
+
+        await _unitOfWork.CommitAsync();
+
+    }
+
+    private Patient patientDTOToPatient(PatientDTO patient)
+    {
+        return new Patient(null, patient.Person, patient.BirthDate, patient.Gender,
+            patient.AllergiesAndMedicalConditions, patient.EmergencyContact, patient.AppointmentHistory);
+    }
+
+    
+    
 }
