@@ -1,0 +1,38 @@
+@startuml
+
+title US 5.1.8-Register Staff user-\nSequence Diagram Level 2
+
+actor Admin
+participant SurgeryAppointmentSystem
+participant Backend
+participant DataBase
+
+activate Admin
+
+Admin -> SurgeryAppointmentSystem: create new staff user
+
+    activate SurgeryAppointmentSystem
+        
+    SurgeryAppointmentSystem -> Backend: create new staff user
+    
+    activate Backend
+    
+    Backend -> Backend: create a new staff user
+    
+    Backend -> DataBase: insert new staff user
+    
+        activate DataBase
+        
+        DataBase --> Backend: new staff user inserted
+        
+        deactivate DataBase
+        
+    Backend --> SurgeryAppointmentSystem: new staff user created
+    
+    deactivate Backend
+    
+    SurgeryAppointmentSystem --> Admin: new staff user created
+    
+    deactivate SurgeryAppointmentSystem
+    
+@enduml

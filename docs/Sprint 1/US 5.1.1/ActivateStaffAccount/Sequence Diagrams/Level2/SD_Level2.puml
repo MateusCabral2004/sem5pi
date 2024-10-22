@@ -1,0 +1,46 @@
+@startuml
+
+title US 5.1.1-Activate Staff Account-\nSequence Diagram Level 2
+
+actor Staff
+participant SurgeryAppointmentSystem
+participant Backend
+participant DataBase
+
+activate Staff
+
+Staff -> SurgeryAppointmentSystem: activate account
+
+    activate SurgeryAppointmentSystem 
+    
+    SurgeryAppointmentSystem -> Backend: activate account
+
+    activate Backend
+        
+    Backend -> DataBase: get account to activate
+    
+        activate DataBase
+        
+        DataBase --> Backend: return account to activate
+        
+        deactivate DataBase
+        
+    Backend -> Backend: activate account
+    
+    Backend -> DataBase: update account 
+    
+        activate DataBase
+        
+        DataBase --> Backend: account updated
+        
+        deactivate DataBase     
+        
+    Backend --> SurgeryAppointmentSystem: account activated
+
+deactivate Backend
+    
+SurgeryAppointmentSystem --> Staff: account activated    
+
+deactivate SurgeryAppointmentSystem
+
+@enduml

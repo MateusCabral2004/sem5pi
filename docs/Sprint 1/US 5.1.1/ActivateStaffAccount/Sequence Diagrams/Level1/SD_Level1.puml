@@ -1,0 +1,15 @@
+@startuml
+
+title US 5.1.1-Activate Staff account\nSequence Diagram Level 1
+
+actor Staff
+participant SurgeryAppointmentSystem
+
+activate Staff
+Staff-> SurgeryAppointmentSystem: activates account
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem --> Staff: account activated
+deactivate SurgeryAppointmentSystem
+
+@enduml

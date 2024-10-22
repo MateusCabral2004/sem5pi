@@ -1,0 +1,79 @@
+@startuml
+title US 5.1.1 - Activate Staff Account -\nComponent Level 3
+
+actor Staff
+participant SurgicalApplicationSystem
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+participant Database
+
+activate Staff
+
+Staff -> SurgicalApplicationSystem: activate account request
+    activate SurgicalApplicationSystem
+    
+    SurgicalApplicationSystem -> Routing: forward request to activate account
+    activate Routing
+    
+    Routing -> Controller: forward request to activate account
+    activate Controller
+    
+    Controller -> ApplicationService: activate account
+    activate ApplicationService
+    
+    ApplicationService -> Repository: requests account
+    activate Repository
+    
+    Repository -> Persistence: requests account
+    activate Persistence
+    
+    Persistence -> Database: gets account
+    activate Database
+    
+    Database --> Persistence: returns account
+    deactivate Database
+    
+    Persistence --> Repository: returns account
+    deactivate Persistence
+    
+    Repository --> ApplicationService: returns account
+    deactivate Repository
+    
+    ApplicationService -> ApplicationService: activate account
+    
+    ApplicationService -> Repository: requests to update account
+    activate Repository
+    
+    Repository -> Persistence: requests to update account
+    activate Persistence
+    
+    Persistence -> Database: updates account
+    activate Database
+    
+    Database --> Persistence: account updated
+    deactivate Database
+    
+    Persistence --> Repository: account updated
+    deactivate Persistence
+    
+    Repository --> ApplicationService: account updated
+    deactivate Repository
+    
+    ApplicationService --> Controller: account activated
+    deactivate ApplicationService
+    
+    Controller --> Routing: account activation response
+    deactivate Controller
+    
+    Routing --> SurgicalApplicationSystem: account activation response
+    deactivate Routing
+    
+    SurgicalApplicationSystem --> Staff: account activated
+    deactivate SurgicalApplicationSystem
+
+deactivate Staff
+
+@enduml
