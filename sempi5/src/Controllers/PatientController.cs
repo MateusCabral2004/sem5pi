@@ -60,5 +60,20 @@ public class PatientController : ControllerBase
 
         return Ok($"Acesso registrado para o email: {email}. Obrigado por confirmar.");
     }
-    
+
+  
+
+    [HttpPost("account/exclude")]
+    public async Task<IActionResult> excludeAccount(string email)
+    {
+        await patientService.excludeAccount(email);
+        return Ok("Account excluded");
+    }
+
+    [HttpPost("account/update")]
+    public async Task<IActionResult> updateAccount(PatientDTO patientDto)
+    {
+       // await patientService.updateAccount(patientDto);
+        return Ok("Account updated");
+    }
 }

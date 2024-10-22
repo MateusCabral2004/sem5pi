@@ -83,4 +83,22 @@ public class PatientService
         return patient.User != null;
     }
 
+   
+   
+    public async Task excludeAccount(string email)
+    {
+        var patient = await _patientRepository.GetByEmail(email);
+
+        if (patient == null)
+        {
+            throw new Exception("Paciente não encontrado");
+        }
+
+        if (patient.User.IsVerified)
+        {
+            // await patientRepository.DeletePatientAsync(patient);
+        }
+    }
+
+    
 }

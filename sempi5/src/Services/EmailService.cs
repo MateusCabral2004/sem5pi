@@ -20,7 +20,6 @@ public class EmailService
         //TODO encript credentials
         var username = "1221121@isep.ipp.pt";
         var password = "";
-        verificationToken="token2";
 
         var smtpClient = new SmtpClient("smtp.office365.com")
         {
