@@ -13,5 +13,7 @@ namespace Sempi5.Infrastructure.PatientRepository
         public Task<Patient> GetByDateOfBirth(DateTime dateOfBirth);
         
         public Task<Patient> GetByMedicalRecordNumber(string medicalRecordNumber);
+        public Task SavePatientAsync(Patient patient);
+        public Task<Patient> GetByPhoneNumber(string phoneNumber);
     }
 }

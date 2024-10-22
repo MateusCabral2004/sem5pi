@@ -30,7 +30,7 @@ public class EmailService
         };
 
         // Updated tracking link to a different endpoint
-        var trackingLink = $"http://localhost:5001/api/email/track-email-click?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(verificationToken)}";
+        var trackingLink = $"http://localhost:5001/patient/email/track-email-click?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(verificationToken)}";
 
         var body = $@"
             <p>Dear user,</p>

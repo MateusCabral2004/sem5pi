@@ -166,6 +166,8 @@ namespace Sempi5
             services.AddTransient<LoginService>();
             services.AddTransient<EmailService>();
             services.AddTransient<AdminService>();
+            services.AddTransient<PatientService>();
+            
         }
 
         public static void SeedData(IServiceProvider services)

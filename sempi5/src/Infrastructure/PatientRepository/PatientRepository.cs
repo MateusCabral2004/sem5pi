@@ -22,6 +22,7 @@ namespace Sempi5.Infrastructure.PatientRepository
 
             var patient = await Task.Run(() => context.Patients
                 .Include(p => p.User)
+                .AsEnumerable() //Permite que use metodos de c# 
                 .FirstOrDefault(p => p.User.Email.ToString().ToLower().Equals(email.ToLower())));
 
             return patient;
@@ -50,6 +51,31 @@ namespace Sempi5.Infrastructure.PatientRepository
         public Task<Patient> GetByMedicalRecordNumber(string medicalRecordNumber)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<Patient> GetByPhoneNumber(string phoneNumber)
+        {
+            if (string.IsNullOrEmpty(phoneNumber))
+            {
+                return null;
+            }
+
+            var patient = await context.Patients
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.Person.ContactInfo.phoneNumber().Equals((phoneNumber)));
+
+            return patient;
+        }
+
+        public async Task SavePatientAsync(Patient patient)
+        {
+            if (patient == null)
+            {
+                throw new ArgumentNullException(nameof(patient));
+            }
+
+            context.Patients.Update(patient);
+            await context.SaveChangesAsync();
         }
     }
 }
