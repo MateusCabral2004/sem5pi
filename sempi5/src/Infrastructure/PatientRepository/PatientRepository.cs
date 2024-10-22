@@ -62,7 +62,7 @@ namespace Sempi5.Infrastructure.PatientRepository
 
             var patient = await context.Patients
                 .Include(p => p.User)
-                .FirstOrDefaultAsync(p => p.ContactInfo.Equals(phoneNumber));
+                .FirstOrDefaultAsync(p => p.Person.ContactInfo.phoneNumber().Equals((phoneNumber)));
 
             return patient;
         }
