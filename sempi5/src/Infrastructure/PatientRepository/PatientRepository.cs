@@ -37,7 +37,7 @@ namespace Sempi5.Infrastructure.PatientRepository
             
             var patient = context.Patients
                 .Include(p => p.User)
-                .FirstOrDefault(p => p.FullName.ToLower().Equals(name.ToLower()));
+                .FirstOrDefault(p => p.Person.FullName.ToString().ToLower().Equals(name.ToLower()));
 
             return patient;
         }

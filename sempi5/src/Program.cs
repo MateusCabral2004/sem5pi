@@ -266,12 +266,9 @@ namespace Sempi5
                     // Create patients
                     var patient1 = new Patient
                     {
-                        FirstName = "Alice",
-                        LastName = "Doe",
-                        FullName = "Alice Doe",
+                        Person = new Person(new Name("Alice"), new Name("Doe"), new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654321))),
                         BirthDate = new DateTime(1990, 1, 10),
                         Gender = "Combat Helicopter",
-                        ContactInfo = "123",
                         AllergiesAndMedicalConditions = new List<string> { "Peanuts", "Asthma" },
                         EmergencyContact = "456",
                         AppointmentHistory = new List<string> { "01/01/2021 9am-10am", "02/02/2021 10am-11am" },
@@ -280,12 +277,9 @@ namespace Sempi5
 
                     var patient2 = new Patient
                     {
-                        FirstName = "Bob",
-                        LastName = "Smith",
-                        FullName = "Bob Smith",
+                        Person = new Person(new Name("Bob"),new Name("Smith"), new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654321))),
                         BirthDate = new DateTime(1990, 1, 10),
                         Gender = "Ambulance",
-                        ContactInfo = "456",
                         AllergiesAndMedicalConditions = new List<string> { "Shellfish", "Diabetes" },
                         EmergencyContact = "789",
                         AppointmentHistory = new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },
