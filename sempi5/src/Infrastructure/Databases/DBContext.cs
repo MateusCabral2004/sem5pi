@@ -105,7 +105,7 @@ namespace Sempi5.Infrastructure.Databases
 
             foreach (var entry in newPatients)
             {
-                entry.Entity.Id = new PatientId(GeneratePatientId(entity));
+                entry.Entity.Id = new MedicalRecordNumber(GeneratePatientId(entity));
                 entity.nextIdToUse++;
             }
         }

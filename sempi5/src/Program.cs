@@ -175,12 +175,27 @@ namespace Sempi5
                 if (!staffRepo.GetAllAsync().Result.Any())
                 {
                     // Create the system users for staff
+                    var administratorUser = new SystemUser("rpsoares8@gmail.com", "Admin");
                     var doctorUser = new SystemUser("mateuscabral2004@gmail.com", "Admin");
                     var nurseUser = new SystemUser("nurse@example.com", "Nurse");
                     var adminUser = new SystemUser("admin@example.com", "Admin");
 
                     // Create staff members
-                    var doctor = new Staff
+
+                    var administrator = new Staff
+                    (
+                        administratorUser,
+                        new LicenseNumber(122),
+                        new Name("Rui"),
+                        new Name("Soares"),
+                        "Cardiology",
+                        new ContactInfo("rpsoares8@gmail.com", 964666298),
+                        new List<string> { "Monday" }
+
+                    );
+
+
+                var doctor = new Staff
                     (
                         doctorUser,
                         new LicenseNumber(123),
@@ -214,6 +229,7 @@ namespace Sempi5
                     );
 
                     // Add staff to repository
+                    staffRepo.AddAsync(administrator).Wait();
                     staffRepo.AddAsync(doctor).Wait();
                     staffRepo.AddAsync(nurse).Wait();
                     staffRepo.AddAsync(admin).Wait();
@@ -249,9 +265,8 @@ namespace Sempi5
                         FirstName = "Alice",
                         LastName = "Doe",
                         FullName = "Alice Doe",
-                        BirthDate = "01/01/1990",
+                        BirthDate = new DateTime(1990, 1, 10),
                         Gender = "Combat Helicopter",
-                        MedicalRecordNumber = "MRN12345",
                         ContactInfo = "123",
                         AllergiesAndMedicalConditions = new List<string> { "Peanuts", "Asthma" },
                         EmergencyContact = "456",
@@ -264,9 +279,8 @@ namespace Sempi5
                         FirstName = "Bob",
                         LastName = "Smith",
                         FullName = "Bob Smith",
-                        BirthDate = "01/01/1990",
+                        BirthDate = new DateTime(1990, 1, 10),
                         Gender = "Ambulance",
-                        MedicalRecordNumber = "MRN67890",
                         ContactInfo = "456",
                         AllergiesAndMedicalConditions = new List<string> { "Shellfish", "Diabetes" },
                         EmergencyContact = "789",

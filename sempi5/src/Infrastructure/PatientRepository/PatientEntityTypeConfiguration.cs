@@ -15,7 +15,7 @@ namespace Sempi5.Infrastructure.PatientRepository
             builder.Property(p => p.Id)
                 .HasConversion(
                     v => v.AsString(),
-                    v => new PatientId(v)
+                    v => new MedicalRecordNumber(v)
                 )
                 .IsRequired()
                 .ValueGeneratedOnAdd();
