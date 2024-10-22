@@ -46,7 +46,17 @@ public class PatientController : ControllerBase
             return BadRequest("Erro ao registrar número.");
         }
     }
-
+    [HttpGet("account/appointment")]
+    public async Task listAppointments(string email)
+    {
+        var appointments = await patientService.appointmentList(email);
+        if (appointments == null)
+        {
+            BadRequest("Unauthorized acess(you need to confirm your account)");
+            return;
+        }
+        Ok(appointments);
+    }
 
     [HttpGet("email/track-email-click")]
     public async Task<IActionResult> TrackEmailClick(string email, string token)
