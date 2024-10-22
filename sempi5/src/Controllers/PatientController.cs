@@ -27,18 +27,18 @@ public class PatientController : ControllerBase
 
     [HttpPost("register")]
     //TODO - Use email from the cookies (claim principal)
-    public async Task<IActionResult> RegisterNumber(string email, string number)
+    public async Task<IActionResult> RegisterNumber(string email, int number)
     {
-        if (string.IsNullOrEmpty(number))
+        if (number <= 0)
         {
-            return BadRequest("Número de registro não pode ser vazio.");
+            return BadRequest("Número de registro não pode ser vazio ou negativo.");
         }
 
         var success = await patientService.RegisterPatientUser(email, number);
 
         if (success)
         {
-            emailService.SendEmailAsync(email, "olas");   
+            emailService.SendEmailAsync(email);   
             return Ok($"Número de registro {number} registrado com sucesso para o email: {email}.");
             
         }

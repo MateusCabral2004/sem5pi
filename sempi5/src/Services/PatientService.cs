@@ -19,7 +19,7 @@ public class PatientService
         _patientRepository = patientRepository;
     }
 
-    public async Task<bool> RegisterPatientUser(string email, string number)
+    public async Task<bool> RegisterPatientUser(string email, int number)
     {
         var patient = await _patientRepository.GetByPhoneNumber(number);
 
@@ -27,11 +27,6 @@ public class PatientService
         {
             throw new Exception("Paciente não encontrado");
         }
-
-        // if (patient.User.IsVerified)
-        // {
-        //     throw new Exception("Email já confirmado");
-        // }
 
         patient.User = new SystemUser(new Email(email), "Patient");
 

@@ -28,6 +28,25 @@ namespace Sempi5.Infrastructure.PatientRepository
             return patient;
         }
 
+        public async Task<Patient> GetByPhoneNumber(int phoneNumber)
+        {
+            if (phoneNumber <= 0)
+            {
+                return null;
+            }
+
+            var patient = await Task.Run(()=> context.Patients
+                .Include(p => p.Person)  // Inclua a entidade 'Person' se não estiver sendo carregada automaticamente
+                .ThenInclude(p => p.ContactInfo)  // Inclua 'ContactInfo' também
+                .AsEnumerable()
+                .FirstOrDefault(p => p.Person != null 
+                                          && p.Person.ContactInfo != null 
+                                          && p.Person.ContactInfo.phoneNumber().phoneNumber() == phoneNumber));
+
+            return patient;
+        }
+       
+
         public async Task<Patient?> GetByName(string name)
         {
             
@@ -63,20 +82,6 @@ namespace Sempi5.Infrastructure.PatientRepository
         public Task<Patient> GetByMedicalRecordNumber(string medicalRecordNumber)
         {
             throw new NotImplementedException();
-        }
-
-        public async Task<Patient?> GetByPhoneNumber(string phoneNumber)
-        {
-            if (string.IsNullOrEmpty(phoneNumber))
-            {
-                return null;
-            }
-
-            var patient = await context.Patients
-                .Include(p => p.User)
-                .FirstOrDefaultAsync(p => p.Person.ContactInfo.phoneNumber().Equals((phoneNumber)));
-
-            return patient;
         }
 
         public async Task SavePatientAsync(Patient patient)

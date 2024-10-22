@@ -34,5 +34,11 @@ namespace Sempi5.Infrastructure.ConfirmationTokenRepository
             }
             throw new ArgumentException("Invalid Guid format", nameof(id));
         }
+
+        public async Task saveAsyc(ConfirmationToken confirmationToken)
+        {
+             context.ConfirmationTokens.Add(confirmationToken);
+            await context.SaveChangesAsync();
+        }
     }
 }

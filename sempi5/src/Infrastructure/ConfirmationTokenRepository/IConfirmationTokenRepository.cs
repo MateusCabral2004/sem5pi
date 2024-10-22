@@ -10,5 +10,6 @@ namespace Sempi5.Infrastructure.ConfirmationTokenRepository
         public Task<ConfirmationToken> GetByIdAndNotUsed(Guid id);
         
         public Task<ConfirmationToken> GetByIdAndNotUsed(string id);
+        public Task saveAsyc(ConfirmationToken confirmationToken);
     }
 }
