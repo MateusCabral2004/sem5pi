@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.Patient;
 using Sempi5.Infrastructure.Databases;
@@ -22,6 +23,7 @@ namespace Sempi5.Infrastructure.PatientRepository
 
             var patient = await Task.Run(() => context.Patients
                 .Include(p => p.User)
+                .Include(p => p.Person)
                 .AsEnumerable() //Permite que use metodos de c# 
                 .FirstOrDefault(p => p.User.Email.ToString().ToLower().Equals(email.ToLower())));
 
