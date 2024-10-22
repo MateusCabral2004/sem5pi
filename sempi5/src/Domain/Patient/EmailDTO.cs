@@ -2,5 +2,5 @@
 
 public class EmailDTO
 {
-    public string email;
+    public string email { get; set; }
 }

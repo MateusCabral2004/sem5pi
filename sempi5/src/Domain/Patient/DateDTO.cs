@@ -2,7 +2,7 @@
 
 public class DateDTO
 {
-    public int year;
-    public int month;
-    public int day;
+    public int year { get; set; }
+    public int month { get; set; }
+    public int day { get; set; }
 }
