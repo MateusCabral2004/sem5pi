@@ -36,9 +36,11 @@ public class AdminService
         await _userRepository.AddAsync(user);
         var token = await _confirmationRepository.AddAsync(new ConfirmationToken(userDTO.email));
         Console.WriteLine("Token: " + token.Id);
+        Console.WriteLine("Confirmation Link:" + "http://localhost:5001/confirmToken/" + token.Id);
         
         await _unitOfWork.CommitAsync();
         //generate email verification token
+        
         //send email verification
     }
     

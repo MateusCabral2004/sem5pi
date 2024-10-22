@@ -167,6 +167,7 @@ namespace Sempi5
             services.AddTransient<EmailService>();
             services.AddTransient<AdminService>();
             services.AddTransient<PatientService>();
+            services.AddTransient<TokenService>();
             
         }
 

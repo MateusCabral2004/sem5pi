@@ -7,5 +7,8 @@ namespace Sempi5.Infrastructure.ConfirmationTokenRepository
 {
     public interface IConfirmationTokenRepository : IRepository<ConfirmationToken,ConfirmationTokenId>
     {
+        public Task<ConfirmationToken> GetByIdAndNotUsed(Guid id);
+        
+        public Task<ConfirmationToken> GetByIdAndNotUsed(string id);
     }
 }

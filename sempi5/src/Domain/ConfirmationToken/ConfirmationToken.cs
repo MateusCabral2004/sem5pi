@@ -22,4 +22,9 @@ public class ConfirmationToken : Entity<ConfirmationTokenId>, IAggregateRoot
         ExpiryDate = DateTime.Now.AddDays(1);
         IsUsed = false;
     }
+    
+    public void Use()
+    {
+        IsUsed = true;
+    }
 }

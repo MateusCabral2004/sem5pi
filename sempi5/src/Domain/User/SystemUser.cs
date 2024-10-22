@@ -36,6 +36,11 @@ namespace Sempi5.Domain.User
             Role = role;
             IsVerified = isVerified;
         }
+        
+        public void Verify()
+        {
+            IsVerified = true;
+        }
     }
     
     
