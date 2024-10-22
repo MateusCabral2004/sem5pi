@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.Patient;
 using Sempi5.Services;
 
@@ -81,9 +82,10 @@ public class PatientController : ControllerBase
     }
 
     [HttpPost("account/update")]
-    public async Task<IActionResult> updateAccount(PatientDTO patientDto)
+    public async Task<IActionResult> updateAccount(PatientProfileDto profileDto)
     {
-       // await patientService.updateAccount(patientDto);
+       await patientService.updateAccount(profileDto);
         return Ok("Account updated");
     }
+
 }
