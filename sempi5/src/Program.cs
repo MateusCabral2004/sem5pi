@@ -14,6 +14,8 @@ using Sempi5.Infrastructure.UserRepository;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.PersonalData;
+using Sempi5.Infrastructure.ConfirmationTokenRepository;
+using Sempi5.Infrastructure.PersonRepository;
 
 namespace Sempi5
 {
@@ -157,6 +159,8 @@ namespace Sempi5
             services.AddTransient<IStaffRepository, StaffRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<IPersonRepository,PersonRepository>();
+            services.AddTransient<IConfirmationTokenRepository, ConfirmationTokenRepository>();
             
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
@@ -177,12 +181,27 @@ namespace Sempi5
                 if (!staffRepo.GetAllAsync().Result.Any())
                 {
                     // Create the system users for staff
+                    var administratorUser = new SystemUser("rpsoares8@gmail.com", "Admin");
                     var doctorUser = new SystemUser("mateuscabral2004@gmail.com", "Admin");
                     var nurseUser = new SystemUser("nurse@example.com", "Nurse");
                     var adminUser = new SystemUser("admin@example.com", "Admin");
 
                     // Create staff members
-                    var doctor = new Staff
+
+                    var administrator = new Staff
+                    (
+                        administratorUser,
+                        new LicenseNumber(122),
+                        new Name("Rui"),
+                        new Name("Soares"),
+                        "Cardiology",
+                        new ContactInfo("rpsoares8@gmail.com", 964666298),
+                        new List<string> { "Monday" }
+
+                    );
+
+
+                var doctor = new Staff
                     (
                         doctorUser,
                         new LicenseNumber(123),
@@ -216,6 +235,7 @@ namespace Sempi5
                     );
 
                     // Add staff to repository
+                    staffRepo.AddAsync(administrator).Wait();
                     staffRepo.AddAsync(doctor).Wait();
                     staffRepo.AddAsync(nurse).Wait();
                     staffRepo.AddAsync(admin).Wait();
@@ -248,13 +268,9 @@ namespace Sempi5
                     // Create patients
                     var patient1 = new Patient
                     {
-                        FirstName = "Alice",
-                        LastName = "Doe",
-                        FullName = "Alice Doe",
-                        BirthDate = "01/01/1990",
+                        Person = new Person(new Name("Alice"), new Name("Doe"), new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654321))),
+                        BirthDate = new DateTime(1990, 1, 10),
                         Gender = "Combat Helicopter",
-                        MedicalRecordNumber = "MRN12345",
-                        ContactInfo = "123",
                         AllergiesAndMedicalConditions = new List<string> { "Peanuts", "Asthma" },
                         EmergencyContact = "456",
                         AppointmentHistory = new List<string> { "01/01/2021 9am-10am", "02/02/2021 10am-11am" },
@@ -263,13 +279,9 @@ namespace Sempi5
 
                     var patient2 = new Patient
                     {
-                        FirstName = "Bob",
-                        LastName = "Smith",
-                        FullName = "Bob Smith",
-                        BirthDate = "01/01/1990",
+                        Person = new Person(new Name("Bob"),new Name("Smith"), new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654321))),
+                        BirthDate = new DateTime(1990, 1, 10),
                         Gender = "Ambulance",
-                        MedicalRecordNumber = "MRN67890",
-                        ContactInfo = "456",
                         AllergiesAndMedicalConditions = new List<string> { "Shellfish", "Diabetes" },
                         EmergencyContact = "789",
                         AppointmentHistory = new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },

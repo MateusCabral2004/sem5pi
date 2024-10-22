@@ -5,14 +5,13 @@ using Sempi5.Infrastructure.Shared;
 
 namespace Sempi5.Infrastructure.PatientRepository
 {
-    public class PatientRepository : BaseRepository<Patient, PatientId>, IPatientRepository
+    public class PatientRepository : BaseRepository<Patient,MedicalRecordNumber>, IPatientRepository
     {
-        private readonly DBContext context;
 
+        private readonly DBContext context;
+        
         public PatientRepository(DBContext context) : base(context.Patients)
-        {
-            this.context = context;
-        }
+        { this.context = context; }
 
         public async Task<Patient> GetByEmail(string email)
         {
@@ -27,6 +26,31 @@ namespace Sempi5.Infrastructure.PatientRepository
                 .FirstOrDefault(p => p.User.Email.ToString().ToLower().Equals(email.ToLower())));
 
             return patient;
+        }
+
+        public async Task<Patient> GetByName(string name)
+        {
+            
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+            
+            var patient = context.Patients
+                .Include(p => p.User)
+                .FirstOrDefault(p => p.Person.FullName.ToString().ToLower().Equals(name.ToLower()));
+
+            return patient;
+        }
+
+        public Task<Patient> GetByDateOfBirth(DateTime dateOfBirth)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Patient> GetByMedicalRecordNumber(string medicalRecordNumber)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<Patient> GetByPhoneNumber(string phoneNumber)

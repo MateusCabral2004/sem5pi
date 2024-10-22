@@ -4,10 +4,10 @@ using Sempi5.Domain.Shared;
 
 namespace Sempi5.Domain.Patient
 {
-    public class PatientId : EntityId
+    public class MedicalRecordNumber : EntityId
     {
         
-        public PatientId(string value) : base(value)
+        public MedicalRecordNumber(string value) : base(value)
         {
         }
         

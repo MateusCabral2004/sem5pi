@@ -40,5 +40,34 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message + e.StackTrace);
             }
         }
+        
+        [HttpGet("listPatientProfilesByEmail")]
+        public async  Task<IActionResult> ListPatientProfilesByEmail(string email)
+        {
+            try
+            {
+                
+                var patientProfiles = await _adminService.ListPatientByEmail(email);
+                return Ok(patientProfiles);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message + e.StackTrace);
+            }
+        }
+        
+        [HttpGet("listPatientProfilesByName")]
+        public async Task<IActionResult> ListPatientProfilesByName(string name)
+        {
+            try
+            {
+                var patientProfiles = await _adminService.ListPatientByName(name);
+                return Ok(patientProfiles);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message + e.StackTrace);
+            }
+        }
     }
 }

@@ -1,9 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sempi5.Domain.Patient;
-using Sempi5.Domain.Shared;
 using Sempi5.Domain.Staff;
-using Sempi5.Domain.User;
 
 namespace Sempi5.Infrastructure.StaffRepository
 {
@@ -13,7 +10,13 @@ namespace Sempi5.Infrastructure.StaffRepository
         {
             builder.ToTable("Staff");
             builder.HasKey(t => t.Id);
-            
+
+            builder.HasOne(s => s.User)
+                .WithOne()
+                .HasForeignKey<Staff>("UserId")
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.Property(t => t.Id)
                 .HasConversion(
                     v => v.AsString(),
@@ -21,29 +24,23 @@ namespace Sempi5.Infrastructure.StaffRepository
                 )
                 .IsRequired()
                 .ValueGeneratedOnAdd();
-            
-            builder.Property(t => t.Specialization)
+
+            builder.HasOne(t => t.Person)
+                .WithOne()
+                .HasForeignKey<Staff>("PersonId")
                 .IsRequired()
-                .HasMaxLength(200);
-            
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.Property(t => t.LicenseNumber)
                 .IsRequired()
                 .HasConversion(
                     v => v.licenseNumber(),
                     v => new LicenseNumber(v)
                 );
-            
-            builder.HasOne(s => s.User)
-                .WithOne()
-                .HasForeignKey<Staff>("UserId")
+
+            builder.Property(t => t.Specialization)
                 .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
-            
-            builder.HasOne(t => t.Person)
-                .WithOne()
-                .HasForeignKey<Staff>("PersonId")
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasMaxLength(200);
         }
     }
 }
