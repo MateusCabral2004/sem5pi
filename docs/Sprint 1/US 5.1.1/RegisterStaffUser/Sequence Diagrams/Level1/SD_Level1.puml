@@ -1,0 +1,15 @@
+@startuml
+
+title US 5.1.1-Register Staff User-\nSequence Diagram Level 1
+
+actor Admin
+participant SurgeryAppointmentSystem
+
+activate Admin
+Admin-> SurgeryAppointmentSystem: create new staff user
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem --> Admin: new staff user created
+deactivate SurgeryAppointmentSystem
+
+@enduml

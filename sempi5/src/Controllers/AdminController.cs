@@ -47,8 +47,8 @@ namespace Sempi5.Controllers
         {
             try
             {
-                var patientProfiles = await _adminService.ListPatientByName(nameDto);
-                return Ok(patientProfiles);
+                var patientProfile = await _adminService.ListPatientByName(nameDto);
+                return Ok(patientProfile);
             }
             catch (Exception e)
             {

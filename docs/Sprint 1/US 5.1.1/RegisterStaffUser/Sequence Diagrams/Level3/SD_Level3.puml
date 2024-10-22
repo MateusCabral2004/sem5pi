@@ -1,0 +1,59 @@
+@startuml
+title US 5.1.1 - Register Staff User-\nComponent Level 3
+
+actor Admin
+participant SurgicalAppointmentSystem
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+participant Database
+
+activate Admin
+
+Admin -> SurgicalAppointmentSystem: create new staff user request
+    activate SurgicalAppointmentSystem
+    
+    SurgicalAppointmentSystem -> Routing: forward request to create new staff user
+    activate Routing
+    
+    Routing -> Controller: forward request to create new staff user
+    activate Controller
+    
+    Controller -> ApplicationService: create new staff user
+    activate ApplicationService
+    
+    ApplicationService -> Repository: asks to save staff user
+    activate Repository
+    
+    Repository -> Persistence: asks to save staff user
+    activate Persistence
+    
+    Persistence -> Database: saves staff user
+    activate Database
+    
+    Database --> Persistence: staff user saved
+    deactivate Database
+    
+    Persistence --> Repository: staff user saved
+    deactivate Persistence
+    
+    Repository --> ApplicationService: staff user saved
+    deactivate Repository
+    
+    ApplicationService --> Controller: new staff user created
+    deactivate ApplicationService
+    
+    Controller --> Routing: new staff user created
+    deactivate Controller
+    
+    Routing --> SurgicalAppointmentSystem: new staff user created
+    deactivate Routing
+    
+    SurgicalAppointmentSystem --> Admin: new staff user created
+    deactivate SurgicalAppointmentSystem
+
+deactivate Admin
+
+@enduml
