@@ -2,5 +2,5 @@
 
 public class NameDTO
 {
-    public string name;
+    public string name { get; set; }
 }

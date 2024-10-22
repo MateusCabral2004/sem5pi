@@ -5,9 +5,9 @@ namespace Sempi5.Domain.Patient;
 
 public class PatientDTO
 {
-    public string name;
-    public string email;
-    public string birthDate;
+    public string name{get; set;}
+    public string email{get; set;}
+    public string birthDate{get; set;}
 
     //  public SystemUser user = null;
     //   public Person Person { get; set; }
