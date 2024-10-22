@@ -34,14 +34,16 @@ public class AdminService
     {
         var user = userDTOtoUser(userDTO);
         await _userRepository.AddAsync(user);
-        var token = await _confirmationRepository.AddAsync(new ConfirmationToken(userDTO.email));
+        
+        var email = new Email(userDTO.email);
+        var confirmationToken = new ConfirmationToken(email);
+        
+        var token = await _confirmationRepository.AddAsync(confirmationToken);
         Console.WriteLine("Token: " + token.Id);
         Console.WriteLine("Confirmation Link:" + "http://localhost:5001/confirmToken/" + token.Id);
         
         await _unitOfWork.CommitAsync();
-        //generate email verification token
-        
-        //send email verification
+        //TODO - Send email verification
     }
     
     public async Task<IEnumerable<Patient>> ListPatientProfiles()
@@ -61,7 +63,8 @@ public class AdminService
     
     private SystemUser userDTOtoUser(SystemUserDTO user)
     {
-        return new SystemUser(user.email, user.role);
+        var email = new Email(user.email);
+        return new SystemUser(email, user.role);
     }
 
     public async Task CreatePatientProfile(PatientDTO patientDTO)

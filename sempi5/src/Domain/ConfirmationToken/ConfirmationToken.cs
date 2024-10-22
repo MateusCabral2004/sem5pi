@@ -11,14 +11,8 @@ public class ConfirmationToken : Entity<ConfirmationTokenId>, IAggregateRoot
     
     public ConfirmationToken(Email email)
     {
+        ArgumentNullException.ThrowIfNull(email);
         this.email = email;
-        ExpiryDate = DateTime.Now.AddDays(1);
-        IsUsed = false;
-    }
-
-    public ConfirmationToken(string email)
-    {
-        this.email = new Email(email);
         ExpiryDate = DateTime.Now.AddDays(1);
         IsUsed = false;
     }

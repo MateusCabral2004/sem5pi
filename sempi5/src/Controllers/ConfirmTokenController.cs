@@ -7,18 +7,25 @@ namespace Sempi5.Controllers;
 [ApiController]
 public class ConfirmTokenController : ControllerBase
 {
-    
     private readonly TokenService tokenService;
-    
+
     public ConfirmTokenController(TokenService tokenService)
     {
         this.tokenService = tokenService;
     }
- 
+
     [HttpGet("{token}")]
     public async Task<IActionResult> ConfirmToken(string token)
     {
-        await tokenService.ConfirmAccount(token);
+        try
+        {
+            await tokenService.ConfirmAccount(token);
+        }
+        catch (Exception e)
+        {
+            return BadRequest("Error: " + e.Message);
+        }
+
         return Ok("Token Confirmed: " + token);
     }
 }

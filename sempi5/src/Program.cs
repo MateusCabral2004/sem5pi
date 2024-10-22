@@ -182,10 +182,10 @@ namespace Sempi5
                 if (!staffRepo.GetAllAsync().Result.Any())
                 {
                     // Create the system users for staff
-                    var administratorUser = new SystemUser("rpsoares8@gmail.com", "Admin");
-                    var doctorUser = new SystemUser("mateuscabral2004@gmail.com", "Admin");
-                    var nurseUser = new SystemUser("nurse@example.com", "Nurse");
-                    var adminUser = new SystemUser("admin@example.com", "Admin");
+                    var administratorUser = new SystemUser(new Email("rpsoares8@gmail.com"), "Admin");
+                    var doctorUser = new SystemUser(new Email("mateuscabral2004@gmail.com"), "Admin");
+                    var nurseUser = new SystemUser(new Email("nurse@example.com"), "Nurse");
+                    var adminUser = new SystemUser(new Email("admin@example.com"), "Admin");
 
                     // Create staff members
 
@@ -264,8 +264,8 @@ namespace Sempi5
                 if (!patientRepo.GetAllAsync().Result.Any())
                 {
                     Console.WriteLine("Seeding patients...");
-                    SystemUser user1 = new SystemUser("mateuscabral123321@gmail.com", "Patient");
-                    SystemUser user2 = new SystemUser("mateuscabral20042@gmail.com", "Patient");
+                    SystemUser user1 = new SystemUser(new Email("mateuscabral123321@gmail.com"), "Patient");
+                    SystemUser user2 = new SystemUser(new Email("mateuscabral20042@gmail.com"), "Patient");
                     // Create patients
                     var patient1 = new Patient
                     (user1,

@@ -24,7 +24,7 @@ public class TokenService
         var confirmationToken = await _confirmationRepository.GetByIdAndNotUsed(token);
         if (confirmationToken == null)
         {
-            throw new Exception("Token not found");
+            throw new Exception("Token not found or already used");
         }
         
         var user = await _userRepository.GetByEmail(confirmationToken.email.ToString());
@@ -35,10 +35,8 @@ public class TokenService
         }
         
         user.Verify();
-        //await _userRepository.Update(user);
         
         confirmationToken.Use();
-        //await _confirmationRepository.Update(confirmationToken);
         
         await _unitOfWork.CommitAsync();
     }

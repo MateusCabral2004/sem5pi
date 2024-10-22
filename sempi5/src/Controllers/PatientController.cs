@@ -25,6 +25,7 @@ public class PatientController : ControllerBase
     }
 
     [HttpPost("register")]
+    //TODO - Use email from the cookies (claim principal)
     public async Task<IActionResult> RegisterNumber(string email, string number)
     {
         if (string.IsNullOrEmpty(number))

@@ -20,7 +20,7 @@ namespace Sempi5.Infrastructure.ConfirmationTokenRepository
         public async Task<ConfirmationToken> GetByIdAndNotUsed(Guid id)
         {
             var token = await context.ConfirmationTokens
-                .Where(c => c.Id == id && c.IsUsed == false)
+                .Where(c => c.Id == id && c.IsUsed == false && c.ExpiryDate > DateTime.Now)
                 .FirstOrDefaultAsync();
 
             return token;

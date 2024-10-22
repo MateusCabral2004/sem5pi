@@ -1,14 +1,11 @@
 ﻿using System;
-using JetBrains.Annotations;
 using Sempi5.Domain.Shared;
 using Xunit;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Assert = Microsoft.VisualStudio.TestTools.UnitTesting.Assert;
 
 
 namespace Sempi5.Tests.Domain.Shared;
 
-[TestClass]
 public class EmailTest
 {
     [Fact]

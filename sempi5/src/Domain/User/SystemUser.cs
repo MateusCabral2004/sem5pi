@@ -9,19 +9,13 @@ namespace Sempi5.Domain.User
         public string Username { get; set; }
         public string Role { get; set; }
         public bool IsVerified { get; set; }
-
         
-        public SystemUser(string email, string role)
-        {
-            Console.WriteLine("Creating user object with email: " + email + "...");
-            Email = new Email(email);
-            Username = email;
-            Role = role;
-            IsVerified = false;
-        }
         
         public SystemUser(Email email, string role)
         {
+            ArgumentNullException.ThrowIfNull(email);
+            ArgumentNullException.ThrowIfNull(role);
+            ArgumentException.ThrowIfNullOrWhiteSpace(role);
             Email = email;
             Username = email.ToString();
             Role = role;
@@ -30,9 +24,11 @@ namespace Sempi5.Domain.User
         
         public SystemUser(Email email, string role, bool isVerified)
         {
+            ArgumentNullException.ThrowIfNull(email);
+            ArgumentNullException.ThrowIfNull(role);
+            ArgumentException.ThrowIfNullOrWhiteSpace(role);
             Email = email;
             Username = email.ToString();
-            
             Role = role;
             IsVerified = isVerified;
         }
