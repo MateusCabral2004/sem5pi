@@ -27,9 +27,19 @@ namespace Sempi5.Infrastructure.PatientRepository
             return patient;
         }
 
-        public Task<Patient> GetByName(string name)
+        public async Task<Patient> GetByName(string name)
         {
-            throw new NotImplementedException();
+            
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+            
+            var patient = context.Patients
+                .Include(p => p.User)
+                .FirstOrDefault(p => p.FullName.ToLower().Equals(name.ToLower()));
+
+            return patient;
         }
 
         public Task<Patient> GetByDateOfBirth(DateTime dateOfBirth)

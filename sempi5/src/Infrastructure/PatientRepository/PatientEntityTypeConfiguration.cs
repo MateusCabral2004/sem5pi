@@ -9,7 +9,7 @@ namespace Sempi5.Infrastructure.PatientRepository
     {
         public void Configure(EntityTypeBuilder<Patient> builder)
         {
-            builder.ToTable("Patients");
+            builder.ToTable("Patient");
             builder.HasKey(p => p.Id);
             
             builder.Property(p => p.Id)
@@ -25,6 +25,17 @@ namespace Sempi5.Infrastructure.PatientRepository
                 .HasForeignKey<Patient>("UserId")
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(p => p.Id)
+                .HasConversion(
+                    p => p.AsString(),
+                    p => new MedicalRecordNumber(p)
+                )
+                .IsRequired();
+
+            builder.Property(p => p.BirthDate)
+                .HasColumnType("DATE")
+                .IsRequired();         
 
         }
     }
