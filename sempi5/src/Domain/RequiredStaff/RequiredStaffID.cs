@@ -1,22 +1,23 @@
 ﻿using Sempi5.Domain.Shared;
 
-namespace Sempi5.Domain.Specialization;
+namespace Sempi5.Domain.OperationType;
 
-public class SpecializationID : EntityId
+public class RequiredStaffID : EntityId
 {
-    public SpecializationID() : base(null)
+ 
+    public RequiredStaffID() : base(null)
     {
     }
     
-    public SpecializationID(long value) : base(value)
+    public RequiredStaffID(long value) : base(value)
     {
     }
     
     protected override object createFromString(string text)
     {
-        return long.Parse(text);
+        return int.Parse(text);
     }
-
+    
     public long AsLong()
     {
         return long.Parse(ObjValue.ToString());
@@ -26,6 +27,5 @@ public class SpecializationID : EntityId
     {
         return ObjValue.ToString();    
     }
-        
     
 }

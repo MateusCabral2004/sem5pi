@@ -4,7 +4,7 @@ namespace Sempi5.Domain.Specialization;
 
 public class Specialization : Entity<SpecializationID>, IAggregateRoot
 {
-    public long Id { get; set; }
+    public SpecializationID Id { get; set; }
     
     public SpecializationName specializationName { get; set; }
 

@@ -13,6 +13,14 @@ public class SpecializationEntityTypeConfiguration : IEntityTypeConfiguration<Sp
 
         builder.HasKey(p => p.Id);
 
+        builder.Property(s => s.Id)
+            .HasColumnName("SpecializationID")
+            .IsRequired()
+            .HasConversion(
+                s => s.AsLong(),
+                s => new SpecializationID(s))
+            .ValueGeneratedOnAdd();
+
         builder.Property(s => s.specializationName)
             .IsRequired()
             .HasConversion(
