@@ -5,10 +5,20 @@ namespace Sempi5.Domain.OperationRequest;
 public class OperationRequestID : EntityId
 {
  
-    public OperationRequestID(int value) : base(value)
+    
+    public OperationRequestID() : base(null)
+    {
+    }
+    
+    public OperationRequestID(long value) : base(value)
     {
     }
 
+    public long AsLong()
+    {
+        return long.Parse(ObjValue.ToString());
+    }
+    
     protected override object createFromString(string text)
     {
         return text;
@@ -16,6 +26,6 @@ public class OperationRequestID : EntityId
 
     public override string AsString()
     {
-        return (string)ObjValue;    
+        return ObjValue.ToString();
     }
 }

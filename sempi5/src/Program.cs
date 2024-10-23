@@ -9,6 +9,7 @@ using Sempi5.Domain.Staff;
 using Sempi5.Infrastructure.Databases;
 using Microsoft.IdentityModel.Tokens;
 using Sempi5.Domain;
+using Sempi5.Domain.OperationRequest;
 using Sempi5.Domain.OperationType;
 using Sempi5.Services;
 using Sempi5.Infrastructure.UserRepository;
@@ -17,6 +18,8 @@ using Sempi5.Domain.Patient;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Specialization;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
+using Sempi5.Infrastructure.OperationRequest;
+using Sempi5.Infrastructure.OperationTypeRepository;
 using Sempi5.Infrastructure.PersonRepository;
 using Sempi5.Infrastructure.RequiredStaffRepository;
 using Sempi5.Infrastructure.SpecializationRepository;
@@ -165,8 +168,10 @@ namespace Sempi5
             services.AddTransient<IPatientRepository, PatientRepository>();
             services.AddTransient<ISpecializationRepository, SpecializationRepository>();
             services.AddTransient<IRequiredStaffRepository, RequiredStaffRepository>();
+            services.AddTransient<IOperationTypeRepository, OperationTypeRepository>();
             services.AddTransient<IPersonRepository,PersonRepository>();
             services.AddTransient<IConfirmationTokenRepository, ConfirmationTokenRepository>();
+            services.AddTransient < IOperationRequestRepository, OperationRequestRepository>();
             
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
@@ -266,8 +271,10 @@ namespace Sempi5
                 var patientRepo = scope.ServiceProvider.GetRequiredService<IPatientRepository>();
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
                 var specRepo = scope.ServiceProvider.GetRequiredService<ISpecializationRepository>();
-
                 var requiredRepo = scope.ServiceProvider.GetRequiredService<IRequiredStaffRepository>();
+                var opTypeRepo = scope.ServiceProvider.GetRequiredService<IOperationTypeRepository>();
+                var requestRepo = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
+                
                 
                 // Check if there are any patients already in the database
                 if (!patientRepo.GetAllAsync().Result.Any())
@@ -302,8 +309,27 @@ namespace Sempi5
                     var specialization2 = new Specialization(new SpecializationName("Operation"));
 
                     var requiredStaff1 = new RequiredStaff(new NumberOfStaff(10), specialization1);
-                    var requiredStaff2 = new RequiredStaff(new NumberOfStaff(20), specialization2);
+                    var requiredStaff2= new RequiredStaff(new NumberOfStaff(20), specialization1);
+                    var requiredStaff3 = new RequiredStaff(new NumberOfStaff(30), specialization1);
+                    var requiredStaff4 = new RequiredStaff(new NumberOfStaff(40), specialization2);
                     
+                    var operationType1 = new OperationType(new OperationName("Heart Surgery"), new List<RequiredStaff> {requiredStaff1, requiredStaff2}, new TimeSpan(2, 0, 0));
+                    var operationType2 = new OperationType(new OperationName("Brain Surgery"), new List<RequiredStaff> {requiredStaff3, requiredStaff4}, new TimeSpan(3, 0, 0));
+                    
+                    var doctorUser = new SystemUser(new Email("mateuscabral22004@gmail.com"), "Admin");
+                    
+                    var doctor = new Staff
+                    (
+                        doctorUser,
+                        new LicenseNumber(213),
+                        new Name("Johnnnnn"),
+                        new Name("Doe"),
+                        "Cardiology",
+                        new ContactInfo("doctor@example.com", 987254321),
+                        new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
+                    );
+                    
+                    var request1 = new OperationRequest(doctor, patient1, operationType1, new DateTime(2021, 1, 1), PriorityEnum.HIGH);
                     
                     // Add patients to repository
                     patientRepo.AddAsync(patient1).Wait();
@@ -314,7 +340,14 @@ namespace Sempi5
 
                     requiredRepo.AddAsync(requiredStaff1).Wait();
                     requiredRepo.AddAsync(requiredStaff2).Wait();
+                    requiredRepo.AddAsync(requiredStaff3).Wait();
+                    requiredRepo.AddAsync(requiredStaff4).Wait();
 
+                    opTypeRepo.AddAsync(operationType1);
+                    opTypeRepo.AddAsync(operationType2);
+
+                    requestRepo.AddAsync(request1);
+                    
                     // Save changes
                     unitOfWork.CommitAsync().Wait();
                 }

@@ -9,6 +9,8 @@ using Sempi5.Domain.Staff;
 using Sempi5.Domain.TodoItem;
 using Sempi5.Domain.User;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
+using Sempi5.Infrastructure.OperationRequest;
+using Sempi5.Infrastructure.OperationTypeRepository;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Infrastructure.PersonRepository;
 using Sempi5.Infrastructure.RequiredStaffRepository;
@@ -31,6 +33,8 @@ namespace Sempi5.Infrastructure.Databases
         public DbSet<ConfirmationToken> ConfirmationTokens { get; set; }
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<RequiredStaff> RequiredStaffs { get; set; }
+        public DbSet<OperationType> OperationTypes { get; set; }
+        public DbSet<Domain.OperationRequest.OperationRequest> OperationRequests { get; set; }
         
         public DBContext(DbContextOptions<DBContext> options) : base(options)
         { }
@@ -49,6 +53,8 @@ namespace Sempi5.Infrastructure.Databases
             modelBuilder.ApplyConfiguration(new ConfirmationTokenEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new RequiredStaffEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
