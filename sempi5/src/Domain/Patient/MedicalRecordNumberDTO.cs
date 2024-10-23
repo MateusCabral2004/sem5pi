@@ -2,5 +2,5 @@
 
 public class MedicalRecordNumberDTO
 {
-    
+    public string medicalRecordNumber { get; set; }
 }

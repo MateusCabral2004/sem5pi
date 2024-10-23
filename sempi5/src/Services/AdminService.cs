@@ -174,7 +174,5 @@ public class AdminService
             new PhoneNumber(patientDTO.phoneNumber))), DateTime.Parse(patientDTO.birthDate), patientDTO.gender, patientDTO.allergiesAndMedicalConditions,
             patientDTO.emergencyContact, patientDTO.appointmentHistory);
     }
-
-    
     
 }

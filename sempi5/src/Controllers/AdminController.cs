@@ -99,9 +99,10 @@ namespace Sempi5.Controllers
             }
         } 
 
-        [HttpPost(template: "registerPatientProfile")]
+        [HttpPost("registerPatientProfile")]
         public async Task<IActionResult> RegisterPatientProfile(PatientDTO patient)
         {
+            Console.WriteLine("OLA");
             try
             {
                 await _adminService.CreatePatientProfile(patient);
@@ -109,7 +110,7 @@ namespace Sempi5.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + e.StackTrace);
+                return BadRequest(e.Message);
             }
         }
     }
