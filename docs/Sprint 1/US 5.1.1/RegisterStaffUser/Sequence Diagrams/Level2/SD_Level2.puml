@@ -5,7 +5,7 @@ title US 5.1.8-Register Staff user-\nSequence Diagram Level 2
 actor Admin
 participant SurgeryAppointmentSystem
 participant Backend
-participant DataBase
+database DataBase
 
 activate Admin
 

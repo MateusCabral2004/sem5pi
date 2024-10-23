@@ -5,7 +5,7 @@ title US 5.1.1-Activate Staff Account-\nSequence Diagram Level 2
 actor Staff
 participant SurgeryAppointmentSystem
 participant Backend
-participant DataBase
+database DataBase
 
 activate Staff
 
