@@ -1,6 +1,8 @@
-﻿namespace Sempi5.Infrastructure.AppointmentRepository;
+﻿using Sempi5.Domain.Shared;
 
-public class IAppointmentRepository
+namespace Sempi5.Infrastructure.AppointmentRepository;
+
+public interface IAppointmentRepository : IRepository<Appointment, AppointmentID>
 {
     
 }

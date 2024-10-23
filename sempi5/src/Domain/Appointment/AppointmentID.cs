@@ -2,17 +2,23 @@
 
 public class AppointmentID : EntityId
 {
-    public AppointmentID(int value) : base(value)
+    public AppointmentID(long value) : base(value)
     {
     }
+    
 
     protected override object createFromString(string text)
     {
         return text;
     }
 
+    public long AsLong()
+    {
+        return long.Parse(ObjValue.ToString());
+    }
+    
     public override string AsString()
     {
-        return (string)ObjValue;    
+        return ObjValue.ToString();    
     }
 }

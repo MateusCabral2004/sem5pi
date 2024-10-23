@@ -17,12 +17,15 @@ using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Specialization;
+using Sempi5.Domain.SurgeryRoomAggregate;
+using Sempi5.Infrastructure.AppointmentRepository;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
 using Sempi5.Infrastructure.OperationRequest;
 using Sempi5.Infrastructure.OperationTypeRepository;
 using Sempi5.Infrastructure.PersonRepository;
 using Sempi5.Infrastructure.RequiredStaffRepository;
 using Sempi5.Infrastructure.SpecializationRepository;
+using Sempi5.Infrastructure.SurgeryRoomRepository;
 
 namespace Sempi5
 {
@@ -171,7 +174,9 @@ namespace Sempi5
             services.AddTransient<IOperationTypeRepository, OperationTypeRepository>();
             services.AddTransient<IPersonRepository,PersonRepository>();
             services.AddTransient<IConfirmationTokenRepository, ConfirmationTokenRepository>();
-            services.AddTransient < IOperationRequestRepository, OperationRequestRepository>();
+            services.AddTransient <IOperationRequestRepository, OperationRequestRepository>();
+            services.AddTransient<ISurgeryRoomRepository, SurgeryRoomRepository>();
+            services.AddTransient<IAppointmentRepository, AppointmentRepository>();
             
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
@@ -274,7 +279,8 @@ namespace Sempi5
                 var requiredRepo = scope.ServiceProvider.GetRequiredService<IRequiredStaffRepository>();
                 var opTypeRepo = scope.ServiceProvider.GetRequiredService<IOperationTypeRepository>();
                 var requestRepo = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
-                
+                var surgeryRoomRepo = scope.ServiceProvider.GetRequiredService<ISurgeryRoomRepository>();
+                var appointmentRepo = scope.ServiceProvider.GetRequiredService<IAppointmentRepository>();
                 
                 // Check if there are any patients already in the database
                 if (!patientRepo.GetAllAsync().Result.Any())
@@ -330,6 +336,10 @@ namespace Sempi5
                     );
                     
                     var request1 = new OperationRequest(doctor, patient1, operationType1, new DateTime(2021, 1, 1), PriorityEnum.HIGH);
+
+                    var surgeryRoom = new SurgeryRoom(RoomTypeEnum.CONSULTATION_ROOM, new RoomCapacity(10), new List<string> {"Tesoura"}, RoomStatusEnum.AVAILABLE, new List<string> {"???????"});
+                    
+                    var appointment1 = new Appointment(request1, surgeryRoom, new DateTime(2024,10,23), StatusEnum.SCHEDULED);
                     
                     // Add patients to repository
                     patientRepo.AddAsync(patient1).Wait();
@@ -347,6 +357,10 @@ namespace Sempi5
                     opTypeRepo.AddAsync(operationType2);
 
                     requestRepo.AddAsync(request1);
+
+                    surgeryRoomRepo.AddAsync(surgeryRoom);
+                    
+                    appointmentRepo.AddAsync(appointment1);
                     
                     // Save changes
                     unitOfWork.CommitAsync().Wait();

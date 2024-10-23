@@ -10,29 +10,35 @@ namespace Sempi5.Infrastructure.SurgeryRoomRepository
     {
         public void Configure(EntityTypeBuilder<SurgeryRoom> builder)
         {
-            builder.ToTable("SurgeryRooms");
+            builder.ToTable("SurgeryRoom");
+            
             builder.HasKey(t => t.Id);
             
             builder.Property(t => t.Id)
                 .HasColumnName("Id")
                 .HasConversion(
-                    v => v.AsString(),  
-                    v => new RoomNumber() 
-                );
+                    v => v.AsInt(),  
+                    v => new RoomNumber(v) 
+                )
+                .ValueGeneratedOnAdd();
+                ;
 
             builder.Property(t => t.Type)
+                .IsRequired()
                 .HasConversion(
                     v => v.ToString(),
                     v => (RoomTypeEnum)Enum.Parse(typeof(RoomTypeEnum), v)
                 );
 
             builder.Property(t => t.Status)
+                .IsRequired()
                 .HasConversion(
                     v => v.ToString(),
-                    v => (RoomTypeEnum)Enum.Parse(typeof(RoomTypeEnum), v)
+                    v => (RoomStatusEnum)Enum.Parse(typeof(RoomStatusEnum), v)
                 );
 
             builder.Property(t => t.Capacity)
+                .IsRequired()
                 .HasConversion(
                     v => v.AsInt(),
                     v => new RoomCapacity(v)

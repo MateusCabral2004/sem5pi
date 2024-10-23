@@ -12,12 +12,12 @@ public class RoomNumber : EntityId
         
     public override string AsString()
     {
-        return (string)base.ObjValue.ToString();
+        return ObjValue.ToString();
     }
         
-    public int AsLong()
+    public int AsInt()
     {
-        return (int)base.ObjValue;
+        return int.Parse(ObjValue.ToString());
     }
 
     protected override object createFromString(string text)

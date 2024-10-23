@@ -4,11 +4,13 @@ using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.OperationType;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.PersonalData;
+using Sempi5.Domain.Shared;
 using Sempi5.Domain.Specialization;
 using Sempi5.Domain.Staff;
 using Sempi5.Domain.SurgeryRoomAggregate;
 using Sempi5.Domain.TodoItem;
 using Sempi5.Domain.User;
+using Sempi5.Infrastructure.AppointmentRepository;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
 using Sempi5.Infrastructure.OperationRequest;
 using Sempi5.Infrastructure.OperationTypeRepository;
@@ -37,7 +39,7 @@ namespace Sempi5.Infrastructure.Databases
         public DbSet<RequiredStaff> RequiredStaffs { get; set; }
         public DbSet<OperationType> OperationTypes { get; set; }
         public DbSet<Domain.OperationRequest.OperationRequest> OperationRequests { get; set; }
-        
+        public DbSet<Appointment> Appointments { get; set; }
         public DbSet<SurgeryRoom> SurgeryRooms { get; set; }
 
         public DBContext(DbContextOptions<DBContext> options) : base(options)
@@ -59,13 +61,14 @@ namespace Sempi5.Infrastructure.Databases
             modelBuilder.ApplyConfiguration(new RequiredStaffEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AppointmentEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SurgeryRoomEntityTypeConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-           optionsBuilder.EnableSensitiveDataLogging();
+            optionsBuilder.EnableSensitiveDataLogging();
         }
 
 
