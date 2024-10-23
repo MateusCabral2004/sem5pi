@@ -99,7 +99,16 @@ namespace Sempi5.Infrastructure.Databases
 
             foreach (var entry in newStaff)
             {
-                entry.Entity.Id = new StaffId(entry.Entity.User.Role.Substring(0,1) + GenerateStaffId(entity));
+                if (entry.Entity.User == null)
+                {
+                    var firstLetterEmail = entry.Entity.Person.ContactInfo._email.ToString()[..1].ToUpper();
+                    entry.Entity.Id = new StaffId(firstLetterEmail + GenerateStaffId(entity));
+                }
+                else
+                {
+                    entry.Entity.Id = new StaffId(entry.Entity.User.Role[..1].ToUpper() + GenerateStaffId(entity));
+                }
+                
                 entity.nextIdToUse++;
             }
         }

@@ -14,8 +14,8 @@ namespace Sempi5.Infrastructure.StaffRepository
             builder.HasOne(s => s.User)
                 .WithOne()
                 .HasForeignKey<Staff>("UserId")
-                .IsRequired()
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired(false);
 
             builder.Property(t => t.Id)
                 .HasConversion(
@@ -37,6 +37,9 @@ namespace Sempi5.Infrastructure.StaffRepository
                     v => v.licenseNumber(),
                     v => new LicenseNumber(v)
                 );
+            
+            builder.HasIndex(p => p.LicenseNumber)
+                .IsUnique();
 
             builder.Property(t => t.Specialization)
                 .IsRequired()

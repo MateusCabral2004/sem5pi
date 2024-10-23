@@ -16,6 +16,7 @@ public class Email
     
     private void ValidateEmailAddress(string emailAddress)
     {
+        Console.WriteLine("Validating email address " + emailAddress + "...");
         if (emailAddress == null)
         {
             throw new ArgumentNullException("Email address cannot be null.");

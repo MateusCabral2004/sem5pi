@@ -38,7 +38,7 @@ namespace Sempi5
             var builder = WebApplication.CreateBuilder(args);
 
             CreateDataBase(builder);
-            
+
             ConfigureMyServices(builder.Services);
 
             builder.Services.AddAuthorization(options =>
@@ -86,7 +86,7 @@ namespace Sempi5
                 });
 
             builder.Services.AddControllersWithViews();
-            
+
             builder.Services.AddEndpointsApiExplorer();
 
             var app = builder.Build();
@@ -105,7 +105,7 @@ namespace Sempi5
             app.UseAuthorization();
 
             app.MapControllers();
-            
+
             try
             {
                 SeedData(app.Services);
@@ -118,26 +118,10 @@ namespace Sempi5
                 Console.WriteLine("Error seeding data");
             }
 
+            SeedStaffProfiles(app.Services);
+            
             app.Run();
         }
-        // static async Task teste(string[] args)
-        // {
-        //     // Crie uma instância do EmailService (você pode passar uma instância falsa de IConfiguration se não precisar dela)
-        //     var emailService = new EmailService(null);
-        //
-        //     // Email para testar
-        //     string email = "sandroluis720@gmail.com";
-        //
-        //     // Gerar um token de verificação (pode ser um GUID, por exemplo)
-        //     string verificationToken = Guid.NewGuid().ToString();
-        //
-        //     // Chame o método para enviar o email
-        //     string result = await emailService.SendEmailAsync(email, verificationToken);
-        //
-        //     // Exibir o resultado no console
-        //     Console.WriteLine(result);
-        // }
-
 
         public static void CreateDataBase(WebApplicationBuilder builder)
         {
@@ -164,7 +148,7 @@ namespace Sempi5
         public static void ConfigureMyServices(IServiceCollection services)
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-            
+
             services.AddTransient<ITodoItemRepository, TodoItemRepository>();
             services.AddTransient<IStaffRepository, StaffRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
@@ -172,19 +156,18 @@ namespace Sempi5
             services.AddTransient<ISpecializationRepository, SpecializationRepository>();
             services.AddTransient<IRequiredStaffRepository, RequiredStaffRepository>();
             services.AddTransient<IOperationTypeRepository, OperationTypeRepository>();
-            services.AddTransient<IPersonRepository,PersonRepository>();
+            services.AddTransient<IPersonRepository, PersonRepository>();
             services.AddTransient<IConfirmationTokenRepository, ConfirmationTokenRepository>();
-            services.AddTransient <IOperationRequestRepository, OperationRequestRepository>();
+            services.AddTransient<IOperationRequestRepository, OperationRequestRepository>();
             services.AddTransient<ISurgeryRoomRepository, SurgeryRoomRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
-            
+
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
             services.AddTransient<EmailService>();
             services.AddTransient<AdminService>();
             services.AddTransient<PatientService>();
             services.AddTransient<TokenService>();
-            
         }
 
         public static void SeedData(IServiceProvider services)
@@ -199,7 +182,7 @@ namespace Sempi5
                 {
                     // Create the system users for staff
                     var administratorUser = new SystemUser(new Email("rpsoares8@gmail.com"), "Admin");
-                    var doctorUser = new SystemUser(new Email("mateuscabral2004@gmail.com"), "Admin");
+                    var doctorUser = new SystemUser(new Email("mateuscabral200445@gmail.com"), "Admin");
                     var nurseUser = new SystemUser(new Email("nurse@example.com"), "Nurse");
                     var adminUser = new SystemUser(new Email("admin@example.com"), "Admin");
 
@@ -214,11 +197,10 @@ namespace Sempi5
                         "Cardiology",
                         new ContactInfo("rpsoares8@gmail.com", 964666298),
                         new List<string> { "Monday" }
-
                     );
 
 
-                var doctor = new Staff
+                    var doctor = new Staff
                     (
                         doctorUser,
                         new LicenseNumber(123),
@@ -228,7 +210,7 @@ namespace Sempi5
                         new ContactInfo("doctor@example.com", 987654321),
                         new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
                     );
-                    
+
                     var nurse = new Staff
                     (
                         nurseUser,
@@ -281,7 +263,7 @@ namespace Sempi5
                 var requestRepo = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
                 var surgeryRoomRepo = scope.ServiceProvider.GetRequiredService<ISurgeryRoomRepository>();
                 var appointmentRepo = scope.ServiceProvider.GetRequiredService<IAppointmentRepository>();
-                
+
                 // Check if there are any patients already in the database
                 if (!patientRepo.GetAllAsync().Result.Any())
                 {
@@ -291,7 +273,8 @@ namespace Sempi5
                     // Create patients
                     var patient1 = new Patient
                     (user1,
-                        new Person (new Name("Alice"), new Name("Doe"), new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654321))),
+                        new Person(new Name("Alice"), new Name("Doe"),
+                            new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654321))),
                         new DateTime(1990, 1, 10),
                         "Combat Helicopter",
                         new List<string> { "Peanuts", "Asthma" },
@@ -301,7 +284,8 @@ namespace Sempi5
 
                     var patient2 = new Patient
                     (user2,
-                        new Person (new Name("Bob"),new Name("Smith"), new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654321))),
+                        new Person(new Name("Bob"), new Name("Smith"),
+                            new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654321))),
                         new DateTime(1990, 1, 10),
                         "Ambulance",
                         new List<string> { "Shellfish", "Diabetes" },
@@ -315,15 +299,17 @@ namespace Sempi5
                     var specialization2 = new Specialization(new SpecializationName("Operation"));
 
                     var requiredStaff1 = new RequiredStaff(new NumberOfStaff(10), specialization1);
-                    var requiredStaff2= new RequiredStaff(new NumberOfStaff(20), specialization1);
+                    var requiredStaff2 = new RequiredStaff(new NumberOfStaff(20), specialization1);
                     var requiredStaff3 = new RequiredStaff(new NumberOfStaff(30), specialization1);
                     var requiredStaff4 = new RequiredStaff(new NumberOfStaff(40), specialization2);
-                    
-                    var operationType1 = new OperationType(new OperationName("Heart Surgery"), new List<RequiredStaff> {requiredStaff1, requiredStaff2}, new TimeSpan(2, 0, 0));
-                    var operationType2 = new OperationType(new OperationName("Brain Surgery"), new List<RequiredStaff> {requiredStaff3, requiredStaff4}, new TimeSpan(3, 0, 0));
-                    
+
+                    var operationType1 = new OperationType(new OperationName("Heart Surgery"),
+                        new List<RequiredStaff> { requiredStaff1, requiredStaff2 }, new TimeSpan(2, 0, 0));
+                    var operationType2 = new OperationType(new OperationName("Brain Surgery"),
+                        new List<RequiredStaff> { requiredStaff3, requiredStaff4 }, new TimeSpan(3, 0, 0));
+
                     var doctorUser = new SystemUser(new Email("mateuscabral22004@gmail.com"), "Admin");
-                    
+
                     var doctor = new Staff
                     (
                         doctorUser,
@@ -334,17 +320,20 @@ namespace Sempi5
                         new ContactInfo("doctor@example.com", 987254321),
                         new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
                     );
-                    
-                    var request1 = new OperationRequest(doctor, patient1, operationType1, new DateTime(2021, 1, 1), PriorityEnum.HIGH);
 
-                    var surgeryRoom = new SurgeryRoom(RoomTypeEnum.CONSULTATION_ROOM, new RoomCapacity(10), new List<string> {"Tesoura"}, RoomStatusEnum.AVAILABLE, new List<string> {"???????"});
-                    
-                    var appointment1 = new Appointment(request1, surgeryRoom, new DateTime(2024,10,23), StatusEnum.SCHEDULED);
-                    
+                    var request1 = new OperationRequest(doctor, patient1, operationType1, new DateTime(2021, 1, 1),
+                        PriorityEnum.HIGH);
+
+                    var surgeryRoom = new SurgeryRoom(RoomTypeEnum.CONSULTATION_ROOM, new RoomCapacity(10),
+                        new List<string> { "Tesoura" }, RoomStatusEnum.AVAILABLE, new List<string> { "???????" });
+
+                    var appointment1 = new Appointment(request1, surgeryRoom, new DateTime(2024, 10, 23),
+                        StatusEnum.SCHEDULED);
+
                     // Add patients to repository
                     patientRepo.AddAsync(patient1).Wait();
                     patientRepo.AddAsync(patient2).Wait();
-                    
+
                     specRepo.AddAsync(specialization1).Wait();
                     specRepo.AddAsync(specialization2).Wait();
 
@@ -359,12 +348,35 @@ namespace Sempi5
                     requestRepo.AddAsync(request1);
 
                     surgeryRoomRepo.AddAsync(surgeryRoom);
-                    
+
                     appointmentRepo.AddAsync(appointment1);
-                    
+
                     // Save changes
                     unitOfWork.CommitAsync().Wait();
                 }
+            }
+        }
+
+        public static void SeedStaffProfiles(IServiceProvider services)
+        {
+            using (var scope = services.CreateScope())
+            {
+                var staffRepo = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
+                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+
+                // Check if there are any staff members already in the database
+                var staffProfile1 = new Staff(
+                    new LicenseNumber(213),
+                    new Name("John"),
+                    new Name("Stuart"),
+                    "Cardiology",
+                    new ContactInfo("mateuscabral2004@gmail.com", 987254321),
+                    new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
+                );
+                
+                staffRepo.AddAsync(staffProfile1).Wait();
+                
+                unitOfWork.CommitAsync().Wait();
             }
         }
     }

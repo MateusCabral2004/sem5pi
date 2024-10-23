@@ -22,31 +22,57 @@ public class AdminService
     private readonly IPatientRepository _patientRepository;
     private readonly IUserRepository _userRepository;
     private readonly IConfirmationTokenRepository _confirmationRepository;
+    private readonly EmailService _emailService;
     private readonly IUnitOfWork _unitOfWork;
         
     public AdminService(IStaffRepository staffRepository, IPatientRepository patientRepository, IUserRepository userRepository,
-                        IConfirmationTokenRepository confirmationRepository,IUnitOfWork unitOfWork)
+                        IConfirmationTokenRepository confirmationRepository,IUnitOfWork unitOfWork,
+                        EmailService emailService)
     {
         _staffRepository = staffRepository;
         _patientRepository = patientRepository;
         _userRepository = userRepository;
         _confirmationRepository = confirmationRepository;
         _unitOfWork = unitOfWork;
+        _emailService = emailService;
     }
         
-    public async Task RegisterUser(SystemUserDTO userDTO)
+    public async Task RegisterUser(RegisterUserDTO userDTO)
     {
-        var user = userDTOtoUser(userDTO);
-        await _userRepository.AddAsync(user);
-        
+        var user = registerUserDTOtoUser(userDTO);
+        var userExists = await _userRepository.GetByEmail(user.Email.ToString());
+        if(userExists != null)
+        {
+            if (!userExists.IsVerified)
+            {
+                Console.WriteLine("User already exists, but not verified");
+                userExists.Role = userDTO.role;
+            }
+            else
+            {
+                throw new ArgumentException("User already exists");
+            }
+        }
+        else
+        {
+            await _userRepository.AddAsync(user);
+        }
         var email = new Email(userDTO.email);
-        var confirmationToken = new ConfirmationToken(email);
-        
-        var token = await _confirmationRepository.AddAsync(confirmationToken);
-        Console.WriteLine("Token: " + token.Id);
-        
+        var confirmationToken = new ConfirmationToken(email, userDTO.staffOrStaffId);
+
+        var token = await RegisterToken(confirmationToken);
+        var staff = await _staffRepository.GetByIdAsync(new StaffId(userDTO.staffOrStaffId));
+        if(staff == null)
+        {
+            throw new ArgumentException("Staff not found");
+        }
+        if(staff.User.IsVerified)
+        {
+            throw new ArgumentException("Staff already verified");
+        }
+        var staffEmail = staff.Person.ContactInfo._email.ToString();
         await _unitOfWork.CommitAsync();
-        //TODO - Send email verification
+        await _emailService.SendStaffConfirmationEmail(staffEmail, token.Id.ToString());
     }
 
     public async Task<PatientDTO> ListPatientByName(NameDTO nameDto)
@@ -114,6 +140,12 @@ public class AdminService
         var email = new Email(user.email);
         return new SystemUser(email, user.role);
     }
+    
+    private SystemUser registerUserDTOtoUser(RegisterUserDTO user)
+    {
+        var email = new Email(user.email);
+        return new SystemUser(email, user.role);
+    }
 
     public async Task CreatePatientProfile(PatientDTO patientDTO)
     {
@@ -173,6 +205,26 @@ public class AdminService
         return new Patient(null, new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName), new ContactInfo(new Email(patientDTO.email),
             new PhoneNumber(patientDTO.phoneNumber))), DateTime.Parse(patientDTO.birthDate), patientDTO.gender, patientDTO.allergiesAndMedicalConditions,
             patientDTO.emergencyContact, patientDTO.appointmentHistory);
+    }
+    
+    private async Task<ConfirmationToken> RegisterToken(ConfirmationToken confirmationToken)
+    {
+        var token = await _confirmationRepository.GetByEmail(confirmationToken.email.ToString());
+
+        if (token == null)
+        {
+            return await _confirmationRepository.AddAsync(confirmationToken);
+        }
+        
+        if(!token.Id.Equals(confirmationToken.Id))
+        {
+            throw new ArgumentException("Account already waiting for verification with a different staff profile. If you made a mistake, please contact support.");
+        }
+        
+        token.ResetExpiryDate();
+        
+        return token;
+
     }
     
 }
