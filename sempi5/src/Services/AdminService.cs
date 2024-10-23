@@ -1,6 +1,8 @@
+using Humanizer;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Patient;
+using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.Staff;
 using Sempi5.Domain.UsefullDTOs;
@@ -147,7 +149,7 @@ public class AdminService
     {
         return new PatientDTO
         {
-            name = patient.Person.FullName.ToString(),
+            fullName = patient.Person.FullName.ToString(),
             email = patient.Person.ContactInfo.email().ToString(),
             birthDate = patient.BirthDate.ToString("MM/dd/yyyy")
         };
@@ -166,9 +168,11 @@ public class AdminService
         return patientDtoList;
     }
 
-    private Patient patientDTOToPatient(PatientDTO patient)
+    private Patient patientDTOToPatient(PatientDTO patientDTO)
     {
-        return null;
+        return new Patient(null, new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName), new ContactInfo(new Email(patientDTO.email),
+            new PhoneNumber(patientDTO.phoneNumber))), DateTime.Parse(patientDTO.birthDate), patientDTO.gender, patientDTO.allergiesAndMedicalConditions,
+            patientDTO.emergencyContact, patientDTO.appointmentHistory);
     }
 
     
