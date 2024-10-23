@@ -38,15 +38,26 @@ public class PatientController : ControllerBase
 
         if (success)
         {
-            emailService.SendEmailAsync(email);   
-            return Ok($"Número de registro {number} registrado com sucesso para o email: {email}.");
+            // Updated tracking link to a different endpoint
+            // var trackingLink =
+            //     $"http://localhost:5001/patient/email/track-email-click?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(confirmationToken.Id.ToString())}";
+
+            var body = $@"
+                <p>Dear user,</p>
+                <p>Please confirm your email by clicking the following link:</p>
+                <p>If you did not request this, please ignore this email.</p>";
             
+            var subject = "Email Confirmation";
+
+            emailService.SendEmailAsync(email, body, subject);
+            return Ok($"Número de registro {number} registrado com sucesso para o email: {email}.");
         }
         else
         {
             return BadRequest("Erro ao registrar número.");
         }
     }
+
     [HttpGet("account/appointment")]
     public async Task listAppointments(string email)
     {
@@ -56,6 +67,7 @@ public class PatientController : ControllerBase
             BadRequest("Unauthorized acess(you need to confirm your account)");
             return;
         }
+
         Ok(appointments);
     }
 
@@ -72,7 +84,6 @@ public class PatientController : ControllerBase
         return Ok($"Acesso registrado para o email: {email}. Obrigado por confirmar.");
     }
 
-  
 
     [HttpPost("account/exclude")]
     public async Task<IActionResult> excludeAccount(string email)
@@ -84,8 +95,7 @@ public class PatientController : ControllerBase
     [HttpPost("account/update")]
     public async Task<IActionResult> updateAccount(PatientProfileDto profileDto)
     {
-       await patientService.updateAccount(profileDto);
+        await patientService.updateAccount(profileDto);
         return Ok("Account updated");
     }
-
 }
