@@ -14,8 +14,10 @@ using Sempi5.Infrastructure.UserRepository;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.PersonalData;
+using Sempi5.Domain.Specialization;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
 using Sempi5.Infrastructure.PersonRepository;
+using Sempi5.Infrastructure.SpecializationRepository;
 
 namespace Sempi5
 {
@@ -113,7 +115,7 @@ namespace Sempi5
         static async Task teste(string[] args)
         {
             // Crie uma instância do EmailService (você pode passar uma instância falsa de IConfiguration se não precisar dela)
-            var emailService = new EmailService(null);
+          //  var emailService = new EmailService(null);
 
             // Email para testar
             string email = "sandroluis720@gmail.com";
@@ -122,10 +124,10 @@ namespace Sempi5
             string verificationToken = Guid.NewGuid().ToString();
 
             // Chame o método para enviar o email
-            string result = await emailService.SendEmailAsync(email, verificationToken);
+          //  string result = await emailService.SendEmailAsync(email, verificationToken);
 
             // Exibir o resultado no console
-            Console.WriteLine(result);
+         //   Console.WriteLine(result);
         }
 
 
@@ -159,6 +161,7 @@ namespace Sempi5
             services.AddTransient<IStaffRepository, StaffRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddTransient<ISpecializationRepository, SpecializationRepository>();
             services.AddTransient<IPersonRepository,PersonRepository>();
             services.AddTransient<IConfirmationTokenRepository, ConfirmationTokenRepository>();
             
@@ -259,6 +262,7 @@ namespace Sempi5
             {
                 var patientRepo = scope.ServiceProvider.GetRequiredService<IPatientRepository>();
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                var specRepo = scope.ServiceProvider.GetRequiredService<ISpecializationRepository>();
                 
                 // Check if there are any patients already in the database
                 if (!patientRepo.GetAllAsync().Result.Any())
@@ -287,9 +291,19 @@ namespace Sempi5
                         new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" }
                     );
 
+                    var specialization1 = new Specialization(new SpecializationName("Caridology")
+                    );
+
+                    var specialization2 = new Specialization(new SpecializationName("Operation"));
+                    
+                    
+                    
                     // Add patients to repository
                     patientRepo.AddAsync(patient1).Wait();
                     patientRepo.AddAsync(patient2).Wait();
+                    
+                    specRepo.AddAsync(specialization1).Wait();
+                    specRepo.AddAsync(specialization2).Wait();
 
                     // Save changes
                     unitOfWork.CommitAsync().Wait();
