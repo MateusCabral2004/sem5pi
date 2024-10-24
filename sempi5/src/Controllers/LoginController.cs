@@ -4,14 +4,6 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Shared;
-using Sempi5.Domain.Staff;
-using Sempi5.Domain.UsefullDTOs;
-using Sempi5.Domain.User;
-using Sempi5.Infrastructure.StaffRepository;
-using Sempi5.Infrastructure.UserRepository;
-using Sempi5.Services;
 
 namespace Sempi5.Controllers
 {
@@ -33,7 +25,11 @@ namespace Sempi5.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             var role = claimsIdentity?.FindFirst(ClaimTypes.Role).Value;
-
+            //TODO - If user is not registered, redirect to registration page
+            if (role.Equals("Unregistered"))
+            {
+                return Redirect("patient/register");
+            }
             if (role.Equals("Patient"))
             {
                 //implement this in patient controller and if user exist show profile else show registration form
@@ -42,7 +38,6 @@ namespace Sempi5.Controllers
 
             if (role.Equals("Admin"))
             {
-                //implement this in admin controller
                 return Redirect("Admin/Home");
             }
 

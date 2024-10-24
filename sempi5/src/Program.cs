@@ -78,7 +78,7 @@ namespace Sempi5
                         var user = repo.GetByEmail(email);
                         if (user.Result == null)
                         {
-                            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Patient"));
+                             claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Unregistered"));
                         }
                         else
                         {
