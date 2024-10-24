@@ -34,8 +34,8 @@ public class EmailService
             //TODO encript credentials
              // var username = "job4u_g4@outlook.com";
              // var password = "sem4pi_g4";
-            var username = "1221121@isep.ipp.pt";
-            var password = "";
+            var username = "1220704@isep.ipp.pt";
+            var password = "****";
 
             var smtpClient = new SmtpClient("smtp.office365.com")
             {
@@ -64,5 +64,13 @@ public class EmailService
                 return $"Failed to send email to {email}\nReason: {e.Message}";
             }
         }
+    }
+    
+    public async Task SendStaffConfirmationEmail(string email, string token)
+    {
+        var body = $"Please confirm your email by clicking " +
+                   $"<a href='http://localhost:5001/confirmToken/staff/{token}'>here</a>";
+        var subject = "Email Confirmation";
+        await SendEmailAsync(email, body, subject);
     }
 }

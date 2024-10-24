@@ -10,7 +10,7 @@ public class ConfirmationTokenUnitTests
     public void TestConstructorWithValidParamethers()
     {
         Mock<Email> email = new Mock<Email>("example@gmail.com");
-        ConfirmationToken token = new ConfirmationToken(email.Object);
+        ConfirmationToken token = new ConfirmationToken(email.Object, "id");
         Assert.NotNull(token);
         Assert.False(token.IsUsed);
         Assert.True(token.ExpiryDate > DateTime.Now);
@@ -20,14 +20,14 @@ public class ConfirmationTokenUnitTests
     [Fact]
     public void TestConstructorWithNullEmail()
     {
-        Assert.Throws<ArgumentNullException>(() => new ConfirmationToken(null));
+        Assert.Throws<ArgumentNullException>(() => new ConfirmationToken(null, "id"));
     }
     
     [Fact]
     public void TestExpiryDateInConstructor()
     {
         Mock<Email> email = new Mock<Email>("example@gmail.com");
-        ConfirmationToken token = new ConfirmationToken(email.Object);
+        ConfirmationToken token = new ConfirmationToken(email.Object, "id");
         var expectedExpiryDate = DateTime.Now.AddDays(1);
         Assert.True((token.ExpiryDate - expectedExpiryDate).TotalSeconds < 1);
     }
@@ -36,7 +36,7 @@ public class ConfirmationTokenUnitTests
     public void TestUse()
     {
         Mock<Email> email = new Mock<Email>("example@gmail.com");
-        ConfirmationToken token = new ConfirmationToken(email.Object);
+        ConfirmationToken token = new ConfirmationToken(email.Object,"id");
         token.Use();
         Assert.True(token.IsUsed);
     }

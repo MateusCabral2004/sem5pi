@@ -1,4 +1,5 @@
-﻿using Sempi5.Domain.Shared;
+﻿using System.Security.Permissions;
+using Sempi5.Domain.Shared;
 
 namespace Sempi5.Domain.OperationType;
 

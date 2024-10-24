@@ -11,5 +11,7 @@ namespace Sempi5.Infrastructure.ConfirmationTokenRepository
         
         public Task<ConfirmationToken> GetByIdAndNotUsed(string id);
         public Task saveAsyc(ConfirmationToken confirmationToken);
+        public Task<ConfirmationToken> GetByEmail(string email);
+
     }
 }

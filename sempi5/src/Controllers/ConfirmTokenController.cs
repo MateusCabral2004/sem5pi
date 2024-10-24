@@ -14,12 +14,12 @@ public class ConfirmTokenController : ControllerBase
         this.tokenService = tokenService;
     }
 
-    [HttpGet("{token}")]
-    public async Task<IActionResult> ConfirmToken(string token)
+    [HttpGet("staff/{token}")]
+    public async Task<IActionResult> ConfirmStaffToken(string token)
     {
         try
         {
-            await tokenService.ConfirmAccount(token);
+            await tokenService.ConfirmStaffAccount(token);
         }
         catch (Exception e)
         {

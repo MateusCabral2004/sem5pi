@@ -28,7 +28,10 @@ namespace Sempi5.Infrastructure.ConfirmationTokenRepository
 
             builder.Property(p => p.IsUsed)
                 .IsRequired();
-            
+
+            builder.Property(p => p.IdToAssociate)
+                .IsRequired();
+
         }
     }
 }
