@@ -346,11 +346,16 @@ public class AdminService
 
     public async Task<Staff> StaffDtoToStaff(StaffDTO staffDTO)
     {
+        
+        LicenseNumber licenseNumber = new LicenseNumber(staffDTO.LicenseNumber);
+        
+        await VerifyLicenseNumberAvailability(licenseNumber);
+        
         var person = await CreatePerson(staffDTO.FirstName, staffDTO.LastName, staffDTO.Email, staffDTO.PhoneNumber);
 
         var specialization = await CreateSpecialization(staffDTO.Specialization);
 
-        return new Staff(new LicenseNumber(staffDTO.LicenseNumber), person, specialization);
+        return new Staff(licenseNumber, person, specialization);
     }
 
     public async Task<Specialization> CreateSpecialization(string specializationName)
@@ -373,12 +378,22 @@ public class AdminService
         return specialization;
     }
 
-    public async Task<Person> CreatePerson(string firstName, string lastName, string email, int phoneNumber)
+    public async Task<Person> CreatePerson(string firstName, string lastName, string emailString, int phoneNumberInt)
     {
+        
+        var phoneNumber = new PhoneNumber(phoneNumberInt);
+        
+        var email = new Email(emailString);
+        
+        await VerifyPhoneNumberAvailability(phoneNumber);
+        
+        await VerifyEmailAvailability(email);
+        
         var contactInfo = new ContactInfo(email, phoneNumber);
         var person = new Person(new Name(firstName), new Name(lastName), contactInfo);
 
         await _personRepository.AddAsync(person);
+        
 
         //TODO: Buscar por phone number | SE for null criar | Se nao for null usar esse
         
@@ -387,4 +402,37 @@ public class AdminService
 
         return person;
     }
+    
+    public async Task VerifyPhoneNumberAvailability(PhoneNumber phoneNumber)
+    {
+        var personByPhoneNumber = await _personRepository.GetPersonByPhoneNumber(phoneNumber);
+        
+        if (personByPhoneNumber != null)
+        {
+            throw new ArgumentException("Phone Number already in use.");
+        }
+    }
+    
+    public async Task VerifyEmailAvailability(Email email)
+    {
+        var personByEmail = await _personRepository.GetPersonByEmail(email);
+        
+        if (personByEmail != null)
+        {
+            throw new ArgumentException("Email already in use.");
+        }
+    }
+    
+    public async Task VerifyLicenseNumberAvailability(LicenseNumber licenseNumber)
+    {
+        
+        
+        var staffByLicenseNumber = await _staffRepository.GetByLicenseNumber(licenseNumber);
+        
+        if (staffByLicenseNumber != null)
+        {
+            throw new ArgumentException("License Number already in use.");
+        }
+    }
+    
 }

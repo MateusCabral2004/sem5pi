@@ -92,7 +92,7 @@ public class PatientController : ControllerBase
     [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
     public async Task<IActionResult> excludeAccount(string email)
     {
-        await patientService.defineDataToExcludeAccount(email);
+       // await patientService.defineDataToExcludeAccount(email);
         return Ok("Account excluded");
     }
 
