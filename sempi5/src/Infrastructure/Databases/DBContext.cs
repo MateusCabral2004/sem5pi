@@ -52,12 +52,12 @@ namespace Sempi5.Infrastructure.Databases
             modelBuilder.ApplyConfiguration(new TodoItemEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PatientIdTrackerEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffIdTrackerEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PersonEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new ConfirmationTokenEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new RequiredStaffEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());

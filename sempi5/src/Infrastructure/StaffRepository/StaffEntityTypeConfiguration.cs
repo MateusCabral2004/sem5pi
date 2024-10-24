@@ -41,9 +41,10 @@ namespace Sempi5.Infrastructure.StaffRepository
             builder.HasIndex(p => p.LicenseNumber)
                 .IsUnique();
 
-            builder.Property(t => t.Specialization)
-                .IsRequired()
-                .HasMaxLength(200);
+            builder.HasOne(t => t.Specialization)
+                .WithMany()                        // Specialization has many Staff
+                .HasForeignKey("SpecializationId")
+                .IsRequired();
         }
     }
 }

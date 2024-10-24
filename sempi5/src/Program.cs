@@ -150,10 +150,10 @@ namespace Sempi5
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddTransient<ITodoItemRepository, TodoItemRepository>();
+            services.AddTransient<ISpecializationRepository, SpecializationRepository>();
             services.AddTransient<IStaffRepository, StaffRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IPatientRepository, PatientRepository>();
-            services.AddTransient<ISpecializationRepository, SpecializationRepository>();
             services.AddTransient<IRequiredStaffRepository, RequiredStaffRepository>();
             services.AddTransient<IOperationTypeRepository, OperationTypeRepository>();
             services.AddTransient<IPersonRepository, PersonRepository>();
@@ -161,6 +161,7 @@ namespace Sempi5
             services.AddTransient<IOperationRequestRepository, OperationRequestRepository>();
             services.AddTransient<ISurgeryRoomRepository, SurgeryRoomRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
+
 
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
@@ -177,6 +178,8 @@ namespace Sempi5
                 var staffRepo = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
+                var specializationRepo = scope.ServiceProvider.GetRequiredService<ISpecializationRepository>();
+                
                 // Check if there are any staff members already in the database
                 if (!staffRepo.GetAllAsync().Result.Any())
                 {
@@ -188,13 +191,16 @@ namespace Sempi5
 
                     // Create staff members
 
+                    var specialization1 = new Specialization(new SpecializationName("Cardiology"));
+                    var specialization2 = new Specialization(new SpecializationName("Administration"));
+
                     var administrator = new Staff
                     (
                         administratorUser,
                         new LicenseNumber(122),
                         new Name("Rui"),
                         new Name("Soares"),
-                        "Cardiology",
+                        specialization1,
                         new ContactInfo("rpsoares8@gmail.com", 964666298),
                         new List<string> { "Monday" }
                     );
@@ -206,7 +212,7 @@ namespace Sempi5
                         new LicenseNumber(123),
                         new Name("John"),
                         new Name("Doe"),
-                        "Cardiology",
+                        specialization1,
                         new ContactInfo("doctor@example.com", 987654321),
                         new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
                     );
@@ -217,7 +223,7 @@ namespace Sempi5
                         new LicenseNumber(124),
                         new Name("Jane"),
                         new Name("Smith"),
-                        "General",
+                        specialization1,
                         new ContactInfo("nurse@example.com", 988654321),
                         new List<string> { "Tuesday 10am-3pm", "Thursday 9am-12pm" }
                     );
@@ -228,11 +234,14 @@ namespace Sempi5
                         new LicenseNumber(125),
                         new Name("Alice"),
                         new Name("Johnson"),
-                        "Administration",
+                        specialization2,
                         new ContactInfo("admin@example.com", 977654321),
                         new List<string> { "Monday-Friday 9am-5pm" }
                     );
 
+                    specializationRepo.AddAsync(specialization1).Wait();
+                    specializationRepo.AddAsync(specialization2).Wait();
+                    
                     // Add staff to repository
                     staffRepo.AddAsync(administrator).Wait();
                     staffRepo.AddAsync(doctor).Wait();
@@ -293,7 +302,7 @@ namespace Sempi5
                         new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" }
                     );
 
-                    var specialization1 = new Specialization(new SpecializationName("Caridology")
+                    var specialization1 = new Specialization(new SpecializationName("Nurse")
                     );
 
                     var specialization2 = new Specialization(new SpecializationName("Operation"));
@@ -316,7 +325,7 @@ namespace Sempi5
                         new LicenseNumber(213),
                         new Name("Johnnnnn"),
                         new Name("Doe"),
-                        "Cardiology",
+                        specialization1,
                         new ContactInfo("doctor@example.com", 987254321),
                         new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
                     );
@@ -359,20 +368,28 @@ namespace Sempi5
 
         public static void SeedStaffProfiles(IServiceProvider services)
         {
+            
+            var specialization = new Specialization(new SpecializationName("Doctor"));
+            
+            
             using (var scope = services.CreateScope())
             {
                 var staffRepo = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                var specializationRepo = scope.ServiceProvider.GetRequiredService<ISpecializationRepository>();
 
                 // Check if there are any staff members already in the database
                 var staffProfile1 = new Staff(
-                    new LicenseNumber(213),
+                    new LicenseNumber(217),
                     new Name("John"),
                     new Name("Stuart"),
-                    "Cardiology",
+                    specialization,
                     new ContactInfo("mateuscabral2004@gmail.com", 987254321),
                     new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
                 );
+                
+                
+                specializationRepo.AddAsync(specialization).Wait();
                 
                 staffRepo.AddAsync(staffProfile1).Wait();
                 

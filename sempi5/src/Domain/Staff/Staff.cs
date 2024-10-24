@@ -11,12 +11,12 @@ namespace Sempi5.Domain.Staff
         public StaffId Id { get; set; }
         public Person Person { get; set; }
         public LicenseNumber LicenseNumber { get; set; }
-        public string Specialization { get; set; } //TODO: ENUM
+        public Specialization.Specialization Specialization { get; set; }
         public List<string> AvailabilitySlots { get; set; }
         
         private Staff() { }
         
-        public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, string specialization, ContactInfo contactInfo, List<string> availabilitySlots)
+        public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization.Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)
         {
             User = user;
             LicenseNumber = licenseNumber;
@@ -25,7 +25,7 @@ namespace Sempi5.Domain.Staff
             Person = new Person(firstName, lastName, contactInfo);
         }
         
-        public Staff(LicenseNumber licenseNumber, Name firstName, Name lastName, string specialization, ContactInfo contactInfo, List<string> availabilitySlots)
+        public Staff(LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization.Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)
         {
             User = null;
             LicenseNumber = licenseNumber;
