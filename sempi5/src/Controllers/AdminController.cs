@@ -160,5 +160,19 @@ namespace Sempi5.Controllers
             }
         }
         
+        [HttpPost("createStaffProfile")]
+        public async Task<IActionResult> CreateStaffProfile(StaffDTO staff)
+        {
+            try
+            {
+                await _adminService.CreateStaffProfile(staff);
+                return Ok("Staff profile created successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
     }
 }

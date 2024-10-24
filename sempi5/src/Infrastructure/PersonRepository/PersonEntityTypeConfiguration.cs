@@ -46,12 +46,18 @@ namespace Sempi5.Infrastructure.PersonRepository
                         email => new Email(email))
                     .HasMaxLength(100);
 
+                contactInfo.HasIndex(c => c._phoneNumber)
+                    .IsUnique();
+                
                 contactInfo.Property(ci => ci._phoneNumber)
                     .HasColumnName("PhoneNumber")
                     .IsRequired()
                     .HasConversion(
                         phone => phone.phoneNumber(), // Assuming this is how you get the string representation
                         phone => new PhoneNumber(phone));
+                
+                contactInfo.HasIndex(ci => ci._email)
+                    .IsUnique();
             });
         }
     }
