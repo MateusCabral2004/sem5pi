@@ -38,8 +38,8 @@ public class EmailService
             //TODO encript credentials
              // var username = "job4u_g4@outlook.com";
              // var password = "sem4pi_g4";
-            var username = "1221121@isep.ipp.pt";
-            var password = "****@";
+            var username = _configuration["SmtpSettings:Username"];
+            var password = _configuration["SmtpSettings:Password"];
 
             var smtpClient = new SmtpClient("smtp.office365.com")
             {

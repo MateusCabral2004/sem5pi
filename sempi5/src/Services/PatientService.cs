@@ -96,27 +96,78 @@ public class PatientService
     }
 
     public async Task updateAccount(PatientProfileDto profileDto, string email)
+{
+    var patient = await _patientRepository.GetByEmail(email);
+    if (patient == null)
     {
-        var patient = await _patientRepository.GetByEmail(email);
-        if (patient == null)
-        {
-            throw new Exception("Paciente não encontrado");
-        }
-        var person = new Person(new Name(profileDto.firstName), new Name(profileDto.lastName),
-            new ContactInfo(new Email(profileDto.email), new PhoneNumber(profileDto.phoneNumber)));
-        
-        patient.Person.FirstName = person.FirstName;
-        patient.Person.LastName = person.LastName;
-        patient.Person.ContactInfo = person.ContactInfo;
-        patient.Person.FullName = person.FullName;
-        patient.BirthDate = profileDto.birthDate;
-        patient.Gender = profileDto.gender;
-        patient.AllergiesAndMedicalConditions = profileDto.allergiesAndMedicalConditions;
-        patient.EmergencyContact = profileDto.emergencyContact;
-        patient.AppointmentHistory = profileDto.appointmentHistory;
-
-        await _patientRepository.SavePatientAsync(patient);
+        throw new Exception("Paciente não encontrado");
     }
+
+    // Atualizar somente se o valor não for nulo ou em branco
+    if (!string.IsNullOrWhiteSpace(profileDto.firstName))
+    {
+        patient.Person.FirstName = new Name(profileDto.firstName);
+    }
+
+    if (!string.IsNullOrWhiteSpace(profileDto.lastName))
+    {
+        patient.Person.LastName = new Name(profileDto.lastName);
+    }
+    patient.Person.FullName = new Name($"{patient.Person.FirstName.ToString()} {patient.Person.LastName.ToString()}");
+
+    if (!string.IsNullOrWhiteSpace(profileDto.email))
+    {
+        patient.Person.ContactInfo._email = new Email(profileDto.email);
+    }
+
+    if (!string.IsNullOrWhiteSpace(profileDto.phoneNumber))
+    {
+        if (int.TryParse(profileDto.phoneNumber, out int phoneNumber))
+        {
+            patient.Person.ContactInfo._phoneNumber = new PhoneNumber(phoneNumber);
+        }
+        else
+        {
+            throw new Exception("Número de telefone inválido.");
+        }
+    }
+
+    if (!string.IsNullOrWhiteSpace(profileDto.birthDate))
+    {
+        // Tenta converter a string birthDate para DateTime
+        if (DateTime.TryParse(profileDto.birthDate, out DateTime birthDate))
+        {
+            patient.BirthDate = birthDate;
+        }
+        else
+        {
+            throw new Exception("Formato de data inválido.");
+        }
+    }
+
+    if (!string.IsNullOrWhiteSpace(profileDto.gender))
+    {
+        patient.Gender = profileDto.gender;
+    }
+
+    if (profileDto.allergiesAndMedicalConditions != null)
+    {
+        patient.AllergiesAndMedicalConditions = profileDto.allergiesAndMedicalConditions;
+    }
+
+    if (!string.IsNullOrWhiteSpace(profileDto.emergencyContact))
+    {
+        patient.EmergencyContact = profileDto.emergencyContact;
+    }
+
+    if (profileDto.appointmentHistory != null)
+    {
+        patient.AppointmentHistory = profileDto.appointmentHistory;
+    }
+
+    await _patientRepository.SavePatientAsync(patient);
+}
+
 
     public async Task<List<string>> appointmentList(string email)
     {
