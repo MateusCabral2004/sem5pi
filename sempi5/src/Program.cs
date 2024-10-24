@@ -214,7 +214,7 @@ namespace Sempi5
                         new Name("John"),
                         new Name("Doe"),
                         specialization1,
-                        new ContactInfo("doctor@example.com", 987654321),
+                        new ContactInfo("doctor1@example.com", 987654321),
                         new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }
                     );
 
@@ -284,7 +284,7 @@ namespace Sempi5
                     var patient1 = new Patient
                     (user1,
                         new Person(new Name("Alice"), new Name("Doe"),
-                            new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654321))),
+                            new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654322))),
                         new DateTime(1990, 1, 10),
                         "Combat Helicopter",
                         new List<string> { "Peanuts", "Asthma" },
@@ -296,7 +296,7 @@ namespace Sempi5
                     var patient2 = new Patient
                     (user2,
                         new Person(new Name("Bob"), new Name("Smith"),
-                            new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654321))),
+                            new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654329))),
                         new DateTime(1990, 1, 10),
                         "Ambulance",
                         new List<string> { "Shellfish", "Diabetes" },
@@ -427,7 +427,7 @@ namespace Sempi5
         private static Staff CreateStaffProfile(LicenseNumber licenseNumber, string firstName, string lastName, Specialization specialization, string email, List<string> availability)
         {
             var user = new SystemUser(new Email(email), "Staff");
-            return new Staff(user, licenseNumber, new Name(firstName), new Name(lastName), specialization, new ContactInfo(email, 987654321), availability);
+            return new Staff(user, licenseNumber, new Name(firstName), new Name(lastName), specialization, new ContactInfo(email, 987654320), availability);
         }
     }
 }

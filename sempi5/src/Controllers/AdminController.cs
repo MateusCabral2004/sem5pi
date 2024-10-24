@@ -170,7 +170,7 @@ namespace Sempi5.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest("Error creating Staff:" + e.Message);
             }
         }
         

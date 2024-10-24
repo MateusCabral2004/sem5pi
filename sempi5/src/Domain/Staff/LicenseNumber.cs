@@ -28,4 +28,9 @@ public class LicenseNumber
     {
         return _licenseNumber;
     }
+    
+    public bool Equals(LicenseNumber licenseNumber)
+    {
+        return licenseNumber._licenseNumber == _licenseNumber;
+    }
 }
