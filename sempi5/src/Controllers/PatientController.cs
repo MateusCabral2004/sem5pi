@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.Patient;
@@ -71,7 +72,7 @@ public class PatientController : ControllerBase
             return BadRequest("Unauthorized acess(you need to confirm your account)");
         }
 
-        return Ok(appointments+" "+getEmail());
+        return Ok(appointments);
     }
 
     [HttpGet("email/track-email-click")]
@@ -97,23 +98,47 @@ public class PatientController : ControllerBase
     }
 
     [HttpPost("account/update")]
-    //TODO - Use email from the cookies (claim principal) block the user is not verified
     [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
     public async Task<IActionResult> updateAccount(PatientProfileDto profileDto)
     {
-
+        Console.WriteLine("Iniciando Update");
         //criar um token para eter no link
         if (profileDto.email != null || profileDto.phoneNumber != null)
         {
-            await SendUpdateConfirmationEmail(getEmail(),"token","Update Confirmation");
-
+            string serializedDto = JsonSerializer.Serialize(profileDto);
+            Console.WriteLine("Serialized DTO: " + serializedDto);
+            await SendUpdateConfirmationEmail(getEmail(), $"http://localhost:5001/patient/account/update/{serializedDto}", "Update Confirmation");
+            return Ok("Email sent to confirm update");
         }
 
         //adicionar um novo parametro que é o email do usuario logado
-        await patientService.updateAccount(profileDto);
+        await patientService.updateAccount(profileDto,getEmail());
         return Ok("Account updated");
     }
-    private async Task SendUpdateConfirmationEmail(string email,string link,string subject)
+
+    [HttpGet("account/update/{jsonString}")]
+    public async Task<IActionResult> updateAccounlt(string jsonString)
+    {
+        // Serializing the DTO
+        PatientProfileDto profileDto;
+        try
+        {
+            profileDto = JsonSerializer.Deserialize<PatientProfileDto>(jsonString);
+        }
+        catch (JsonException ex)
+        {
+            // Handle deserialization error
+            return BadRequest($"Invalid JSON format: {ex.Message}");
+        }
+
+        Console.WriteLine("Iniciado update depois da confirmação de email");
+
+        await patientService.updateAccount(profileDto,getEmail());
+
+        return Ok("Account updated");
+    }
+
+    private async Task SendUpdateConfirmationEmail(string email, string link, string subject)
     {
         var body = $@"
         <p>Dear user,</p>
@@ -121,7 +146,6 @@ public class PatientController : ControllerBase
         <a href='{link}'>Confirm Email</a>
         <p>If you did not request this, please ignore this email.</p>";
         
-
-        await emailService.SendEmailAsync(email, subject, body);
+        await emailService.SendEmailAsync(email, body, subject);
     }
 }
