@@ -146,11 +146,9 @@ public class AdminService
         return patientDtoList;
     }
 
-    public async Task<PatientDTO> ListPatientByMedicalRecordNumber(MedicalRecordNumberDTO medicalRecordNumberDto)
+    public async Task<PatientDTO> ListPatientByMedicalRecordNumber(PatientIdDto patientId)
     {
-        var medicalRecordNumber = medicalRecordNumberDTOtoMedicalRecordNumber(medicalRecordNumberDto);
-
-        var patient = await _patientRepository.GetByMedicalRecordNumber(medicalRecordNumber.ToString());
+        var patient = await _patientRepository.GetByPatientId(patientId.Id);
 
         if (patient == null)
         {
@@ -168,6 +166,38 @@ public class AdminService
         {
             throw new ArgumentException("Patient not found.");
         }
+        
+        return patientToPatientRecordDto(patient);
+    }
+    
+    public async Task<PatientRecordDTO> EditPatientRecord(EditPatientRecordDTO editPatientRecord) 
+    {
+        var patient = await _patientRepository.GetByPatientIdWithActivatedMedicalRecord(editPatientRecord.Id);
+        
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");
+        }
+        
+        patient.AppointmentHistory.Add(editPatientRecord.recordToAdd);
+
+        await _patientRepository.SavePatientAsync(patient);
+        
+        return patientToPatientRecordDto(patient);
+    }
+    
+    public async Task<PatientRecordDTO> DeletePatientRecord(PatientIdDto patientId) 
+    {
+        var patient = await _patientRepository.GetByPatientIdWithActivatedMedicalRecord(patientId.Id);
+        
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");
+        }
+
+        patient.MedicalRecordStatus = MedicalRecordStatusEnum.DEACTIVATED;
+
+        await _patientRepository.SavePatientAsync(patient);
         
         return patientToPatientRecordDto(patient);
     }

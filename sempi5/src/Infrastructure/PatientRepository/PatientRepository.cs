@@ -48,6 +48,22 @@ namespace Sempi5.Infrastructure.PatientRepository
             return patient;
         }
 
+        public async Task<Patient> GetByPatientIdWithActivatedMedicalRecord(string patientId)
+        {
+            if (string.IsNullOrEmpty(patientId))
+            {
+                return null;
+            }
+            
+            var patient =  context.Patients
+                .Include(p => p.Person)
+                .AsEnumerable()
+                .FirstOrDefault(p => p.Id.AsString().Equals(patientId) 
+                                     && p.MedicalRecordStatus.ToString().Equals(MedicalRecordStatusEnum.ACTIVATED.ToString()));
+
+            return patient;
+        }
+
         public async Task<Patient> GetByPatientId(string patientId)
         {
             
@@ -97,12 +113,7 @@ namespace Sempi5.Infrastructure.PatientRepository
             return patients;
         }
 
-
-        public Task<Patient> GetByMedicalRecordNumber(string medicalRecordNumber)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public async Task SavePatientAsync(Patient patient)
         {
             if (patient == null)

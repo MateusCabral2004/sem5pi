@@ -289,7 +289,8 @@ namespace Sempi5
                         "Combat Helicopter",
                         new List<string> { "Peanuts", "Asthma" },
                         "456",
-                        new List<string> { "01/01/2021 9am-10am", "02/02/2021 10am-11am" }
+                        new List<string> { "01/01/2021 9am-10am", "02/02/2021 10am-11am" },
+                        MedicalRecordStatusEnum.ACTIVATED
                     );
 
                     var patient2 = new Patient
@@ -300,7 +301,15 @@ namespace Sempi5
                         "Ambulance",
                         new List<string> { "Shellfish", "Diabetes" },
                         "789",
-                        new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" }
+                        new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },
+                        MedicalRecordStatusEnum.DEACTIVATED
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                     );
 
                     var specialization1 = new Specialization(new SpecializationName("Nurse")
