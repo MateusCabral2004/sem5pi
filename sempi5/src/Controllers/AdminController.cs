@@ -5,6 +5,7 @@ using Sempi5.Domain.Patient;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.Staff.DTOs;
 using Sempi5.Domain.Staff;
+using Sempi5.Domain.UsefullDTOs;
 using Sempi5.Domain.User;
 using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Services;
@@ -30,10 +31,11 @@ namespace Sempi5.Controllers
         }
 
         [HttpPost("registerStaff")]
-        public async Task<IActionResult> RegisterStaff(SystemUserDTO user)
+        public async Task<IActionResult> RegisterStaff(RegisterUserDTO user)
         {
             try
-            {
+            { 
+                Console.WriteLine("StaffId: " + user.staffOrStaffId);
                 await _adminService.RegisterUser(user);
                 return Ok("Staff member registered successfully");
             }
