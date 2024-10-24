@@ -27,6 +27,10 @@ public class EmailService
 
     public async Task<string> SendEmailAsync(string email, string body, string subject)
     {
+        if (string.IsNullOrWhiteSpace(subject))
+        {
+            throw new ArgumentException("Email subject cannot be null or empty.");
+        }
         // Email credentials
         //TODO encript credentials
         {
@@ -34,8 +38,8 @@ public class EmailService
             //TODO encript credentials
              // var username = "job4u_g4@outlook.com";
              // var password = "sem4pi_g4";
-            var username = "1220704@isep.ipp.pt";
-            var password = "****";
+            var username = "1221121@isep.ipp.pt";
+            var password = "Carmo720@";
 
             var smtpClient = new SmtpClient("smtp.office365.com")
             {
@@ -70,6 +74,13 @@ public class EmailService
     {
         var body = $"Please confirm your email by clicking " +
                    $"<a href='http://localhost:5001/confirmToken/staff/{token}'>here</a>";
+        var subject = "Email Confirmation";
+        await SendEmailAsync(email, body, subject);
+    }
+    public async Task SendPatientConfirmationEmail(string email, string token)
+    {
+        var body = $"Please confirm your email by clicking " +
+                   $"<a href='http://localhost:5001/confirmToken/patient/{token}'>here</a>";
         var subject = "Email Confirmation";
         await SendEmailAsync(email, body, subject);
     }

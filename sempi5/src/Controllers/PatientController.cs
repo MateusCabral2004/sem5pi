@@ -46,14 +46,9 @@ public class PatientController : ControllerBase
 
         if (success)
         {
-            // Updated tracking link to a different endpoint
-            // var trackingLink =
-            //     $"http://localhost:5001/patient/email/track-email-click?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(confirmationToken.Id.ToString())}";
-            
 
             var subject = "Email Confirmation";
 
-            await SendUpdateConfirmationEmail(email,"token",subject);
 
             return Ok($"Número de registro {number} registrado com sucesso para o email: {email}.");
         }

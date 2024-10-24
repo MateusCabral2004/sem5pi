@@ -28,4 +28,18 @@ public class ConfirmTokenController : ControllerBase
 
         return Ok("Token Confirmed: " + token);
     }
+    [HttpGet("patient/{token}")]
+    public async Task<IActionResult> ConfirmPatientToken(string token)
+    {
+        try
+        {
+            await tokenService.confirmPatientAccount(token);
+        }
+        catch (Exception e)
+        {
+            return BadRequest("Error: " + e.Message);
+        }
+
+        return Ok("Token Confirmed: " + token);
+    }
 }

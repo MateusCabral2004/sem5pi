@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
+using Sempi5.Infrastructure.ConfirmationTokenRepository;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.PatientRepository;
 
@@ -13,14 +16,38 @@ public class PatientService
 {
     private readonly DBContext context;
     private readonly IPatientRepository _patientRepository;
-
-    public PatientService(IPatientRepository patientRepository)
+    private readonly IConfirmationTokenRepository _confirmationRepository;
+    private readonly EmailService _emailService;
+    public PatientService(IPatientRepository patientRepository,EmailService emailService, IConfirmationTokenRepository confirmationRepository)
     {
+        _confirmationRepository = confirmationRepository;
         _patientRepository = patientRepository;
+        _emailService = emailService;
+    }
+    
+    private async Task<ConfirmationToken> RegisterToken(ConfirmationToken confirmationToken)
+    {
+        var token = await _confirmationRepository.GetByEmail(confirmationToken.email.ToString());
+
+        if (token == null)
+        {
+            return await _confirmationRepository.AddAsync(confirmationToken);
+        }
+        
+        if(!token.Id.Equals(confirmationToken.Id))
+        {
+            throw new ArgumentException("Account already waiting for verification with a different patient profile. If you made a mistake, please contact support.");
+        }
+        
+        token.ResetExpiryDate();
+        
+        return token;
+
     }
 
     public async Task<bool> RegisterPatientUser(string email, int number)
     {
+        
         var patient = await _patientRepository.GetByPhoneNumber(number);
 
         if (patient == null)
@@ -28,13 +55,25 @@ public class PatientService
             throw new Exception("Paciente não encontrado");
         }
 
-        patient.User = new SystemUser(new Email(email), "Patient");
+        if (patient.User.IsVerified)
+        {
+            throw new Exception("Email já confirmado");
+        }
+        var userEmail= new Email(email);
 
+        patient.User = new SystemUser(userEmail, "Patient");
+        
+        var confirmationToken = new ConfirmationToken(userEmail, "patient.Id.AsString()");
 
+        var token = await RegisterToken(confirmationToken);
+
+        _emailService.SendPatientConfirmationEmail(email, token.Id.ToString());
+        
         await _patientRepository.SavePatientAsync(patient);
 
         return true;
     }
+    
 
     public async Task confirmEmail(string email, string token)
     {
