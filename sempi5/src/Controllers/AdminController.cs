@@ -1,40 +1,39 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.Staff.DTOs;
 using Sempi5.Domain.Staff;
-using Sempi5.Domain.UsefullDTOs;
 using Sempi5.Domain.User;
 using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Services;
-    
+
 namespace Sempi5.Controllers
-{   
+{
     [Route("[controller]")]
     [ApiController]
     //[Authorize(Roles = "Admin")]
     public class AdminController : ControllerBase
     {
         private readonly AdminService _adminService;
-    
+
         public AdminController(AdminService staffService)
         {
             _adminService = staffService;
         }
-    
+
         [HttpGet]
         public IActionResult Home()
         {
             return Ok("Welcome to the Admin Page");
         }
-    
+
         [HttpPost("registerStaff")]
-        public async Task<IActionResult> RegisterStaff(RegisterUserDTO user)
+        public async Task<IActionResult> RegisterStaff(SystemUserDTO user)
         {
             try
-            { 
-                Console.WriteLine("StaffId: " + user.staffOrStaffId);
+            {
                 await _adminService.RegisterUser(user);
                 return Ok("Staff member registered successfully");
             }
@@ -43,7 +42,7 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpGet("listPatientProfilesByName")]
         public async Task<IActionResult> ListPatientProfilesByName(NameDTO nameDto)
         {
@@ -57,13 +56,12 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpGet("listPatientProfilesByEmail")]
-        public async  Task<IActionResult> ListPatientProfilesByEmail(EmailDTO emailDto)
+        public async Task<IActionResult> ListPatientProfilesByEmail(EmailDTO emailDto)
         {
             try
             {
-                
                 var patientProfiles = await _adminService.ListPatientByEmail(emailDto);
                 return Ok(patientProfiles);
             }
@@ -72,9 +70,10 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message + e.StackTrace);
             }
         }
-        
+
         [HttpGet("listPatientProfilesByMedicalRecordNumber")]
-        public async Task<IActionResult> ListPatientProfilesByMedicalRecordNumber(MedicalRecordNumberDTO medicalRecordNumberDto)
+        public async Task<IActionResult> ListPatientProfilesByMedicalRecordNumber(
+            MedicalRecordNumberDTO medicalRecordNumberDto)
         {
             try
             {
@@ -86,7 +85,7 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpGet("listPatientProfilesByDateOfBirth")]
         public async Task<IActionResult> ListPatientProfilesByDateOfBirth(DateDTO dateDto)
         {
@@ -99,12 +98,11 @@ namespace Sempi5.Controllers
             {
                 return BadRequest(e.Message);
             }
-        } 
+        }
 
         [HttpPost("registerPatientProfile")]
         public async Task<IActionResult> RegisterPatientProfile(PatientDTO patient)
         {
-            Console.WriteLine("OLA");
             try
             {
                 await _adminService.CreatePatientProfile(patient);
@@ -115,5 +113,21 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
+
+        [HttpPost("editPatientProfile")]
+        public async Task<IActionResult> EditPatientProfile(PatientDTO patientDto, string email)
+        {
+            try
+            {
+                await _adminService.EditPatientProfile(patientDto, email);
+                return Ok("Patient profile edited successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+       
     }
 }
