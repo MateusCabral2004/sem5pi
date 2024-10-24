@@ -59,6 +59,8 @@ namespace Sempi5
                 {
                     options.LoginPath = "/login/login";
                     options.AccessDeniedPath = "/login/logout";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                    options.SlidingExpiration = true;
                 })
                 .AddGoogle(options =>
                 {
@@ -110,6 +112,7 @@ namespace Sempi5
             {
                 SeedData(app.Services);
                 SeedPatiens(app.Services);
+                SeedStaffProfiles(app.Services);
             }
             catch (Exception e)
             {
@@ -117,8 +120,6 @@ namespace Sempi5
                 Console.WriteLine(e.StackTrace);
                 Console.WriteLine("Error seeding data");
             }
-
-            SeedStaffProfiles(app.Services);
             
             app.Run();
         }
@@ -182,7 +183,7 @@ namespace Sempi5
                 {
                     // Create the system users for staff
                     var administratorUser = new SystemUser(new Email("rpsoares8@gmail.com"), "Admin");
-                    var doctorUser = new SystemUser(new Email("mateuscabral200445@gmail.com"), "Admin");
+                    var doctorUser = new SystemUser(new Email("mateuscabral2004@gmail.com"), "Admin");
                     var nurseUser = new SystemUser(new Email("nurse@example.com"), "Nurse");
                     var adminUser = new SystemUser(new Email("admin@example.com"), "Admin");
 
