@@ -5,6 +5,7 @@ namespace Sempi5.Domain.Patient;
 
 public class PatientDTO
 {
+    public string patientId { get; set; }
     public string firstName { get; set; }
     public string lastName { get; set; }
     public string? fullName { get; set; }

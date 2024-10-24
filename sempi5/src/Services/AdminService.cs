@@ -159,6 +159,19 @@ public class AdminService
 
         return patientToPatientDto(patient);
     }
+    
+    public async Task<PatientRecordDTO> GetPatientRecordByPatientId(PatientIdDto patientId)
+    {
+        var patient = await _patientRepository.GetByPatientId(patientId.Id);
+        
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");
+        }
+        
+        return patientToPatientRecordDto(patient);
+    }
+    
 
     private SystemUser userDTOtoUser(SystemUserDTO user)
     {
@@ -193,26 +206,39 @@ public class AdminService
     {
         return new MedicalRecordNumber(medicalRecordNumber.ToString());
     }
+    
+    private PatientRecordDTO patientToPatientRecordDto(Patient patient)
+    {
+        return new PatientRecordDTO
+        {
+            id = patient.Id.AsString(),
+            name = patient.Person.FullName.ToString(),
+            appointments = patient.AppointmentHistory.Select(a => a.ToString()).ToList()
+        };
+    }
+    
 
     private PatientDTO patientToPatientDto(Patient patient)
     {
         return new PatientDTO
         {
+            patientId = patient.Id.AsString(),
             fullName = patient.Person.FullName.ToString(),
             email = patient.Person.ContactInfo.email().ToString(),
             birthDate = patient.BirthDate.ToString("MM/dd/yyyy")
         };
     }
-
+    
     private List<PatientDTO> buildPatientDtoList(IEnumerable<Patient> patients)
     {
-        List<PatientDTO> patientDtoList = new List<PatientDTO>();
 
+        List<PatientDTO> patientDtoList = new List<PatientDTO>();
+        
         foreach (var patient in patients)
         {
             patientDtoList.Add(patientToPatientDto(patient));
         }
-
+        
         return patientDtoList;
     }
 

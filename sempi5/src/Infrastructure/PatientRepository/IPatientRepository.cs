@@ -17,5 +17,7 @@ namespace Sempi5.Infrastructure.PatientRepository
         public Task SavePatientAsync(Patient patient);
         
         public Task<Patient> GetByPhoneNumber(int phoneNumber);
+        
+        public Task<Patient> GetByPatientId(string patientId);
     }
 }

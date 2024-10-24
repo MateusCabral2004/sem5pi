@@ -47,7 +47,23 @@ namespace Sempi5.Infrastructure.PatientRepository
 
             return patient;
         }
-       
+
+        public async Task<Patient> GetByPatientId(string patientId)
+        {
+            
+            if (string.IsNullOrEmpty(patientId))
+            {
+                return null;
+            }
+
+            var patient = context.Patients
+                .Include(p => p.Person)
+                .AsEnumerable()
+                .FirstOrDefault(p => p.Id.AsString().Equals(patientId));
+
+            return patient;
+        }
+
 
         public async Task<Patient?> GetByName(string name)
         {
