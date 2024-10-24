@@ -39,7 +39,7 @@ public class EmailService
              // var username = "job4u_g4@outlook.com";
              // var password = "sem4pi_g4";
             var username = "1221121@isep.ipp.pt";
-            var password = "Carmo720@";
+            var password = "****@";
 
             var smtpClient = new SmtpClient("smtp.office365.com")
             {
