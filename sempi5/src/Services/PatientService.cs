@@ -95,32 +95,27 @@ public class PatientService
         await _patientRepository.SavePatientAsync(patient);
     }
 
-    public async Task updateAccount(PatientProfileDto profileDto)
+    public async Task updateAccount(PatientProfileDto profileDto, string email)
     {
-        var patient = await _patientRepository.GetByEmail(profileDto.email);
-
+        var patient = await _patientRepository.GetByEmail(email);
         if (patient == null)
         {
             throw new Exception("Paciente não encontrado");
         }
+        var person = new Person(new Name(profileDto.firstName), new Name(profileDto.lastName),
+            new ContactInfo(new Email(profileDto.email), new PhoneNumber(profileDto.phoneNumber)));
+        
+        patient.Person.FirstName = person.FirstName;
+        patient.Person.LastName = person.LastName;
+        patient.Person.ContactInfo = person.ContactInfo;
+        patient.Person.FullName = person.FullName;
+        patient.BirthDate = profileDto.birthDate;
+        patient.Gender = profileDto.gender;
+        patient.AllergiesAndMedicalConditions = profileDto.allergiesAndMedicalConditions;
+        patient.EmergencyContact = profileDto.emergencyContact;
+        patient.AppointmentHistory = profileDto.appointmentHistory;
 
-        if (patient.User.IsVerified)
-        {
-            if (profileDto.email != null)
-            {
-                //send Email to new email for confirmation
-                patient.User.Email = new Email(profileDto.email);
-            }
-
-            var person = new Person(new Name(profileDto.firstName), new Name(profileDto.lastName),
-                new ContactInfo(new Email(profileDto.email), new PhoneNumber(profileDto.phoneNumber)));
-            patient.Person = person;
-            patient.BirthDate = profileDto.birthDate;
-            patient.Gender = profileDto.gender;
-            patient.AllergiesAndMedicalConditions = profileDto.allergiesAndMedicalConditions;
-            patient.EmergencyContact = profileDto.emergencyContact;
-            patient.AppointmentHistory = profileDto.appointmentHistory;
-        }
+        await _patientRepository.SavePatientAsync(patient);
     }
 
     public async Task<List<string>> appointmentList(string email)
