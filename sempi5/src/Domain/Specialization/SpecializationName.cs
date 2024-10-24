@@ -20,5 +20,10 @@ public class SpecializationName : IValueObject
         return name;
     }
     
+    public bool Equals(SpecializationName specializationName)
+    {
+        return specializationName.name == name;
+    }
+    
     
 }

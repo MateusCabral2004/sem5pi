@@ -16,6 +16,15 @@ namespace Sempi5.Domain.Staff
         
         private Staff() { }
         
+        public Staff(LicenseNumber licenseNumber, Person person, Specialization.Specialization specialization)
+        {
+            User = null;
+            LicenseNumber = licenseNumber;
+            Specialization = specialization;
+            AvailabilitySlots = new List<string>();
+            Person = person;
+        }
+        
         public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization.Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)
         {
             User = user;

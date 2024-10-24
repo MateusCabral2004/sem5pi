@@ -1,16 +1,23 @@
 using Humanizer;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
+using Microsoft.EntityFrameworkCore;
+using MySqlConnector;
 using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Patient;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.Specialization;
 using Sempi5.Domain.Staff;
+using Sempi5.Domain.Staff.DTOs;
 using Sempi5.Domain.UsefullDTOs;
 using Sempi5.Domain.User;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.PatientRepository;
+using Sempi5.Infrastructure.PersonRepository;
 using Sempi5.Infrastructure.Shared;
+using Sempi5.Infrastructure.SpecializationRepository;
 using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Infrastructure.UserRepository;
 using Sempi5.Services;
@@ -24,11 +31,14 @@ public class AdminService
     private readonly IUserRepository _userRepository;
     private readonly IConfirmationTokenRepository _confirmationRepository;
     private readonly EmailService _emailService;
+    private readonly IPersonRepository _personRepository;
+    private readonly ISpecializationRepository _specializationRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public AdminService(IStaffRepository staffRepository, IPatientRepository patientRepository,
         IUserRepository userRepository,
-        IConfirmationTokenRepository confirmationRepository, IUnitOfWork unitOfWork, EmailService emailService)
+        IConfirmationTokenRepository confirmationRepository, IUnitOfWork unitOfWork, EmailService emailService,
+        IPersonRepository personRepository, ISpecializationRepository specializationRepository)
     {
         _staffRepository = staffRepository;
         _patientRepository = patientRepository;
@@ -36,13 +46,15 @@ public class AdminService
         _confirmationRepository = confirmationRepository;
         _unitOfWork = unitOfWork;
         _emailService = emailService;
+        _personRepository = personRepository;
+        _specializationRepository = specializationRepository;
     }
 
     public async Task RegisterUser(RegisterUserDTO userDTO)
     {
         var user = registerUserDTOtoUser(userDTO);
         var userExists = await _userRepository.GetByEmail(user.Email.ToString());
-        if(userExists != null)
+        if (userExists != null)
         {
             if (!userExists.IsVerified)
             {
@@ -58,24 +70,27 @@ public class AdminService
         {
             await _userRepository.AddAsync(user);
         }
+
         var email = new Email(userDTO.email);
         var confirmationToken = new ConfirmationToken(email, userDTO.staffOrStaffId);
 
         var token = await RegisterToken(confirmationToken);
         var staff = await _staffRepository.GetByIdAsync(new StaffId(userDTO.staffOrStaffId));
-        if(staff == null)
+        if (staff == null)
         {
             throw new ArgumentException("Staff not found");
         }
-        if(staff.User.IsVerified)
+
+        if (staff.User.IsVerified)
         {
             throw new ArgumentException("Staff already verified");
         }
+
         var staffEmail = staff.Person.ContactInfo._email.ToString();
         await _unitOfWork.CommitAsync();
         await _emailService.SendStaffConfirmationEmail(staffEmail, token.Id.ToString());
     }
-    
+
     private SystemUser registerUserDTOtoUser(RegisterUserDTO user)
     {
         var email = new Email(user.email);
@@ -90,18 +105,18 @@ public class AdminService
         {
             return await _confirmationRepository.AddAsync(confirmationToken);
         }
-        
-        if(!token.Id.Equals(confirmationToken.Id))
-        {
-            throw new ArgumentException("Account already waiting for verification with a different staff profile. If you made a mistake, please contact support.");
-        }
-        
-        token.ResetExpiryDate();
-        
-        return token;
 
+        if (!token.Id.Equals(confirmationToken.Id))
+        {
+            throw new ArgumentException(
+                "Account already waiting for verification with a different staff profile. If you made a mistake, please contact support.");
+        }
+
+        token.ResetExpiryDate();
+
+        return token;
     }
-    
+
     public async Task<PatientDTO> ListPatientByName(NameDTO nameDto)
     {
         var name = nameDTOtoName(nameDto);
@@ -157,39 +172,39 @@ public class AdminService
 
         return patientToPatientDto(patient);
     }
-    
+
     public async Task<PatientRecordDTO> GetPatientRecordByPatientId(PatientIdDto patientId)
     {
         var patient = await _patientRepository.GetByPatientId(patientId.Id);
-        
+
         if (patient == null)
         {
             throw new ArgumentException("Patient not found.");
         }
-        
+
         return patientToPatientRecordDto(patient);
     }
-    
-    public async Task<PatientRecordDTO> EditPatientRecord(EditPatientRecordDTO editPatientRecord) 
+
+    public async Task<PatientRecordDTO> EditPatientRecord(EditPatientRecordDTO editPatientRecord)
     {
         var patient = await _patientRepository.GetByPatientIdWithActivatedMedicalRecord(editPatientRecord.Id);
-        
+
         if (patient == null)
         {
             throw new ArgumentException("Patient not found.");
         }
-        
+
         patient.AppointmentHistory.Add(editPatientRecord.recordToAdd);
 
         await _patientRepository.SavePatientAsync(patient);
-        
+
         return patientToPatientRecordDto(patient);
     }
-    
-    public async Task<PatientRecordDTO> DeletePatientRecord(PatientIdDto patientId) 
+
+    public async Task<PatientRecordDTO> DeletePatientRecord(PatientIdDto patientId)
     {
         var patient = await _patientRepository.GetByPatientIdWithActivatedMedicalRecord(patientId.Id);
-        
+
         if (patient == null)
         {
             throw new ArgumentException("Patient not found.");
@@ -198,10 +213,10 @@ public class AdminService
         patient.MedicalRecordStatus = MedicalRecordStatusEnum.DEACTIVATED;
 
         await _patientRepository.SavePatientAsync(patient);
-        
+
         return patientToPatientRecordDto(patient);
     }
-    
+
 
     private SystemUser userDTOtoUser(SystemUserDTO user)
     {
@@ -236,7 +251,7 @@ public class AdminService
     {
         return new MedicalRecordNumber(medicalRecordNumber.ToString());
     }
-    
+
     private PatientRecordDTO patientToPatientRecordDto(Patient patient)
     {
         return new PatientRecordDTO
@@ -246,7 +261,7 @@ public class AdminService
             appointments = patient.AppointmentHistory.Select(a => a.ToString()).ToList()
         };
     }
-    
+
 
     private PatientDTO patientToPatientDto(Patient patient)
     {
@@ -258,17 +273,16 @@ public class AdminService
             birthDate = patient.BirthDate.ToString("MM/dd/yyyy")
         };
     }
-    
+
     private List<PatientDTO> buildPatientDtoList(IEnumerable<Patient> patients)
     {
-
         List<PatientDTO> patientDtoList = new List<PatientDTO>();
-        
+
         foreach (var patient in patients)
         {
             patientDtoList.Add(patientToPatientDto(patient));
         }
-        
+
         return patientDtoList;
     }
 
@@ -276,17 +290,18 @@ public class AdminService
     {
         return new Patient(null, new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName),
                 new ContactInfo(new Email(patientDTO.email),
-                    new PhoneNumber(patientDTO.phoneNumber??0 ))), DateTime.Parse(patientDTO.birthDate), patientDTO.gender,
+                    new PhoneNumber(patientDTO.phoneNumber ?? 0))), DateTime.Parse(patientDTO.birthDate),
+            patientDTO.gender,
             patientDTO.allergiesAndMedicalConditions,
             patientDTO.emergencyContact, patientDTO.appointmentHistory);
     }
 
     public async Task EditPatientProfile(PatientDTO editPatientDto, string email)
     {
-        var patient =await _patientRepository.GetByEmail(email);
+        var patient = await _patientRepository.GetByEmail(email);
 
         var originalEmail = patient.Person.ContactInfo._email;
-        
+
         if (editPatientDto.allergiesAndMedicalConditions != null)
         {
             patient.AllergiesAndMedicalConditions = editPatientDto.allergiesAndMedicalConditions;
@@ -299,7 +314,7 @@ public class AdminService
 
         if (editPatientDto.phoneNumber == -1)
         {
-            patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber??0);
+            patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber ?? 0);
         }
 
         if (editPatientDto.email != null)
@@ -314,10 +329,62 @@ public class AdminService
 
         await _patientRepository.AddAsync(patient);
         await _unitOfWork.CommitAsync();
-        
-        
+
+
         //TODO TEM QUE ENVIAR EMAIL PARA O ANTIGO EMAIL
         //TODO LOGS
     }
-    
+
+    public async Task CreateStaffProfile(StaffDTO staffDTO)
+    {
+        var staff = await StaffDtoToStaff(staffDTO);
+
+        await _staffRepository.AddAsync(staff);
+
+        await _unitOfWork.CommitAsync();
+    }
+
+    public async Task<Staff> StaffDtoToStaff(StaffDTO staffDTO)
+    {
+        var person = await CreatePerson(staffDTO.FirstName, staffDTO.LastName, staffDTO.Email, staffDTO.PhoneNumber);
+
+        var specialization = await CreateSpecialization(staffDTO.Specialization);
+
+        return new Staff(new LicenseNumber(staffDTO.LicenseNumber), person, specialization);
+    }
+
+    public async Task<Specialization> CreateSpecialization(string specializationName)
+    {
+        var specialiName = new SpecializationName(specializationName);
+
+        Specialization specialization = new Specialization(specialiName);
+
+        var searchedSpecialization = await _specializationRepository.GetBySpecializationName(specialization);
+
+        if (searchedSpecialization != null)
+        {
+            return searchedSpecialization;
+        }
+
+        await _specializationRepository.AddAsync(specialization);
+
+        await _unitOfWork.CommitAsync();
+        
+        return specialization;
+    }
+
+    public async Task<Person> CreatePerson(string firstName, string lastName, string email, int phoneNumber)
+    {
+        var contactInfo = new ContactInfo(email, phoneNumber);
+        var person = new Person(new Name(firstName), new Name(lastName), contactInfo);
+
+        await _personRepository.AddAsync(person);
+
+        //TODO: Buscar por phone number | SE for null criar | Se nao for null usar esse
+        
+        
+        await _unitOfWork.CommitAsync();
+
+        return person;
+    }
 }
