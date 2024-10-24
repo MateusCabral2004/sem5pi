@@ -1,5 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.Patient;
 using Sempi5.Services;
 
@@ -18,14 +19,21 @@ public class PatientController : ControllerBase
         this.patientService = patientService;
         this.emailService = emailService;
     }
+    public string getEmail()
+    {
+        var claimsIdentity = User.Identity as ClaimsIdentity;
+        return claimsIdentity?.FindFirst(ClaimTypes.Email).Value;
+    }
 
     [HttpGet("register")]
+    [Authorize(Roles = "Unregistered")] //patient only  - falar com mateus para criar novo role
     public IActionResult Register()
     {
         return Ok("Por favor, forneça o seu número.");
     }
 
     [HttpPost("register")]
+    [Authorize(Roles = "Unregistered")] //patient only  - falar com mateus para criar novo role
     //TODO - Use email from the cookies (claim principal)
     public async Task<IActionResult> RegisterNumber(string email, int number)
     {
@@ -41,15 +49,12 @@ public class PatientController : ControllerBase
             // Updated tracking link to a different endpoint
             // var trackingLink =
             //     $"http://localhost:5001/patient/email/track-email-click?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(confirmationToken.Id.ToString())}";
-
-            var body = $@"
-                <p>Dear user,</p>
-                <p>Please confirm your email by clicking the following link:</p>
-                <p>If you did not request this, please ignore this email.</p>";
             
+
             var subject = "Email Confirmation";
 
-            emailService.SendEmailAsync(email, body, subject);
+            await SendUpdateConfirmationEmail(email,"token",subject);
+
             return Ok($"Número de registro {number} registrado com sucesso para o email: {email}.");
         }
         else
@@ -59,16 +64,19 @@ public class PatientController : ControllerBase
     }
 
     [HttpGet("account/appointment")]
-    public async Task listAppointments(string email)
+    [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
+    public async Task<IActionResult> listAppointments(string email)
+
     {
+        
+        
         var appointments = await patientService.appointmentList(email);
         if (appointments == null)
         {
-            BadRequest("Unauthorized acess(you need to confirm your account)");
-            return;
+            return BadRequest("Unauthorized acess(you need to confirm your account)");
         }
 
-        Ok(appointments);
+        return Ok(appointments+" "+getEmail());
     }
 
     [HttpGet("email/track-email-click")]
@@ -86,16 +94,39 @@ public class PatientController : ControllerBase
 
 
     [HttpPost("account/exclude")]
+    [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
     public async Task<IActionResult> excludeAccount(string email)
     {
-        await patientService.excludeAccount(email);
+        await patientService.defineDataToExcludeAccount(email);
         return Ok("Account excluded");
     }
 
     [HttpPost("account/update")]
+    //TODO - Use email from the cookies (claim principal) block the user is not verified
+    [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
     public async Task<IActionResult> updateAccount(PatientProfileDto profileDto)
     {
+
+        //criar um token para eter no link
+        if (profileDto.email != null || profileDto.phoneNumber != null)
+        {
+            await SendUpdateConfirmationEmail(getEmail(),"token","Update Confirmation");
+
+        }
+
+        //adicionar um novo parametro que é o email do usuario logado
         await patientService.updateAccount(profileDto);
         return Ok("Account updated");
+    }
+    private async Task SendUpdateConfirmationEmail(string email,string link,string subject)
+    {
+        var body = $@"
+        <p>Dear user,</p>
+        <p>Please confirm this email by clicking the following link:</p>
+        <a href='{link}'>Confirm Email</a>
+        <p>If you did not request this, please ignore this email.</p>";
+        
+
+        await emailService.SendEmailAsync(email, subject, body);
     }
 }
