@@ -135,6 +135,18 @@ public class AdminService
     return null;
     }
     
+    public async Task<PatientRecordDTO> GetPatientRecordByPatientId(PatientIdDto patientId)
+    {
+        var patient = await _patientRepository.GetByPatientId(patientId.Id);
+        
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");
+        }
+        
+        return patientToPatientRecordDto(patient);
+    }
+    
     private SystemUser userDTOtoUser(SystemUserDTO user)
     {
         var email = new Email(user.email);
@@ -177,10 +189,21 @@ public class AdminService
        return null;
     }
     
+    private PatientRecordDTO patientToPatientRecordDto(Patient patient)
+    {
+        return new PatientRecordDTO
+        {
+            id = patient.Id.AsString(),
+            name = patient.Person.FullName.ToString(),
+            appointments = patient.AppointmentHistory.Select(a => a.ToString()).ToList()
+        };
+    }
+    
     private PatientDTO patientToPatientDto(Patient patient)
     {
         return new PatientDTO
         {
+            patientId = patient.Id.AsString(),
             fullName = patient.Person.FullName.ToString(),
             email = patient.Person.ContactInfo.email().ToString(),
             birthDate = patient.BirthDate.ToString("MM/dd/yyyy")
