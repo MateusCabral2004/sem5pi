@@ -1,19 +1,39 @@
 ﻿@startuml
 actor Admin
-participant SurgeryApointmentSystem
-participant MasterData
+participant SurgeryAppointmentSystem
+participant Backend
+database Database
 
+activate Admin
 
-Admin -> SurgeryApointmentSystem : Create New Staff Profile
-activate SurgeryApointmentSystem
+Admin -> SurgeryAppointmentSystem : Deactivate A Staff Profile
+activate SurgeryAppointmentSystem
 
-SurgeryApointmentSystem -> MasterData : Create New Staff Profile
-activate MasterData
+SurgeryAppointmentSystem -> Backend : Deactivate Staff Profile
+activate Backend
 
-MasterData --> SurgeryApointmentSystem : Staff Profile Created
-deactivate MasterData
+Backend -> Database : Get Active Staff Profile
+activate Database
 
-SurgeryApointmentSystem --> Admin : New Staff Profile Created
-deactivate SurgeryApointmentSystem
+Database --> Backend : Active Staff Profile Retrieved
+deactivate Database
+
+Backend -> Backend : Deactivate Staff Profile
+activate Backend
+
+Backend --> Database : Save Deactivated Staff
+activate Database
+
+Database --> Backend : Staff Profile Saved
+deactivate Database
+deactivate Backend
+
+Backend --> SurgeryAppointmentSystem : Staff Profile Deactivated
+deactivate Backend
+
+SurgeryAppointmentSystem --> Admin : Staff Profile Deactivated
+deactivate SurgeryAppointmentSystem
+
+deactivate Admin
 
 @enduml

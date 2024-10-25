@@ -1,11 +1,15 @@
 ﻿@startuml
 actor Admin
-participant SurgeyApointmentSystem
+participant SurgeyAppointmentSystem
 
-Admin -> SurgeyApointmentSystem : Create New Staff Profile
-activate SurgeyApointmentSystem
+activate Admin
 
-SurgeyApointmentSystem -> Admin : New Staff Profile Created
-deactivate SurgeyApointmentSystem
+Admin -> SurgeyAppointmentSystem : Deactivate A Staff Profile
+activate SurgeyAppointmentSystem
+
+SurgeyAppointmentSystem -> Admin : Staff Profile Deactivated
+deactivate SurgeyAppointmentSystem
+
+deactivate Admin
 
 @enduml
