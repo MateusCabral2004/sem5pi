@@ -1,19 +1,82 @@
 ﻿@startuml
 actor Admin
-participant SurgeryApointmentSystem
-participant MasterData
+participant SurgeryAppointmentSystem
+participant Backend
+database DataBase
 
 
-Admin -> SurgeryApointmentSystem : Create New Staff Profile
-activate SurgeryApointmentSystem
+activate Admin
 
-SurgeryApointmentSystem -> MasterData : Create New Staff Profile
-activate MasterData
+Admin -> SurgeryAppointmentSystem : Create New Staff Profile
+activate SurgeryAppointmentSystem
 
-MasterData --> SurgeryApointmentSystem : Staff Profile Created
-deactivate MasterData
+SurgeryAppointmentSystem -> Backend : Create New Staff Profile
+activate Backend
 
-SurgeryApointmentSystem --> Admin : New Staff Profile Created
-deactivate SurgeryApointmentSystem
+Backend -> Backend :Verify License Number Availability
+activate Backend
+
+Backend -> DataBase : Get License Number
+activate DataBase
+
+DataBase --> Backend : No License Number Found
+deactivate DataBase
+deactivate Backend
+
+Backend -> Backend : Verify Email Availability
+activate Backend
+
+Backend -> DataBase : Get Email
+activate DataBase
+
+DataBase --> Backend : No Email Found
+deactivate DataBase
+deactivate Backend
+
+Backend -> Backend : Verify Phone Number Availability
+activate Backend
+
+Backend -> DataBase : Get Phone Number
+activate DataBase
+
+DataBase --> Backend : No Phone Number Found
+deactivate DataBase
+deactivate Backend
+
+Backend -> Backend : Verify Specialization Availability
+activate Backend
+
+Backend -> DataBase : Get Specialization By Name
+activate DataBase
+
+alt Specialization Found
+    DataBase --> Backend : Specialization Found
+    
+else Specialization Not Found
+    DataBase --> Backend : No Specialization Found
+    deactivate DataBase
+    
+    Backend -> DataBase : Save New Specialization
+    activate DataBase
+    
+    DataBase --> Backend : New Specialization Saved
+    deactivate DataBase
+    deactivate Backend
+    
+end
+
+Backend -> DataBase : Save New Staff Profile
+activate DataBase
+
+DataBase --> Backend : New Staff Profile Saved
+deactivate DataBase
+
+Backend --> SurgeryAppointmentSystem : Staff Profile Created
+deactivate Backend
+
+SurgeryAppointmentSystem --> Admin : New Staff Profile Created
+deactivate SurgeryAppointmentSystem
+
+deactivate Admin
 
 @enduml
