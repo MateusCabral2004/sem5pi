@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Sempi5.Domain.OperationTypeAggregate.DTOs;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.StaffAggregate.DTOs;
@@ -34,7 +35,7 @@ namespace Sempi5.Controllers
         public async Task<IActionResult> RegisterStaff(RegisterUserDTO user)
         {
             try
-            { 
+            {
                 Console.WriteLine("StaffId: " + user.staffOrStaffId);
                 await _adminService.RegisterUser(user);
                 return Ok("Staff member registered successfully");
@@ -115,7 +116,7 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpGet("viewPatientRecord")]
         public async Task<IActionResult> ViewPatientRecord(PatientIdDto patientId)
         {
@@ -129,14 +130,14 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpPut("editPatientRecord")]
         public async Task<IActionResult> EditPatientRecord(EditPatientRecordDTO editPatientRecord)
         {
             try
             {
                 var patientDto = await _adminService.EditPatientRecord(editPatientRecord);
-                
+
                 return Ok("Patient profile edited successfully.");
             }
             catch (Exception e)
@@ -144,14 +145,14 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpPut("deletePatientRecord")]
         public async Task<IActionResult> DeletePatientRecord(PatientIdDto patientIdDto)
         {
             try
             {
                 var patientDto = await _adminService.DeletePatientRecord(patientIdDto);
-                
+
                 return Ok("Patient profile deleted successfully.");
             }
             catch (Exception e)
@@ -159,7 +160,7 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpPost("createStaffProfile")]
         public async Task<IActionResult> CreateStaffProfile(StaffDTO staff)
         {
@@ -218,5 +219,19 @@ namespace Sempi5.Controllers
         }
 
 
+        [HttpPost("addNewOperationType")]
+        public async Task<IActionResult> AddNewOperationType(OperationTypeDTO operationType)
+        {
+            try
+            {
+                await _adminService.AddNewOperationType(operationType);
+                return Ok("Operation type added successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message + e.StackTrace);
+            }
+        }
+        
     }
 }

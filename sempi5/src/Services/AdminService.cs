@@ -4,8 +4,12 @@ using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using Sempi5.Domain.ConfirmationToken;
+using Sempi5.Domain.OperationTypeAggregate;
+using Sempi5.Domain.OperationTypeAggregate.DTOs;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
+using Sempi5.Domain.RequiredStaffAggregate;
+using Sempi5.Domain.RequiredStaffAggregate.DTOs;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
@@ -14,8 +18,10 @@ using Sempi5.Domain.UsefullDTOs;
 using Sempi5.Domain.User;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
 using Sempi5.Infrastructure.Databases;
+using Sempi5.Infrastructure.OperationTypeRepository;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Infrastructure.PersonRepository;
+using Sempi5.Infrastructure.RequiredStaffRepository;
 using Sempi5.Infrastructure.Shared;
 using Sempi5.Infrastructure.SpecializationRepository;
 using Sempi5.Infrastructure.StaffRepository;
@@ -33,12 +39,15 @@ public class AdminService
     private readonly EmailService _emailService;
     private readonly IPersonRepository _personRepository;
     private readonly ISpecializationRepository _specializationRepository;
+    private readonly IOperationTypeRepository _operationTypeRepository;
+    private readonly IRequiredStaffRepository _requiredStaffRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public AdminService(IStaffRepository staffRepository, IPatientRepository patientRepository,
         IUserRepository userRepository,
         IConfirmationTokenRepository confirmationRepository, IUnitOfWork unitOfWork, EmailService emailService,
-        IPersonRepository personRepository, ISpecializationRepository specializationRepository)
+        IPersonRepository personRepository, ISpecializationRepository specializationRepository,
+        IOperationTypeRepository operationTypeRepository, IRequiredStaffRepository requiredStaffRepository)
     {
         _staffRepository = staffRepository;
         _patientRepository = patientRepository;
@@ -48,6 +57,8 @@ public class AdminService
         _emailService = emailService;
         _personRepository = personRepository;
         _specializationRepository = specializationRepository;
+        _operationTypeRepository = operationTypeRepository;
+        _requiredStaffRepository = requiredStaffRepository;
     }
 
     public async Task RegisterUser(RegisterUserDTO userDTO)
@@ -346,11 +357,10 @@ public class AdminService
 
     public async Task<Staff> StaffDtoToStaff(StaffDTO staffDTO)
     {
-        
         LicenseNumber licenseNumber = new LicenseNumber(staffDTO.LicenseNumber);
-        
+
         await VerifyLicenseNumberAvailability(licenseNumber);
-        
+
         var person = await CreatePerson(staffDTO.FirstName, staffDTO.LastName, staffDTO.Email, staffDTO.PhoneNumber);
 
         var specialization = await CreateSpecialization(staffDTO.Specialization);
@@ -370,69 +380,69 @@ public class AdminService
         {
             return searchedSpecialization;
         }
-        
+
         return specialization;
     }
 
     public async Task<Person> CreatePerson(string firstName, string lastName, string emailString, int phoneNumberInt)
     {
-        
         var phoneNumber = new PhoneNumber(phoneNumberInt);
-        
+
         var email = new Email(emailString);
-        
+
         await VerifyPhoneNumberAvailability(phoneNumber);
-        
+
         await VerifyEmailAvailability(email);
-        
+
         var contactInfo = new ContactInfo(email, phoneNumber);
         var person = new Person(new Name(firstName), new Name(lastName), contactInfo);
 
         return person;
     }
-    
+
     public async Task VerifyPhoneNumberAvailability(PhoneNumber phoneNumber)
     {
         var personByPhoneNumber = await _personRepository.GetPersonByPhoneNumber(phoneNumber);
-        
+
         if (personByPhoneNumber != null)
         {
             throw new ArgumentException("Phone Number already in use.");
         }
     }
-    
+
     public async Task VerifyEmailAvailability(Email email)
     {
         var personByEmail = await _personRepository.GetPersonByEmail(email);
-        
+
         if (personByEmail != null)
         {
             throw new ArgumentException("Email already in use.");
         }
     }
-    
+
     public async Task VerifyLicenseNumberAvailability(LicenseNumber licenseNumber)
     {
         var staffByLicenseNumber = await _staffRepository.GetByLicenseNumber(licenseNumber);
-        
+
         if (staffByLicenseNumber != null)
         {
             throw new ArgumentException("License Number already in use.");
         }
     }
-    
+
     public async Task EditPatientProfile2(PatientDTO editPatientDto)
     {
         if (editPatientDto.email == null)
         {
             throw new ArgumentException("The email address can´t be null");
         }
-        var patient =await _patientRepository.GetByEmail(editPatientDto.email);
+
+        var patient = await _patientRepository.GetByEmail(editPatientDto.email);
 
         var originalEmail = patient.Person.ContactInfo._email;
 
         var originalPhoneNumber = patient.Person.ContactInfo._phoneNumber;
-        
+
         if (editPatientDto.allergiesAndMedicalConditions != null)
         {
             patient.AllergiesAndMedicalConditions = editPatientDto.allergiesAndMedicalConditions;
@@ -445,7 +455,7 @@ public class AdminService
 
         if (editPatientDto.phoneNumber == -1)
         {
-            patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber??0);
+            patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber ?? 0);
         }
 
         if (editPatientDto.email != null)
@@ -463,12 +473,12 @@ public class AdminService
 
         if (originalEmail.ToString() != editPatientDto.email)
         {
-           await _emailService.SendPatientUpdatingEmail_EmailAltered(originalEmail.ToString(), editPatientDto.email);
+            await _emailService.SendPatientUpdatingEmail_EmailAltered(originalEmail.ToString(), editPatientDto.email);
         }
 
         if (originalPhoneNumber.phoneNumber() != editPatientDto.phoneNumber)
         {
-           await _emailService.SendPatientUpdatingEmail_PhoneNumberAltered(originalEmail.ToString(),
+            await _emailService.SendPatientUpdatingEmail_PhoneNumberAltered(originalEmail.ToString(),
                 editPatientDto.phoneNumber.ToString());
         }
     }
@@ -476,41 +486,41 @@ public class AdminService
     public async Task<StaffDTO> EditStaffProfile(EditStaffDTO editStaffDto)
     {
         var staff = await _staffRepository.GetByIdAsync(new StaffId(editStaffDto.Id));
-        
+
         if (staff == null)
         {
             throw new ArgumentException("Staff not found.");
         }
-        
+
         if (editStaffDto.email != null)
         {
             var email = new Email(editStaffDto.email);
 
             await VerifyEmailAvailability(email);
-            
+
             staff.Person.ContactInfo._email = email;
         }
-        
-        
+
+
         if (editStaffDto.phoneNumber > 0 && editStaffDto.phoneNumber != null)
         {
             var phoneNumber = new PhoneNumber(editStaffDto.phoneNumber);
-            
+
             await VerifyPhoneNumberAvailability(phoneNumber);
-            
+
             staff.Person.ContactInfo._phoneNumber = phoneNumber;
         }
-        
+
         if (editStaffDto.specialization != null)
         {
             staff.Specialization = await CreateSpecialization(editStaffDto.specialization);
         }
-        
+
         await _unitOfWork.CommitAsync();
 
         return await StaffToStaffDto(staff);
     }
-    
+
     public async Task<StaffDTO> StaffToStaffDto(Staff staff)
     {
         return new StaffDTO
@@ -523,24 +533,62 @@ public class AdminService
             Specialization = staff.Specialization.specializationName.ToString()
         };
     }
-    
+
     public async Task DeletePatientProfile2(PatientDTO patientDto)
     {
-        if (patientDto.email==null)
+        if (patientDto.email == null)
         {
             throw new ArgumentException("The email address can´t be null");
         }
+
         var patient = _patientRepository.GetByEmail(patientDto.email);
 
         patient.Result.Person = new Person(new Name("\"anonymous\";"), new Name("\"anonymous\";"),
             new ContactInfo(new Email("\"anonymous\";"), new PhoneNumber(int.Parse("\"anonymous\";"))));
         patient.Result.BirthDate = DateTime.Parse("\"anonymous\";");
         patient.Result.EmergencyContact = "\"anonymous\";";
-        patient.Result.AllergiesAndMedicalConditions = new List<string>{"\"anonymous\";"};
-        
-        
+        patient.Result.AllergiesAndMedicalConditions = new List<string> { "\"anonymous\";" };
+
+
         await _unitOfWork.CommitAsync();
     }
 
-    
+
+    public async Task AddNewOperationType(OperationTypeDTO dto)
+    {
+        var operationType = await OperationTypeDtoToObject(dto);
+        await _operationTypeRepository.AddAsync(operationType);
+        await _unitOfWork.CommitAsync();
+    }
+
+    public async Task<OperationType> OperationTypeDtoToObject(OperationTypeDTO dto)
+    {
+        var operationName = new OperationName(dto.OperationName);
+        var duration = new TimeSpan(0, dto.Hours, dto.Minutes);
+
+        var operationType = new OperationType(operationName, duration);
+
+        foreach (var requiredStaffDto in dto.RequiredStaff)
+        {
+            var requiredStaff = RequiredStaffDtoToObject(requiredStaffDto);
+            var specialization = await _specializationRepository.GetBySpecializationName(requiredStaff.Specialization);
+            if (specialization != null)
+            {
+                Console.WriteLine("Specialization found");
+                requiredStaff.Specialization = specialization;
+                Console.WriteLine("Specialization: " + specialization.specializationName.ToString());
+            }
+            operationType.AddRequiredStaff(requiredStaff);
+        }
+
+        return operationType;
+    }
+
+    public RequiredStaff RequiredStaffDtoToObject(RequiredStaffDTO dto)
+    {
+        var specialization = new Specialization(new SpecializationName(dto.Specialization));
+        var numberOfStaff = new NumberOfStaff(dto.NumberOfStaff);
+        var requiredStaff = new RequiredStaff(numberOfStaff, specialization);
+        return requiredStaff;
+    }
 }

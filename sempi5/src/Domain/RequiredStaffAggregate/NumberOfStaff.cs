@@ -15,4 +15,9 @@ public class NumberOfStaff
     {
         return value;
     }
+    
+    public bool Equals (NumberOfStaff other)
+    {
+        return this.value == other.value;
+    }
 }

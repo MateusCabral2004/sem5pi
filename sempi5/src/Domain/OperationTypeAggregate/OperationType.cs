@@ -25,4 +25,17 @@ public class OperationType : Entity<OperationTypeID>, IAggregateRoot
         Duration = duration;
         stillPerformed = true;
     }
+    
+    public OperationType(OperationName name, TimeSpan duration)
+    {
+        Name = name;
+        RequiredStaff = [];
+        Duration = duration;
+        this.stillPerformed = true;
+    }
+    
+    public void AddRequiredStaff(RequiredStaff requiredStaff)
+    {
+        RequiredStaff.Add(requiredStaff);
+    }
 }
