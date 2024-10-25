@@ -20,4 +20,8 @@ public class RequiredStaff : Entity<RequiredStaffID>, IAggregateRoot
         this.Specialization = specialization;
     }
     
+    public bool Equals(RequiredStaff other)
+    {
+        return this.NumberOfStaff == other.NumberOfStaff && this.Specialization.Equals(other.Specialization);
+    }
 }

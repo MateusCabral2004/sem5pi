@@ -197,6 +197,7 @@ namespace Sempi5
             services.AddTransient<AdminService>();
             services.AddTransient<PatientService>();
             services.AddTransient<TokenService>();
+            services.AddTransient<OperationTypeService>();
 
             services.AddSingleton(Log.Logger);
         }
@@ -346,10 +347,14 @@ namespace Sempi5
                     var requiredStaff3 = new RequiredStaff(new NumberOfStaff(30), specialization1);
                     var requiredStaff4 = new RequiredStaff(new NumberOfStaff(40), specialization2);
 
+                    var time11 = TimeSpan.Parse("03:00:00");
+                    var time12 = TimeSpan.Parse("02:00:00");
+                    var time13 = TimeSpan.Parse("01:00:00");
+                    
                     var operationType1 = new OperationType(new OperationName("Heart Surgery"),
-                        new List<RequiredStaff> { requiredStaff1, requiredStaff2 }, new TimeSpan(2, 0, 0));
+                        new List<RequiredStaff> { requiredStaff1, requiredStaff2 }, time11, time12, time13);
                     var operationType2 = new OperationType(new OperationName("Brain Surgery"),
-                        new List<RequiredStaff> { requiredStaff3, requiredStaff4 }, new TimeSpan(3, 0, 0));
+                        new List<RequiredStaff> { requiredStaff3, requiredStaff4 }, time11, time12, time13);
 
                     var doctorUser = new SystemUser(new Email("mateuscabral22004@gmail.com"), "Admin");
 
