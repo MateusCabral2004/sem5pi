@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Services;
@@ -32,8 +33,6 @@ namespace Sempi5.Controllers.StaffControllers
           
             return Ok();
         }
-
-
 
         [HttpPost("createStaffProfile")]
         public async Task<IActionResult> CreateStaffProfile(StaffDTO staff)

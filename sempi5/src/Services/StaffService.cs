@@ -1,9 +1,11 @@
 using Microsoft.CodeAnalysis.Elfie.Serialization;
+using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
+using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Infrastructure.PersonRepository;
 using Sempi5.Infrastructure.SpecializationRepository;
 using Sempi5.Infrastructure.StaffRepository;
@@ -16,15 +18,17 @@ namespace Sempi5.Services
         private readonly IStaffRepository _staffRepository;
         private readonly ISpecializationRepository _specializationRepository;
         private readonly IPersonRepository _personRepository;
+        private readonly IPatientRepository _patientRepository;
         private readonly IUnitOfWork _unitOfWork;
         
         
-        public StaffService(IStaffRepository staffRepository, ISpecializationRepository specializationRepository, IPersonRepository personRepository, IUnitOfWork unitOfWork)
+        public StaffService(IStaffRepository staffRepository, ISpecializationRepository specializationRepository, IPersonRepository personRepository, IPatientRepository patientRepository, IUnitOfWork unitOfWork)
         {
             _staffRepository = staffRepository;
             _specializationRepository = specializationRepository;
             _unitOfWork = unitOfWork;
            _specializationRepository = specializationRepository;
+            _patientRepository = patientRepository;
             _personRepository = personRepository;
         }
         
