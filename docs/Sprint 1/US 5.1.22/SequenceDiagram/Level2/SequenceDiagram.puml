@@ -1,0 +1,24 @@
+﻿@startuml
+actor Admin
+participant SurgeryAppointmentSystem
+participant Backend
+database Database
+
+activate Admin
+Admin -> SurgeryAppointmentSystem: delete operation type
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend: delete operation type
+activate Backend
+Backend -> Database: inactivates operation type
+activate Database
+Database --> Backend: operation type inactive
+deactivate Database
+
+Backend --> SurgeryAppointmentSystem: operation type deleted
+deactivate Backend
+
+SurgeryAppointmentSystem --> Admin: operation type deleted
+
+deactivate SurgeryAppointmentSystem
+@enduml

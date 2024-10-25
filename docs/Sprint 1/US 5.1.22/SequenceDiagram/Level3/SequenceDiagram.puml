@@ -1,0 +1,51 @@
+﻿@startuml
+actor Admin
+participant SurgicalAppointmentSystem
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database Database
+
+activate Admin
+Admin -> SurgicalAppointmentSystem: delete operation type
+activate SurgicalAppointmentSystem
+
+SurgicalAppointmentSystem -> Routing: forward request to delete operation type
+activate Routing
+Routing -> Controller: forward request to delete operation type
+activate Controller
+
+Controller -> ApplicationService: delete operation type
+activate ApplicationService
+
+ApplicationService -> Repository: delete operation type
+activate Repository
+Repository -> Persistence: inactives operation type
+activate Persistence
+
+Persistence -> Database: inactivate operation type
+activate Database
+Database --> Persistence: operation type inactive
+deactivate Database
+
+Persistence --> Repository: operation type inactived
+deactivate Persistence
+
+Repository --> ApplicationService: operation type deleted
+deactivate Repository
+
+ApplicationService --> Controller: operation type deleted
+deactivate ApplicationService
+
+Controller --> Routing: operation type deleted
+deactivate Controller
+
+Routing --> SurgicalAppointmentSystem: operation type deleted
+deactivate Routing
+
+SurgicalAppointmentSystem --> Admin: operation type deleted
+
+deactivate SurgicalAppointmentSystem
+@enduml
