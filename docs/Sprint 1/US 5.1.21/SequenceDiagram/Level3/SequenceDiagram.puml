@@ -1,6 +1,5 @@
 ﻿@startuml
 actor Admin
-participant SurgicalAppointmentSystem
 participant Routing
 participant Controller
 participant ApplicationService
@@ -9,11 +8,9 @@ participant Persistence
 database Database
 
 activate Admin
-Admin -> SurgicalAppointmentSystem: edit operation type
-activate SurgicalAppointmentSystem
-
-SurgicalAppointmentSystem -> Routing: forward request to edit operation type
+Admin -> Routing: edit operation type
 activate Routing
+
 Routing -> Controller: forward request to edit operation type
 activate Controller
 
@@ -25,6 +22,7 @@ activate Repository
 
 Repository -> Persistence: request operation type
 activate Persistence
+
 Persistence -> Database: request operation type
 activate Database
 Database --> Persistence: operation type sent
@@ -40,8 +38,10 @@ ApplicationService -> ApplicationService: edit operation type
 
 ApplicationService -> Repository: update operation type
 activate Repository
+
 Repository -> Persistence: update operation type
 activate Persistence
+
 Persistence -> Database: update operation type
 activate Database
 
@@ -60,10 +60,6 @@ deactivate ApplicationService
 Controller --> Routing: operation type edited
 deactivate Controller
 
-Routing --> SurgicalAppointmentSystem: operation type edited
+Routing --> Admin: operation type edited
 deactivate Routing
-
-SurgicalAppointmentSystem --> Admin: operation type edited
-
-deactivate SurgicalAppointmentSystem
 @enduml

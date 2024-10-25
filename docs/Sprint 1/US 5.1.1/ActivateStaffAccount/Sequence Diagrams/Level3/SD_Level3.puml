@@ -2,7 +2,6 @@
 title US 5.1.1 - Activate Staff Account -\nComponent Level 3
 
 actor Staff
-participant SurgicalApplicationSystem
 participant Routing
 participant Controller
 participant ApplicationService
@@ -12,10 +11,8 @@ database Database
 
 activate Staff
 
-Staff -> SurgicalApplicationSystem: activate account request
-    activate SurgicalApplicationSystem
+Staff -> Routing: activate account request
     
-    SurgicalApplicationSystem -> Routing: forward request to activate account
     activate Routing
     
     Routing -> Controller: forward request to activate account
@@ -68,12 +65,8 @@ Staff -> SurgicalApplicationSystem: activate account request
     Controller --> Routing: account activation response
     deactivate Controller
     
-    Routing --> SurgicalApplicationSystem: account activation response
+    Routing --> Staff: account activation response
     deactivate Routing
     
-    SurgicalApplicationSystem --> Staff: account activated
-    deactivate SurgicalApplicationSystem
-
-deactivate Staff
 
 @enduml

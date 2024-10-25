@@ -2,7 +2,6 @@
 title US 5.1.1 - Register Staff User-\nComponent Level 3
 
 actor Admin
-participant SurgicalAppointmentSystem
 participant Routing
 participant Controller
 participant ApplicationService
@@ -12,10 +11,7 @@ database Database
 
 activate Admin
 
-Admin -> SurgicalAppointmentSystem: create new staff user request
-    activate SurgicalAppointmentSystem
-    
-    SurgicalAppointmentSystem -> Routing: forward request to create new staff user
+Admin -> Routing: create new staff user request
     activate Routing
     
     Routing -> Controller: forward request to create new staff user
@@ -48,12 +44,7 @@ Admin -> SurgicalAppointmentSystem: create new staff user request
     Controller --> Routing: new staff user created
     deactivate Controller
     
-    Routing --> SurgicalAppointmentSystem: new staff user created
+    Routing --> Admin: new staff user created
     deactivate Routing
-    
-    SurgicalAppointmentSystem --> Admin: new staff user created
-    deactivate SurgicalAppointmentSystem
-
-deactivate Admin
 
 @enduml
