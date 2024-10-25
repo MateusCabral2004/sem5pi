@@ -175,11 +175,11 @@ namespace Sempi5.Controllers
         }
 
         [HttpPost("editPatientProfile2")]
-        public async Task<IActionResult> EditPatientProfile2(PatientDTO patientDto, string email)
+        public async Task<IActionResult> EditPatientProfile2(PatientDTO patientDto)
         {
             try
             {
-                await _adminService.EditPatientProfile2(patientDto, email);
+                await _adminService.EditPatientProfile2(patientDto);
                 return Ok("Patient profile edited successfully");
             }
             catch (Exception e)
@@ -187,6 +187,22 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
+        
+        
+        [HttpPost("deletePatientProfile2")]
+        public async Task<IActionResult> DeletePatientProfile2(PatientDTO patientDto)
+        {
+            try
+            {
+                await _adminService.DeletePatientProfile2(patientDto);
+                return Ok("Patient deleted successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
 
     }
 }
