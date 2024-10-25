@@ -82,4 +82,22 @@ public class EmailService
         var subject = "Email Confirmation";
         await SendEmailAsync(email, body, subject);
     }
+
+    public async Task SendPatientUpdatingEmail_EmailAltered(string oldEmail, string currentEmail)
+    {
+        var body = $"The email address associated to your account has been altered. Your current email" +
+                   $"is "+ currentEmail;
+        var subject = "Email Address Alteration";
+        await SendEmailAsync(oldEmail, body, subject);
+    }
+
+    public async Task SendPatientUpdatingEmail_PhoneNumberAltered(string email, string phoneNumber)
+    {
+        var body = $"The phone number associated to your account has been altered. You current phone number is" +
+                   $"registered as" + phoneNumber;
+        var subject = $"Phone Number Alteration";
+        await SendEmailAsync(email, body, subject);
+    }
+    
+    
 }
