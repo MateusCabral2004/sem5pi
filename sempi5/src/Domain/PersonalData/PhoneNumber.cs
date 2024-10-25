@@ -10,6 +10,11 @@
             _phoneNumber = phoneNumber;
         }
 
+        public PhoneNumber()
+        {
+            
+        }
+
         private void ValidatePhoneNumber(int phoneNumber)
         {
             if (phoneNumber.ToString().Length != 9)

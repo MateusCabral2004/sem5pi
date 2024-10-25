@@ -170,6 +170,20 @@ namespace Sempi5.Services
             };
         }
         
+        public async Task DeactivateStaffProfile(StaffIdDTO staffId)
+        {
+            var staff = await _staffRepository.GetActiveStaffById(new StaffId(staffId.Id));
+
+            if (staff == null)
+            {
+                throw new ArgumentException("Staff not found.");
+            }
+
+            staff.Status = StaffStatusEnum.INACTIVE;
+            
+            await _unitOfWork.CommitAsync();
+        }
+        
     }
 }
     

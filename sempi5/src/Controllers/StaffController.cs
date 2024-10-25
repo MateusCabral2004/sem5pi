@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.PatientAggregate;
+using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Services;
@@ -10,7 +11,7 @@ namespace Sempi5.Controllers.StaffControllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
+   // [Authorize]
     public class StaffController : ControllerBase
     {
    private readonly StaffService _staffService;  
@@ -59,6 +60,20 @@ namespace Sempi5.Controllers.StaffControllers
             catch (Exception e)
             {
                 return BadRequest(e.Message + e.StackTrace);
+            }
+        }
+        
+        [HttpPatch("deactivateStaffProfile")]
+        public async Task<IActionResult> DeactivateStaffProfile(StaffIdDTO staffId)
+        {
+            try
+            {
+                await _staffService.DeactivateStaffProfile(staffId);
+                return Ok("Staff deleted successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 
