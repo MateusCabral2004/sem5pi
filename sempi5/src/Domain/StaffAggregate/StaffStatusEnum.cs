@@ -3,5 +3,5 @@
 public enum StaffStatusEnum
 {
     ACTIVE,
-    NOT_ACTIVE
+    INACTIVE
 }

@@ -239,4 +239,100 @@ public class PatientService
         var userID = patient.User.Id.AsLong();
         await _accountToDeleteRepository.saveUserToDelete(userID);
     }
+    
+    
+     public async Task<PatientDTO> ListPatientByName(NameDTO nameDto)
+        {
+            var name = nameDTOtoName(nameDto);
+
+            var patient = await _patientRepository.GetByName(name.ToString());
+
+            if (patient == null)
+            {
+                throw new ArgumentException("Patient not found");
+            }
+
+            return patientToPatientDto(patient);
+        }
+        
+        private PatientDTO patientToPatientDto(Patient patient)
+        {
+            return new PatientDTO
+            {
+                patientId = patient.Id.AsString(),
+                fullName = patient.Person.FullName.ToString(),
+                email = patient.Person.ContactInfo.email().ToString(),
+                birthDate = patient.BirthDate.ToString("MM/dd/yyyy")
+            };
+        }
+        
+        
+        private Name nameDTOtoName(NameDTO name)
+        {
+            return new Name(name.name);
+        }
+        
+        public async Task<PatientDTO> ListPatientByEmail(EmailDTO emailDto)
+        {
+            var email = emailDTOtoEmail(emailDto);
+
+            var patient = await _patientRepository.GetByEmail(email.ToString());
+
+            if (patient == null)
+            {
+                throw new ArgumentException("Patient not found.");
+            }
+
+            return patientToPatientDto(patient);
+        }
+
+        private Email emailDTOtoEmail(EmailDTO email)
+        {
+            return new Email(email.email);
+        }
+        
+        public async Task<List<PatientDTO>> ListPatientByDateOfBirth(DateDTO dateDto)
+        {
+            var date = dateDTOtoDate(dateDto);
+
+            var patients = await _patientRepository.GetByDateOfBirth(date);
+
+            var patientDtoList = buildPatientDtoList(patients);
+
+            if (patientDtoList.Count == 0)
+            {
+                throw new ArgumentException("No patients found.");
+            }
+
+            return patientDtoList;
+        }
+        
+        public async Task<PatientDTO> ListPatientByMedicalRecordNumber(PatientIdDto patientId)
+        {
+            var patient = await _patientRepository.GetByPatientId(patientId.Id);
+
+            if (patient == null)
+            {
+                throw new ArgumentException("Patient not found.");
+            }
+
+            return patientToPatientDto(patient);
+        }
+        
+        private DateTime dateDTOtoDate(DateDTO date)
+        {
+            return new DateTime(date.year, date.month, date.day);
+        }
+        
+        private List<PatientDTO> buildPatientDtoList(IEnumerable<Patient> patients)
+        {
+            List<PatientDTO> patientDtoList = new List<PatientDTO>();
+
+            foreach (var patient in patients)
+            {
+                patientDtoList.Add(patientToPatientDto(patient));
+            }
+
+            return patientDtoList;
+        }
 }
