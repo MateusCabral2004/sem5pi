@@ -1,38 +1,166 @@
 ﻿@startuml
 actor Admin
-participant SurgeryApointmentSystem
-participant MasterData
-participant BackEnd
-participant Database
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database Database
 
-Admin -> SurgeryApointmentSystem : Create New Staff Profile
-activate SurgeryApointmentSystem
+activate Admin
 
-SurgeryApointmentSystem -> MasterData : Create New Staff Profile
-activate MasterData
+Admin -> Routing: Create New Staff Profile Request
+activate Routing
 
-MasterData -> BackEnd : Create New Staff Profile
-activate BackEnd
+Routing -> Controller: Forward Request To Create New Staff Profile
+activate Controller
 
-BackEnd -> BackEnd : Creates New Staff Profile
-activate BackEnd
+Controller -> ApplicationService: Create New Staff Profile
+activate ApplicationService
 
-BackEnd -> Database : Insert New Staff Profile
+ApplicationService -> ApplicationService: Verify License Number Availability
+activate ApplicationService
+ApplicationService -> Repository: Request Staff By License Number Availability
+activate Repository
+
+Repository -> Persistence: Request Staff By License Number Availability
+activate Persistence
+
+Persistence -> Database: Get Staff By License Number 
 activate Database
 
-Database --> BackEnd : New Staff Profile Inserted
+Database --> Persistence: No Staff Found
 deactivate Database
 
-deactivate BackEnd
 
-BackEnd --> MasterData : New Staff Profile Created
+Persistence --> Repository: No Staff Found
+deactivate Persistence
 
-deactivate BackEnd
+Repository --> ApplicationService: No Staff Found
+deactivate Repository
+deactivate ApplicationService
 
-MasterData --> SurgeryApointmentSystem : Staff Profile Created
-deactivate MasterData
+ApplicationService -> ApplicationService: Verify Email Availability
+activate ApplicationService
 
-SurgeryApointmentSystem --> Admin : New Staff Profile Created
-deactivate SurgeryApointmentSystem
+ApplicationService -> Repository: Request Staff By Email Availability
+activate Repository
+
+Repository -> Persistence: Request Staff By Email Availability
+activate Persistence
+
+Persistence -> Database: Get Staff By Email
+activate Database
+
+Database --> Persistence: No Staff Found
+deactivate Database
+
+Persistence --> Repository: No Staff Found
+deactivate Persistence
+
+Repository --> ApplicationService: No Staff Found
+deactivate Repository
+deactivate ApplicationService
+
+ApplicationService -> ApplicationService: Verify Phone Number Availability
+activate ApplicationService
+
+ApplicationService -> Repository: Request Staff By Phone Number Availability
+activate Repository
+
+Repository -> Persistence: Request Staff By Phone Number Availability
+activate Persistence
+
+Persistence -> Database: Get Staff By Phone Number
+activate Database
+
+Database --> Persistence: No Staff Found
+deactivate Database
+
+Persistence --> Repository: No Staff Found
+deactivate Persistence
+
+Repository --> ApplicationService: No Staff Found
+deactivate Repository
+deactivate ApplicationService
+
+ApplicationService -> ApplicationService: Verify Specialization Availability
+activate ApplicationService
+
+ApplicationService -> Repository: Request Specialization By Name
+activate Repository
+
+Repository -> Persistence: Request Specialization By Name
+activate Persistence
+
+Persistence -> Database: Get Specialization By Name
+activate Database
+
+alt Specialization Found
+    Database --> Persistence: Specialization Found
+    
+    Persistence --> Repository: Specialization Found
+    
+    Repository --> ApplicationService: Specialization Found
+    
+else Specialization Not Found
+    Database --> Persistence: No Specialization Found
+    deactivate Database
+
+    Persistence --> Repository: No Specialization Found
+    deactivate Persistence
+    
+    Repository --> ApplicationService: No Specialization Found
+    deactivate Repository
+
+
+    ApplicationService -> Repository: Requests To Save New Specialization
+    activate Repository
+
+    Repository -> Persistence: Requests To Save New Specialization
+    activate Persistence
+
+    Persistence -> Database: Save New Specialization
+    activate Database
+    
+    Database --> Persistence: New Specialization Saved
+    deactivate Database
+    
+    Persistence --> Repository: New Specialization Saved
+    deactivate Persistence
+    
+    Repository --> ApplicationService: New Specialization Saved
+    deactivate Repository
+    deactivate ApplicationService
+    
+    end
+    
+ApplicationService -> Repository: Requests To Save New Staff Profile
+activate Repository
+
+Repository -> Persistence: Requests To Save New Staff Profile
+activate Persistence
+
+Persistence -> Database: Save New Staff Profile
+activate Database
+
+Database --> Persistence: New Staff Profile Saved
+deactivate Database
+
+Persistence --> Repository: New Staff Profile Saved
+deactivate Persistence
+
+Repository --> ApplicationService: New Staff Profile Saved
+deactivate Repository
+
+ApplicationService --> Controller: New Staff Profile Created
+deactivate ApplicationService
+
+Controller --> Routing: New Staff Profile Created
+deactivate Controller
+
+Routing --> Admin: New Staff Profile Created
+deactivate Routing
+
 
 @enduml

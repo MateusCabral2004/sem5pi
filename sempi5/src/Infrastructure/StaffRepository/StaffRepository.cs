@@ -31,6 +31,19 @@ namespace Sempi5.Infrastructure.StaffRepository
             return staff;
         }
 
+        
+        public Task<Staff?> GetActiveStaffById(StaffId id)
+        {
+            if (id == null)
+            {
+                return null;
+            }
+
+            return context.StaffMembers.Include(p => p.Person)
+                .Include(p => p.Specialization)
+                .FirstOrDefaultAsync(p => p.Id.Equals(id) && p.Status.Equals(StaffStatusEnum.ACTIVE)); //&& p.Status.Equals(StaffStatusEnum.ACTIVE));
+        }
+        
         public Task<Staff?> GetByLicenseNumber(LicenseNumber licenseNumber)
         {
             if (licenseNumber == null)

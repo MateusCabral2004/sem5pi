@@ -59,7 +59,7 @@ public class EmailService
             try
             {
                 await smtpClient.SendMailAsync(mailMessage);
-                return $"Email sent to {email} with subject 'Email Confirmation'";
+                return $"Email sent to {email}.";
             }
             catch (SmtpException e)
             {
@@ -105,6 +105,5 @@ public class EmailService
         var subject = $"Phone Number Alteration";
         await SendEmailAsync(email, body, subject);
     }
-    
     
 }

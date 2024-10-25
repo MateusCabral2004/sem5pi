@@ -5,5 +5,5 @@ namespace Sempi5.Infrastructure.RequiredStaffRepository;
 
 public interface IRequiredStaffRepository : IRepository<RequiredStaff, RequiredStaffID>
 {
-    
+    public Task<RequiredStaff> GetByRequiredStaff(RequiredStaff requiredStaff);
 }

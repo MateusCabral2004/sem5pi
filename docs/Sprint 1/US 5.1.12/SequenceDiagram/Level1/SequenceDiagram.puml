@@ -2,10 +2,14 @@
 actor Admin
 participant SurgeyApointmentSystem
 
+activate Admin
+
 Admin -> SurgeyApointmentSystem : Create New Staff Profile
 activate SurgeyApointmentSystem
 
 SurgeyApointmentSystem -> Admin : New Staff Profile Created
 deactivate SurgeyApointmentSystem
+
+deactivate Admin
 
 @enduml

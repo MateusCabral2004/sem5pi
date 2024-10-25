@@ -21,5 +21,9 @@ namespace Sempi5.Domain.StaffAggregate
             return text;
         }
         
+        public bool Equals(StaffId other)
+        {
+            return ObjValue.Equals(other.ObjValue);
+        }
     }
 }
