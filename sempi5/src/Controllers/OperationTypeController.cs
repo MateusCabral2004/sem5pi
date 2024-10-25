@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.OperationTypeAggregate;
 using Sempi5.Domain.OperationTypeAggregate.DTOs;
 using Sempi5.Domain.RequiredStaffAggregate;
@@ -24,7 +25,7 @@ public class OperationTypeController : ControllerBase
         _logger = logger;
     }
 
-
+    [Authorize(Roles = "Admin")]
     [HttpPost("addNewOperationType")]
     public async Task<IActionResult> AddNewOperationType(OperationTypeDTO operationType)
     {
@@ -43,6 +44,7 @@ public class OperationTypeController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("deleteOperationType/{operationTypeName}")]
     public async Task<IActionResult> DeleteOperationType(string operationTypeName)
     {
@@ -56,7 +58,8 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message + e.StackTrace);
         }
     }
-
+    
+    [Authorize(Roles = "Admin")]
     [HttpPut("editOperationType/name/{oldOperationName}")]
     public async Task<IActionResult> EditOperationType(string oldOperationName, [FromBody] string newOperationName)
     {
@@ -70,7 +73,8 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message + e.StackTrace);
         }
     }
-
+    
+    [Authorize(Roles = "Admin")]
     [HttpPut("editOperationType/requiredStaff/add/{operationTypeName}")]
     public async Task<IActionResult> AddRequiredStaffToOperationType(RequiredStaffDTO requiredStaffDto,string operationTypeName)
     {
@@ -84,7 +88,8 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message + e.StackTrace);
         }
     }
-
+    
+    [Authorize(Roles = "Admin")]
     [HttpPut("editOperationType/requiredStaff/remove/{operationTypeName}")]
     public async Task<IActionResult> RemoveRequiredStaffFromOperationType(string operationTypeName,
         [FromBody] string specializationName)
@@ -100,6 +105,7 @@ public class OperationTypeController : ControllerBase
         }
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("editOperationType/duration/{durationType}/{operationTypeName}")]
     public async Task<IActionResult> EditOperationTypeDuration(string durationType, string operationTypeName,
         [FromBody] string newDuration)
