@@ -423,9 +423,13 @@ public class AdminService
         }
     }
     
-    public async Task EditPatientProfile2(PatientDTO editPatientDto, string email)
+    public async Task EditPatientProfile2(PatientDTO editPatientDto)
     {
-        var patient =await _patientRepository.GetByEmail(email);
+        if (editPatientDto.email == null)
+        {
+            throw new ArgumentException("The email address can´t be null");
+        }
+        var patient =await _patientRepository.GetByEmail(editPatientDto.email);
 
         var originalEmail = patient.Person.ContactInfo._email;
 
@@ -523,5 +527,24 @@ public class AdminService
             Specialization = staff.Specialization.specializationName.ToString()
         };
     }
+    
+    public async Task DeletePatientProfile2(PatientDTO patientDto)
+    {
+        if (patientDto.email==null)
+        {
+            throw new ArgumentException("The email address can´t be null");
+        }
+        var patient = _patientRepository.GetByEmail(patientDto.email);
+
+        patient.Result.Person = new Person(new Name("\"anonymous\";"), new Name("\"anonymous\";"),
+            new ContactInfo(new Email("\"anonymous\";"), new PhoneNumber(int.Parse("\"anonymous\";"))));
+        patient.Result.BirthDate = DateTime.Parse("\"anonymous\";");
+        patient.Result.EmergencyContact = "\"anonymous\";";
+        patient.Result.AllergiesAndMedicalConditions = new List<string>{"\"anonymous\";"};
+        
+        
+        await _unitOfWork.CommitAsync();
+    }
+
     
 }
