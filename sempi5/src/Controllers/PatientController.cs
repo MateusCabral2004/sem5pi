@@ -144,4 +144,61 @@ Console.WriteLine("Listando agendamentos");
 
         await emailService.SendEmailAsync(email, body, subject);
     }
+    
+    [HttpGet("listPatientProfilesByName")]
+    public async Task<IActionResult> ListPatientProfilesByName(NameDTO nameDto)
+    {
+        try
+        {
+            var patientProfile = await patientService.ListPatientByName(nameDto);
+            return Ok(patientProfile);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("listPatientProfilesByEmail")]
+    public async Task<IActionResult> ListPatientProfilesByEmail(EmailDTO emailDto)
+    {
+        try
+        {
+            var patientProfiles = await patientService.ListPatientByEmail(emailDto);
+            return Ok(patientProfiles);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("listPatientProfilesByMedicalRecordNumber")]
+    public async Task<IActionResult> ListPatientProfilesByMedicalRecordNumber(
+        PatientIdDto patientId)
+    {
+        try
+        {
+            var patientProfiles = await patientService.ListPatientByMedicalRecordNumber(patientId);
+            return Ok(patientProfiles);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpGet("listPatientProfilesByDateOfBirth")]
+    public async Task<IActionResult> ListPatientProfilesByDateOfBirth(DateDTO dateDto)
+    {
+        try
+        {
+            var patientProfiles = await patientService.ListPatientByDateOfBirth(dateDto);
+            return Ok(patientProfiles);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

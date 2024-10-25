@@ -221,24 +221,5 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-
-        [HttpPost("addNewOperationType")]
-        public async Task<IActionResult> AddNewOperationType(OperationTypeDTO operationType)
-        {
-            try
-            {
-                await _adminService.AddNewOperationType(operationType);
-                _logger.ForContext("CustomLogLevel", "CustomLevel")
-                    .Information($"New operation created: {operationType.OperationName}");
-                
-                return Ok("Operation type added successfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message + e.StackTrace);
-            }
-        }
-        
     }
 }

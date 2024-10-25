@@ -12,31 +12,42 @@ public class OperationType : Entity<OperationTypeID>, IAggregateRoot
     
     public List<RequiredStaff> RequiredStaff { get; set; }
     
-    public TimeSpan Duration { get; set; }
+    public TimeSpan SetupDuration { get; set; }
+    public TimeSpan SurgeryDuration { get; set; }
+    public TimeSpan CleaningDuration { get; set; }
     
     public bool stillPerformed { get; set; }
     
     private OperationType() { }
     
-    public OperationType(OperationName name, List<RequiredStaff> requiredStaff, TimeSpan duration)
+    public OperationType(OperationName name, List<RequiredStaff> requiredStaff, TimeSpan setupDuration, TimeSpan surgeryDuration, TimeSpan cleaningDuration)
     {
         Name = name;
         RequiredStaff = requiredStaff;
-        Duration = duration;
+        SetupDuration = setupDuration;
+        SurgeryDuration = surgeryDuration;
+        CleaningDuration = cleaningDuration;
         stillPerformed = true;
     }
     
-    public OperationType(OperationName name, TimeSpan duration)
+    public OperationType(OperationName name, TimeSpan setupDuration, TimeSpan surgeryDuration, TimeSpan cleaningDuration)
     {
         Name = name;
         RequiredStaff = [];
-        Duration = duration;
+        SetupDuration = setupDuration;
+        SurgeryDuration = surgeryDuration;
+        CleaningDuration = cleaningDuration;
         this.stillPerformed = true;
     }
     
     public void AddRequiredStaff(RequiredStaff requiredStaff)
     {
         RequiredStaff.Add(requiredStaff);
+    }
+    
+    public void RemoveRequiredStaff(RequiredStaff requiredStaff)
+    {
+        RequiredStaff.Remove(requiredStaff);
     }
     
     public void MarkAsNoLongerPerformed()
