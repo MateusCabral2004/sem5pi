@@ -8,7 +8,9 @@ public class OperationTypeDTO
         
     public List<RequiredStaffDTO> RequiredStaff { get; set; }
         
-    public int Hours { get; set; }
+    public string SetupDuration { get; set; }
     
-    public int Minutes { get; set; }
+    public string SurgeryDuration { get; set; }
+    
+    public string CleaningDuration { get; set; }
 }

@@ -36,11 +36,24 @@ namespace Sempi5.Infrastructure.OperationTypeRepository
             builder.HasIndex(p => p.Name)
                 .IsUnique();
             
-            builder.Property(s => s.Duration)
-                .HasColumnName("Duration")
+            builder.Property(s => s.SetupDuration)
+                .HasColumnName("SetupDuration")
                 .HasConversion(
                     s => s.ToString(),       
                     s => TimeSpan.Parse(s)); 
+            
+            builder.Property(s => s.CleaningDuration)
+                .HasColumnName("CleaningDuration")
+                .HasConversion(
+                    s => s.ToString(),       
+                    s => TimeSpan.Parse(s)); 
+            
+            builder.Property(s => s.SurgeryDuration)
+                .HasColumnName("SurgeryDuration")
+                .HasConversion(
+                    s => s.ToString(),       
+                    s => TimeSpan.Parse(s)); 
+            
         }
     }
 }

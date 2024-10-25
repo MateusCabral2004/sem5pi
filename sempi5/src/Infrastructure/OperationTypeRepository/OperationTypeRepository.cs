@@ -16,7 +16,10 @@ public class OperationTypeRepository : BaseRepository<OperationType, OperationTy
     
     public async Task<OperationType> GetOperationTypeByName(OperationName name)
     {
-        return await context.OperationTypes.FirstOrDefaultAsync(x => x.Name.Equals(name));
+        return await context.OperationTypes
+            .Include(x => x.RequiredStaff)
+            .ThenInclude(r => r.Specialization)
+            .FirstOrDefaultAsync(x => x.Name.Equals(name));
     }
     
 }
