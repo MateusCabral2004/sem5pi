@@ -1,0 +1,69 @@
+﻿@startuml
+actor Admin
+participant SurgicalAppointmentSystem
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database Database
+
+activate Admin
+Admin -> SurgicalAppointmentSystem: edit operation type
+activate SurgicalAppointmentSystem
+
+SurgicalAppointmentSystem -> Routing: forward request to edit operation type
+activate Routing
+Routing -> Controller: forward request to edit operation type
+activate Controller
+
+Controller -> ApplicationService: edit operation type
+activate ApplicationService
+
+ApplicationService -> Repository: request operation type
+activate Repository
+
+Repository -> Persistence: request operation type
+activate Persistence
+Persistence -> Database: request operation type
+activate Database
+Database --> Persistence: operation type sent
+deactivate Database
+
+Persistence --> Repository: operation type sent
+deactivate Persistence
+
+Repository --> ApplicationService: operation type sent
+deactivate Repository
+
+ApplicationService -> ApplicationService: edit operation type
+
+ApplicationService -> Repository: update operation type
+activate Repository
+Repository -> Persistence: update operation type
+activate Persistence
+Persistence -> Database: update operation type
+activate Database
+
+Database --> Persistence: operation type updated
+deactivate Database
+
+Persistence --> Repository: operation type updated
+deactivate Persistence
+
+Repository --> ApplicationService: operation type updated
+deactivate Repository
+
+ApplicationService --> Controller: operation type edited
+deactivate ApplicationService
+
+Controller --> Routing: operation type edited
+deactivate Controller
+
+Routing --> SurgicalAppointmentSystem: operation type edited
+deactivate Routing
+
+SurgicalAppointmentSystem --> Admin: operation type edited
+
+deactivate SurgicalAppointmentSystem
+@enduml
