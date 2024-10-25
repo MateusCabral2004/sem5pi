@@ -5,7 +5,7 @@ namespace Sempi5.Domain.PatientAggregate;
 
 public class PatientDTO
 {
-    public string patientId { get; set; }
+    public string? patientId { get; set; }
     public string firstName { get; set; }
     public string lastName { get; set; }
     public string? fullName { get; set; }

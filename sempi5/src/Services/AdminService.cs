@@ -298,45 +298,6 @@ public class AdminService
             patientDTO.emergencyContact, patientDTO.appointmentHistory);
     }
 
-    public async Task EditPatientProfile(PatientDTO editPatientDto, string email)
-    {
-        var patient = await _patientRepository.GetByEmail(email);
-
-        var originalEmail = patient.Person.ContactInfo._email;
-
-        if (editPatientDto.allergiesAndMedicalConditions != null)
-        {
-            patient.AllergiesAndMedicalConditions = editPatientDto.allergiesAndMedicalConditions;
-        }
-
-        if (editPatientDto.appointmentHistory != null)
-        {
-            patient.AppointmentHistory = editPatientDto.appointmentHistory;
-        }
-
-        if (editPatientDto.phoneNumber == -1)
-        {
-            patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber ?? 0);
-        }
-
-        if (editPatientDto.email != null)
-        {
-            patient.Person.ContactInfo._email = new Email(editPatientDto.firstName);
-        }
-
-        if (editPatientDto.fullName != null)
-        {
-            patient.Person.FullName._name = editPatientDto.fullName;
-        }
-
-        await _patientRepository.AddAsync(patient);
-        await _unitOfWork.CommitAsync();
-
-
-        //TODO TEM QUE ENVIAR EMAIL PARA O ANTIGO EMAIL
-        //TODO LOGS
-    }
-
     public async Task CreateStaffProfile(StaffDTO staffDTO)
     {
         var staff = await StaffDtoToStaff(staffDTO);
@@ -423,7 +384,7 @@ public class AdminService
         }
     }
     
-    public async Task EditPatientProfile2(PatientDTO editPatientDto)
+    public async Task EditPatientProfile(PatientDTO editPatientDto)
     {
         if (editPatientDto.email == null)
         {
@@ -528,7 +489,7 @@ public class AdminService
         };
     }
     
-    public async Task DeletePatientProfile2(PatientDTO patientDto)
+    public async Task DeletePatientProfile(PatientDTO patientDto)
     {
         if (patientDto.email==null)
         {
