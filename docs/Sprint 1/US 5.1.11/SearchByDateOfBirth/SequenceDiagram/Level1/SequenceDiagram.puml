@@ -1,0 +1,12 @@
+﻿@startuml
+actor Admin
+participant SurgeyApointmentSystem
+
+Admin -> SurgeyApointmentSystem : List Patient Profiles By Date Of Birth
+activate SurgeyApointmentSystem
+
+SurgeyApointmentSystem -> Admin : Searched Patient Profiles
+deactivate SurgeyApointmentSystem
+
+
+@enduml
