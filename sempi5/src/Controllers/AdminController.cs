@@ -198,7 +198,7 @@ namespace Sempi5.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message);
+                return BadRequest(e.Message + e.StackTrace);
             }
         }
         

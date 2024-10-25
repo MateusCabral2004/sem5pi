@@ -45,6 +45,13 @@ namespace Sempi5.Infrastructure.StaffRepository
                 .WithMany()                        // Specialization has many Staff
                 .HasForeignKey("SpecializationId")
                 .IsRequired();
+            
+            builder.Property(p => p.Status)
+                .IsRequired()
+                .HasConversion(
+                    p => p.ToString(),
+                    p => (StaffStatusEnum)Enum.Parse(typeof(StaffStatusEnum), p)
+                );
         }
     }
 }

@@ -475,7 +475,7 @@ public class AdminService
 
     public async Task<StaffDTO> EditStaffProfile(EditStaffDTO editStaffDto)
     {
-        var staff = await _staffRepository.GetByIdAsync(new StaffId(editStaffDto.Id));
+        var staff = await _staffRepository.GetActiveStaffById(new StaffId(editStaffDto.Id));
         
         if (staff == null)
         {
