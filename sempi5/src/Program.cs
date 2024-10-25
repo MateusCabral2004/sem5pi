@@ -20,8 +20,10 @@ using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.RequiredStaffAggregate;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.SurgeryRoomAggregate;
+using Sempi5.Infrastructure.AccoutToDeleteRepository;
 using Sempi5.Infrastructure.AppointmentRepository;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
+using Sempi5.Infrastructure.LinkConfirmationRepository;
 using Sempi5.Infrastructure.OperationRequestRepository;
 using Sempi5.Infrastructure.OperationTypeRepository;
 using Sempi5.Infrastructure.PersonRepository;
@@ -126,7 +128,7 @@ namespace Sempi5
                 Console.WriteLine(e.StackTrace);
                 Console.WriteLine("Error seeding data");
             }
-            
+
             app.Run();
         }
 
@@ -186,6 +188,8 @@ namespace Sempi5
             services.AddTransient<IOperationRequestRepository, OperationRequestRepository>();
             services.AddTransient<ISurgeryRoomRepository, SurgeryRoomRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
+            services.AddTransient<IAccountToDeleteRepository, AccountToDeleteRepository>();
+            services.AddTransient<IConfirmationLinkRepository, ConfirmationLinkRepository>();
             
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
@@ -205,7 +209,7 @@ namespace Sempi5
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
 
                 var specializationRepo = scope.ServiceProvider.GetRequiredService<ISpecializationRepository>();
-                
+
                 // Check if there are any staff members already in the database
                 if (!staffRepo.GetAllAsync().Result.Any())
                 {
@@ -269,7 +273,7 @@ namespace Sempi5
 
                     specializationRepo.AddAsync(specialization1).Wait();
                     specializationRepo.AddAsync(specialization2).Wait();
-                    
+
                     // Add staff to repository
                     staffRepo.AddAsync(administrator).Wait();
                     staffRepo.AddAsync(doctor).Wait();
@@ -330,7 +334,6 @@ namespace Sempi5
                         "789",
                         new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },
                         MedicalRecordStatusEnum.DEACTIVATED
-                        
                     );
 
                     var specialization1 = new Specialization(new SpecializationName("Nurse")

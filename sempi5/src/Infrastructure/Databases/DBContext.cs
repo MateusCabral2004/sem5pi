@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain;
+using Sempi5.Domain.AccoutToDelete;
 using Sempi5.Domain.AppointmentAggregate;
+using Sempi5.Domain.ConfirmationLink;
 using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.OperationTypeAggregate;
 using Sempi5.Domain.PersonalData;
@@ -13,8 +15,10 @@ using Sempi5.Domain.User;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.RequiredStaffAggregate;
+using Sempi5.Infrastructure.AccoutToDeleteRepository;
 using Sempi5.Infrastructure.AppointmentRepository;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
+using Sempi5.Infrastructure.LinkConfirmationRepository;
 using Sempi5.Infrastructure.OperationRequestRepository;
 using Sempi5.Infrastructure.OperationTypeRepository;
 using Sempi5.Infrastructure.PatientRepository;
@@ -30,6 +34,8 @@ namespace Sempi5.Infrastructure.Databases
 {
     public class DBContext : DbContext
     {
+        public DbSet<ConfirmationLink>ConfirmationLink { get; set; }
+        public DbSet<AccoutToDelete>AccoutToDelete { get; set; }
         public DbSet<TodoItem> TodoItems { get; set; }
         public DbSet<Staff> StaffMembers { get; set; }
         public DbSet<SystemUser> Users { get; set; }
@@ -60,12 +66,14 @@ namespace Sempi5.Infrastructure.Databases
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PatientEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PersonEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new ConfirmationTokenEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new RequiredStaffEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OperationTypeEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new OperationRequestEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new AppointmentEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SurgeryRoomEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountToDeleteEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ConfirmationTokenEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ConfirmationLinkEntityTypeConfiguration());
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

@@ -82,6 +82,13 @@ public class EmailService
         var subject = "Email Confirmation";
         await SendEmailAsync(email, body, subject);
     }
+    public async Task SendPatientDeleteConfirmationEmail(string email, string token)
+    {
+        var body = $"Please confirm your email by clicking " +
+                   $"<a href='http://localhost:5001/patient/account/exclude/confirm/{token}'>here</a>";
+        var subject = "Delete accout Confirmation";
+        await SendEmailAsync(email, body, subject);
+    }
 
     public async Task SendPatientUpdatingEmail_EmailAltered(string oldEmail, string currentEmail)
     {

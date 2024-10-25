@@ -11,11 +11,11 @@ namespace Sempi5.Domain.PatientAggregate
         //of what they are instead of just strings
         public SystemUser? User { get; set; }      
         public MedicalRecordNumber Id { get; set; }
-        public Person Person { get; set; }
+        public Person? Person { get; set; }
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
         public List<string> AllergiesAndMedicalConditions { get; set; }
-        public string EmergencyContact { get; set; }
+        public string? EmergencyContact { get; set; }
         public List<string> AppointmentHistory { get; set; }
         public MedicalRecordStatusEnum MedicalRecordStatus { get; set; }
 
