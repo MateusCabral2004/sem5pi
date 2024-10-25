@@ -203,12 +203,12 @@ namespace Sempi5.Controllers
         }
         
         
-        [HttpPost("deletePatientProfile")]
-        public async Task<IActionResult> DeletePatientProfile(PatientDTO patientDto)
+        [HttpPost("deletePatientProfile/{email}")]
+        public async Task<IActionResult> DeletePatientProfile(string email)
         {
             try
             {
-                await _adminService.DeletePatientProfile(patientDto);
+                await _adminService.DeletePatientProfile(email);
                 return Ok("Patient deleted successfully");
             }
             catch (Exception e)

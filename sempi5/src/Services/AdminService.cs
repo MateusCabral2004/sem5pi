@@ -485,20 +485,19 @@ public class AdminService
         };
     }
     
-    public async Task DeletePatientProfile(PatientDTO patientDto)
+    public async Task DeletePatientProfile(string email)
     {
-        if (patientDto.email==null)
+        if (email==null)
         {
             throw new ArgumentException("The email address can´t be null");
         }
-        var patient = _patientRepository.GetByEmail(patientDto.email);
+        var patient = _patientRepository.GetByEmail(email);
 
-        patient.Result.Person = new Person(new Name("\"anonymous\";"), new Name("\"anonymous\";"),
-            new ContactInfo(new Email("\"anonymous\";"), new PhoneNumber(int.Parse("\"anonymous\";"))));
-        patient.Result.BirthDate = DateTime.Parse("\"anonymous\";");
-        patient.Result.EmergencyContact = "\"anonymous\";";
-        patient.Result.AllergiesAndMedicalConditions = new List<string>{"\"anonymous\";"};
-        
+        patient.Result.Person = new Person(new Name("anonymous"), new Name("anonymous"),
+            new ContactInfo(new Email("anonymous@anonymous"), new PhoneNumber(999999999)));
+        patient.Result.BirthDate = new DateTime(0001 / 01 / 01);
+        patient.Result.EmergencyContact = "anonymous";
+        patient.Result.AllergiesAndMedicalConditions = new List<string>{"anonymous"};
         
         await _unitOfWork.CommitAsync();
     }
