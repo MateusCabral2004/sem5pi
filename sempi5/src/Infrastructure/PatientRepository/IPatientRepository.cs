@@ -20,6 +20,6 @@ namespace Sempi5.Infrastructure.PatientRepository
         
         public Task<Patient> GetByPatientId(string patientId);
         
-        public Task<int> deleteExpiredEntitiesAsync();
+        public Task<int> deleteExpiredEntitiesAsync(Patient patient);
     }
 }
