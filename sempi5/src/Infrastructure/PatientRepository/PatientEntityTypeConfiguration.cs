@@ -34,6 +34,13 @@ namespace Sempi5.Infrastructure.PatientRepository
                 .HasColumnType("DATE")
                 .IsRequired();
             
+            builder.Property(p => p.MedicalRecordStatus)
+                .IsRequired()
+                .HasConversion(
+                    p => p.ToString(),
+                    p => (MedicalRecordStatusEnum)Enum.Parse(typeof(MedicalRecordStatusEnum), p)
+                );
+            
         }
     }
 }

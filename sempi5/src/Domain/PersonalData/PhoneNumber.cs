@@ -22,5 +22,10 @@
         {
             return _phoneNumber;
         }
+        
+        public bool Equals(PhoneNumber phoneNumber)
+        {
+            return phoneNumber._phoneNumber == _phoneNumber;
+        }
     }
 }

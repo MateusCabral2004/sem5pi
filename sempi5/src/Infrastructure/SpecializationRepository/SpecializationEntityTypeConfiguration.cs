@@ -28,5 +28,9 @@ public class SpecializationEntityTypeConfiguration : IEntityTypeConfiguration<Sp
                 s => new SpecializationName(s)
             )
             .HasMaxLength(100);
+
+        builder.HasIndex(s => s.specializationName)
+            .IsUnique();
+
     }
 }

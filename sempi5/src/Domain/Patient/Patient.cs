@@ -17,6 +17,7 @@ namespace Sempi5.Domain.Patient
         public List<string> AllergiesAndMedicalConditions { get; set; }
         public string EmergencyContact { get; set; }
         public List<string> AppointmentHistory { get; set; }
+        public MedicalRecordStatusEnum MedicalRecordStatus { get; set; }
 
         private Patient() {}
         
@@ -29,6 +30,19 @@ namespace Sempi5.Domain.Patient
             AllergiesAndMedicalConditions = allergiesAndMedicalConditions;
             EmergencyContact = emergencyContact;
             AppointmentHistory = appointmentHistory;
+            MedicalRecordStatus = MedicalRecordStatusEnum.ACTIVATED;
+        }
+        
+        public Patient(SystemUser user, Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact, List<string> appointmentHistory, MedicalRecordStatusEnum medicalRecordStatus)
+        {
+            User = user;
+            Person = person;
+            BirthDate = birthDate;
+            Gender = gender;
+            AllergiesAndMedicalConditions = allergiesAndMedicalConditions;
+            EmergencyContact = emergencyContact;
+            AppointmentHistory = appointmentHistory;
+            MedicalRecordStatus = medicalRecordStatus;
         }
 
         public Patient(SystemUser user, MedicalRecordNumber id, Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact)
@@ -39,6 +53,7 @@ namespace Sempi5.Domain.Patient
             Gender = gender;
             AllergiesAndMedicalConditions = allergiesAndMedicalConditions;
             EmergencyContact = emergencyContact;
+            MedicalRecordStatus = MedicalRecordStatusEnum.ACTIVATED;
         }
     }
 }

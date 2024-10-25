@@ -75,11 +75,11 @@ namespace Sempi5.Controllers
 
         [HttpGet("listPatientProfilesByMedicalRecordNumber")]
         public async Task<IActionResult> ListPatientProfilesByMedicalRecordNumber(
-            MedicalRecordNumberDTO medicalRecordNumberDto)
+            PatientIdDto patientId)
         {
             try
             {
-                var patientProfiles = await _adminService.ListPatientByMedicalRecordNumber(medicalRecordNumberDto);
+                var patientProfiles = await _adminService.ListPatientByMedicalRecordNumber(patientId);
                 return Ok(patientProfiles);
             }
             catch (Exception e)
@@ -115,21 +115,64 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
-
-        [HttpPost("editPatientProfile")]
-        public async Task<IActionResult> EditPatientProfile(PatientDTO patientDto, string email)
+        
+        [HttpGet("viewPatientRecord")]
+        public async Task<IActionResult> ViewPatientRecord(PatientIdDto patientId)
         {
             try
             {
-                await _adminService.EditPatientProfile(patientDto, email);
-                return Ok("Patient profile edited successfully");
+                var patientRecord = await _adminService.GetPatientRecordByPatientId(patientId);
+                return Ok(patientRecord);
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
         }
-
-       
+        
+        [HttpPut("editPatientRecord")]
+        public async Task<IActionResult> EditPatientRecord(EditPatientRecordDTO editPatientRecord)
+        {
+            try
+            {
+                var patientDto = await _adminService.EditPatientRecord(editPatientRecord);
+                
+                return Ok("Patient profile edited successfully.");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
+        [HttpPut("deletePatientRecord")]
+        public async Task<IActionResult> DeletePatientRecord(PatientIdDto patientIdDto)
+        {
+            try
+            {
+                var patientDto = await _adminService.DeletePatientRecord(patientIdDto);
+                
+                return Ok("Patient profile deleted successfully.");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
+        [HttpPost("createStaffProfile")]
+        public async Task<IActionResult> CreateStaffProfile(StaffDTO staff)
+        {
+            try
+            {
+                await _adminService.CreateStaffProfile(staff);
+                return Ok("Staff profile created successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error creating Staff:" + e.Message);
+            }
+        }
+        
     }
 }

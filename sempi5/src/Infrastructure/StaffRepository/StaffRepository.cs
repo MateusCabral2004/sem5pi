@@ -30,7 +30,17 @@ namespace Sempi5.Infrastructure.StaffRepository
 
             return staff;
         }
-        
+
+        public Task<Staff?> GetByLicenseNumber(LicenseNumber licenseNumber)
+        {
+            if (licenseNumber == null)
+            {
+                return null;
+            }
+            
+            return context.StaffMembers.FirstOrDefaultAsync(p => p.LicenseNumber.Equals(licenseNumber));
+        }
+
         public async Task<Staff> GetByIdAsync(StaffId id)
         {
             //return await this._context.Categories.FindAsync(id);
