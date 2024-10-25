@@ -1,0 +1,24 @@
+﻿@startuml
+actor Admin
+participant SurgeryAppointmentSystem
+participant Backend
+database Database
+
+activate Admin
+Admin -> SurgeryAppointmentSystem: create new operation type
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend: create new operation type
+activate Backend
+Backend -> Database: insert operation type
+activate Database
+Database --> Backend: operation type inserted
+deactivate Database
+
+Backend --> SurgeryAppointmentSystem: operation type created
+deactivate Backend
+
+SurgeryAppointmentSystem --> Admin: operation type created
+
+deactivate SurgeryAppointmentSystem
+@enduml

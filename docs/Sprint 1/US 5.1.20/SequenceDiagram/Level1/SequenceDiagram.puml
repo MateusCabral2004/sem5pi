@@ -1,0 +1,12 @@
+﻿@startuml
+actor Admin
+participant SurgeyApointmentSystem
+
+activate Admin
+Admin -> SurgeyApointmentSystem: creates new operation type
+activate SurgeyApointmentSystem
+
+SurgeyApointmentSystem --> Admin: operation type created
+deactivate SurgeyApointmentSystem
+
+@enduml
