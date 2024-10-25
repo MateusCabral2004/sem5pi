@@ -3,21 +3,37 @@ title US 5.1.9-Sequence Diagram Level 2
 
 actor Admin
 participant SurgeryAppointmentSystem
-participant MasterData
+participant Backend
+database DataBase
 
 activate Admin
 
-Admin -> SurgeryAppointmentSystem: edit patient's profile
+Admin -> SurgeryAppointmentSystem: edit patient profile
 
 activate SurgeryAppointmentSystem
 
-SurgeryAppointmentSystem -> MasterData: edit patient's profile
+SurgeryAppointmentSystem -> Backend: edit patient profile
 
-activate MasterData
+activate Backend 
 
-MasterData --> SurgeryAppointmentSystem: patient's profile edited
-deactivate MasterData
+Backend -> Backend:edit patient profile
+alt patient contact info email edited
+Backend -> Backend: send email notification to old email
+end
 
-SurgeryAppointmentSystem --> Admin: patient's profile edited
+alt patient contact info phone number edited
+Backend-> Backend: send email notification
+end
+
+Backend -> DataBase: update patient profile
+activate DataBase
+
+DataBase --> Backend: patient profile updated
+deactivate DataBase
+
+Backend --> SurgeryAppointmentSystem: patient profile edited
+deactivate Backend
+
+SurgeryAppointmentSystem --> Admin: patient profile edited
 deactivate SurgeryAppointmentSystem
 @enduml

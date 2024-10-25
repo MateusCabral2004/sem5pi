@@ -4,7 +4,8 @@ title US 5.1.8-Sequence Diagram Level 2
 
 actor Admin
 participant SurgeryAppointmentSystem
-participant MasterData
+participant Backend
+database DataBase
 
 activate Admin
 
@@ -12,12 +13,17 @@ Admin -> SurgeryAppointmentSystem: create new patient profile
 
 activate SurgeryAppointmentSystem
 
-SurgeryAppointmentSystem -> MasterData: create new patient profile
+SurgeryAppointmentSystem -> Backend: create new patient profile
+activate Backend
 
-activate MasterData
+Backend -> DataBase:create new patient profile
+activate DataBase
 
-MasterData --> SurgeryAppointmentSystem: new patient profile created
-deactivate MasterData
+DataBase -->Backend:new patient profile created
+deactivate DataBase
+
+Backend --> SurgeryAppointmentSystem: new patient profile created
+deactivate Backend
 
 SurgeryAppointmentSystem --> Admin: new patient profile created
 deactivate SurgeryAppointmentSystem

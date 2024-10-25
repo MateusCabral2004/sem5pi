@@ -1,0 +1,12 @@
+﻿@startuml
+
+title US 5.1.23 - Sequence Diagram Level 1
+actor Admin
+participant SurgeyApointmentSystem
+
+Admin -> SurgeyApointmentSystem : list/search operation type by name
+activate SurgeyApointmentSystem
+
+SurgeyApointmentSystem -> Admin : operation type listed/searched
+deactivate SurgeyApointmentSystem
+@enduml
