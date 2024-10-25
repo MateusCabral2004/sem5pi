@@ -34,11 +34,12 @@ public class AdminService
     private readonly IPersonRepository _personRepository;
     private readonly ISpecializationRepository _specializationRepository;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly DBContext _context;
 
     public AdminService(IStaffRepository staffRepository, IPatientRepository patientRepository,
         IUserRepository userRepository,
         IConfirmationTokenRepository confirmationRepository, IUnitOfWork unitOfWork, EmailService emailService,
-        IPersonRepository personRepository, ISpecializationRepository specializationRepository)
+        IPersonRepository personRepository, ISpecializationRepository specializationRepository, DBContext context)
     {
         _staffRepository = staffRepository;
         _patientRepository = patientRepository;
@@ -48,6 +49,7 @@ public class AdminService
         _emailService = emailService;
         _personRepository = personRepository;
         _specializationRepository = specializationRepository;
+        _context = context;
     }
 
     public async Task RegisterUser(RegisterUserDTO userDTO)
@@ -370,10 +372,6 @@ public class AdminService
         {
             return searchedSpecialization;
         }
-
-        await _specializationRepository.AddAsync(specialization);
-
-        await _unitOfWork.CommitAsync();
         
         return specialization;
     }
@@ -391,14 +389,6 @@ public class AdminService
         
         var contactInfo = new ContactInfo(email, phoneNumber);
         var person = new Person(new Name(firstName), new Name(lastName), contactInfo);
-
-        await _personRepository.AddAsync(person);
-        
-
-        //TODO: Buscar por phone number | SE for null criar | Se nao for null usar esse
-        
-        
-        await _unitOfWork.CommitAsync();
 
         return person;
     }
@@ -425,8 +415,6 @@ public class AdminService
     
     public async Task VerifyLicenseNumberAvailability(LicenseNumber licenseNumber)
     {
-        
-        
         var staffByLicenseNumber = await _staffRepository.GetByLicenseNumber(licenseNumber);
         
         if (staffByLicenseNumber != null)
@@ -434,6 +422,7 @@ public class AdminService
             throw new ArgumentException("License Number already in use.");
         }
     }
+    
     public async Task EditPatientProfile2(PatientDTO editPatientDto, string email)
     {
         var patient =await _patientRepository.GetByEmail(email);
@@ -480,6 +469,59 @@ public class AdminService
            await _emailService.SendPatientUpdatingEmail_PhoneNumberAltered(originalEmail.ToString(),
                 editPatientDto.phoneNumber.ToString());
         }
+    }
+
+    public async Task<StaffDTO> EditStaffProfile(EditStaffDTO editStaffDto)
+    {
+        var staff = await _staffRepository.GetByIdAsync(new StaffId(editStaffDto.Id));
+        
+        if (staff == null)
+        {
+            throw new ArgumentException("Staff not found.");
+        }
+        
+        if (editStaffDto.email != null)
+        {
+            var email = new Email(editStaffDto.email);
+
+            await VerifyEmailAvailability(email);
+            
+            staff.Person.ContactInfo._email = email;
+        }
+        
+        
+        if (editStaffDto.phoneNumber > 0 && editStaffDto.phoneNumber != null)
+        {
+            var phoneNumber = new PhoneNumber(editStaffDto.phoneNumber);
+            
+            await VerifyPhoneNumberAvailability(phoneNumber);
+            
+            staff.Person.ContactInfo._phoneNumber = phoneNumber;
+        }
+        
+        if (editStaffDto.specialization != null)
+        {
+            staff.Specialization = await CreateSpecialization(editStaffDto.specialization);
+        }
+        
+        _context.StaffMembers.Update(staff);
+        
+        await _unitOfWork.CommitAsync();
+
+        return await StaffToStaffDto(staff);
+    }
+    
+    public async Task<StaffDTO> StaffToStaffDto(Staff staff)
+    {
+        return new StaffDTO
+        {
+            FirstName = staff.Person.FirstName.ToString(),
+            LastName = staff.Person.LastName.ToString(),
+            LicenseNumber = staff.LicenseNumber.licenseNumber(),
+            Email = staff.Person.ContactInfo._email.ToString(),
+            PhoneNumber = staff.Person.ContactInfo._phoneNumber.phoneNumber(),
+            Specialization = staff.Specialization.specializationName.ToString()
+        };
     }
     
 }

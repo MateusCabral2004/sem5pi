@@ -187,6 +187,20 @@ namespace Sempi5.Controllers
                 return BadRequest(e.Message);
             }
         }
+        
+        [HttpPatch("editStaffProfile")]
+        public async Task<IActionResult> EditStaffProfile(EditStaffDTO editStaffDto)
+        {
+            try
+            {
+                await _adminService.EditStaffProfile(editStaffDto);
+                return Ok("Staff profile edited successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
 
     }
 }
