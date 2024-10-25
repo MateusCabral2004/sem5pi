@@ -1,0 +1,12 @@
+﻿@startuml
+actor Staff
+participant SurgeyApointmentSystem
+
+activate Staff
+Staff -> SurgeyApointmentSystem: logs in into the system
+activate SurgeyApointmentSystem
+
+SurgeyApointmentSystem --> Staff: gives access to the staff
+deactivate SurgeyApointmentSystem
+
+@enduml

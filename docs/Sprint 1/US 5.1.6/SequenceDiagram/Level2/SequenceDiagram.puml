@@ -1,0 +1,36 @@
+﻿@startuml
+actor Staff
+participant SurgeryAppointmentSystem
+participant Backend
+boundary IAM_API as "External IAM API"
+database Database
+
+activate Staff
+Staff -> SurgeryAppointmentSystem: logs in into the system
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend: logs in into the system
+activate Backend
+
+Backend -> IAM_API: send data to login into the system
+
+activate IAM_API
+
+IAM_API --> Backend: sends user session
+
+deactivate IAM_API
+
+Backend -> Database: asks for user data
+activate Database
+Database --> Backend: send user data
+deactivate Database
+
+Backend -> Backend: updates user session with\n  user data in database
+
+Backend --> SurgeryAppointmentSystem: user logged in
+deactivate Backend
+
+SurgeryAppointmentSystem --> Staff: gives access to the staff
+
+deactivate SurgeryAppointmentSystem
+@enduml
