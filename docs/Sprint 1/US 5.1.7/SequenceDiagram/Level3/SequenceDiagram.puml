@@ -1,37 +1,30 @@
 ﻿@startuml
 actor Patient
-participant SurgicalAppointmentSystem
 participant Routing
 participant Controller
 participant ApplicationService
-participant Backend
 participant Repository
 participant Persistence
 boundary IAM_API as "External IAM API"
 database Database
 
 activate Patient
-Patient -> SurgicalAppointmentSystem: logs in into the system
-activate SurgicalAppointmentSystem
-
-SurgicalAppointmentSystem -> Routing: forward request to login
+Patient -> Routing: logs in into the system
 activate Routing
+
 Routing -> Controller: forward request to login
 activate Controller
 
 Controller -> ApplicationService: logs in into the system
 activate ApplicationService
 
-ApplicationService -> Backend: forward login request
-activate Backend
-
-Backend -> IAM_API: send data to login into the system
+ApplicationService -> IAM_API: send data to login into the system
 activate IAM_API
 
-IAM_API --> Backend: sends user session
+IAM_API --> ApplicationService: sends user session
 deactivate IAM_API
 
-Backend -> Repository: requests user data
+ApplicationService -> Repository: requests user data
 activate Repository
 
 Repository -> Persistence: requests user data
@@ -45,13 +38,10 @@ deactivate Database
 Persistence --> Repository: user data retrieved
 deactivate Persistence
 
-Repository --> Backend: user data retrieved
+Repository --> ApplicationService: user data retrieved
 deactivate Repository
 
-Backend -> Backend: updates user session with\nuser data from database
-
-Backend --> ApplicationService: user logged in
-deactivate Backend
+ApplicationService -> ApplicationService: updates user session with\nuser data from database
 
 ApplicationService --> Controller: user logged in
 deactivate ApplicationService
@@ -59,9 +49,6 @@ deactivate ApplicationService
 Controller --> Routing: user logged in
 deactivate Controller
 
-Routing --> SurgicalAppointmentSystem: user logged in
+Routing --> Patient: gives access to the staff
 deactivate Routing
-
-SurgicalAppointmentSystem --> Patient: gives access to the staff
-deactivate SurgicalAppointmentSystem
 @enduml
