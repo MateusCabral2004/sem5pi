@@ -559,4 +559,17 @@ public class AdminService
         var requiredStaff = new RequiredStaff(numberOfStaff, specialization);
         return requiredStaff;
     }
+    
+    public async Task DeleteOperationType(string operationName)
+    {
+        OperationName name = new OperationName(operationName);
+        var operationType = await _operationTypeRepository.GetOperationTypeByName(name);
+        if (operationType == null)
+        {
+            throw new ArgumentException("Operation type not found.");
+        }
+
+        operationType.MarkAsNoLongerPerformed();
+        await _unitOfWork.CommitAsync();
+    }
 }

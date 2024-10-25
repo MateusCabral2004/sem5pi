@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Sempi5.Domain.OperationTypeAggregate.DTOs;
 using Sempi5.Domain.PatientAggregate;
+using Sempi5.Domain.RequiredStaffAggregate.DTOs;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.StaffAggregate.DTOs;
 using Sempi5.Domain.StaffAggregate;
@@ -20,9 +21,12 @@ namespace Sempi5.Controllers
     {
         private readonly AdminService _adminService;
 
-        public AdminController(AdminService staffService)
+        private readonly Serilog.ILogger _logger; 
+
+        public AdminController(AdminService staffService, Serilog.ILogger logger)
         {
             _adminService = staffService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -225,6 +229,9 @@ namespace Sempi5.Controllers
             try
             {
                 await _adminService.AddNewOperationType(operationType);
+                _logger.ForContext("CustomLogLevel", "CustomLevel")
+                    .Information($"New operation created: {operationType.OperationName}");
+                
                 return Ok("Operation type added successfully");
             }
             catch (Exception e)

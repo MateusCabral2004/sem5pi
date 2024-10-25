@@ -28,6 +28,8 @@ using Sempi5.Infrastructure.PersonRepository;
 using Sempi5.Infrastructure.RequiredStaffRepository;
 using Sempi5.Infrastructure.SpecializationRepository;
 using Sempi5.Infrastructure.SurgeryRoomRepository;
+using Serilog;
+using Serilog.Events;
 
 namespace Sempi5
 {
@@ -39,6 +41,8 @@ namespace Sempi5
 
             var builder = WebApplication.CreateBuilder(args);
 
+            CreateLogginsMechanism(builder);
+            
             CreateDataBase(builder);
 
             ConfigureMyServices(builder.Services);
@@ -147,6 +151,24 @@ namespace Sempi5
                 Environment.Exit(3);
             }
         }
+        
+        
+        private static void CreateLogginsMechanism(WebApplicationBuilder builder)
+        {
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+                .Enrich.FromLogContext()
+                .WriteTo.Console()
+                .WriteTo.Logger(lc => lc
+                    .Filter.ByIncludingOnly(e =>
+                        e.Properties.ContainsKey("CustomLogLevel") && e.Properties["CustomLogLevel"].ToString() == "\"CustomLevel\"")
+                    .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day))
+                .CreateLogger();
+
+            builder.Host.UseSerilog();
+        }
+        
 
         public static void ConfigureMyServices(IServiceCollection services)
         {
@@ -164,14 +186,15 @@ namespace Sempi5
             services.AddTransient<IOperationRequestRepository, OperationRequestRepository>();
             services.AddTransient<ISurgeryRoomRepository, SurgeryRoomRepository>();
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
-
-
+            
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
             services.AddTransient<EmailService>();
             services.AddTransient<AdminService>();
             services.AddTransient<PatientService>();
             services.AddTransient<TokenService>();
+
+            services.AddSingleton(Log.Logger);
         }
 
         public static void SeedData(IServiceProvider services)

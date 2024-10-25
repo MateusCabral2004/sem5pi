@@ -38,4 +38,9 @@ public class OperationType : Entity<OperationTypeID>, IAggregateRoot
     {
         RequiredStaff.Add(requiredStaff);
     }
+    
+    public void MarkAsNoLongerPerformed()
+    {
+        this.stillPerformed = false;   
+    }
 }

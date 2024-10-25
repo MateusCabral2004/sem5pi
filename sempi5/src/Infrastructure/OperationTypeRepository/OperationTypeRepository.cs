@@ -1,4 +1,5 @@
-﻿using Sempi5.Domain.OperationTypeAggregate;
+﻿using Microsoft.EntityFrameworkCore;
+using Sempi5.Domain.OperationTypeAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
 
@@ -13,5 +14,9 @@ public class OperationTypeRepository : BaseRepository<OperationType, OperationTy
         this.context = dbContext;
     }
     
+    public async Task<OperationType> GetOperationTypeByName(OperationName name)
+    {
+        return await context.OperationTypes.FirstOrDefaultAsync(x => x.Name.Equals(name));
+    }
     
 }
