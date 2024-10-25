@@ -31,20 +31,18 @@ public class EmailService
         {
             throw new ArgumentException("Email subject cannot be null or empty.");
         }
-        // Email credentials
-        //TODO encript credentials
+        
         {
-            // Email credentials
-            //TODO encript credentials
-             // var username = "job4u_g4@outlook.com";
-             // var password = "sem4pi_g4";
-            var username = _configuration["SmtpSettings:Username"];
-            var password = _configuration["SmtpSettings:Password"];
+            var username = _configuration["SmtpSettingsGmail:Username"];
+            var password = _configuration["SmtpSettingsGmail:Password"];
+            var host = _configuration["SmtpSettingsGmail:Host"];
+            var port = int.Parse(_configuration["SmtpSettingsGmail:Port"]);
+            var enableSsl = bool.Parse(_configuration["SmtpSettingsGmail:EnableSsl"]);
 
-            var smtpClient = new SmtpClient("smtp.office365.com")
+            var smtpClient = new SmtpClient(host)
             {
-                Port = 587,
-                EnableSsl = true,
+                Port = port,
+                EnableSsl = enableSsl,
                 Credentials = new NetworkCredential(username, password),
             };
 
