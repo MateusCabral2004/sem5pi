@@ -34,12 +34,11 @@ public class AdminService
     private readonly IPersonRepository _personRepository;
     private readonly ISpecializationRepository _specializationRepository;
     private readonly IUnitOfWork _unitOfWork;
-    private readonly DBContext _context;
 
     public AdminService(IStaffRepository staffRepository, IPatientRepository patientRepository,
         IUserRepository userRepository,
         IConfirmationTokenRepository confirmationRepository, IUnitOfWork unitOfWork, EmailService emailService,
-        IPersonRepository personRepository, ISpecializationRepository specializationRepository, DBContext context)
+        IPersonRepository personRepository, ISpecializationRepository specializationRepository)
     {
         _staffRepository = staffRepository;
         _patientRepository = patientRepository;
@@ -49,7 +48,6 @@ public class AdminService
         _emailService = emailService;
         _personRepository = personRepository;
         _specializationRepository = specializationRepository;
-        _context = context;
     }
 
     public async Task RegisterUser(RegisterUserDTO userDTO)
@@ -507,8 +505,6 @@ public class AdminService
         {
             staff.Specialization = await CreateSpecialization(editStaffDto.specialization);
         }
-        
-        _context.StaffMembers.Update(staff);
         
         await _unitOfWork.CommitAsync();
 
