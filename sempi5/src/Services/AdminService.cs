@@ -390,8 +390,6 @@ public class AdminService
             throw new ArgumentException("License Number already in use.");
         }
     }
-
-    public async Task EditPatientProfile2(PatientDTO editPatientDto)
     
     public async Task EditPatientProfile(PatientDTO editPatientDto)
     {
@@ -448,7 +446,6 @@ public class AdminService
 
     public async Task<StaffDTO> EditStaffProfile(EditStaffDTO editStaffDto)
     {
-        var staff = await _staffRepository.GetByIdAsync(new StaffId(editStaffDto.Id));
 
         var staff = await _staffRepository.GetActiveStaffById(new StaffId(editStaffDto.Id));
         
@@ -498,18 +495,14 @@ public class AdminService
             Specialization = staff.Specialization.specializationName.ToString()
         };
     }
-
-    public async Task DeletePatientProfile2(PatientDTO patientDto)
     
     public async Task DeletePatientProfile(string email)
     {
-        if (patientDto.email == null)
         if (email==null)
         {
             throw new ArgumentException("The email address can´t be null");
         }
 
-        var patient = _patientRepository.GetByEmail(patientDto.email);
         var patient = _patientRepository.GetByEmail(email);
 
         patient.Result.Person = new Person(new Name("\"anonymous\";"), new Name("\"anonymous\";"),
