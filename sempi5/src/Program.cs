@@ -257,7 +257,7 @@ namespace Sempi5
                         specialization1,
                         new ContactInfo("nurse@example.com", 988654321),
                         new List<string> { "Tuesday 10am-3pm", "Thursday 9am-12pm" }
-                        , StaffStatusEnum.NOT_ACTIVE
+                        , StaffStatusEnum.INACTIVE
                     );
 
                     var admin = new Staff
@@ -361,7 +361,7 @@ namespace Sempi5
                         new Name("Doe"),
                         specialization1,
                         new ContactInfo("doctor@example.com", 987254321),
-                        new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }, StaffStatusEnum.NOT_ACTIVE
+                        new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }, StaffStatusEnum.INACTIVE
                     );
 
                     var request1 = new OperationRequest(doctor, patient1, operationType1, new DateTime(2021, 1, 1),
@@ -428,7 +428,7 @@ namespace Sempi5
             {
                 CreateStaffProfile(new LicenseNumber(217), "John", "Stuart", doctorSpecialization, "john@example.com", new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }, StaffStatusEnum.ACTIVE),
                 CreateStaffProfile(new LicenseNumber(218), "Alice", "Johnson", nurseSpecialization, "alice@example.com", new List<string> { "Tuesday 10am-3pm", "Thursday 1pm-5pm" }, StaffStatusEnum.ACTIVE),
-                CreateStaffProfile(new LicenseNumber(219), "Robert", "Brown", adminSpecialization, "robert@example.com", new List<string> { "Monday-Friday 9am-5pm" }, StaffStatusEnum.NOT_ACTIVE)
+                CreateStaffProfile(new LicenseNumber(219), "Robert", "Brown", adminSpecialization, "robert@example.com", new List<string> { "Monday-Friday 9am-5pm" }, StaffStatusEnum.INACTIVE)
             };
 
             // Add staff to repository

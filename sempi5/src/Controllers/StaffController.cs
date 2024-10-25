@@ -12,12 +12,11 @@ namespace Sempi5.Controllers.StaffControllers
     [Authorize]
     public class StaffController : ControllerBase
     {
-
-        private readonly DBContext dataBase;
-
-        public StaffController(DBContext context)
+   private readonly StaffService _staffService;  
+        
+        public StaffController(StaffService staffService)
         {
-            dataBase = context;
+            _staffService = staffService;
         }
 
         [HttpGet]
@@ -36,7 +35,33 @@ namespace Sempi5.Controllers.StaffControllers
 
 
 
-
+        [HttpPost("createStaffProfile")]
+        public async Task<IActionResult> CreateStaffProfile(StaffDTO staff)
+        {
+            try
+            {
+               await _staffService.CreateStaffProfile(staff);
+                return Ok("Staff profile created successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest("Error creating Staff:" + e.Message);
+            }
+        }
+        
+        [HttpPatch("editStaffProfile")]
+        public async Task<IActionResult> EditStaffProfile(EditStaffDTO editStaffDto)
+        {
+            try
+            {
+                await _staffService.EditStaffProfile(editStaffDto);
+                return Ok("Staff profile edited successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message + e.StackTrace);
+            }
+        }
 
 
     }
