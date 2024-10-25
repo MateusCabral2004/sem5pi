@@ -20,6 +20,7 @@ public class PatientController : ControllerBase
         this.patientService = patientService;
         this.emailService = emailService;
     }
+
     public string getEmail()
     {
         var claimsIdentity = User.Identity as ClaimsIdentity;
@@ -36,22 +37,19 @@ public class PatientController : ControllerBase
     [HttpPost("register")]
     [Authorize(Roles = "Unregistered")] //patient only  - falar com mateus para criar novo role
     //TODO - Use email from the cookies (claim principal)
-    public async Task<IActionResult> RegisterNumber(string email, int number)
+    public async Task<IActionResult> RegisterNumber(int number)
     {
         if (number <= 0)
         {
             return BadRequest("Número de registro não pode ser vazio ou negativo.");
         }
 
-        var success = await patientService.RegisterPatientUser(email, number);
+        Console.WriteLine("Iniciando registro de conta com email: " + getEmail());
+        var success = await patientService.RegisterPatientUser(getEmail(), number);
 
         if (success)
         {
-
-            var subject = "Email Confirmation";
-
-
-            return Ok($"Número de registro {number} registrado com sucesso para o email: {email}.");
+            return Ok($"Número de registro {number} registrado com sucesso para o email: {getEmail()}.");
         }
         else
         {
@@ -61,39 +59,36 @@ public class PatientController : ControllerBase
 
     [HttpGet("account/appointment")]
     [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
-    public async Task<IActionResult> listAppointments(string email)
+    public async Task<IActionResult> listAppointments()
 
     {
-        
-        
-        var appointments = await patientService.appointmentList(email);
+        var appointments = await patientService.appointmentList(getEmail());
         if (appointments == null)
         {
             return BadRequest("Unauthorized acess(you need to confirm your account)");
         }
-
+Console.WriteLine("Listando agendamentos");
+        Console.WriteLine(appointments);
         return Ok(appointments);
     }
+    
 
-    [HttpGet("email/track-email-click")]
-    public async Task<IActionResult> TrackEmailClick(string email, string token)
+    [HttpGet("account/exclude")]
+    [Authorize(Roles = "Patient")]
+    public async Task<IActionResult> excludeAccount()
     {
-        // Register that the link was clicked
+      await  patientService.defineDataToExcludeAccount(getEmail());
+        Console.WriteLine("Email to delete accout was sent");
 
-        Console.WriteLine($"O link foi acessado pelo email: {email} com o token: {token} em {DateTime.UtcNow}");
-        // Confirm the email
-        await patientService.confirmEmail(email, token);
-
-
-        return Ok($"Acesso registrado para o email: {email}. Obrigado por confirmar.");
+        return Ok("We have sent email to confirm the exclusion");
     }
 
-
-    [HttpPost("account/exclude")]
-    [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
-    public async Task<IActionResult> excludeAccount(string email)
+    [HttpGet("account/exclude/confirm/{token}")]
+    [Authorize(Roles = "Patient")]
+    public async Task<IActionResult> excludeAccountEmailConfirm(string token)
     {
-       // await patientService.defineDataToExcludeAccount(email);
+        Console.WriteLine("Iniciando agendamento para exclusão de conta");
+        await patientService.excludeAccountSchedule(token);
         return Ok("Account excluded");
     }
 
@@ -107,12 +102,13 @@ public class PatientController : ControllerBase
         {
             string serializedDto = JsonSerializer.Serialize(profileDto);
             Console.WriteLine("Serialized DTO: " + serializedDto);
-            await SendUpdateConfirmationEmail(getEmail(), $"http://localhost:5001/patient/account/update/{serializedDto}", "Update Confirmation");
+            await SendUpdateConfirmationEmail(getEmail(),
+                $"http://localhost:5001/patient/account/update/{serializedDto}", "Update Confirmation");
             return Ok("Email sent to confirm update");
         }
 
         //adicionar um novo parametro que é o email do usuario logado
-        await patientService.updateAccount(profileDto,getEmail());
+        await patientService.updateAccount(profileDto, getEmail());
         return Ok("Account updated");
     }
 
@@ -133,7 +129,7 @@ public class PatientController : ControllerBase
 
         Console.WriteLine("Iniciado update depois da confirmação de email");
 
-        await patientService.updateAccount(profileDto,getEmail());
+        await patientService.updateAccount(profileDto, getEmail());
 
         return Ok("Account updated");
     }
@@ -145,7 +141,7 @@ public class PatientController : ControllerBase
         <p>Please confirm this email by clicking the following link:</p>
         <a href='{link}'>Confirm Email</a>
         <p>If you did not request this, please ignore this email.</p>";
-        
+
         await emailService.SendEmailAsync(email, body, subject);
     }
 }

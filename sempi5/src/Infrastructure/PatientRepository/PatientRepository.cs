@@ -125,9 +125,9 @@ namespace Sempi5.Infrastructure.PatientRepository
             await context.SaveChangesAsync();
         }
 
-        public async Task<int> deleteExpiredEntitiesAsync()
+        public async Task<int> deleteExpiredEntitiesAsync(Patient patient)
         {
-            var now = DateTime.UtcNow;
+            DateTime exludeDate = DateTime.UtcNow.AddDays(30);
 
             // Busca todos os pacientes que estão agendados para deletar e cujo prazo já passou
             var patientsToDelete = await context.Patients
