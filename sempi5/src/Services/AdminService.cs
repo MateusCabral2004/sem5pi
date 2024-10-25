@@ -434,5 +434,52 @@ public class AdminService
             throw new ArgumentException("License Number already in use.");
         }
     }
+    public async Task EditPatientProfile2(PatientDTO editPatientDto, string email)
+    {
+        var patient =await _patientRepository.GetByEmail(email);
+
+        var originalEmail = patient.Person.ContactInfo._email;
+
+        var originalPhoneNumber = patient.Person.ContactInfo._phoneNumber;
+        
+        if (editPatientDto.allergiesAndMedicalConditions != null)
+        {
+            patient.AllergiesAndMedicalConditions = editPatientDto.allergiesAndMedicalConditions;
+        }
+
+        if (editPatientDto.appointmentHistory != null)
+        {
+            patient.AppointmentHistory = editPatientDto.appointmentHistory;
+        }
+
+        if (editPatientDto.phoneNumber == -1)
+        {
+            patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber??0);
+        }
+
+        if (editPatientDto.email != null)
+        {
+            patient.Person.ContactInfo._email = new Email(editPatientDto.firstName);
+        }
+
+        if (editPatientDto.fullName != null)
+        {
+            patient.Person.FullName._name = editPatientDto.fullName;
+        }
+
+        await _patientRepository.AddAsync(patient);
+        await _unitOfWork.CommitAsync();
+
+        if (originalEmail.ToString() != editPatientDto.email)
+        {
+           await _emailService.SendPatientUpdatingEmail_EmailAltered(originalEmail.ToString(), editPatientDto.email);
+        }
+
+        if (originalPhoneNumber.phoneNumber() != editPatientDto.phoneNumber)
+        {
+           await _emailService.SendPatientUpdatingEmail_PhoneNumberAltered(originalEmail.ToString(),
+                editPatientDto.phoneNumber.ToString());
+        }
+    }
     
 }

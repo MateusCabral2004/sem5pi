@@ -173,6 +173,20 @@ namespace Sempi5.Controllers
                 return BadRequest("Error creating Staff:" + e.Message);
             }
         }
-        
+
+        [HttpPost("editPatientProfile2")]
+        public async Task<IActionResult> EditPatientProfile2(PatientDTO patientDto, string email)
+        {
+            try
+            {
+                await _adminService.EditPatientProfile2(patientDto, email);
+                return Ok("Patient profile edited successfully");
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
     }
 }
