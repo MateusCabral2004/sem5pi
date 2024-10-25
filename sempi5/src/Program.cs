@@ -9,18 +9,19 @@ using Sempi5.Domain.Staff;
 using Sempi5.Infrastructure.Databases;
 using Microsoft.IdentityModel.Tokens;
 using Sempi5.Domain;
-using Sempi5.Domain.OperationRequest;
+using Sempi5.Domain.AppointmentAggregate;
+using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.OperationType;
 using Sempi5.Services;
 using Sempi5.Infrastructure.UserRepository;
 using Sempi5.Infrastructure.PatientRepository;
-using Sempi5.Domain.Patient;
+using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
-using Sempi5.Domain.Specialization;
+using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.SurgeryRoomAggregate;
 using Sempi5.Infrastructure.AppointmentRepository;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
-using Sempi5.Infrastructure.OperationRequest;
+using Sempi5.Infrastructure.OperationRequestRepository;
 using Sempi5.Infrastructure.OperationTypeRepository;
 using Sempi5.Infrastructure.PersonRepository;
 using Sempi5.Infrastructure.RequiredStaffRepository;
@@ -303,12 +304,6 @@ namespace Sempi5
                         "789",
                         new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },
                         MedicalRecordStatusEnum.DEACTIVATED
-                        
-                        
-                        
-                        
-                        
-                        
                         
                     );
 

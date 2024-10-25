@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
-using Sempi5.Domain.Patient;
+using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.Staff.DTOs;
 using Sempi5.Domain.Staff;

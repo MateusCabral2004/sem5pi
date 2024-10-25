@@ -13,6 +13,8 @@ public class OperationType : Entity<OperationTypeID>, IAggregateRoot
     
     public TimeSpan Duration { get; set; }
     
+    public bool stillPerformed { get; set; }
+    
     private OperationType() { }
     
     public OperationType(OperationName name, List<RequiredStaff> requiredStaff, TimeSpan duration)
@@ -20,6 +22,6 @@ public class OperationType : Entity<OperationTypeID>, IAggregateRoot
         Name = name;
         RequiredStaff = requiredStaff;
         Duration = duration;
+        stillPerformed = true;
     }
-    
 }

@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Sempi5.Domain.Patient;
+using Sempi5.Domain.PatientAggregate;
 using Sempi5.Services;
 
 namespace Sempi5.Controllers;

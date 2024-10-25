@@ -1,18 +1,20 @@
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain;
+using Sempi5.Domain.AppointmentAggregate;
 using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.OperationType;
-using Sempi5.Domain.Patient;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
-using Sempi5.Domain.Specialization;
+using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.Staff;
 using Sempi5.Domain.SurgeryRoomAggregate;
 using Sempi5.Domain.TodoItem;
 using Sempi5.Domain.User;
+using Sempi5.Domain.OperationRequestAggregate;
+using Sempi5.Domain.PatientAggregate;
 using Sempi5.Infrastructure.AppointmentRepository;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
-using Sempi5.Infrastructure.OperationRequest;
+using Sempi5.Infrastructure.OperationRequestRepository;
 using Sempi5.Infrastructure.OperationTypeRepository;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Infrastructure.PersonRepository;
@@ -38,7 +40,7 @@ namespace Sempi5.Infrastructure.Databases
         public DbSet<Specialization> Specializations { get; set; }
         public DbSet<RequiredStaff> RequiredStaffs { get; set; }
         public DbSet<OperationType> OperationTypes { get; set; }
-        public DbSet<Domain.OperationRequest.OperationRequest> OperationRequests { get; set; }
+        public DbSet<OperationRequest> OperationRequests { get; set; }
         public DbSet<Appointment> Appointments { get; set; }
         public DbSet<SurgeryRoom> SurgeryRooms { get; set; }
 

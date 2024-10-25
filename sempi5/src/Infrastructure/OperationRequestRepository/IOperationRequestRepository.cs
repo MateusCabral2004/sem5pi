@@ -1,8 +1,9 @@
-﻿using Sempi5.Domain.Shared;
+﻿using Sempi5.Domain.OperationRequestAggregate;
+using Sempi5.Domain.Shared;
 
-namespace Sempi5.Infrastructure.OperationRequest;
+namespace Sempi5.Infrastructure.OperationRequestRepository;
 
-public interface IOperationRequestRepository : IRepository<Domain.OperationRequest.OperationRequest, Domain.OperationRequest.OperationRequestID>
+public interface IOperationRequestRepository : IRepository<OperationRequest, OperationRequestID>
 {
     
 }

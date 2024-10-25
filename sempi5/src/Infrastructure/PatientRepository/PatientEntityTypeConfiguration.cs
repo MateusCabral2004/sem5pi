@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sempi5.Domain.Patient;
+using Sempi5.Domain.PatientAggregate;
 
 namespace Sempi5.Infrastructure.PatientRepository
 {

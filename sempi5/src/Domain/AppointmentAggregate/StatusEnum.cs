@@ -1,4 +1,4 @@
-﻿namespace Sempi5.Domain.Shared;
+﻿namespace Sempi5.Domain.AppointmentAggregate;
 
 public enum StatusEnum
 {

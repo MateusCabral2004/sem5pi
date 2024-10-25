@@ -1,14 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sempi5.Domain.OperationRequest;
-using Sempi5.Domain.OperationType;
-using Sempi5.Domain.Staff;
+using Sempi5.Domain.OperationRequestAggregate;
 
-namespace Sempi5.Infrastructure.OperationRequest;
+namespace Sempi5.Infrastructure.OperationRequestRepository;
 
-public class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguration<Domain.OperationRequest.OperationRequest>
+public class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguration<OperationRequest>
 {
-    public void Configure(EntityTypeBuilder<Domain.OperationRequest.OperationRequest> builder)
+    public void Configure(EntityTypeBuilder<OperationRequest> builder)
     {
         builder.ToTable("OperationRequest");
 
@@ -24,17 +22,17 @@ public class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguration<
 
         builder.HasOne(s => s.Doctor)
             .WithOne()
-            .HasForeignKey<Domain.OperationRequest.OperationRequest>("DoctorID")
+            .HasForeignKey<OperationRequest>("DoctorID")
             .IsRequired();
         
         builder.HasOne(s => s.Patient)
             .WithOne()
-            .HasForeignKey<Domain.OperationRequest.OperationRequest>("PatientID")
+            .HasForeignKey<OperationRequest>("PatientID")
             .IsRequired();
         
         builder.HasOne(s => s.OperationType)
             .WithOne()
-            .HasForeignKey<Domain.OperationRequest.OperationRequest>("OperationTypeID")
+            .HasForeignKey<OperationRequest>("OperationTypeID")
             .IsRequired();
         
         builder.Property(p => p.DeadLineDate)

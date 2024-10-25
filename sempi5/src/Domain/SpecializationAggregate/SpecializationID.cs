@@ -1,6 +1,6 @@
 ﻿using Sempi5.Domain.Shared;
 
-namespace Sempi5.Domain.Specialization;
+namespace Sempi5.Domain.SpecializationAggregate;
 
 public class SpecializationID : EntityId
 {

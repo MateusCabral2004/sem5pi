@@ -1,6 +1,6 @@
 ﻿using Sempi5.Domain.Shared;
 
-namespace Sempi5.Domain.Patient;
+namespace Sempi5.Domain.PatientAggregate;
 
 public class PatientIdTracker
 {

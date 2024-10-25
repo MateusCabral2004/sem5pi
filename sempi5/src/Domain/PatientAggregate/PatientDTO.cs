@@ -1,7 +1,7 @@
 ﻿using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.User;
 
-namespace Sempi5.Domain.Patient;
+namespace Sempi5.Domain.PatientAggregate;
 
 public class PatientDTO
 {

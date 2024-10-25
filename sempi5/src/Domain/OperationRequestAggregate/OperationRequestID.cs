@@ -1,10 +1,9 @@
 ﻿using Sempi5.Domain.Shared;
 
-namespace Sempi5.Domain.OperationRequest;
+namespace Sempi5.Domain.OperationRequestAggregate;
 
 public class OperationRequestID : EntityId
 {
- 
     
     public OperationRequestID() : base(null)
     {

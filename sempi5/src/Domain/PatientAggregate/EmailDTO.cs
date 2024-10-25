@@ -1,4 +1,4 @@
-﻿namespace Sempi5.Domain.Patient;
+﻿namespace Sempi5.Domain.PatientAggregate;
 
 public class EmailDTO
 {

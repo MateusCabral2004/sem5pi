@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sempi5.Domain.Patient;
+using Sempi5.Domain.PatientAggregate;
 
 namespace Sempi5.Tests.src.Domain.Patient
 {

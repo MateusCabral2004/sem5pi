@@ -1,18 +1,15 @@
-﻿using Sempi5.Domain;
-using Sempi5.Domain.OperationType;
+﻿using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.Shared;
 
-
-namespace Sempi5.Domain.OperationRequest
+namespace Sempi5.Domain.OperationRequestAggregate
 {
-
     public class OperationRequest : Entity<OperationRequestID>, IAggregateRoot
     {
         public OperationRequestID Id { get; set; }
         
         public Staff.Staff Doctor { get; set; }
         
-        public Patient.Patient Patient { get; set; }
+        public Patient Patient { get; set; }
         
         public OperationType.OperationType OperationType { get; set; }
         
@@ -22,7 +19,7 @@ namespace Sempi5.Domain.OperationRequest
         
         private OperationRequest() {}
      
-        public OperationRequest(Staff.Staff doctor, Patient.Patient patient, OperationType.OperationType operationType, DateTime deadLineDate, PriorityEnum priorityEnum)
+        public OperationRequest(Staff.Staff doctor, Patient patient, OperationType.OperationType operationType, DateTime deadLineDate, PriorityEnum priorityEnum)
         {
             Doctor = doctor;
             Patient = patient;

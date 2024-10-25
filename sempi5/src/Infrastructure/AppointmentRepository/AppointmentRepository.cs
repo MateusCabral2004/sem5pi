@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Sempi5.Domain.AppointmentAggregate;
 using Sempi5.Domain.Shared;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;

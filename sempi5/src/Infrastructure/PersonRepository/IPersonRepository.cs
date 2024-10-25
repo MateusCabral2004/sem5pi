@@ -1,5 +1,5 @@
 using Sempi5.Domain;
-using Sempi5.Domain.Patient;
+using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;

@@ -1,4 +1,5 @@
-﻿using Sempi5.Domain.Shared;
+﻿using Sempi5.Domain.AppointmentAggregate;
+using Sempi5.Domain.Shared;
 
 namespace Sempi5.Infrastructure.AppointmentRepository;
 

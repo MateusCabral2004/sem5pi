@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sempi5.Domain.PersonalData;
-using Sempi5.Domain.Specialization;
+using Sempi5.Domain.SpecializationAggregate;
 
 namespace Sempi5.Infrastructure.SpecializationRepository;
 
