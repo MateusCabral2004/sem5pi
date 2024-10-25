@@ -1,7 +1,8 @@
 ﻿using NuGet.Packaging.Signing;
+using Sempi5.Domain.RequiredStaffAggregate;
 using Sempi5.Domain.Shared;
 
-namespace Sempi5.Domain.OperationType;
+namespace Sempi5.Domain.OperationTypeAggregate;
 
 public class OperationType : Entity<OperationTypeID>, IAggregateRoot
 {

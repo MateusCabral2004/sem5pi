@@ -2,7 +2,7 @@
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 
-namespace Sempi5.Domain.OperationType;
+namespace Sempi5.Domain.RequiredStaffAggregate;
 
 public class RequiredStaff : Entity<RequiredStaffID>, IAggregateRoot
 {

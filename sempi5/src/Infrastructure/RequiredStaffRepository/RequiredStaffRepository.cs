@@ -1,5 +1,5 @@
 ﻿using Microsoft.CodeAnalysis.Elfie.Serialization;
-using Sempi5.Domain.OperationType;
+using Sempi5.Domain.RequiredStaffAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
 

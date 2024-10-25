@@ -3,7 +3,7 @@ using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
 using Sempi5.Domain.SpecializationAggregate;
 
-namespace Sempi5.Domain.Staff
+namespace Sempi5.Domain.StaffAggregate
 {
     public class Staff : Entity<StaffId>, IAggregateRoot
     {

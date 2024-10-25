@@ -1,4 +1,4 @@
-namespace Sempi5.Domain.Staff.DTOs
+namespace Sempi5.Domain.StaffAggregate.DTOs
 {
     public class StaffDTO
     {

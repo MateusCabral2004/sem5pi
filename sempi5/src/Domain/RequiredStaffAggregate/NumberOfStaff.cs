@@ -1,4 +1,4 @@
-﻿namespace Sempi5.Domain.OperationType;
+﻿namespace Sempi5.Domain.RequiredStaffAggregate;
 
 public class NumberOfStaff
 {

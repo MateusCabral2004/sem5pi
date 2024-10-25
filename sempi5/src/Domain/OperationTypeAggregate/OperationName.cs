@@ -1,6 +1,6 @@
 ﻿using Sempi5.Domain.Shared;
 
-namespace Sempi5.Domain.OperationType;
+namespace Sempi5.Domain.OperationTypeAggregate;
 
 public class OperationName : IValueObject
 {

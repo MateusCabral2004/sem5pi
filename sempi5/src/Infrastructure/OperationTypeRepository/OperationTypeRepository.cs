@@ -1,4 +1,4 @@
-﻿using Sempi5.Domain.OperationType;
+﻿using Sempi5.Domain.OperationTypeAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
 

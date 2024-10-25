@@ -1,6 +1,6 @@
 ﻿using Sempi5.Domain.Shared;
 
-namespace Sempi5.Domain.Staff;
+namespace Sempi5.Domain.StaffAggregate;
 
 public class StaffIdTracker
 {

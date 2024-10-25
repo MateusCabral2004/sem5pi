@@ -1,5 +1,5 @@
 using Sempi5.Domain.Shared;
-using Sempi5.Domain.Staff;
+using Sempi5.Domain.StaffAggregate;
 
 namespace Sempi5.Infrastructure.StaffRepository
 {
