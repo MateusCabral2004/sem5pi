@@ -14,6 +14,7 @@ namespace Sempi5.Domain.StaffAggregate
         public LicenseNumber LicenseNumber { get; set; }
         public Specialization Specialization { get; set; }
         public List<string> AvailabilitySlots { get; set; }
+        public StaffStatusEnum Status { get; set; }
         
         private Staff() { }
         
@@ -24,6 +25,7 @@ namespace Sempi5.Domain.StaffAggregate
             Specialization = specialization;
             AvailabilitySlots = new List<string>();
             Person = person;
+            Status = StaffStatusEnum.ACTIVE;
         }
         
         public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)
@@ -33,6 +35,17 @@ namespace Sempi5.Domain.StaffAggregate
             Specialization = specialization;
             AvailabilitySlots = availabilitySlots;
             Person = new Person(firstName, lastName, contactInfo);
+            Status = StaffStatusEnum.ACTIVE;
+        }
+        
+        public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots, StaffStatusEnum status)
+        {
+            User = user;
+            LicenseNumber = licenseNumber;
+            Specialization = specialization;
+            AvailabilitySlots = availabilitySlots;
+            Person = new Person(firstName, lastName, contactInfo);
+            Status = status;
         }
         
         public Staff(LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)
@@ -42,6 +55,7 @@ namespace Sempi5.Domain.StaffAggregate
             Specialization = specialization;
             AvailabilitySlots = availabilitySlots;
             Person = new Person(firstName, lastName, contactInfo);
+            Status = StaffStatusEnum.ACTIVE;
         }        
         
         public void AddUser(SystemUser user)

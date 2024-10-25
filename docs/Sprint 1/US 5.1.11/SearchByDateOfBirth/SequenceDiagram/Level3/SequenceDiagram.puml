@@ -1,0 +1,45 @@
+﻿@startuml
+actor Admin
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database Database
+
+Admin -> Routing : List Patient Profiles By Date Of Birth
+activate Routing
+
+Routing -> Controller : Forward Request To List Patient \nProfiles By Date Of Birth
+activate Controller
+
+Controller -> ApplicationService : List Patient Profiles By Date Of Birth
+activate ApplicationService
+
+ApplicationService -> Repository : Requests Patient Profiles By Date Of Birth
+activate Repository
+
+Repository -> Persistence : Requests Patient Profiles By Date Of Birth
+activate Persistence
+
+Persistence -> Database : Select Patient Profiles By Date Of Birth
+activate Database
+
+Database --> Persistence : Patient Profiles Found
+deactivate Database
+
+Persistence --> Repository : Patient Profiles Found
+deactivate Persistence
+
+Repository --> ApplicationService : Patient Profiles Found
+deactivate Repository
+
+ApplicationService --> Controller : Patient Profiles Found
+deactivate ApplicationService
+
+Controller --> Routing : Patient Profiles Found
+deactivate Controller
+
+Routing --> Admin : Searched Patient Profiles
+deactivate Routing
+@enduml

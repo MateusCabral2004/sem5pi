@@ -1,0 +1,26 @@
+﻿@startuml
+actor Admin
+participant SurgeryAppointmentSystem
+participant Backend
+database DataBase
+
+Admin -> SurgeryAppointmentSystem : List Patient Profiles By Email
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend : Search Patient Profiles By Email
+activate Backend
+
+Backend -> DataBase : Search For Patient Profiles By Email
+activate DataBase
+
+DataBase --> Backend : Patient Profiles Found
+deactivate DataBase
+
+Backend --> SurgeryAppointmentSystem : Patient Profiles Found
+deactivate Backend
+
+SurgeryAppointmentSystem -> Admin : Searched Patient Profiles
+deactivate SurgeryAppointmentSystem
+
+
+@enduml

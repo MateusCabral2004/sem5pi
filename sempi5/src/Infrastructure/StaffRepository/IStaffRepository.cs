@@ -7,6 +7,8 @@ namespace Sempi5.Infrastructure.StaffRepository
     {
         public Task<Staff> GetByEmail(string email);
         
+        public Task<Staff?> GetActiveStaffById(StaffId id);
+        
         public Task<Staff?> GetByLicenseNumber(LicenseNumber licenseNumber);
         
     }
