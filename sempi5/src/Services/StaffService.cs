@@ -2,6 +2,7 @@ using System.Text.Json;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Sempi5.Domain.ConfirmationLink;
 using Sempi5.Domain.ConfirmationToken;
+using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
@@ -123,28 +124,18 @@ namespace Sempi5.Services
             }
         }
 
-        public async Task PrepareConfirmationEmail(EditStaffDTO editStaffDto)
+        public async Task<Staff> GetStaffById(string id)
         {
+            var staff = await _staffRepository.GetActiveStaffById(new StaffId(id));
 
-            var staff = await  _staffRepository.GetActiveStaffById(new StaffId(editStaffDto.Id));
-
-            if(staff == null)
+            if (staff == null)
             {
                 throw new ArgumentException("Staff not found.");
             }
-            
-            string serializedDto = JsonSerializer.Serialize(editStaffDto);
-            
-            var link = $"https://localhost:5001/staff/editStaffProfile/{serializedDto}";
-            
-            var body = $@"
-            <p>Please confirm this email by clicking the following link:</p>
-            <a href='{link}'>Confirm Email</a>
-            <p>If you did not request this, please ignore this email.</p>";
 
-            
-            await _emailService.SendEmailAsync(staff.Person.ContactInfo._email.ToString(), body, "Please Confirm Your Profile Changes");
+            return staff;
         }
+        
 
         public async Task<StaffDTO> EditStaffProfile(EditStaffDTO editStaffDto)
         {
@@ -166,7 +157,7 @@ namespace Sempi5.Services
             }
 
 
-            if (editStaffDto.phoneNumber > 0 && editStaffDto.phoneNumber != null)
+            if (editStaffDto.phoneNumber > 0)
             {
                 var phoneNumber = new PhoneNumber(editStaffDto.phoneNumber);
 

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
 using Sempi5.Services;
@@ -13,11 +14,13 @@ namespace Sempi5.Controllers.StaffControllers
     {
         private readonly StaffService _staffService;
         private readonly Serilog.ILogger _logger;
+        private readonly EmailService _emailService;
 
-        public StaffController(StaffService staffService, Serilog.ILogger logger)
+        public StaffController(StaffService staffService, Serilog.ILogger logger, EmailService emailService)
         {
             _staffService = staffService;
             _logger = logger;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -45,18 +48,19 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest("Error creating Staff:" + e.Message);
             }
         }
-        
-        
-        
+
+
         [HttpPatch("editStaffProfile")]
         public async Task<IActionResult> EditStaffProfile(EditStaffDTO editStaffDto)
         {
             try
             {
-
+                
+                var staff = await _staffService.GetStaffById(editStaffDto.Id);
+                
                 if (editStaffDto.email != null || editStaffDto.phoneNumber > 0)
                 {
-                    await _staffService.PrepareConfirmationEmail(editStaffDto);
+                    await _emailService.PrepareEditStaffConfirmationEmail(staff.Person.ContactInfo._email.ToString() ,editStaffDto);
                 }
                 else
                 {
@@ -78,31 +82,29 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
         
+
         [HttpGet("editStaffProfile/{jsonString}")]
         public async Task<IActionResult> EditStaffProfile(string jsonString)
         {
-            
-            Console.Write("Inciando edit staff");
-            
             EditStaffDTO editStaffDto;
             try
             {
-                editStaffDto = JsonSerializer.Deserialize<EditStaffDTO>(jsonString);
-                
-
-                Console.Write(editStaffDto);
+                var cryptography = new Cryptography();
+                var encryptedString = cryptography.DecryptString(jsonString);
+                    
+                editStaffDto = JsonSerializer.Deserialize<EditStaffDTO>(encryptedString);
                 
                 await _staffService.EditStaffProfile(editStaffDto);
-                
             }
             catch (JsonException ex)
             {
                 return BadRequest($"Invalid JSON format: {ex.Message}");
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
-            
+
             return Ok("Staff profile edited successfully!");
         }
 
@@ -119,5 +121,23 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message);
             }
         }
+
+        /*
+        [HttpGet("listStaffProfilesByName")]
+        public async Task<IActionResult> ListStaffProfilesByName(NameDTO nameDto)
+        {
+            try
+            {
+         //       var staffProfile = await _staffService.ListStaffByName(nameDto);
+             //   return Ok(staffProfile);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+
+        [HttpGet]
+        */
     }
 }
