@@ -13,7 +13,7 @@ public class StaffIdTest
     [Theory]
     [InlineData("A202400001")]
     [InlineData("A202400002")]
-    public void ConstructorWithValidParameters(string staffId)
+    public void ConstructorTest(string staffId)
     {
         var obj = new StaffId(staffId);
         
