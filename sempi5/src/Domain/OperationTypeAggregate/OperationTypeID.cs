@@ -2,7 +2,7 @@
 
 namespace Sempi5.Domain.OperationTypeAggregate;
 
-public class OperationTypeID : EntityId
+public class OperationTypeID : EntityId, IValueObject
 {
     
     public OperationTypeID() : base(null)
