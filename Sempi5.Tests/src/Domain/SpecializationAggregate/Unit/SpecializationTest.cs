@@ -27,6 +27,12 @@ public class SpecializationTest
     }
     
     [Fact]
+    public void ConstructorWithNullSpecializationNameTest()
+    {
+        Assert.Throws<ArgumentNullException>(() => new Specialization(null));
+    }
+    
+    [Fact]
     public void EqualsTest()
     {
         var name = "Cardiology";

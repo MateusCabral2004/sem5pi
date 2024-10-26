@@ -12,6 +12,9 @@ public class Specialization : Entity<SpecializationID>, IAggregateRoot
     
     public Specialization(SpecializationName specializationName)
     {
+        
+        ArgumentNullException.ThrowIfNull(specializationName);
+        
         this.specializationName = specializationName;
     }
     

@@ -20,6 +20,11 @@ namespace Sempi5.Domain.StaffAggregate
         
         public Staff(LicenseNumber licenseNumber, Person person, Specialization specialization)
         {
+            
+            ArgumentNullException.ThrowIfNull(licenseNumber);
+            ArgumentNullException.ThrowIfNull(person);
+            ArgumentNullException.ThrowIfNull(specialization);
+            
             User = null;
             LicenseNumber = licenseNumber;
             Specialization = specialization;
