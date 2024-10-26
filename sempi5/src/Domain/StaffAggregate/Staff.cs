@@ -25,7 +25,7 @@ namespace Sempi5.Domain.StaffAggregate
             Specialization = specialization;
             AvailabilitySlots = new List<string>();
             Person = person;
-            Status = StaffStatusEnum.ACTIVE;
+            Status = StaffStatusEnum.INACTIVE;
         }
         //Apagar
         public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)

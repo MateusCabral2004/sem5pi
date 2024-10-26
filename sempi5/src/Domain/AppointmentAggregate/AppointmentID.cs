@@ -2,7 +2,7 @@
 
 namespace Sempi5.Domain.AppointmentAggregate;
 
-public class AppointmentID : EntityId
+public class AppointmentID : EntityId, IValueObject
 {
     public AppointmentID(long value) : base(value)
     {

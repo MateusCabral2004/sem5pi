@@ -23,6 +23,10 @@ namespace Sempi5.Domain.OperationRequestAggregate
      
         public OperationRequest(Staff doctor, Patient patient, OperationType operationType, DateTime deadLineDate, PriorityEnum priorityEnum)
         {
+            ArgumentNullException.ThrowIfNull(doctor);
+            ArgumentNullException.ThrowIfNull(patient);
+            ArgumentNullException.ThrowIfNull(operationType);
+            
             Doctor = doctor;
             Patient = patient;
             OperationType = operationType;

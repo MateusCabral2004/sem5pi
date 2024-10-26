@@ -16,7 +16,7 @@ public class Specialization : Entity<SpecializationID>, IAggregateRoot
     }
     
 
-    public bool Equals(Specialization? obj)
+    public virtual bool Equals(Specialization? obj)
     {
         if (obj is Specialization other)
         {

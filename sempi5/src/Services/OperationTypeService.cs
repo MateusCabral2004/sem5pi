@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.OperationTypeAggregate;
 using Sempi5.Domain.OperationTypeAggregate.DTOs;
+using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.RequiredStaffAggregate;
 using Sempi5.Domain.RequiredStaffAggregate.DTOs;
 using Sempi5.Domain.Shared;
@@ -187,5 +188,68 @@ public class OperationTypeService
         operationType.CleaningDuration = TimeSpan.Parse(cleaningDuration);
         await _unitOfWork.CommitAsync();
         return operationType;
+    }
+
+    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeByName(OperationNameDTO operationNameDto)
+    {
+        var operationType =
+            await _operationTypeRepository.GetOperationTypeListByName(new OperationName(operationNameDto.name));
+
+        if (operationType == null)
+        {
+            throw new ArgumentException("Operation type not found");
+        }
+
+        return buildSearchedOperationTypeDtoList(operationType);
+    }
+
+    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeBySpecialization(SpecializationNameDTO specializationNameDto)
+    {
+
+        var operationType =
+            await _operationTypeRepository.GetOperationTypeListBySpecialization(
+                new SpecializationName(specializationNameDto.specializationName));
+
+        if (operationType == null)
+        {
+            throw new ArgumentException("Operation type not found");
+        }
+        return buildSearchedOperationTypeDtoList(operationType);
+    }
+
+    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeByStatus(OperationType status)
+    {
+        var operationType = await _operationTypeRepository.GetOperationTypeListByStatus(status);
+
+        if (operationType == null)
+        {
+            throw new ArgumentException("Operation type not found");
+        }
+
+        return buildSearchedOperationTypeDtoList(operationType);
+    }
+
+    private List<SearchedOperationTypeDTO> buildSearchedOperationTypeDtoList(IEnumerable<OperationType> operationTypes)
+    {
+
+        List<SearchedOperationTypeDTO> searchedOperationTypeDtoList = new List<SearchedOperationTypeDTO>();
+
+        foreach (var operationType in operationTypes)
+        {
+            searchedOperationTypeDtoList.Add(operationTypeToSearchedOperationTypeDto(operationType));
+        }
+
+        return searchedOperationTypeDtoList;
+    }
+
+    private SearchedOperationTypeDTO operationTypeToSearchedOperationTypeDto(OperationType operationType)
+    {
+        return new SearchedOperationTypeDTO
+        {
+            id = operationType.Id.AsString(),
+            name = operationType.Name.ToString(),
+            requiredStaff = operationType.RequiredStaff.ToString(),
+            estimatedDuration = (operationType.SetupDuration.Duration() + operationType.CleaningDuration.Duration() +operationType.SurgeryDuration.Duration()).ToString()
+        };
     }
 }

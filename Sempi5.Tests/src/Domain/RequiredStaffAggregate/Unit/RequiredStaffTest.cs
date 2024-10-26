@@ -56,7 +56,6 @@ public class RequiredStaffTest
         var obj2 = new RequiredStaff(numStaff2.Object, specialization2.Object);
 
         Assert.True(obj1.Equals(obj2));
-        
     }
     
     [Fact]
