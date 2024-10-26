@@ -4,7 +4,7 @@ using Sempi5.Domain.Shared;
 
 namespace Sempi5.Domain.PatientAggregate
 {
-    public class MedicalRecordNumber : EntityId
+    public class MedicalRecordNumber : EntityId, IValueObject
     {
         
         public MedicalRecordNumber(string value) : base(value)
@@ -25,6 +25,10 @@ namespace Sempi5.Domain.PatientAggregate
         
         public bool Equals(MedicalRecordNumber other)
         {
+            if(other == null)
+            {
+                return false;
+            }
             return ObjValue.Equals(other.ObjValue);
         }
     }
