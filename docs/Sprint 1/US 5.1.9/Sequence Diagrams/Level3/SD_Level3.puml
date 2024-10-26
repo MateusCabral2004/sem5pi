@@ -3,40 +3,62 @@
 title US 5.1.9-Sequence Diagram Level 3
 
 actor Admin
-participant SurgeryAppointmentSystem
-participant MasterData
-participant Backend
-participant DataBase
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database DataBase
 
 activate Admin
 
-Admin -> SurgeryAppointmentSystem: edit patient's profile
+Admin -> Routing: edit patient profile
 
-activate SurgeryAppointmentSystem
+activate Routing
 
-SurgeryAppointmentSystem -> MasterData: edit patient's profile
+Routing -> Controller: edit patient profile
 
-activate MasterData
+activate Controller
 
-MasterData -> Backend: edit patient's profile
-activate Backend
+Controller -> ApplicationService: edit patient profile
+alt patient contact info email edited
+ApplicationService -> ApplicationService: send email notification to old email
+end
+alt patient contact info phone number edited
+ApplicationService -> ApplicationService: send email notification
+end
 
-Backend -> Backend: edit patient's profile
+activate ApplicationService
 
-Backend -> DataBase: insert patient's profile alterations
+ApplicationService -> ApplicationService: edit patient profile
+
+ApplicationService -> Repository: update patient profile
+activate Repository
+
+Repository -> Persistence: update patient profile
+activate Persistence
+
+Persistence -> DataBase:update patient profile
 activate DataBase
 
-DataBase --> Backend: patient's profile alterations inserted
+DataBase --> Persistence:patient profile updated
 deactivate DataBase
 
-Backend --> MasterData: patient's profile edited
+Persistence --> Repository:patient profile updated
+deactivate Persistence
 
-deactivate Backend
+Repository --> ApplicationService: patient profile updated
 
-MasterData --> SurgeryAppointmentSystem: patient's profile edited
+deactivate Repository
 
-deactivate MasterData
+ApplicationService --> Controller: patient profile edited
 
-SurgeryAppointmentSystem --> Admin: patient's profile edited
+deactivate ApplicationService
+
+Controller --> Routing: patient profile edited
+
+deactivate Controller
+
+Routing --> Admin: patient profile edited
 
 @enduml

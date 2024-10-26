@@ -3,40 +3,53 @@
 title US 5.1.10 Sequence Diagram Level 3
 
 actor Admin
-participant SurgeryAppointmentSystem
-participant MasterData
-participant Backend
-participant DataBase
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database DataBase
 
 activate Admin
 
-Admin -> SurgeryAppointmentSystem: delete patient profile
+Admin -> Routing: delete patient profile
 
-activate SurgeryAppointmentSystem
+activate Routing
 
-SurgeryAppointmentSystem -> MasterData: delete patient profile
+Routing -> Controller: delete patient profile
 
-activate MasterData
+activate Controller
 
-MasterData -> Backend: delete patient profile
-activate Backend
+Controller -> ApplicationService: delete patient profile
+activate ApplicationService
 
-Backend -> Backend: delete patient profile
+ApplicationService -> Repository: delete patient profile
+activate Repository
 
-Backend -> DataBase: remove patient profile
+Repository -> Persistence:anonymize patient profile
+activate Persistence
+
+Persistence ->DataBase:anonymize patient profile
 activate DataBase
 
-DataBase --> Backend: patient profile removed
+DataBase -->Persistence: anonymized patient profile
 deactivate DataBase
 
-Backend --> MasterData: patient profile deleted
+Persistence --> Repository:anonymized patient profile
+deactivate Persistence
 
-deactivate Backend
 
-MasterData --> SurgeryAppointmentSystem: patient profile deleted
+Repository --> ApplicationService: patient profile deleted
+deactivate Repository
 
-deactivate MasterData
+ApplicationService --> Controller: patient profile deleted
 
-SurgeryAppointmentSystem --> Admin: patient profile deleted
+deactivate ApplicationService
+
+Controller --> Routing: patient profile deleted
+
+deactivate Controller
+
+Routing --> Admin: patient profile deleted
 
 @enduml

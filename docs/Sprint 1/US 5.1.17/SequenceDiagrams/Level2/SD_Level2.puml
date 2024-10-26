@@ -1,0 +1,40 @@
+﻿@startuml
+'https://plantuml.com/sequence-diagram
+
+title US 5.1.17 - Sequence Diagram Level 2
+
+actor Doctor
+participant SurgeryAppointmentSystem
+participant Backend
+database DataBase
+
+activate Doctor
+
+Doctor -> SurgeryAppointmentSystem: update operation requisition
+
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend: update operation requisition
+
+activate Backend 
+
+Backend -> DataBase: verify requesting doctor
+activate DataBase
+
+DataBase --> Backend: requesting doctor
+deactivate DataBase
+
+Backend -> Backend:update operation requisition
+
+Backend -> DataBase: update operation requisition
+activate DataBase
+
+DataBase --> Backend: patient profile updated
+deactivate DataBase
+
+Backend --> SurgeryAppointmentSystem: operation requisition updated
+deactivate Backend
+
+SurgeryAppointmentSystem --> Doctor: operation requisition updated
+deactivate SurgeryAppointmentSystem
+@enduml

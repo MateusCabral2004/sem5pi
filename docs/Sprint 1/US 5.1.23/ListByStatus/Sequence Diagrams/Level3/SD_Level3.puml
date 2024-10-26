@@ -1,0 +1,49 @@
+﻿@startuml
+'https://plantuml.com/sequence-diagram
+
+title US 5.1.23 - Sequence Diagram Level 3
+
+actor Admin
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database Database
+
+Admin -> Routing : list/search operation types by status
+activate Routing
+
+Routing -> Controller : forward request to list/search operation types by status
+activate Controller
+
+Controller -> ApplicationService : list/search operation types by status
+activate ApplicationService
+
+ApplicationService -> Repository : list/search operation types by status
+activate Repository
+
+Repository -> Persistence : list/search operation types by status
+activate Persistence
+
+Persistence -> Database : select operation type by status
+activate Database
+
+Database --> Persistence :listed/searched operation type
+deactivate Database
+
+Persistence --> Repository : listed/searched operation type
+deactivate Persistence
+
+Repository --> ApplicationService : listed/searched operation type
+deactivate Repository
+
+ApplicationService --> Controller : listed/searched operation type
+deactivate ApplicationService
+
+Controller --> Routing : listed/searched operation type
+deactivate Controller
+
+Routing --> Admin : listed/searched operation type
+deactivate Routing
+@enduml

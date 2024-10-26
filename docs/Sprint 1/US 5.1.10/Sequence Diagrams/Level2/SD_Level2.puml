@@ -3,7 +3,8 @@ title US 5.1.10 Sequence Diagram Level 2
 
 actor Admin
 participant SurgeryAppointmentSystem
-participant MasterData
+participant Backend
+database DataBase
 
 activate Admin
 
@@ -11,12 +12,17 @@ Admin -> SurgeryAppointmentSystem: delete patient profile
 
 activate SurgeryAppointmentSystem
 
-SurgeryAppointmentSystem -> MasterData: delete patient profile
+SurgeryAppointmentSystem -> Backend: delete patient profile
+activate Backend
 
-activate MasterData
+Backend -> DataBase: anonymize patient profile
+activate DataBase
 
-MasterData --> SurgeryAppointmentSystem: patient profile deleted
-deactivate MasterData
+DataBase --> Backend: patient profile anonymized
+deactivate DataBase
+
+Backend --> SurgeryAppointmentSystem: patient profile deleted
+deactivate Backend
 
 SurgeryAppointmentSystem --> Admin: patient profile deleted
 deactivate SurgeryAppointmentSystem

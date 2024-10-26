@@ -1,0 +1,28 @@
+﻿@startuml
+'https://plantuml.com/sequence-diagram
+
+title US 5.1.23 - Sequence Diagram Level 2
+
+actor Admin
+participant SurgeryAppointmentSystem
+participant Backend
+database DataBase
+
+Admin -> SurgeryAppointmentSystem : list/search operation types by specialization
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend : list/search operation types by specialization
+activate Backend
+
+Backend -> DataBase : list/search operation types by specialization
+activate DataBase
+
+DataBase --> Backend : listed/searched operation types
+deactivate DataBase
+
+Backend --> SurgeryAppointmentSystem : listed/searched operation types
+deactivate Backend
+
+SurgeryAppointmentSystem -> Admin : listed/searched operation types
+deactivate SurgeryAppointmentSystem
+@enduml

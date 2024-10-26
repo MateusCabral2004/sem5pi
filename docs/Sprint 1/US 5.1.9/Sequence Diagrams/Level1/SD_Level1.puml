@@ -5,10 +5,10 @@ actor Admin
 participant SurgeryAppointmentSystem
 
 activate Admin
-Admin-> SurgeryAppointmentSystem: edit patient's profile
+Admin-> SurgeryAppointmentSystem: edit patient profile
 activate SurgeryAppointmentSystem
 
-SurgeryAppointmentSystem --> Admin: patient's profile edited
+SurgeryAppointmentSystem --> Admin: patient profile edited
 deactivate SurgeryAppointmentSystem
 
 deactivate Admin
