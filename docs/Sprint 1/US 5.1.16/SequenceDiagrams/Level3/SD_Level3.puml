@@ -9,7 +9,7 @@ participant Controller
 participant ApplicationService
 participant Repository
 participant Persistence
-database Database
+database DataBase
 
 activate Doctor
 Doctor -> Routing : request an operation
@@ -21,19 +21,37 @@ activate Controller
 Controller -> ApplicationService : request an operation
 activate ApplicationService
 
+ApplicationService -> Repository : validate the operation type
+activate Repository
+
+Repository -> Persistence:validate the operation type
+activate Persistence
+
+Persistence -> DataBase:get operation type
+activate DataBase
+
+DataBase -->Persistence:operation type
+deactivate DataBase
+
+Persistence --> Repository:operation type
+deactivate Persistence
+
+Repository --> ApplicationService:operation type
+deactivate Repository
+
 ApplicationService -> Repository : request an operation
 activate Repository
 
 Repository -> Persistence : request an operation
 activate Persistence
 
-Persistence -> Database : request an operation
-activate Database
+Persistence -> DataBase : request an operation
+activate DataBase
 
-Database --> Persistence :operation request submitted
-deactivate Database
+DataBase --> Persistence :operation request submitted
+deactivate DataBase
 
-Persistence --> Repository : loperation request submitted
+Persistence --> Repository : operation request submitted
 deactivate Persistence
 
 Repository --> ApplicationService : operation request submitted

@@ -17,6 +17,8 @@ activate SurgeryAppointmentSystem
 SurgeryAppointmentSystem -> Backend: request an operation
 activate Backend
 
+Backend -> Backend: validate the operation type
+
 Backend -> DataBase:request an operation
 activate DataBase
 
