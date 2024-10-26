@@ -1,4 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.OperationRequestAggregate;
+using Sempi5.Domain.OperationTypeAggregate;
+using Sempi5.Domain.Shared;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
 
@@ -56,19 +59,20 @@ public class OperationRequestRepository : BaseRepository<OperationRequest, Opera
     {
         var query = context.OperationRequests
             .Include(r => r.Patient)
+            .Include(r => r.Patient).ThenInclude(o=>o.Person)
+            .Include(r => r.Patient).ThenInclude(o=>o.User)
             .Include(r => r.OperationType)
             .AsQueryable();
         
-        // Filtros dinâmicos
-        // if (!string.IsNullOrEmpty(patientName))
-        // {
-        //     query = query.Where(r => r.Patient.Person != null && r.Patient.Person.FullName.Equals(patientName));
-        // }
-        //
-        // if (!string.IsNullOrEmpty(type))
-        // {
-        //     query = query.Where(r => r.OperationType.Name.Equals(type));
-        // }
+        if (!string.IsNullOrEmpty(patientName))
+        {
+            query = query.Where(r => r.Patient.Person != null && r.Patient.Person.FullName.Equals(new Name(patientName)));
+        }
+        
+        if (!string.IsNullOrEmpty(type))
+        {
+            query = query.Where(r => r.OperationType.Name.Equals(new OperationName(type)));
+        }
         
         if (!string.IsNullOrEmpty(priority) && Enum.TryParse<PriorityEnum>(priority, true, out var parsedPriority))
         {
