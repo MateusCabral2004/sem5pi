@@ -1,0 +1,50 @@
+@startuml
+
+title 5.1.19 - Sequence for Listing/Searching Operation Requisitions (Level 3)
+
+actor Doctor
+participant Routing
+participant Controller as "StaffController"
+participant Service as "StaffService"
+participant Repository
+participant Persistence
+database Database
+
+activate Doctor
+Doctor -> Routing : list/search operation requisitions by filter
+activate Routing
+
+Routing -> Controller : forward request to list/search operation requisitions by filter
+activate Controller
+
+Controller -> Service : list/search operation requisitions by filter
+activate Service
+
+Service -> Repository : list/search operation requisitions by filter
+activate Repository
+
+Repository -> Persistence : list/search operation requisitions by filter
+activate Persistence
+
+Persistence -> Database : select operation requisitions by filter
+activate Database
+
+Database --> Persistence : operation requisitions list
+deactivate Database
+
+Persistence --> Repository : operation requisitions list
+deactivate Persistence
+
+Repository --> Service : operation requisitions list
+deactivate Repository
+
+Service --> Controller : operation requisitions list
+deactivate Service
+
+Controller --> Routing : operation requisitions list
+deactivate Controller
+
+Routing --> Doctor : operation requisitions list
+deactivate Routing
+
+@enduml
