@@ -4,7 +4,7 @@ using Sempi5.Domain.Shared;
 
 namespace Sempi5.Domain.ConfirmationToken
 {
-    public class ConfirmationTokenId : EntityId
+    public class ConfirmationTokenId : EntityId, IValueObject
     {
         
         [JsonConstructor]

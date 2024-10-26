@@ -3,7 +3,7 @@ using Sempi5.Domain.Shared;
 
 namespace Sempi5.Domain.StaffAggregate
 {
-    public class StaffId : EntityId
+    public class StaffId : EntityId, IValueObject
     {
 
         public StaffId(string value) : base(value)

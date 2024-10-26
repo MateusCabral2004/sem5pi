@@ -2,7 +2,7 @@
 
 namespace Sempi5.Domain.OperationRequestAggregate;
 
-public class OperationRequestID : EntityId
+public class OperationRequestID : EntityId, IValueObject
 {
     
     public OperationRequestID() : base(null)
