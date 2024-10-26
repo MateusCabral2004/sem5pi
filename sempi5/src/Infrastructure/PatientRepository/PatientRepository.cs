@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.PatientAggregate;
+using Sempi5.Domain.Shared;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
 
@@ -65,20 +66,19 @@ namespace Sempi5.Infrastructure.PatientRepository
             return patient;
         }
 
-        public async Task<Patient> GetByPatientIdWithActivatedMedicalRecord(string patientId)
+        public async Task<Patient> GetActivePatientByMedicalRecordNumber(MedicalRecordNumber patientId)
         {
-            if (string.IsNullOrEmpty(patientId))
+            if (patientId == null)
             {
                 return null;
             }
             
-            var patient =  context.Patients
+            
+            
+                return context.Patients
                 .Include(p => p.Person)
-                .AsEnumerable()
-                .FirstOrDefault(p => p.Id.AsString().Equals(patientId) 
-                                     && p.MedicalRecordStatus.ToString().Equals(MedicalRecordStatusEnum.ACTIVATED.ToString()));
-
-            return patient;
+                .FirstOrDefault(p => p.Id.Equals(patientId) 
+                                     && p.PatientStatus == PatientStatusEnum.ACTIVATED);
         }
 
         public async Task<Patient> GetByPatientId(string patientId)
@@ -99,32 +99,46 @@ namespace Sempi5.Infrastructure.PatientRepository
         }
 
 
-        public async Task<Patient?> GetByName(string name)
+        public async Task<List<Patient>> GetActivePatientsByName(Name name)
         {
             
-            if (string.IsNullOrEmpty(name))
+            if (name == null)
             {
                 return null;
             }
 
-            var patient = context.Patients
+            return await context.Patients
                 .Include(p => p.Person)
-                .AsEnumerable()
-                .FirstOrDefault(p => p.Person.FullName._name.ToLower().Equals(name.ToLower()));
-
-            return patient;
+                .Where(p => p.Person.FullName.Equals(name) && p.PatientStatus == PatientStatusEnum.ACTIVATED)
+                .ToListAsync();
         }
+        
+        public async Task<Patient> GetActivePatientByEmail(Email email)
+        {
+            
+            if (email == null)
+            {
+                return null;
+            }
 
-        public async Task<IEnumerable<Patient>> GetByDateOfBirth(DateTime? dateOfBirth)
+            return context.Patients
+                .Include(p => p.Person)
+                .FirstOrDefault(p => p.Person.ContactInfo._email.Equals(email)
+                && p.PatientStatus == PatientStatusEnum.ACTIVATED);
+        }
+        
+
+        public async Task<List<Patient>> GetActivePatientsByDateOfBirth(DateTime? dateOfBirth)
         {
             if (dateOfBirth == null)
             {
-                return Enumerable.Empty<Patient>(); // Retorna uma lista vazia se a data for null
+                return null;
             }
 
             var patients = await context.Patients
                 .Include((p => p.Person))
-                .Where(p => p.BirthDate.Date == dateOfBirth.Value.Date)
+                .Where(p => p.BirthDate.Date == dateOfBirth.Value.Date
+                && p.PatientStatus == PatientStatusEnum.ACTIVATED)
                 .ToListAsync();
 
             return patients;

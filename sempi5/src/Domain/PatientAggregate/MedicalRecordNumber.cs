@@ -21,5 +21,11 @@ namespace Sempi5.Domain.PatientAggregate
         {
             return (string)ObjValue;
         }
+        
+        
+        public bool Equals(MedicalRecordNumber other)
+        {
+            return ObjValue.Equals(other.ObjValue);
+        }
     }
 }

@@ -90,7 +90,15 @@ namespace Sempi5
                         }
                         else
                         {
-                            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Result.Role));
+                            if (user.Result.IsVerified)
+                            {
+                                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Result.Role));
+                            }
+                            else
+                            {
+                                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Unverified"));
+                            }
+
                         }
                     };
                 });
@@ -218,7 +226,7 @@ namespace Sempi5
                     var administratorUser = new SystemUser(new Email("rpsoares8@gmail.com"), "Admin");
                     var doctorUser = new SystemUser(new Email("mateuscabral2004@gmail.com"), "Admin");
                     var nurseUser = new SystemUser(new Email("nurse@example.com"), "Nurse");
-                    var adminUser = new SystemUser(new Email("admin@example.com"), "Admin");
+                    var adminUser = new SystemUser(new Email("admin@example.com"), "Admin",true);
 
                     // Create staff members
 
@@ -322,7 +330,7 @@ namespace Sempi5
                         new List<string> { "Peanuts", "Asthma" },
                         "456",
                         new List<string> { "01/01/2021 9am-10am", "02/02/2021 10am-11am" },
-                        MedicalRecordStatusEnum.ACTIVATED
+                        PatientStatusEnum.ACTIVATED
                     );
 
                     var patient2 = new Patient
@@ -334,7 +342,7 @@ namespace Sempi5
                         new List<string> { "Shellfish", "Diabetes" },
                         "789",
                         new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },
-                        MedicalRecordStatusEnum.DEACTIVATED
+                        PatientStatusEnum.DEACTIVATED
                     );
 
                     var specialization1 = new Specialization(new SpecializationName("Nurse")

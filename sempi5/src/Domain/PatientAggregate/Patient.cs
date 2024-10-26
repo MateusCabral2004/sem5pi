@@ -17,7 +17,7 @@ namespace Sempi5.Domain.PatientAggregate
         public List<string> AllergiesAndMedicalConditions { get; set; }
         public string? EmergencyContact { get; set; }
         public List<string> AppointmentHistory { get; set; }
-        public MedicalRecordStatusEnum MedicalRecordStatus { get; set; }
+        public PatientStatusEnum PatientStatus { get; set; }
 
         private Patient() {}
         
@@ -30,10 +30,10 @@ namespace Sempi5.Domain.PatientAggregate
             AllergiesAndMedicalConditions = allergiesAndMedicalConditions;
             EmergencyContact = emergencyContact;
             AppointmentHistory = appointmentHistory;
-            MedicalRecordStatus = MedicalRecordStatusEnum.ACTIVATED;
+            PatientStatus = PatientStatusEnum.ACTIVATED;
         }
         
-        public Patient(SystemUser user, Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact, List<string> appointmentHistory, MedicalRecordStatusEnum medicalRecordStatus)
+        public Patient(SystemUser user, Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact, List<string> appointmentHistory, PatientStatusEnum patientStatus)
         {
             User = user;
             Person = person;
@@ -42,7 +42,7 @@ namespace Sempi5.Domain.PatientAggregate
             AllergiesAndMedicalConditions = allergiesAndMedicalConditions;
             EmergencyContact = emergencyContact;
             AppointmentHistory = appointmentHistory;
-            MedicalRecordStatus = medicalRecordStatus;
+            PatientStatus = patientStatus;
         }
 
         public Patient(SystemUser user, MedicalRecordNumber id, Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact)
@@ -53,7 +53,7 @@ namespace Sempi5.Domain.PatientAggregate
             Gender = gender;
             AllergiesAndMedicalConditions = allergiesAndMedicalConditions;
             EmergencyContact = emergencyContact;
-            MedicalRecordStatus = MedicalRecordStatusEnum.ACTIVATED;
+            PatientStatus = PatientStatusEnum.ACTIVATED;
         }
     }
 }

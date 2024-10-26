@@ -12,7 +12,7 @@ namespace Sempi5.Tests.Domain.User.UnitTests;
 public class SystemUserUnitTest
 {
     [Fact]
-    public void ConstructorWithValidParamethers()
+    public void ConstructorWithValidParameters()
     {
         // Arrange
         string email = "user@example.com";
@@ -32,7 +32,7 @@ public class SystemUserUnitTest
     }
 
     [Fact]
-    public void ConstructorWithValidParamethersAndIsVerified()
+    public void ConstructorWithValidParametersAndIsVerified()
     {
         // Arrange
         string email = "user@example.com";

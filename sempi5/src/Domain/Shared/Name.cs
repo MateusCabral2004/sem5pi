@@ -1,6 +1,6 @@
 ﻿namespace Sempi5.Domain.Shared;
 
-public class Name
+public class Name : IValueObject
 {
     public string _name;
     
@@ -27,6 +27,11 @@ public class Name
     
     public bool Equals(Name name)
     {
+        if(name == null)
+        {
+            return false;
+        }
+        
         return name._name == _name;
     }
 }

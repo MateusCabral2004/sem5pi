@@ -61,6 +61,7 @@ public class PatientService
 
         return token;
     }
+
     private async Task<ConfirmationLink> registerLink(ConfirmationLink confirmationLink)
     {
         var token = await _confirmationLinkRepository.GetByEmail(confirmationLink.email.ToString());
@@ -68,6 +69,7 @@ public class PatientService
         {
             return await _confirmationLinkRepository.AddAsync(confirmationLink);
         }
+
         token.ResetExpiryDate();
 
         return token;
@@ -247,101 +249,80 @@ public class PatientService
         var userID = patient.User.Id.AsLong();
         await _accountToDeleteRepository.saveUserToDelete(userID);
     }
-    
-    
-     public async Task<PatientDTO> ListPatientByName(NameDTO nameDto)
-        {
-            var name = nameDTOtoName(nameDto);
 
-            var patient = await _patientRepository.GetByName(name.ToString());
+
+    public async Task<List<SearchedPatientDTO>> ListPatientByName(NameDTO nameDto)
+    {
+        var patient = await _patientRepository.GetActivePatientsByName(new Name(nameDto.name));
 
             if (patient == null)
             {
                 throw new ArgumentException("Patient not found");
             }
 
-            return patientToPatientDto(patient);
-        }
-        
-        private PatientDTO patientToPatientDto(Patient patient)
-        {
-            return new PatientDTO
-            {
-                patientId = patient.Id.AsString(),
-                fullName = patient.Person.FullName.ToString(),
-                email = patient.Person.ContactInfo.email().ToString(),
-                birthDate = patient.BirthDate.ToString("MM/dd/yyyy")
-            };
-        }
-        
-        
-        private Name nameDTOtoName(NameDTO name)
-        {
-            return new Name(name.name);
-        }
-        
-        public async Task<PatientDTO> ListPatientByEmail(EmailDTO emailDto)
-        {
-            var email = emailDTOtoEmail(emailDto);
+        return buildSearchedPatientDtoList(patient);
+    }
 
-            var patient = await _patientRepository.GetByEmail(email.ToString());
+    private SearchedPatientDTO patientToSearchedPatientDto(Patient patient)
+    {
+        return new SearchedPatientDTO
+        {
+            Id = patient.Id.AsString(),
+            FullName = patient.Person.FullName.ToString(),
+            Email = patient.Person.ContactInfo.email().ToString(),
+            BirthDate = patient.BirthDate.ToString("MM/dd/yyyy")
+        };
+    }
 
-            if (patient == null)
-            {
-                throw new ArgumentException("Patient not found.");
-            }
 
-            return patientToPatientDto(patient);
+    public async Task<SearchedPatientDTO> ListPatientByEmail(EmailDTO emailDto)
+    {
+        var patient = await _patientRepository.GetActivePatientByEmail(new Email(emailDto.email));
+
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");
         }
 
-        private Email emailDTOtoEmail(EmailDTO email)
+        return patientToSearchedPatientDto(patient);
+    }
+
+    public async Task<List<SearchedPatientDTO>> ListPatientByDateOfBirth(DateDTO dateDto)
+    {
+        var patients =
+            await _patientRepository.GetActivePatientsByDateOfBirth(new DateTime(dateDto.year, dateDto.month,
+                dateDto.day));
+
+        if (patients.Count == 0)
         {
-            return new Email(email.email);
+            throw new ArgumentException("No patients found.");
         }
-        
-        public async Task<List<PatientDTO>> ListPatientByDateOfBirth(DateDTO dateDto)
+
+        return buildSearchedPatientDtoList(patients);
+    }
+
+    public async Task<SearchedPatientDTO> ListPatientByMedicalRecordNumber(PatientIdDto patientId)
+    {
+        var patient = await _patientRepository.GetActivePatientByMedicalRecordNumber(new MedicalRecordNumber(patientId.Id));
+
+        if (patient == null)
         {
-            var date = dateDTOtoDate(dateDto);
-
-            var patients = await _patientRepository.GetByDateOfBirth(date);
-
-            var patientDtoList = buildPatientDtoList(patients);
-
-            if (patientDtoList.Count == 0)
-            {
-                throw new ArgumentException("No patients found.");
-            }
-
-            return patientDtoList;
+            throw new ArgumentException("Patient not found.");
         }
-        
-        public async Task<PatientDTO> ListPatientByMedicalRecordNumber(PatientIdDto patientId)
+
+        return patientToSearchedPatientDto(patient);
+    }
+
+    private List<SearchedPatientDTO> buildSearchedPatientDtoList(IEnumerable<Patient> patients)
+    {
+        List<SearchedPatientDTO> searchedPatientDtoList = new List<SearchedPatientDTO>();
+
+        foreach (var patient in patients)
         {
-            var patient = await _patientRepository.GetByPatientId(patientId.Id);
-
-            if (patient == null)
-            {
-                throw new ArgumentException("Patient not found.");
-            }
-
-            return patientToPatientDto(patient);
+            searchedPatientDtoList.Add(patientToSearchedPatientDto(patient));
         }
-        
-        private DateTime dateDTOtoDate(DateDTO date)
-        {
-            return new DateTime(date.year, date.month, date.day);
-        }
-        
-        private List<PatientDTO> buildPatientDtoList(IEnumerable<Patient> patients)
-        {
-            List<PatientDTO> patientDtoList = new List<PatientDTO>();
 
-            foreach (var patient in patients)
-            {
-                patientDtoList.Add(patientToPatientDto(patient));
-            }
-
-            return patientDtoList;
+            return searchedPatientDtoList;
         }
         
         public async Task DeletePatientProfile(string email)
@@ -351,7 +332,7 @@ public class PatientService
                 throw new ArgumentException("The email address can´t be null");
             }
             
-            var patient = await _patientRepository.GetByPatientEmail(email);
+            var patient = await _patientRepository.GetActivePatientByEmail(new Email(email));
             
             patient.Person = null;
             patient.EmergencyContact = null;
