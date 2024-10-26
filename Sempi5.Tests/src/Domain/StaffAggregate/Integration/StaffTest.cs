@@ -1,4 +1,5 @@
-﻿using Sempi5.Domain.PersonalData;
+﻿using System;
+using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
@@ -38,6 +39,59 @@ public class StaffTest
         Assert.Equal(person, staff.Person);
         Assert.Equal(StaffStatusEnum.INACTIVE, staff.Status);
         Assert.Empty(staff.AvailabilitySlots);
+    }
+    
+    [Theory]
+    [InlineData(123,"John", "Doe", "teste@gmail.com", 987654321)]
+    [InlineData(213, "Jane", "Doe", "teste2@gmail.com", 923456780)]
+    public void ConstructorWithSpecializationNull(int licenseNumber,string firstName, string lastName, string email, int phoneNumber)
+    {
+        var license = new LicenseNumber(licenseNumber);
+        var first = new Name(firstName);
+        var last = new Name(lastName);
+        var emailAdd = new Email(email);
+        var phone = new PhoneNumber(phoneNumber);
+        var contactInfo = new ContactInfo(emailAdd, phone);
+        var person = new Person(first, last, contactInfo);
+        
+        Assert.Throws<ArgumentNullException>(() => new Staff(license, person, null));
+    }
+    
+    [Theory]
+    [InlineData(123,"Cardiology")]
+    [InlineData(213, "Doctor")]
+    public void ConstructorWithPersonNull(int licenseNumber, string specialization)
+    {
+        var license = new LicenseNumber(licenseNumber);
+        var specializationName = new SpecializationName(specialization);
+        var specializa = new Specialization(specializationName);
+        
+        Assert.Throws<ArgumentNullException>(() => new Staff(license, null, specializa));
+    }
+    
+    [Theory]
+    [InlineData("John", "Doe", "teste@gmail.com", 987654321, "Doctor")]
+    [InlineData("Jane", "Doe", "teste2@gmail.com", 923456780, "Cardiology")]
+    public void ConstructorWithLicenseNumberNull(string firstName, string lastName, string email, int phoneNumber, string specialization)
+    {
+        var firstNameObj = new Name(firstName);
+        var lastNameObj = new Name(lastName);
+        var emailObj = new Email(email);
+        var phoneNumberObj = new PhoneNumber(phoneNumber);
+        var contactInfo = new ContactInfo(emailObj, phoneNumberObj);
+        var person = new Person(firstNameObj, lastNameObj, contactInfo);
+        var specializationName = new SpecializationName(specialization);
+        var specializationObj = new Specialization(specializationName);
+
+        Assert.Throws<ArgumentNullException>(() => new Staff(null, person, specializationObj));
+    }
+
+    
+    [Fact]
+    public void ConstructorWithAllNull()
+    {
+        
+        Assert.Throws<ArgumentNullException>(() => new Staff(null, null, null));
     }
 
     [Theory]
