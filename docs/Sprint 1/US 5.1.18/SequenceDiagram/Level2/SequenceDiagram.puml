@@ -1,60 +1,59 @@
 ﻿@startuml
-title 5.1.18 - Sequência para Remoção de Requisição de Operação (Nível 2)
+title 5.1.18 - Sequence for Operation Requisition Removal (Level 2)
 
-actor Doutor
-participant SurgeyApointmentSystem
-participant MóduloPlanejamento
+actor Doctor
+participant SurgeryAppointmentSystem
+participant PlanningModule
 participant Backend
-database Basededados
+database Database
 
-activate Doutor
+activate Doctor
 
-Doutor -> SurgeyApointmentSystem: solicitar remoção da requisição de operação
-activate SurgeyApointmentSystem
+Doctor -> SurgeryAppointmentSystem: request removal of operation requisition
+activate SurgeryAppointmentSystem
 
-SurgeyApointmentSystem -> SurgeyApointmentSystem: exibir prompt de confirmação
+SurgeryAppointmentSystem -> SurgeryAppointmentSystem: display confirmation prompt
 
-alt confirmação do Doutor
-    Doutor -> SurgeyApointmentSystem: confirmar remoção
+alt Doctor confirms
+    Doctor -> SurgeryAppointmentSystem: confirm removal
 
-    SurgeyApointmentSystem -> Backend: verificar se a operação está agendada
-    deactivate SurgeyApointmentSystem
+    SurgeryAppointmentSystem -> Backend: check if operation is scheduled
+    deactivate SurgeryAppointmentSystem
     activate Backend
-        Backend -> Basededados: verificar se a operação está agendada
+        Backend -> Database: check if operation is scheduled
 
-    activate Basededados
-    alt operação não agendada
-        Basededados -> Backend: operação não agendada
-        deactivate Basededados
+    activate Database
+    alt operation not scheduled
+        Database -> Backend: operation not scheduled
+        deactivate Database
 
-        Backend -> Basededados: remover requisição de operação
-        activate Basededados
-        Basededados --> Backend: requisição removida
-        deactivate Basededados
-                Backend --> SurgeyApointmentSystem: requisição removida
+        Backend -> Database: remove operation requisition
+        activate Database
+        Database --> Backend: requisition removed
+        deactivate Database
+        Backend --> SurgeryAppointmentSystem: requisition removed
         deactivate Backend
-        activate SurgeyApointmentSystem
+        activate SurgeryAppointmentSystem
 
-
-        SurgeyApointmentSystem -> MóduloPlanejamento: notificar remoção
-        activate MóduloPlanejamento
-        MóduloPlanejamento --> SurgeyApointmentSystem: notificação recebida
-        deactivate MóduloPlanejamento
+        SurgeryAppointmentSystem -> PlanningModule: notify removal
+        activate PlanningModule
+        PlanningModule --> SurgeryAppointmentSystem: notification received
+        deactivate PlanningModule
         
-        SurgeyApointmentSystem -> MóduloPlanejamento: atualizar cronogramas dependentes
-        activate MóduloPlanejamento
-        MóduloPlanejamento --> SurgeyApointmentSystem: cronogramas atualizados
-        deactivate MóduloPlanejamento
+        SurgeryAppointmentSystem -> PlanningModule: update dependent schedules
+        activate PlanningModule
+        PlanningModule --> SurgeryAppointmentSystem: schedules updated
+        deactivate PlanningModule
 
-        SurgeyApointmentSystem --> Doutor: requisição de operação removida com sucesso
-    else pedido de operação
-        Basededados --> SurgeyApointmentSystem: pedido de operação
-        deactivate Basededados
-        SurgeyApointmentSystem --> Doutor: não é possível remover requisição (agendada)
+        SurgeryAppointmentSystem --> Doctor: operation requisition successfully removed
+    else operation scheduled
+        Database --> SurgeryAppointmentSystem: operation scheduled
+        deactivate Database
+        SurgeryAppointmentSystem --> Doctor: cannot remove requisition (scheduled)
     end
-else cancelamento
-    SurgeyApointmentSystem --> Doutor: remoção cancelada
+else cancellation
+    SurgeryAppointmentSystem --> Doctor: removal canceled
 end
 
-deactivate SurgeyApointmentSystem
+deactivate SurgeryAppointmentSystem
 @enduml

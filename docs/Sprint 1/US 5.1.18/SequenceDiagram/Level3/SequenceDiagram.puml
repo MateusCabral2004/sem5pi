@@ -1,94 +1,91 @@
 ﻿@startuml
-title 5.1.18 - Sequência para Remoção de Requisição de Operação (Nível 3)
+title 5.1.18 - Sequence for Operation Requisition Removal (Level 3)
 
-actor Doutor
-participant SurgeyApointmentSystem
-participant MóduloPlanejamento
+actor Doctor
+participant SurgeryAppointmentSystem
+participant PlanningModule
 participant StaffController
 participant StaffService
 participant Repository
 participant Persistence
-database Basededados
+database Database
 
-activate Doutor
+activate Doctor
 
-Doutor -> SurgeyApointmentSystem: solicitar remoção da requisição de operação
-activate SurgeyApointmentSystem
+Doctor -> SurgeryAppointmentSystem: request removal of operation requisition
+activate SurgeryAppointmentSystem
 
-SurgeyApointmentSystem -> SurgeyApointmentSystem: exibir prompt de confirmação
+SurgeryAppointmentSystem -> SurgeryAppointmentSystem: display confirmation prompt
 
-alt confirmação do Doutor
+alt Doctor confirms
+    Doctor -> SurgeryAppointmentSystem: confirm removal
 
-
-    Doutor -> SurgeyApointmentSystem: confirmar remoção
-
-    SurgeyApointmentSystem -> StaffController: verificar se a operação está agendada
+    SurgeryAppointmentSystem -> StaffController: check if operation is scheduled
     activate StaffController
 
-    StaffController -> StaffService: verificar operação
+    StaffController -> StaffService: verify operation
     activate StaffService
 
-    StaffService -> Repository: verificar se a operação está agendada
+    StaffService -> Repository: check if operation is scheduled
     activate Repository
 
-    Repository -> Persistence: consultar operação agendada
+    Repository -> Persistence: query scheduled operation
     activate Persistence
 
-    Persistence -> Basededados: verificar status da operação
-    alt operação não agendada        
-    activate Basededados
+    Persistence -> Database: check operation status
+    alt operation not scheduled        
+        activate Database
 
-    Basededados --> Persistence: operação não agendada
-    deactivate Basededados
+        Database --> Persistence: operation not scheduled
+        deactivate Database
 
-    Persistence --> Repository: operação não agendada
-    deactivate Persistence
+        Persistence --> Repository: operation not scheduled
+        deactivate Persistence
 
-    Repository --> StaffService: operação não agendada
-    deactivate Repository
+        Repository --> StaffService: operation not scheduled
+        deactivate Repository
 
-    StaffService --> StaffController: operação não agendada
-    deactivate StaffService
+        StaffService --> StaffController: operation not scheduled
+        deactivate StaffService
 
-    StaffController -> Repository: remover requisição de operação
-    activate Repository
+        StaffController -> Repository: remove operation requisition
+        activate Repository
 
-    Repository -> Persistence: remover requisição de operação
-    activate Persistence
+        Repository -> Persistence: remove operation requisition
+        activate Persistence
 
-    Persistence -> Basededados: remover requisição
-    activate Basededados
+        Persistence -> Database: remove requisition
+        activate Database
 
-    Basededados --> Persistence: requisição removida
-    deactivate Basededados
+        Database --> Persistence: requisition removed
+        deactivate Database
 
-    Persistence --> Repository: requisição removida
-    deactivate Persistence
+        Persistence --> Repository: requisition removed
+        deactivate Persistence
 
-    Repository --> StaffService: requisição removida
-    deactivate Repository
+        Repository --> StaffService: requisition removed
+        deactivate Repository
 
-    StaffService --> StaffController: requisição removida
-    deactivate StaffService
+        StaffService --> StaffController: requisition removed
+        deactivate StaffService
 
-    StaffController -> MóduloPlanejamento: notificar remoção
+        StaffController -> PlanningModule: notify removal
+        activate PlanningModule
+        PlanningModule --> StaffController: notification sent
+        deactivate PlanningModule
 
-    activate MóduloPlanejamento
-    MóduloPlanejamento --> StaffController: notificação enviada
-    deactivate MóduloPlanejamento
-
-    StaffController --> SurgeyApointmentSystem: requisição de operação removida com sucesso
-    deactivate StaffController
-else operação agendada
-    Repository --> StaffService: operação agendada
-    deactivate Repository
-    StaffService --> StaffController: operação agendada
-    deactivate StaffService
-    StaffController --> SurgeyApointmentSystem: não é possível remover requisição (agendada)
+        StaffController --> SurgeryAppointmentSystem: operation requisition successfully removed
+        deactivate StaffController
+    else operation scheduled
+        Repository --> StaffService: operation scheduled
+        deactivate Repository
+        StaffService --> StaffController: operation scheduled
+        deactivate StaffService
+        StaffController --> SurgeryAppointmentSystem: cannot remove requisition (scheduled)
+    end
+else cancellation
+    SurgeryAppointmentSystem --> Doctor: removal canceled
 end
-else cancelamento
-    SurgeyApointmentSystem --> Doutor: remoção cancelada
-end
 
-deactivate SurgeyApointmentSystem
+deactivate SurgeryAppointmentSystem
 @enduml

@@ -8,16 +8,15 @@
 - The deletion of the operation requisition must be irreversible, completely removing it from the patient's medical record.
 - Removing a requisition should trigger a notification to the Planning Module, adjusting any schedules that depend on this operation.
 
-# Critérios para o Sistema de Requisição de Operações
+## Criteria for the Operation Requisition System
 
-## 1. Deleção de Requisições de Operação
-- **Critério:** A deleção de uma requisição de operação deve ser irreversível.
-- **Especificação:** O sistema deve apresentar um prompt de confirmação antes da exclusão, e a requisição deve ser removida permanentemente após a confirmação.
+### 1. Deletion of Operation Requisitions
+- **Criterion:** Deletion of an operation requisition must be irreversible.
+- **Specification:** The system must display a confirmation prompt before deletion, and the requisition must be permanently removed upon confirmation.
 
-## 2. Autorização para Deletar Requisições
-- **Critério:** Somente o médico que criou a requisição pode excluí-la.
-- **Especificação:** A deleção só pode ocorrer se a operação correspondente ainda não tiver sido agendada.
-
+### 2. Authorization to Delete Requisitions
+- **Criterion:** Only the doctor who created the requisition can delete it.
+- **Specification:** Deletion can only occur if the corresponding operation has not yet been scheduled.
 
 ### Acceptance Criteria
 - Doctors can only delete the operation requisitions they created, provided the operation has not yet been scheduled.
@@ -26,6 +25,4 @@
 - The system sends a notification to the Planning Module, updating dependent schedules for this requisition.
 
 ### Found Out Dependencies
-- **Scheduling Module:** Check the operation status to prevent the deletion of already scheduled requisitions.
 - **Notification Module:** Send notifications to the Planning Module after deletion.
-- **Access Control Module:** Ensure that only the doctor who created the requisition can delete it.

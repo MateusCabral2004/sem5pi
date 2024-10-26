@@ -9,7 +9,7 @@ using Sempi5.Domain.User;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace Sempi5.Tests.src.Domain.PatientAggregate.Unit
+namespace Sempi5.Tests.Domain.OperationTypeAggregate.Unit
 {
     public class PatientTest
     {

@@ -1,0 +1,27 @@
+@startuml
+title 5.1.19 - Sequence for Listing/Searching Operation Requests (Level 2)
+
+actor Doctor
+participant System as "SurgeryAppointmentSystem"
+participant Backend
+database Database
+
+activate Doctor
+Doctor -> System : list/search operation requests by filter
+activate System
+
+System -> Backend : list/search operation requests by filter
+activate Backend
+
+Backend -> Database : list/search operation requests by filter
+activate Database
+
+Database --> Backend : operation requests list
+deactivate Database
+
+Backend --> System : operation requests list
+deactivate Backend
+
+System --> Doctor : operation requests list
+deactivate System
+@enduml

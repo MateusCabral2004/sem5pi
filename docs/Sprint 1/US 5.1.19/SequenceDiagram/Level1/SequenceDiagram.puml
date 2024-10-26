@@ -1,0 +1,13 @@
+@startuml
+title 5.1.19 - Sequence for Listing/Searching Operation Requisitions (Level 1)
+
+actor Doctor
+participant SurgeryAppointmentSystem
+
+activate Doctor
+Doctor -> SurgeryAppointmentSystem : list/search operation requisitions by filter
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Doctor : operation requisitions listed/searched
+deactivate SurgeryAppointmentSystem
+@enduml

@@ -200,7 +200,6 @@ namespace Sempi5
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
             services.AddTransient<EmailService>();
-            services.AddTransient<AdminService>();
             services.AddTransient<PatientService>();
             services.AddTransient<TokenService>();
             services.AddTransient<OperationTypeService>();

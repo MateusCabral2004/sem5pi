@@ -134,4 +134,48 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message + e.StackTrace);
         }
     }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost("listOperationTypeByName")]
+    public async Task<IActionResult> ListOperationTypesByName(OperationNameDTO operationName)
+    {
+        try
+        {
+            await _operationTypeService.ListOperationTypeByName(operationName);
+            return Ok("Operation types listed successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message + e.StackTrace);
+        }
+    }
+    
+    [HttpPost("listOperationTypeBySpecialization")]
+    public async Task<IActionResult> ListOperationTypesBySpecialization(SpecializationNameDTO specializationName)
+    {
+        try
+        {
+            await _operationTypeService.ListOperationTypeBySpecialization(specializationName);
+            return Ok("Operation types listed successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message + e.StackTrace);
+        }
+    }
+    
+    [HttpPost("listOperationTypeByStatus")]
+    public async Task<IActionResult> ListOperationTypesBySpecialization(OperationType status)
+    {
+        try
+        {
+            await _operationTypeService.ListOperationTypeByStatus(status);
+            return Ok("Operation types listed successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message + e.StackTrace);
+        }
+    }
+
 }

@@ -18,8 +18,7 @@ namespace Sempi5.Domain.PersonalData
             _email = new Email(email);
             _phoneNumber = new PhoneNumber(phoneNumber);
         }
-        
- 
+
 
         public virtual Email email()
         {
