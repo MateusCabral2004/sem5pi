@@ -28,7 +28,7 @@ public class LicenseNumber :IValueObject
         return _licenseNumber.ToString();
     }
     
-    public int licenseNumber()
+    public virtual int licenseNumber()
     {
         return _licenseNumber;
     }
