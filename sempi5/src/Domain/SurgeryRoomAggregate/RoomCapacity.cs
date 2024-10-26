@@ -1,6 +1,8 @@
-﻿namespace Sempi5.Domain.SurgeryRoomAggregate;
+﻿using Sempi5.Domain.Shared;
 
-public class RoomCapacity
+namespace Sempi5.Domain.SurgeryRoomAggregate;
+
+public class RoomCapacity : IValueObject
 {
     public int Capacity { get; private set; }
 
