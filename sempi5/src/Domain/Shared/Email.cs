@@ -2,25 +2,19 @@
 
 namespace Sempi5.Domain.Shared;
 
-public class Email
+public class Email : IValueObject
 {
     private readonly string _emailAddress;
-    
+
     public Email(string emailAddress)
     {
-        Console.WriteLine("Creating email object with address: " + emailAddress + "...");
         ValidateEmailAddress(emailAddress);
         _emailAddress = emailAddress;
-
     }
-    
+
     private void ValidateEmailAddress(string emailAddress)
     {
-        Console.WriteLine("Validating email address " + emailAddress + "...");
-        if (emailAddress == null)
-        {
-            throw new ArgumentNullException("Email address cannot be null.");
-        }
+        ArgumentNullException.ThrowIfNull(emailAddress);
 
         if (emailAddress.Length == 0)
         {
@@ -31,22 +25,25 @@ public class Email
         {
             throw new ArgumentException("Email address must contain an @ symbol.");
         }
-        /*        
-        if(Regex.IsMatch(emailAddress, @"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]+$"))
+
+        if (!Regex.IsMatch(emailAddress, @"^[\w.+-]+@(?<!-)(?!.*\.\.)([a-zA-Z\d]+[-a-zA-Z\d]*[a-zA-Z\d]+)(\.[a-zA-Z]{2,})+$"))
         {
             throw new ArgumentException("Invalid email format");
         }
-        */
     }
 
     public override string ToString()
     {
         return _emailAddress;
     }
-    
+
     public bool Equals(Email email)
     {
+        if (email == null)
+        {
+            return false;
+        }
+        
         return email._emailAddress == _emailAddress;
     }
-    
 }
