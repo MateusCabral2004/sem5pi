@@ -35,19 +35,7 @@ namespace Sempi5.Controllers
             return Ok("Welcome to the Admin Page");
         }
 
-        [HttpGet("listPatientProfilesByName")]
-        public async Task<IActionResult> ListPatientProfilesByName(NameDTO nameDto)
-        {
-            try
-            {
-                var patientProfile = await _adminService.ListPatientByName(nameDto);
-                return Ok(patientProfile);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+
 
         [HttpGet("listPatientProfilesByEmail")]
         public async Task<IActionResult> ListPatientProfilesByEmail(EmailDTO emailDto)
@@ -78,19 +66,6 @@ namespace Sempi5.Controllers
             }
         }
 
-        [HttpGet("listPatientProfilesByDateOfBirth")]
-        public async Task<IActionResult> ListPatientProfilesByDateOfBirth(DateDTO dateDto)
-        {
-            try
-            {
-                var patientProfiles = await _adminService.ListPatientByDateOfBirth(dateDto);
-                return Ok(patientProfiles);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
 
        
 
@@ -108,36 +83,7 @@ namespace Sempi5.Controllers
             }
         }
 
-        [HttpPut("editPatientRecord")]
-        public async Task<IActionResult> EditPatientRecord(EditPatientRecordDTO editPatientRecord)
-        {
-            try
-            {
-                var patientDto = await _adminService.EditPatientRecord(editPatientRecord);
-
-                return Ok("Patient profile edited successfully.");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
-        [HttpPut("deletePatientRecord")]
-        public async Task<IActionResult> DeletePatientRecord(PatientIdDto patientIdDto)
-        {
-            try
-            {
-                var patientDto = await _adminService.DeletePatientRecord(patientIdDto);
-
-                return Ok("Patient profile deleted successfully.");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
+    
         [HttpPost("createStaffProfile")]
         public async Task<IActionResult> CreateStaffProfile(StaffDTO staff)
         {
