@@ -16,6 +16,9 @@ namespace Sempi5.Domain.PersonalData
 
         public Person(Name firstName, Name lastName, ContactInfo contactInfo)
         {
+            ArgumentNullException.ThrowIfNull(firstName);
+            ArgumentNullException.ThrowIfNull(lastName);
+            ArgumentNullException.ThrowIfNull(contactInfo);
             FirstName = firstName;
             LastName = lastName;
             FullName = new Name($"{firstName.ToString()} {lastName.ToString()}");

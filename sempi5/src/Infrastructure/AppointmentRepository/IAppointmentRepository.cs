@@ -5,5 +5,7 @@ namespace Sempi5.Infrastructure.AppointmentRepository;
 
 public interface IAppointmentRepository : IRepository<Appointment, AppointmentID>
 {
-    
+    Task SaveChangesAsync();
+    Task<Appointment?> getAppointmentByOperationRequestID(long id);
+    Task updataAppointment(Appointment appointment);
 }

@@ -23,6 +23,13 @@ namespace Sempi5.Domain.PatientAggregate
         
         public Patient(SystemUser user, Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact, List<string> appointmentHistory)
         {
+            ArgumentNullException.ThrowIfNull(user);
+            ArgumentNullException.ThrowIfNull(person);
+            ArgumentException.ThrowIfNullOrWhiteSpace(gender);
+            ArgumentException.ThrowIfNullOrWhiteSpace(emergencyContact);
+            ArgumentNullException.ThrowIfNull(allergiesAndMedicalConditions);
+            ArgumentNullException.ThrowIfNull(appointmentHistory);
+            
             User = user;
             Person = person;
             BirthDate = birthDate;
@@ -35,6 +42,13 @@ namespace Sempi5.Domain.PatientAggregate
         
         public Patient(SystemUser user, Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact, List<string> appointmentHistory, PatientStatusEnum patientStatus)
         {
+            ArgumentNullException.ThrowIfNull(user);
+            ArgumentNullException.ThrowIfNull(person);
+            ArgumentException.ThrowIfNullOrWhiteSpace(gender);
+            ArgumentException.ThrowIfNullOrWhiteSpace(emergencyContact);
+            ArgumentNullException.ThrowIfNull(allergiesAndMedicalConditions);
+            ArgumentNullException.ThrowIfNull(appointmentHistory);
+            
             User = user;
             Person = person;
             BirthDate = birthDate;
@@ -44,16 +58,6 @@ namespace Sempi5.Domain.PatientAggregate
             AppointmentHistory = appointmentHistory;
             PatientStatus = patientStatus;
         }
-
-        public Patient(SystemUser user, MedicalRecordNumber id, Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact)
-        {
-            User = user;
-            Person = person;
-            BirthDate = birthDate;
-            Gender = gender;
-            AllergiesAndMedicalConditions = allergiesAndMedicalConditions;
-            EmergencyContact = emergencyContact;
-            PatientStatus = PatientStatusEnum.ACTIVATED;
-        }
+        
     }
 }

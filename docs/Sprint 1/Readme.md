@@ -1,0 +1,2 @@
+# Justification for Non-Implementation of Certain Criteria
+## Some of the specified criteria related to visual indicators and advanced sorting options are contingent on front-end capabilities. Implementing these features requires a user interface that can visually represent statuses and provide sorting functionalities. As such, these criteria will be considered for future iterations after establishing the core back-end functionalities and ensuring that adequate front-end resources are available.

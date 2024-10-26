@@ -2,12 +2,8 @@
 
 namespace Sempi5.Domain.RequiredStaffAggregate;
 
-public class RequiredStaffID : EntityId
+public class RequiredStaffID : EntityId, IValueObject
 {
- 
-    public RequiredStaffID() : base(null)
-    {
-    }
     
     public RequiredStaffID(long value) : base(value)
     {

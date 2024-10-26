@@ -24,8 +24,7 @@ public class AppointmentEntityTypeConfiguration : IEntityTypeConfiguration<Appoi
 
         builder.HasOne(t => t.OperationRequest)
             .WithOne()
-            .HasForeignKey<Appointment>("OperationRequestID")
-            .IsRequired();
+            .HasForeignKey<Appointment>("OperationRequestID");
         
         builder.HasOne(t => t.SurgeryRoom)
             .WithOne()

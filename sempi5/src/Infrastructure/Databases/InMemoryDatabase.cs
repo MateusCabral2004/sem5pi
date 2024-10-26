@@ -1,7 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Sempi5.Domain.TodoItem;
-
-
 
 namespace Sempi5.Infrastructure.Databases
 {
