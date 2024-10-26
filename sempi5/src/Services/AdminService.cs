@@ -34,100 +34,78 @@ public class AdminService
 {
     private readonly IStaffRepository _staffRepository;
     private readonly IPatientRepository _patientRepository;
-    private readonly IUserRepository _userRepository;
-    private readonly IConfirmationTokenRepository _confirmationRepository;
     private readonly EmailService _emailService;
     private readonly IPersonRepository _personRepository;
     private readonly ISpecializationRepository _specializationRepository;
-    private readonly IOperationTypeRepository _operationTypeRepository;
-    private readonly IRequiredStaffRepository _requiredStaffRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public AdminService(IStaffRepository staffRepository, IPatientRepository patientRepository,
-        IUserRepository userRepository,
-        IConfirmationTokenRepository confirmationRepository, IUnitOfWork unitOfWork, EmailService emailService,
-        IPersonRepository personRepository, ISpecializationRepository specializationRepository,
-        IOperationTypeRepository operationTypeRepository, IRequiredStaffRepository requiredStaffRepository)
+    public AdminService(IStaffRepository staffRepository, IPatientRepository patientRepository, 
+        IUnitOfWork unitOfWork, EmailService emailService,
+        IPersonRepository personRepository, ISpecializationRepository specializationRepository)
     {
         _staffRepository = staffRepository;
         _patientRepository = patientRepository;
-        _userRepository = userRepository;
-        _confirmationRepository = confirmationRepository;
         _unitOfWork = unitOfWork;
         _emailService = emailService;
         _personRepository = personRepository;
         _specializationRepository = specializationRepository;
-        _operationTypeRepository = operationTypeRepository;
-        _requiredStaffRepository = requiredStaffRepository;
     }
 
-    public async Task RegisterUser(RegisterUserDTO userDTO)
+    public async Task<PatientDTO> ListPatientByName(NameDTO nameDto)
     {
-        var user = registerUserDTOtoUser(userDTO);
-        var userExists = await _userRepository.GetByEmail(user.Email.ToString());
-        if (userExists != null)
+        var name = nameDTOtoName(nameDto);
+
+        var patient = await _patientRepository.GetByName(name.ToString());
+
+        if (patient == null)
         {
-            if (!userExists.IsVerified)
-            {
-                Console.WriteLine("User already exists, but not verified");
-                userExists.Role = userDTO.role;
-            }
-            else
-            {
-                throw new ArgumentException("User already exists");
-            }
-        }
-        else
-        {
-            await _userRepository.AddAsync(user);
+            throw new ArgumentException("Patient not found");
         }
 
-        var email = new Email(userDTO.email);
-        var confirmationToken = new ConfirmationToken(email, userDTO.staffOrStaffId);
-
-        var token = await RegisterToken(confirmationToken);
-        var staff = await _staffRepository.GetByIdAsync(new StaffId(userDTO.staffOrStaffId));
-        if (staff == null)
-        {
-            throw new ArgumentException("Staff not found");
-        }
-
-        if (staff.User.IsVerified)
-        {
-            throw new ArgumentException("Staff already verified");
-        }
-
-        var staffEmail = staff.Person.ContactInfo._email.ToString();
-        await _unitOfWork.CommitAsync();
-        await _emailService.SendStaffConfirmationEmail(staffEmail, token.Id.ToString());
+        return patientToPatientDto(patient);
     }
 
-    private SystemUser registerUserDTOtoUser(RegisterUserDTO user)
+    public async Task<PatientDTO> ListPatientByEmail(EmailDTO emailDto)
     {
-        var email = new Email(user.email);
-        return new SystemUser(email, user.role);
+        var email = emailDTOtoEmail(emailDto);
+
+        var patient = await _patientRepository.GetByEmail(email.ToString());
+
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");
+        }
+
+        return patientToPatientDto(patient);
     }
 
-    private async Task<ConfirmationToken> RegisterToken(ConfirmationToken confirmationToken)
+    public async Task<List<PatientDTO>> ListPatientByDateOfBirth(DateDTO dateDto)
     {
-        var token = await _confirmationRepository.GetByEmail(confirmationToken.email.ToString());
+        var date = dateDTOtoDate(dateDto);
 
-        if (token == null)
+        var patients = await _patientRepository.GetByDateOfBirth(date);
+
+        var patientDtoList = buildPatientDtoList(patients);
+
+        if (patientDtoList.Count == 0)
         {
-            return await _confirmationRepository.AddAsync(confirmationToken);
+            throw new ArgumentException("No patients found.");
         }
 
-        if (!token.Id.Equals(confirmationToken.Id))
-        {
-            throw new ArgumentException(
-                "Account already waiting for verification with a different staff profile. If you made a mistake, please contact support.");
-        }
-
-        token.ResetExpiryDate();
-
-        return token;
+        return patientDtoList;
     }
-    
+
+    public async Task<PatientDTO> ListPatientByMedicalRecordNumber(PatientIdDto patientId)
+    {
+        var patient = await _patientRepository.GetByPatientId(patientId.Id);
+
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");
+        }
+
+        return patientToPatientDto(patient);
+    }
 
     public async Task<PatientRecordDTO> GetPatientRecordByPatientId(PatientIdDto patientId)
     {
@@ -140,7 +118,58 @@ public class AdminService
 
         return patientToPatientRecordDto(patient);
     }
-    
+
+    public async Task<PatientRecordDTO> EditPatientRecord(EditPatientRecordDTO editPatientRecord)
+    {
+        var patient = await _patientRepository.GetByPatientIdWithActivatedMedicalRecord(editPatientRecord.Id);
+
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");
+        }
+
+        patient.AppointmentHistory.Add(editPatientRecord.recordToAdd);
+
+        await _patientRepository.SavePatientAsync(patient);
+
+        return patientToPatientRecordDto(patient);
+    }
+
+    public async Task<PatientRecordDTO> DeletePatientRecord(PatientIdDto patientId)
+    {
+        var patient = await _patientRepository.GetByPatientIdWithActivatedMedicalRecord(patientId.Id);
+
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found.");
+        }
+
+        patient.MedicalRecordStatus = MedicalRecordStatusEnum.DEACTIVATED;
+
+        await _patientRepository.SavePatientAsync(patient);
+
+        return patientToPatientRecordDto(patient);
+    }
+
+    private Email emailDTOtoEmail(EmailDTO email)
+    {
+        return new Email(email.email);
+    }
+
+    private DateTime dateDTOtoDate(DateDTO date)
+    {
+        return new DateTime(date.year, date.month, date.day);
+    }
+
+    private Name nameDTOtoName(NameDTO name)
+    {
+        return new Name(name.name);
+    }
+
+    private MedicalRecordNumber medicalRecordNumberDTOtoMedicalRecordNumber(MedicalRecordNumberDTO medicalRecordNumber)
+    {
+        return new MedicalRecordNumber(medicalRecordNumber.ToString());
+    }
 
     private PatientRecordDTO patientToPatientRecordDto(Patient patient)
     {
