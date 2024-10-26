@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Sempi5.Domain.Encrypt;
@@ -152,6 +153,25 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("request/deleteRequest")]
+        public async Task<IActionResult> DeleteRequest(string email)
+        {
+            try
+            {
+                // await _staffService.DeleteRequestAsync(getEmail());
+                await _staffService.DeleteRequestAsync(email);
+
+                return Ok("Operation request deleted successfully");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         
         [HttpGet("listStaffProfilesBySpecialization")]
         public async Task<IActionResult> ListStaffProfilesBySpecialization(SpecializationNameDTO specializationDto)
@@ -167,4 +187,6 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
     }
+    
+    
 }

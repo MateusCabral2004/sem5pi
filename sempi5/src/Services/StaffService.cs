@@ -1,14 +1,18 @@
 using System.Text.Json;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
+using Sempi5.Domain.AppointmentAggregate;
 using Sempi5.Domain.ConfirmationLink;
 using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Encrypt;
+using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
+using Sempi5.Infrastructure.AppointmentRepository;
+using Sempi5.Infrastructure.OperationRequestRepository;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Infrastructure.PersonRepository;
 using Sempi5.Infrastructure.SpecializationRepository;
@@ -25,20 +29,26 @@ namespace Sempi5.Services
         private readonly IPatientRepository _patientRepository;
         private readonly EmailService _emailService;
         private readonly IUnitOfWork _unitOfWork;
-        
-        
-        public StaffService(EmailService emailService, IStaffRepository staffRepository, ISpecializationRepository specializationRepository, IPersonRepository personRepository, IPatientRepository patientRepository, IUnitOfWork unitOfWork)
+        private readonly IAppointmentRepository _appointmentRepository;
+        private readonly IOperationRequestRepository _operationRequestRepository;
+
+        public StaffService(EmailService emailService, IStaffRepository staffRepository,
+            ISpecializationRepository specializationRepository, IPersonRepository personRepository,
+            IPatientRepository patientRepository, IUnitOfWork unitOfWork, IAppointmentRepository appointmentRepository,
+            IOperationRequestRepository operationRequestRepository)
         {
             _staffRepository = staffRepository;
             _specializationRepository = specializationRepository;
             _unitOfWork = unitOfWork;
-           _specializationRepository = specializationRepository;
+            _specializationRepository = specializationRepository;
             _patientRepository = patientRepository;
             _personRepository = personRepository;
             _emailService = emailService;
+            _appointmentRepository = appointmentRepository;
+            _operationRequestRepository = operationRequestRepository;
         }
-        
-        
+
+
         public async Task CreateStaffProfile(StaffDTO staffDTO)
         {
             var staff = await StaffDtoToStaff(staffDTO);
@@ -47,20 +57,21 @@ namespace Sempi5.Services
 
             await _unitOfWork.CommitAsync();
         }
-        
+
         public async Task<Staff> StaffDtoToStaff(StaffDTO staffDTO)
         {
             LicenseNumber licenseNumber = new LicenseNumber(staffDTO.LicenseNumber);
 
             await VerifyLicenseNumberAvailability(licenseNumber);
 
-            var person = await CreatePerson(staffDTO.FirstName, staffDTO.LastName, staffDTO.Email, staffDTO.PhoneNumber);
+            var person = await CreatePerson(staffDTO.FirstName, staffDTO.LastName, staffDTO.Email,
+                staffDTO.PhoneNumber);
 
             var specialization = await CreateSpecialization(staffDTO.Specialization);
 
             return new Staff(licenseNumber, person, specialization);
         }
-        
+
         public async Task VerifyLicenseNumberAvailability(LicenseNumber licenseNumber)
         {
             var staffByLicenseNumber = await _staffRepository.GetByLicenseNumber(licenseNumber);
@@ -71,7 +82,7 @@ namespace Sempi5.Services
             }
         }
 
-        
+
         public async Task<Specialization> CreateSpecialization(string specializationName)
         {
             var specialiName = new SpecializationName(specializationName);
@@ -88,7 +99,8 @@ namespace Sempi5.Services
             return specialization;
         }
 
-        public async Task<Person> CreatePerson(string firstName, string lastName, string emailString, int phoneNumberInt)
+        public async Task<Person> CreatePerson(string firstName, string lastName, string emailString,
+            int phoneNumberInt)
         {
             var phoneNumber = new PhoneNumber(phoneNumberInt);
 
@@ -103,7 +115,7 @@ namespace Sempi5.Services
 
             return person;
         }
-        
+
         public async Task VerifyPhoneNumberAvailability(PhoneNumber phoneNumber)
         {
             var personByPhoneNumber = await _personRepository.GetPersonByPhoneNumber(phoneNumber);
@@ -135,13 +147,12 @@ namespace Sempi5.Services
 
             return staff;
         }
-        
+
 
         public async Task<StaffDTO> EditStaffProfile(EditStaffDTO editStaffDto)
         {
-
             var staff = await _staffRepository.GetActiveStaffById(new StaffId(editStaffDto.Id));
-        
+
             if (staff == null)
             {
                 throw new ArgumentException("Staff not found.");
@@ -175,7 +186,7 @@ namespace Sempi5.Services
 
             return await StaffToStaffDto(staff);
         }
-        
+
         public async Task<StaffDTO> StaffToStaffDto(Staff staff)
         {
             return new StaffDTO
@@ -188,7 +199,7 @@ namespace Sempi5.Services
                 Specialization = staff.Specialization.specializationName.ToString()
             };
         }
-        
+
         public async Task DeactivateStaffProfile(StaffIdDTO staffId)
         {
             var staff = await _staffRepository.GetActiveStaffById(new StaffId(staffId.Id));
@@ -199,24 +210,24 @@ namespace Sempi5.Services
             }
 
             staff.Status = StaffStatusEnum.INACTIVE;
-            
+
             await _unitOfWork.CommitAsync();
         }
-        
+
         public async Task<List<SearchedStaffDTO>> ListStaffByName(NameDTO nameDto)
         {
             var staffList = await _staffRepository.GetActiveStaffByName(new Name(nameDto.name));
-            
+
             if (staffList.Count == 0)
             {
                 throw new ArgumentException("Staffs not found.");
             }
-            
+
             var staffDtoList = BuildStaffDtoList(staffList);
-            
+
             return staffDtoList;
         }
-        
+
         public async Task<SearchedStaffDTO> ListStaffByEmail(EmailDTO emailDto)
         {
             var staff = await _staffRepository.GetActiveStaffByEmail(new Email(emailDto.email));
@@ -225,24 +236,26 @@ namespace Sempi5.Services
             {
                 throw new ArgumentException("Staff not found.");
             }
-            
+
             return StaffToSearchedStaffDto(staff);
         }
-        
+
         public async Task<List<SearchedStaffDTO>> ListStaffBySpecialization(SpecializationNameDTO specializationDto)
         {
-            var staffList = await _staffRepository.GetActiveStaffBySpecialization(new SpecializationName(specializationDto.specializationName));
-            
+            var staffList =
+                await _staffRepository.GetActiveStaffBySpecialization(
+                    new SpecializationName(specializationDto.specializationName));
+
             if (staffList.Count == 0)
             {
                 throw new ArgumentException("Staffs not found.");
             }
-            
+
             var staffDtoList = BuildStaffDtoList(staffList);
-            
+
             return staffDtoList;
         }
-        
+
         private SearchedStaffDTO StaffToSearchedStaffDto(Staff staff)
         {
             return new SearchedStaffDTO
@@ -253,7 +266,42 @@ namespace Sempi5.Services
                 Specialization = staff.Specialization.specializationName.ToString()
             };
         }
-        
+
+        public async Task<bool> DeleteRequestAsync(string doctorEmail)
+        {
+            var staff = await _staffRepository.GetByEmail(doctorEmail);
+            var doctorId = staff.Id.AsString();
+            var operationRequest = await _operationRequestRepository.GetByDoctorId(doctorId);
+            if (operationRequest == null)
+            {
+                throw new InvalidOperationException("No operation request found for this doctor.");
+            }
+
+
+            if (operationRequest != null)
+            {
+                var appointment =
+                    await _appointmentRepository.getAppointmentByOperationRequestID(operationRequest.Id.AsLong());
+                if (appointment == null)
+                    throw new UnauthorizedAccessException("No operation request found for this doctor.");
+
+                if (appointment.Status.Equals(StatusEnum.SCHEDULED) ||
+                    appointment.Status.Equals(StatusEnum.COMNPLETED) ||
+                    appointment.Status.Equals(StatusEnum.CANCELED))
+                    throw new InvalidOperationException("Cannot delete a scheduled operation.");
+
+                appointment.Status = StatusEnum.CANCELED;
+
+                await _appointmentRepository.updataAppointment(appointment);
+                await _operationRequestRepository.RemoveAsync(appointment.OperationRequest);
+                await _appointmentRepository.SaveChangesAsync();
+            }
+
+            //TODO: create A NOTIFICATION SERVICE
+            //await _planningService.NotifyOperationDeleted(appointmentId);
+            return true;
+        }
+
         private List<SearchedStaffDTO> BuildStaffDtoList(List<Staff> staffs)
         {
             List<SearchedStaffDTO> searchedStaffDtoList = new List<SearchedStaffDTO>();
