@@ -53,7 +53,7 @@ public class OperationRequestService
         return new OperationRequest(doctor,patient,operationType,deadline,(PriorityEnum)Enum.Parse(typeof(PriorityEnum),operationRequestDto.priority.ToUpper()));
     }
     
-    public bool ValidateSpecialization(Specialization specialization, OperationType operationType)
+    private bool ValidateSpecialization(Specialization specialization, OperationType operationType)
     {
         foreach (RequiredStaff requiredStaff in operationType.RequiredStaff)
         {
@@ -63,6 +63,53 @@ public class OperationRequestService
             }
         }
         return false;
+    }
+
+    public async Task<OperationRequest> UpdateOperationRequestDeadline(OperationRequestDTO operationRequestDto, string doctor)
+    {
+        await ValidateRequestingDoctor(doctor, operationRequestDto);
+
+        var operationRequest =
+            await _operationRequestRepository.GetOperationRequestById(operationRequestDto.operationRequestId);
+        if (operationRequest == null)
+        {
+            throw new ArgumentException("Operation request not found");
+        }
+
+        operationRequest.DeadLineDate = DateTime.Parse(operationRequestDto.deadline);
+        await _unitOfWork.CommitAsync();
+        
+        return operationRequest;
+    }
+
+    public async Task<OperationRequest> UpdateOperationRequestPriority(OperationRequestDTO operationRequestDto, string doctor)
+    {
+        await ValidateRequestingDoctor(doctor, operationRequestDto);
+        var operationRequest =
+            await _operationRequestRepository.GetOperationRequestById(operationRequestDto.operationRequestId);
+        if (operationRequest == null)
+        {
+            throw new ArgumentException("Operation request not found");
+        }
+        operationRequest.PriorityEnum =
+            (PriorityEnum)Enum.Parse(typeof(PriorityEnum), operationRequestDto.priority.ToUpper());
+        await _unitOfWork.CommitAsync();
+        
+        return operationRequest;
+    }
+
+    private async Task<Staff>ValidateRequestingDoctor(string doctor, OperationRequestDTO operationRequestDto)
+    {
+        var requestingDoctor = await _staffRepository.GetActiveStaffById(new StaffId(operationRequestDto.doctorId));
+        if (requestingDoctor == null)
+        {
+            throw new ArgumentException("Requesting doctor not found");
+        }
+        if (!requestingDoctor.ToString().Equals(doctor))
+        {
+            throw new ArgumentException("Only the doctor that requested the operation can edit it!");
+        }
+        return requestingDoctor;
     }
 
    

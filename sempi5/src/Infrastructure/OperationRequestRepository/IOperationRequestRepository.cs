@@ -5,5 +5,5 @@ namespace Sempi5.Infrastructure.OperationRequestRepository;
 
 public interface IOperationRequestRepository : IRepository<OperationRequest, OperationRequestID>
 {
-    
+    public Task<OperationRequest> GetOperationRequestById(string id);
 }
