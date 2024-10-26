@@ -8,7 +8,7 @@ public class Appointment : Entity<AppointmentID>, IAggregateRoot
 {
     public AppointmentID Id { get; set; }
     
-    public OperationRequest OperationRequest { get; set; }
+    public OperationRequest? OperationRequest { get; set; }
     
     public SurgeryRoom SurgeryRoom { get; set; }
     
