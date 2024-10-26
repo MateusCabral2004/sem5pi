@@ -35,21 +35,6 @@ namespace Sempi5.Controllers
             return Ok("Welcome to the Admin Page");
         }
 
-        [HttpPost("registerStaff")]
-        public async Task<IActionResult> RegisterStaff(RegisterUserDTO user)
-        {
-            try
-            {
-                Console.WriteLine("StaffId: " + user.staffOrStaffId);
-                await _adminService.RegisterUser(user);
-                return Ok("Staff member registered successfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
-
         [HttpGet("listPatientProfilesByName")]
         public async Task<IActionResult> ListPatientProfilesByName(NameDTO nameDto)
         {
