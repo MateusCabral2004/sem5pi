@@ -201,4 +201,46 @@ Console.WriteLine("Listando agendamentos");
             return BadRequest(e.Message);
         }
     }
+    
+    [HttpPost("deletePatientProfile/{email}")]
+    public async Task<IActionResult> DeletePatientProfile(string email)
+    {
+        try
+        {
+            await patientService.DeletePatientProfile(email);
+            return Ok("Patient deleted successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpPost("editPatientProfile")]
+    public async Task<IActionResult> EditPatientProfile(PatientDTO patientDto)
+    {
+        try
+        {
+            await patientService.EditPatientProfile(patientDto);
+            return Ok("Patient profile edited successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpPost("registerPatientProfile")]
+    public async Task<IActionResult> RegisterPatientProfile(PatientDTO patient)
+    {
+        try
+        {
+            await patientService.CreatePatientProfile(patient);
+            return Ok("Patient profile created successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }
