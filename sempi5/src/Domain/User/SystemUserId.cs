@@ -3,14 +3,16 @@ using Sempi5.Domain.Shared;
 
 namespace Sempi5.Domain.User
 {
-    public class SystemUserId : EntityId
+    public class SystemUserId : EntityId, IValueObject
     {
-        // Parameterless constructor for EF Core
-        public SystemUserId() : base(null) // or you can choose to set it to null if appropriate
-        {}
-        
+
         public SystemUserId(long value) : base(value)
-        {}
+        {
+            if(value < 0)
+            {
+                throw new ArgumentException("SystemUserId cannot be negative");
+            }
+        }
         
         public override string AsString()
         {

@@ -2,7 +2,7 @@ using Sempi5.Domain.Shared;
 
 namespace Sempi5.Domain.User
 {
-    public class SystemUser : Entity<SystemUserId>
+    public class SystemUser : Entity<SystemUserId>, IAggregateRoot
     {
         public new SystemUserId Id { get; set; }
         public Email Email { get; set; }
@@ -14,7 +14,6 @@ namespace Sempi5.Domain.User
         public SystemUser(Email email, string role)
         {
             ArgumentNullException.ThrowIfNull(email);
-            ArgumentNullException.ThrowIfNull(role);
             ArgumentException.ThrowIfNullOrWhiteSpace(role);
             Email = email;
             Username = email.ToString();
@@ -25,7 +24,6 @@ namespace Sempi5.Domain.User
         public SystemUser(Email email, string role, bool isVerified)
         {
             ArgumentNullException.ThrowIfNull(email);
-            ArgumentNullException.ThrowIfNull(role);
             ArgumentException.ThrowIfNullOrWhiteSpace(role);
             Email = email;
             Username = email.ToString();
