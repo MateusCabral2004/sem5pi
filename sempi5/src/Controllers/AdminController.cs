@@ -107,19 +107,7 @@ namespace Sempi5.Controllers
             }
         }
 
-        [HttpPost("registerPatientProfile")]
-        public async Task<IActionResult> RegisterPatientProfile(PatientDTO patient)
-        {
-            try
-            {
-                await _adminService.CreatePatientProfile(patient);
-                return Ok("Patient profile created successfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+       
 
         [HttpGet("viewPatientRecord")]
         public async Task<IActionResult> ViewPatientRecord(PatientIdDto patientId)
@@ -178,20 +166,7 @@ namespace Sempi5.Controllers
                 return BadRequest("Error creating Staff:" + e.Message);
             }
         }
-
-        [HttpPost("editPatientProfile")]
-        public async Task<IActionResult> EditPatientProfile(PatientDTO patientDto)
-        {
-            try
-            {
-                await _adminService.EditPatientProfile(patientDto);
-                return Ok("Patient profile edited successfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        
         
         [HttpPatch("editStaffProfile")]
         public async Task<IActionResult> EditStaffProfile(EditStaffDTO editStaffDto)
@@ -208,18 +183,5 @@ namespace Sempi5.Controllers
         }
         
         
-        [HttpPost("deletePatientProfile/{email}")]
-        public async Task<IActionResult> DeletePatientProfile(string email)
-        {
-            try
-            {
-                await _adminService.DeletePatientProfile(email);
-                return Ok("Patient deleted successfully");
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
     }
 }
