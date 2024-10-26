@@ -21,7 +21,6 @@ namespace Sempi5.Domain.PersonalData
         
  
 
-        public Email email()
         public virtual Email email()
         {
             return _email;
