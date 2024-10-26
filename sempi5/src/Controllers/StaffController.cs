@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Sempi5.Domain.Encrypt;
+using Sempi5.Domain.PatientAggregate;
+using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
 using Sempi5.Services;
@@ -122,14 +124,14 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
 
-        /*
+        
         [HttpGet("listStaffProfilesByName")]
-        public async Task<IActionResult> ListStaffProfilesByName(NameDTO nameDto)
+        public async Task<IActionResult> ListStaffProfileByName(NameDTO nameDto)
         {
             try
             {
-         //       var staffProfile = await _staffService.ListStaffByName(nameDto);
-             //   return Ok(staffProfile);
+                var staffProfile = await _staffService.ListStaffByName(nameDto);
+                return Ok(staffProfile);
             }
             catch (Exception e)
             {
@@ -137,7 +139,32 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
 
-        [HttpGet]
-        */
+        [HttpGet("listStaffProfileByEmail")]
+        public async Task<IActionResult> ListStaffProfileByEmail(EmailDTO emailDto)
+        {
+            try
+            {
+                var staffProfiles = await _staffService.ListStaffByEmail(emailDto);
+                return Ok(staffProfiles);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
+        
+        [HttpGet("listStaffProfilesBySpecialization")]
+        public async Task<IActionResult> ListStaffProfilesBySpecialization(SpecializationNameDTO specializationDto)
+        {
+            try
+            {
+                var staffProfile = await _staffService.ListStaffBySpecialization(specializationDto);
+                return Ok(staffProfile);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message + e.StackTrace);
+            }
+        }
     }
 }

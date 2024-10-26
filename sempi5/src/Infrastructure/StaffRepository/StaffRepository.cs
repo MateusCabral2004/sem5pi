@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
@@ -52,6 +53,50 @@ namespace Sempi5.Infrastructure.StaffRepository
             }
             
             return context.StaffMembers.FirstOrDefaultAsync(p => p.LicenseNumber.Equals(licenseNumber));
+        }
+
+        public async Task<List<Staff>> GetActiveStaffByName(Name fullName)
+        {
+            if (fullName == null)
+            {
+                return null;
+            }
+            
+            return await context.StaffMembers
+                .Include(p => p.Person)
+                .Include(p => p.Specialization)
+                .Where(p => p.Person.FullName.Equals(fullName)
+                && p.Status.Equals(StaffStatusEnum.ACTIVE))
+                .ToListAsync();
+        }
+
+        public async Task<List<Staff>> GetActiveStaffBySpecialization(SpecializationName specializationName)
+        {
+            if (specializationName == null)
+            {
+                return null;
+            }
+            
+            return await context.StaffMembers
+                .Include(p => p.Person)
+                .Include(p => p.Specialization)
+                .Where(p => p.Specialization.specializationName.Equals(specializationName)
+                && p.Status.Equals(StaffStatusEnum.ACTIVE))
+                .ToListAsync();
+        }
+
+        public Task<Staff?> GetActiveStaffByEmail(Email email)
+        {
+            
+            if (email == null)
+            {
+                return null;
+            }
+            
+            return context.StaffMembers
+                .Include(p => p.Person)
+                .Include(p => p.Specialization)
+                .FirstOrDefaultAsync(p => p.Person.ContactInfo._email.Equals(email) && p.Status.Equals(StaffStatusEnum.ACTIVE));
         }
 
         public async Task<Staff> GetByIdAsync(StaffId id)

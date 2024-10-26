@@ -24,4 +24,9 @@ public class Name
     {
         return _name;
     }
+    
+    public bool Equals(Name name)
+    {
+        return name._name == _name;
+    }
 }
