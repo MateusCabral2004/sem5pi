@@ -1,0 +1,94 @@
+﻿@startuml
+title 5.1.18 - Sequência para Remoção de Requisição de Operação (Nível 3)
+
+actor Doutor
+participant SurgeyApointmentSystem
+participant MóduloPlanejamento
+participant StaffController
+participant StaffService
+participant Repository
+participant Persistence
+database Basededados
+
+activate Doutor
+
+Doutor -> SurgeyApointmentSystem: solicitar remoção da requisição de operação
+activate SurgeyApointmentSystem
+
+SurgeyApointmentSystem -> SurgeyApointmentSystem: exibir prompt de confirmação
+
+alt confirmação do Doutor
+
+
+    Doutor -> SurgeyApointmentSystem: confirmar remoção
+
+    SurgeyApointmentSystem -> StaffController: verificar se a operação está agendada
+    activate StaffController
+
+    StaffController -> StaffService: verificar operação
+    activate StaffService
+
+    StaffService -> Repository: verificar se a operação está agendada
+    activate Repository
+
+    Repository -> Persistence: consultar operação agendada
+    activate Persistence
+
+    Persistence -> Basededados: verificar status da operação
+    alt operação não agendada        
+    activate Basededados
+
+    Basededados --> Persistence: operação não agendada
+    deactivate Basededados
+
+    Persistence --> Repository: operação não agendada
+    deactivate Persistence
+
+    Repository --> StaffService: operação não agendada
+    deactivate Repository
+
+    StaffService --> StaffController: operação não agendada
+    deactivate StaffService
+
+    StaffController -> Repository: remover requisição de operação
+    activate Repository
+
+    Repository -> Persistence: remover requisição de operação
+    activate Persistence
+
+    Persistence -> Basededados: remover requisição
+    activate Basededados
+
+    Basededados --> Persistence: requisição removida
+    deactivate Basededados
+
+    Persistence --> Repository: requisição removida
+    deactivate Persistence
+
+    Repository --> StaffService: requisição removida
+    deactivate Repository
+
+    StaffService --> StaffController: requisição removida
+    deactivate StaffService
+
+    StaffController -> MóduloPlanejamento: notificar remoção
+
+    activate MóduloPlanejamento
+    MóduloPlanejamento --> StaffController: notificação enviada
+    deactivate MóduloPlanejamento
+
+    StaffController --> SurgeyApointmentSystem: requisição de operação removida com sucesso
+    deactivate StaffController
+else operação agendada
+    Repository --> StaffService: operação agendada
+    deactivate Repository
+    StaffService --> StaffController: operação agendada
+    deactivate StaffService
+    StaffController --> SurgeyApointmentSystem: não é possível remover requisição (agendada)
+end
+else cancelamento
+    SurgeyApointmentSystem --> Doutor: remoção cancelada
+end
+
+deactivate SurgeyApointmentSystem
+@enduml

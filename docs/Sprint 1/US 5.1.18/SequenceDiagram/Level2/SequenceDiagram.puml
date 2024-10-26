@@ -1,0 +1,60 @@
+﻿@startuml
+title 5.1.18 - Sequência para Remoção de Requisição de Operação (Nível 2)
+
+actor Doutor
+participant SurgeyApointmentSystem
+participant MóduloPlanejamento
+participant Backend
+database Basededados
+
+activate Doutor
+
+Doutor -> SurgeyApointmentSystem: solicitar remoção da requisição de operação
+activate SurgeyApointmentSystem
+
+SurgeyApointmentSystem -> SurgeyApointmentSystem: exibir prompt de confirmação
+
+alt confirmação do Doutor
+    Doutor -> SurgeyApointmentSystem: confirmar remoção
+
+    SurgeyApointmentSystem -> Backend: verificar se a operação está agendada
+    deactivate SurgeyApointmentSystem
+    activate Backend
+        Backend -> Basededados: verificar se a operação está agendada
+
+    activate Basededados
+    alt operação não agendada
+        Basededados -> Backend: operação não agendada
+        deactivate Basededados
+
+        Backend -> Basededados: remover requisição de operação
+        activate Basededados
+        Basededados --> Backend: requisição removida
+        deactivate Basededados
+                Backend --> SurgeyApointmentSystem: requisição removida
+        deactivate Backend
+        activate SurgeyApointmentSystem
+
+
+        SurgeyApointmentSystem -> MóduloPlanejamento: notificar remoção
+        activate MóduloPlanejamento
+        MóduloPlanejamento --> SurgeyApointmentSystem: notificação recebida
+        deactivate MóduloPlanejamento
+        
+        SurgeyApointmentSystem -> MóduloPlanejamento: atualizar cronogramas dependentes
+        activate MóduloPlanejamento
+        MóduloPlanejamento --> SurgeyApointmentSystem: cronogramas atualizados
+        deactivate MóduloPlanejamento
+
+        SurgeyApointmentSystem --> Doutor: requisição de operação removida com sucesso
+    else pedido de operação
+        Basededados --> SurgeyApointmentSystem: pedido de operação
+        deactivate Basededados
+        SurgeyApointmentSystem --> Doutor: não é possível remover requisição (agendada)
+    end
+else cancelamento
+    SurgeyApointmentSystem --> Doutor: remoção cancelada
+end
+
+deactivate SurgeyApointmentSystem
+@enduml

@@ -25,9 +25,9 @@ namespace Sempi5.Domain.StaffAggregate
             Specialization = specialization;
             AvailabilitySlots = new List<string>();
             Person = person;
-            Status = StaffStatusEnum.ACTIVE;
+            Status = StaffStatusEnum.INACTIVE;
         }
-        
+        //Apagar
         public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)
         {
             User = user;
@@ -37,7 +37,7 @@ namespace Sempi5.Domain.StaffAggregate
             Person = new Person(firstName, lastName, contactInfo);
             Status = StaffStatusEnum.ACTIVE;
         }
-        
+        //Apagar
         public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots, StaffStatusEnum status)
         {
             User = user;
@@ -48,6 +48,8 @@ namespace Sempi5.Domain.StaffAggregate
             Status = status;
         }
         
+        
+        //Apagar
         public Staff(LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)
         {
             User = null;

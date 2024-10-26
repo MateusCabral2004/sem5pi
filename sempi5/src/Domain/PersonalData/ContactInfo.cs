@@ -4,8 +4,8 @@ namespace Sempi5.Domain.PersonalData
 {
     public class ContactInfo
     {
-        public Email _email { get; set; }
-        public PhoneNumber _phoneNumber { get; set; }
+        public virtual Email _email { get; set; }
+        public virtual PhoneNumber _phoneNumber { get; set; }
         
         public ContactInfo(Email email, PhoneNumber phoneNumber)
         {
@@ -21,12 +21,12 @@ namespace Sempi5.Domain.PersonalData
         
  
 
-        public Email email()
+        public virtual Email email()
         {
             return _email;
         }
 
-        public PhoneNumber phoneNumber()
+        public virtual PhoneNumber phoneNumber()
         {
             return _phoneNumber;
         }

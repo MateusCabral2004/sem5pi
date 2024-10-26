@@ -4,7 +4,7 @@ using Sempi5.Infrastructure.AccoutToDeleteRepository;
 
 namespace Sempi5.Domain.AccoutToDelete;
 
-public class AccoutToDelete:Entity<SystemUserId>
+public class AccoutToDelete:Entity<SystemUserId>, IAggregateRoot
 {
     public SystemUserId Id { get; set; }
     public DateTime DateToDelete { get; set; }

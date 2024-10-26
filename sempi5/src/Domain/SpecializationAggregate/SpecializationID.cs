@@ -2,7 +2,7 @@
 
 namespace Sempi5.Domain.SpecializationAggregate;
 
-public class SpecializationID : EntityId
+public class SpecializationID : EntityId, IValueObject
 {
     public SpecializationID() : base(null)
     {

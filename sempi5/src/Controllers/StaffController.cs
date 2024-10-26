@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using Sempi5.Domain.Encrypt;
@@ -152,6 +153,25 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message);
             }
         }
+        [HttpGet("request/deleteRequest")]
+        public async Task<IActionResult> DeleteRequest(string email)
+        {
+            try
+            {
+                // await _staffService.DeleteRequestAsync(getEmail());
+                await _staffService.DeleteRequestAsync(email);
+
+                return Ok("Operation request deleted successfully");
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(ex.Message);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         
         [HttpGet("listStaffProfilesBySpecialization")]
         public async Task<IActionResult> ListStaffProfilesBySpecialization(SpecializationNameDTO specializationDto)
@@ -166,5 +186,48 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message + e.StackTrace);
             }
         }
+        
+
+        [HttpGet("search/requests")]
+        public async Task<IActionResult> SearchRequests(string patientName, string type, string priority, string status)
+        {
+            var requests = await _staffService.SearchRequestsAsync(patientName, type, priority, status);
+
+            if (status != null)
+            {
+                var tableData = new List<object>();
+
+                for (int i = 0; i < requests.Count; i++)
+                {
+                    var operationRequest = requests[i];
+                    // Adiciona cada operação como um objeto estruturado
+                    tableData.Add(new
+                    {
+                        PatientName = operationRequest.Patient.Person?.FullName,
+                        OperationType = operationRequest.OperationType.Name.ToString(),
+                        Priority = operationRequest.PriorityEnum.ToString(),
+                        Status = status
+                    });
+                }
+
+                // Retorna a tabela estruturada em formato JSON
+                return Ok(tableData);
+            }
+
+            // Retorna a lista completa de solicitações caso não haja status específico
+            return Ok(requests);
+        }
+
+
+
+        public string getEmail()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            return claimsIdentity?.FindFirst(ClaimTypes.Email).Value;
+        }
+        
+        
     }
+    
+    
 }

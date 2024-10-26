@@ -1,0 +1,22 @@
+﻿@startuml
+title 5.1.18 - Sequência para Remoção de Requisição de Operação (Nível 1)
+
+actor Doutor
+participant SurgeyApointmentSystem
+
+activate Doutor
+
+Doutor -> SurgeyApointmentSystem: solicitar remoção da requisição de operação
+activate SurgeyApointmentSystem
+
+SurgeyApointmentSystem -> Doutor: exibir prompt de confirmação
+
+alt confirmação do Doutor
+    Doutor -> SurgeyApointmentSystem: confirmar remoção
+    SurgeyApointmentSystem -> Doutor: requisição de operação removida com sucesso
+else cancelamento
+    SurgeyApointmentSystem -> Doutor: remoção cancelada
+end
+
+deactivate SurgeyApointmentSystem
+@enduml

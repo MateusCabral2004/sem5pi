@@ -3,7 +3,7 @@ using Sempi5.Domain.Shared;
 
 namespace Sempi5.Domain.PersonalData
 {
-    public class PersonId : EntityId
+    public class PersonId : EntityId, IValueObject
     {
         public PersonId() : base(null)
         {
