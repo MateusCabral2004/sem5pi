@@ -1,5 +1,7 @@
-﻿using Sempi5.Domain.ConfirmationToken;
+﻿using System.Text.Json;
+using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.StaffAggregate.DTOs;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
 
 namespace Sempi5.Services;
@@ -114,6 +116,25 @@ public class EmailService
                    $"registered as" + phoneNumber;
         var subject = $"Phone Number Alteration";
         await SendEmailAsync(email, body, subject);
+    }
+    
+    public async Task PrepareEditStaffConfirmationEmail(string email, EditStaffDTO editStaffDto)
+    {
+
+        string serializedDto = JsonSerializer.Serialize(editStaffDto);
+            
+            var cryptography = new Cryptography();
+             var encryptedString = cryptography.EncryptString(serializedDto);
+            
+        var link = $"http://localhost:5002/staff/editStaffProfile/{encryptedString}";
+            
+        var body = $@"
+            <p>Please confirm this email by clicking the following link:</p>
+            <a href='{link}'>Confirm Email</a>
+            <p>If you did not request this, please ignore this email.</p>";
+
+            
+        await SendEmailAsync(email, body, "Please Confirm Your Profile Changes");
     }
     
 }

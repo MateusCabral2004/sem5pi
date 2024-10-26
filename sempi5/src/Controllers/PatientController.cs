@@ -102,7 +102,7 @@ Console.WriteLine("Listando agendamentos");
         {
             string serializedDto = JsonSerializer.Serialize(profileDto);
             Console.WriteLine("Serialized DTO: " + serializedDto);
-            await SendUpdateConfirmationEmail(getEmail(),
+            await SendUpdateConfirmationEmail("rpsoares8@gmail.com",
                 $"http://localhost:5001/patient/account/update/{serializedDto}", "Update Confirmation");
             return Ok("Email sent to confirm update");
         }
