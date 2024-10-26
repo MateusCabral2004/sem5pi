@@ -1,5 +1,3 @@
-﻿using System.Buffers;
-using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
@@ -14,6 +12,21 @@ public class OperationRequestRepository : BaseRepository<OperationRequest, Opera
     public OperationRequestRepository(DBContext dbContext) : base(dbContext.OperationRequests)
     {
         this.context = dbContext;
+    }
+
+    public async Task<OperationRequest> GetOperationRequestById(string id)
+    {
+        if (string.IsNullOrEmpty(id))
+        {
+            return null;
+        }
+        
+        var operationRequest=context.OperationRequests
+            .Include(r=>r.Doctor)
+            .AsEnumerable()
+            .FirstOrDefault(o=>o.Id.AsString().Equals(id));
+
+        return operationRequest;
     }
 
     public async Task<OperationRequest> GetByIdAsync(OperationRequestID id)

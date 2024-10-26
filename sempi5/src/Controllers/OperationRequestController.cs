@@ -33,4 +33,32 @@ public class OperationRequestController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+
+    [HttpPost("updateOperationRequest/deadline{deadline}")]
+    public async Task<IActionResult> UpdateOperationRequestDeadline(OperationRequestDTO operationRequestDto, string doctor)
+    {
+        try
+        {
+            await _operationRequestService.UpdateOperationRequestDeadline(operationRequestDto, doctor);
+            return Ok("Operation request updated successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    [HttpPost("updateOperationRequest/{priority}")]
+    public async Task<IActionResult> UpdateOperationRequestPriority(OperationRequestDTO operationRequestDto, string doctor)
+    {
+        try
+        {
+            await _operationRequestService.UpdateOperationRequestPriority(operationRequestDto, doctor);
+            return Ok("Operation request updated successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

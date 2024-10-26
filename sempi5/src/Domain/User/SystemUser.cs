@@ -4,11 +4,11 @@ namespace Sempi5.Domain.User
 {
     public class SystemUser : Entity<SystemUserId>, IAggregateRoot
     {
-        public new SystemUserId Id { get; set; }
-        public Email Email { get; set; }
-        public string Username { get; set; }
-        public string Role { get; set; }
-        public bool IsVerified { get; set; }
+        public virtual SystemUserId Id { get; set; }
+        public virtual Email Email { get; set; }
+        public virtual string Username { get; set; }
+        public virtual string Role { get; set; }
+        public virtual bool IsVerified { get; set; }
         
         
         public SystemUser(Email email, string role)
