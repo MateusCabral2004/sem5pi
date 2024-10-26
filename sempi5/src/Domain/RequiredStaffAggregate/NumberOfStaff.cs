@@ -1,23 +1,33 @@
-﻿namespace Sempi5.Domain.RequiredStaffAggregate;
+﻿using Sempi5.Domain.Shared;
 
-public class NumberOfStaff
+namespace Sempi5.Domain.RequiredStaffAggregate;
+
+public class NumberOfStaff : IValueObject
 {
-    public int value;
+    public virtual int value { get; private set; }
 
     private NumberOfStaff() {}
     
     public NumberOfStaff(int value)
     {
+        if(value <= 0)
+        {
+            throw new ArgumentException("Number of staff cannot be negative");
+        }
         this.value = value;
     }
 
-    public int getValue()
+    public virtual int getValue()
     {
         return value;
     }
     
-    public bool Equals (NumberOfStaff other)
+    public virtual bool Equals (NumberOfStaff other)
     {
+        if(other == null)
+        {
+            return false;
+        }
         return this.value == other.value;
     }
 }
