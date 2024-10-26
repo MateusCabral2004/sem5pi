@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Sempi5.Domain;
 using Sempi5.Domain.SurgeryRoomAggregate;
-using Sempi5.Domain.TodoItem;
 
 namespace Sempi5.Infrastructure.SurgeryRoomRepository
 {

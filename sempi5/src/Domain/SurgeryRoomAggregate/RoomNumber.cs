@@ -2,10 +2,8 @@
 
 namespace Sempi5.Domain.SurgeryRoomAggregate;
 
-public class RoomNumber : EntityId
+public class RoomNumber : EntityId, IValueObject
 {
-    public RoomNumber() : base(null) // or you can choose to set it to null if appropriate
-    {}
         
     public RoomNumber(int value) : base(value)
     {}

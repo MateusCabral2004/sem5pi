@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using Sempi5.Domain;
 using Sempi5.Domain.Shared;
-using Sempi5.Domain.TodoItem;
 using Sempi5.Infrastructure.Databases;
 
 namespace Sempi5.Infrastructure.Shared

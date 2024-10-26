@@ -19,7 +19,7 @@ public class SpecializationID : EntityId
 
     public long AsLong()
     {
-        return long.Parse(ObjValue.ToString());
+        return (long)ObjValue;
     }
     
     public override string AsString()

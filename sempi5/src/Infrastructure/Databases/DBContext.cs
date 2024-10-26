@@ -10,7 +10,6 @@ using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.SurgeryRoomAggregate;
-using Sempi5.Domain.TodoItem;
 using Sempi5.Domain.User;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.PatientAggregate;
@@ -27,7 +26,6 @@ using Sempi5.Infrastructure.RequiredStaffRepository;
 using Sempi5.Infrastructure.SpecializationRepository;
 using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Infrastructure.SurgeryRoomRepository;
-using Sempi5.Infrastructure.TodoItemRepository;
 using Sempi5.Infrastructure.UserRepository;
 
 namespace Sempi5.Infrastructure.Databases
@@ -36,7 +34,6 @@ namespace Sempi5.Infrastructure.Databases
     {
         public DbSet<ConfirmationLink>ConfirmationLink { get; set; }
         public DbSet<AccoutToDelete>AccoutToDelete { get; set; }
-        public DbSet<TodoItem> TodoItems { get; set; }
         public DbSet<Staff> StaffMembers { get; set; }
         public DbSet<SystemUser> Users { get; set; }
         public DbSet<Patient> Patients { get; set; }
@@ -58,7 +55,6 @@ namespace Sempi5.Infrastructure.Databases
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.ApplyConfiguration(new TodoItemEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new PatientIdTrackerEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new StaffIdTrackerEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SpecializationEntityTypeConfiguration());

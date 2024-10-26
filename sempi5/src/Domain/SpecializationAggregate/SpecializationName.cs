@@ -22,6 +22,11 @@ public class SpecializationName : IValueObject
     
     public bool Equals(SpecializationName specializationName)
     {
+        if(specializationName == null)
+        {
+            return false;
+        }
+        
         return specializationName.name == name;
     }
     
