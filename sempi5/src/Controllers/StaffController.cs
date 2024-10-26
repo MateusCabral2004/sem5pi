@@ -186,6 +186,47 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message + e.StackTrace);
             }
         }
+        
+
+        [HttpGet("search/requests")]
+        public async Task<IActionResult> SearchRequests(string patientName, string type, string priority, string status)
+        {
+            var requests = await _staffService.SearchRequestsAsync(patientName, type, priority, status);
+
+            if (status != null)
+            {
+                var tableData = new List<object>();
+
+                for (int i = 0; i < requests.Count; i++)
+                {
+                    var operationRequest = requests[i];
+                    // Adiciona cada operação como um objeto estruturado
+                    tableData.Add(new
+                    {
+                        PatientName = operationRequest.Patient.Person?.FullName,
+                        OperationType = operationRequest.OperationType.Name.ToString(),
+                        Priority = operationRequest.PriorityEnum.ToString(),
+                        Status = status
+                    });
+                }
+
+                // Retorna a tabela estruturada em formato JSON
+                return Ok(tableData);
+            }
+
+            // Retorna a lista completa de solicitações caso não haja status específico
+            return Ok(requests);
+        }
+
+
+
+        public string getEmail()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            return claimsIdentity?.FindFirst(ClaimTypes.Email).Value;
+        }
+        
+        
     }
     
     

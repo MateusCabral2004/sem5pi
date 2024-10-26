@@ -313,7 +313,26 @@ namespace Sempi5.Services
 
             return searchedStaffDtoList;
         }
-        
+
+
+        public async Task<List<OperationRequest>> SearchRequestsAsync(string patientName, string type, string priority,
+            string status)
+        {
+            List<OperationRequest> operationRequests = new List<OperationRequest>();
+            List<OperationRequest> operationRequests_status = new List<OperationRequest>();
+            operationRequests = await _operationRequestRepository.SearchAsync(patientName, type, priority);
+            for (int i = 0; i < operationRequests.Count; i++)
+            {
+                var operationRequest = operationRequests[i];
+                var appointment =
+                    await _appointmentRepository.getAppointmentByOperationRequestID(operationRequest.Id.AsLong());
+                if (appointment.Status.ToString().ToLower().Equals(status.ToLower()))
+                {
+                    operationRequests_status.Add(appointment.OperationRequest);
+                }
+            }
+
+            return operationRequests_status;
+        }
     }
 }
-    
