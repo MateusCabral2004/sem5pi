@@ -1,11 +1,80 @@
 ﻿@startuml
 'https://plantuml.com/sequence-diagram
 
-autonumber
+title US 5.1.17 - Sequence Diagram Level 2
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+actor Doctor
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database DataBase
+
+activate Doctor
+
+Doctor -> Routing: update operation requisition
+
+activate Routing
+
+Routing -> Controller: update operation requisition
+
+activate Controller
+
+Controller -> ApplicationService: update operation requisition
+
+activate ApplicationService
+
+ApplicationService -> Repository: verify requesting doctor
+
+activate Repository
+
+Repository -> Persistence:verify requesting doctor
+
+activate Persistence
+
+Persistence -> DataBase:verify requesting doctor
+
+activate DataBase
+
+DataBase --> Persistence:requesting doctor
+deactivate DataBase
+
+Persistence --> Repository: requesting doctor
+deactivate Persistence
+
+Repository --> ApplicationService:requesting doctor
+deactivate Repository
+
+ApplicationService -> ApplicationService: update operation requisition
+
+ApplicationService -> Repository: update operation requisition
+activate Repository
+
+Repository -> Persistence: update operation requisition
+activate Persistence
+
+Persistence -> DataBase:update operation requisition
+activate DataBase
+
+DataBase --> Persistence:operation requisition updated
+deactivate DataBase
+
+Persistence --> Repository:operation requisition updated
+deactivate Persistence
+
+Repository --> ApplicationService: operation requisition updated
+
+deactivate Repository
+
+ApplicationService --> Controller: operation requisition updated
+
+deactivate ApplicationService
+
+Controller --> Routing: operation requisition updated
+
+deactivate Controller
+
+Routing --> Doctor: operation requisition updated
 @enduml

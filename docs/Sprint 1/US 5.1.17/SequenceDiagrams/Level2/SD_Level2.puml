@@ -29,7 +29,7 @@ Backend -> Backend:update operation requisition
 Backend -> DataBase: update operation requisition
 activate DataBase
 
-DataBase --> Backend: patient profile updated
+DataBase --> Backend: operation requisition updated
 deactivate DataBase
 
 Backend --> SurgeryAppointmentSystem: operation requisition updated

@@ -12,6 +12,7 @@ participant Persistence
 database DataBase
 
 activate Doctor
+
 Doctor -> Routing : request an operation
 activate Routing
 
