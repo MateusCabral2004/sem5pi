@@ -1,6 +1,6 @@
 ﻿namespace Sempi5.Domain.PatientAggregate;
 
-public enum MedicalRecordStatusEnum
+public enum PatientStatusEnum
 {
     ACTIVATED,
     DEACTIVATED

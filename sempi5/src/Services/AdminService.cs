@@ -127,62 +127,7 @@ public class AdminService
 
         return token;
     }
-
-    public async Task<PatientDTO> ListPatientByName(NameDTO nameDto)
-    {
-        var name = nameDTOtoName(nameDto);
-
-        var patient = await _patientRepository.GetByName(name.ToString());
-
-        if (patient == null)
-        {
-            throw new ArgumentException("Patient not found");
-        }
-
-        return patientToPatientDto(patient);
-    }
-
-    public async Task<PatientDTO> ListPatientByEmail(EmailDTO emailDto)
-    {
-        var email = emailDTOtoEmail(emailDto);
-
-        var patient = await _patientRepository.GetByEmail(email.ToString());
-
-        if (patient == null)
-        {
-            throw new ArgumentException("Patient not found.");
-        }
-
-        return patientToPatientDto(patient);
-    }
-
-    public async Task<List<PatientDTO>> ListPatientByDateOfBirth(DateDTO dateDto)
-    {
-        var date = dateDTOtoDate(dateDto);
-
-        var patients = await _patientRepository.GetByDateOfBirth(date);
-
-        var patientDtoList = buildPatientDtoList(patients);
-
-        if (patientDtoList.Count == 0)
-        {
-            throw new ArgumentException("No patients found.");
-        }
-
-        return patientDtoList;
-    }
-
-    public async Task<PatientDTO> ListPatientByMedicalRecordNumber(PatientIdDto patientId)
-    {
-        var patient = await _patientRepository.GetByPatientId(patientId.Id);
-
-        if (patient == null)
-        {
-            throw new ArgumentException("Patient not found.");
-        }
-
-        return patientToPatientDto(patient);
-    }
+    
 
     public async Task<PatientRecordDTO> GetPatientRecordByPatientId(PatientIdDto patientId)
     {
@@ -195,65 +140,7 @@ public class AdminService
 
         return patientToPatientRecordDto(patient);
     }
-
-    public async Task<PatientRecordDTO> EditPatientRecord(EditPatientRecordDTO editPatientRecord)
-    {
-        var patient = await _patientRepository.GetByPatientIdWithActivatedMedicalRecord(editPatientRecord.Id);
-
-        if (patient == null)
-        {
-            throw new ArgumentException("Patient not found.");
-        }
-
-        patient.AppointmentHistory.Add(editPatientRecord.recordToAdd);
-
-        await _patientRepository.SavePatientAsync(patient);
-
-        return patientToPatientRecordDto(patient);
-    }
-
-    public async Task<PatientRecordDTO> DeletePatientRecord(PatientIdDto patientId)
-    {
-        var patient = await _patientRepository.GetByPatientIdWithActivatedMedicalRecord(patientId.Id);
-
-        if (patient == null)
-        {
-            throw new ArgumentException("Patient not found.");
-        }
-
-        patient.MedicalRecordStatus = MedicalRecordStatusEnum.DEACTIVATED;
-
-        await _patientRepository.SavePatientAsync(patient);
-
-        return patientToPatientRecordDto(patient);
-    }
-
-
-    private SystemUser userDTOtoUser(SystemUserDTO user)
-    {
-        var email = new Email(user.email);
-        return new SystemUser(email, user.role);
-    }
-
-    private Email emailDTOtoEmail(EmailDTO email)
-    {
-        return new Email(email.email);
-    }
-
-    private DateTime dateDTOtoDate(DateDTO date)
-    {
-        return new DateTime(date.year, date.month, date.day);
-    }
-
-    private Name nameDTOtoName(NameDTO name)
-    {
-        return new Name(name.name);
-    }
-
-    private MedicalRecordNumber medicalRecordNumberDTOtoMedicalRecordNumber(MedicalRecordNumberDTO medicalRecordNumber)
-    {
-        return new MedicalRecordNumber(medicalRecordNumber.ToString());
-    }
+    
 
     private PatientRecordDTO patientToPatientRecordDto(Patient patient)
     {
