@@ -203,6 +203,69 @@ namespace Sempi5.Services
             await _unitOfWork.CommitAsync();
         }
         
+        public async Task<List<SearchedStaffDTO>> ListStaffByName(NameDTO nameDto)
+        {
+            var staffList = await _staffRepository.GetActiveStaffByName(new Name(nameDto.name));
+            
+            if (staffList.Count == 0)
+            {
+                throw new ArgumentException("Staffs not found.");
+            }
+            
+            var staffDtoList = BuildStaffDtoList(staffList);
+            
+            return staffDtoList;
+        }
+        
+        public async Task<SearchedStaffDTO> ListStaffByEmail(EmailDTO emailDto)
+        {
+            var staff = await _staffRepository.GetActiveStaffByEmail(new Email(emailDto.email));
+
+            if (staff == null)
+            {
+                throw new ArgumentException("Staff not found.");
+            }
+            
+            return StaffToSearchedStaffDto(staff);
+        }
+        
+        public async Task<List<SearchedStaffDTO>> ListStaffBySpecialization(SpecializationNameDTO specializationDto)
+        {
+            var staffList = await _staffRepository.GetActiveStaffBySpecialization(new SpecializationName(specializationDto.specializationName));
+            
+            if (staffList.Count == 0)
+            {
+                throw new ArgumentException("Staffs not found.");
+            }
+            
+            var staffDtoList = BuildStaffDtoList(staffList);
+            
+            return staffDtoList;
+        }
+        
+        private SearchedStaffDTO StaffToSearchedStaffDto(Staff staff)
+        {
+            return new SearchedStaffDTO
+            {
+                Id = staff.Id.AsString(),
+                FullName = staff.Person.FullName.ToString(),
+                Email = staff.Person.ContactInfo.email().ToString(),
+                Specialization = staff.Specialization.specializationName.ToString()
+            };
+        }
+        
+        private List<SearchedStaffDTO> BuildStaffDtoList(List<Staff> staffs)
+        {
+            List<SearchedStaffDTO> searchedStaffDtoList = new List<SearchedStaffDTO>();
+
+            foreach (var staff in staffs)
+            {
+                searchedStaffDtoList.Add(StaffToSearchedStaffDto(staff));
+            }
+
+            return searchedStaffDtoList;
+        }
+        
     }
 }
     

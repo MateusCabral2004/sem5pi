@@ -1,4 +1,5 @@
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 
 namespace Sempi5.Infrastructure.StaffRepository
@@ -11,5 +12,10 @@ namespace Sempi5.Infrastructure.StaffRepository
         
         public Task<Staff?> GetByLicenseNumber(LicenseNumber licenseNumber);
         
+        public Task<List<Staff>> GetActiveStaffByName(Name fullName);
+
+        public Task<Staff> GetActiveStaffByEmail(Email email);
+        
+        public Task<List<Staff>> GetActiveStaffBySpecialization(SpecializationName specializationName);
     }
 }
