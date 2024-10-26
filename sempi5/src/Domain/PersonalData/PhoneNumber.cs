@@ -1,8 +1,10 @@
-﻿namespace Sempi5.Domain.PersonalData
+﻿using Sempi5.Domain.Shared;
+
+namespace Sempi5.Domain.PersonalData
 {
-    public class PhoneNumber
+    public class PhoneNumber : IValueObject
     {
-        private readonly int _phoneNumber;
+        private int  _phoneNumber;
         
         public PhoneNumber(int phoneNumber)
         {
@@ -17,19 +19,24 @@
 
         private void ValidatePhoneNumber(int phoneNumber)
         {
-            if (phoneNumber.ToString().Length != 9)
+            if (phoneNumber.ToString().Length != 9 || phoneNumber <= 0)
             {
                 throw new ArgumentException("Phone number must be 9 digits long");
             }
         }
 
-        public int phoneNumber()
+        public virtual int phoneNumber()
         {
             return _phoneNumber;
         }
         
         public bool Equals(PhoneNumber phoneNumber)
         {
+            if(phoneNumber == null)
+            {
+                return false;
+            }
+            
             return phoneNumber._phoneNumber == _phoneNumber;
         }
     }

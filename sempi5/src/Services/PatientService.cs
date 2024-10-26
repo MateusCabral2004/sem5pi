@@ -263,7 +263,7 @@ public class PatientService
         return buildSearchedPatientDtoList(patient);
     }
 
-    private SearchedPatientDTO patientToPatientDto(Patient patient)
+    private SearchedPatientDTO patientToSearchedPatientDto(Patient patient)
     {
         return new SearchedPatientDTO
         {
@@ -284,7 +284,7 @@ public class PatientService
             throw new ArgumentException("Patient not found.");
         }
 
-        return patientToPatientDto(patient);
+        return patientToSearchedPatientDto(patient);
     }
 
     public async Task<List<SearchedPatientDTO>> ListPatientByDateOfBirth(DateDTO dateDto)
@@ -310,7 +310,7 @@ public class PatientService
             throw new ArgumentException("Patient not found.");
         }
 
-        return patientToPatientDto(patient);
+        return patientToSearchedPatientDto(patient);
     }
 
     private List<SearchedPatientDTO> buildSearchedPatientDtoList(IEnumerable<Patient> patients)
@@ -319,7 +319,7 @@ public class PatientService
 
         foreach (var patient in patients)
         {
-            searchedPatientDtoList.Add(patientToPatientDto(patient));
+            searchedPatientDtoList.Add(patientToSearchedPatientDto(patient));
         }
 
             return searchedPatientDtoList;

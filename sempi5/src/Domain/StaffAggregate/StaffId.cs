@@ -23,6 +23,12 @@ namespace Sempi5.Domain.StaffAggregate
         
         public bool Equals(StaffId other)
         {
+            
+            if (other == null)
+            {
+                return false;
+            }
+            
             return ObjValue.Equals(other.ObjValue);
         }
 

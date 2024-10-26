@@ -1,12 +1,16 @@
-﻿namespace Sempi5.Domain.StaffAggregate;
+﻿using Sempi5.Domain.Shared;
 
-public class LicenseNumber
+namespace Sempi5.Domain.StaffAggregate;
+
+public class LicenseNumber :IValueObject
 {
     
     private readonly int _licenseNumber;
     
     public LicenseNumber(int licenseNumber)
     {
+        ValidateLicenseNumber(licenseNumber);
+        
         _licenseNumber = licenseNumber;
     }
     
@@ -31,6 +35,11 @@ public class LicenseNumber
     
     public bool Equals(LicenseNumber licenseNumber)
     {
+        if(licenseNumber == null)
+        {
+            return false;
+        }
+        
         return licenseNumber._licenseNumber == _licenseNumber;
     }
 }
