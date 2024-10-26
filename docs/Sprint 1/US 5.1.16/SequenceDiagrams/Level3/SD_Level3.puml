@@ -1,0 +1,50 @@
+﻿@startuml
+'https://plantuml.com/sequence-diagram
+
+title US 5.1.16 - Sequence Diagram Level 3
+
+actor Doctor
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database Database
+
+activate Doctor
+Doctor -> Routing : request an operation
+activate Routing
+
+Routing -> Controller : forward request to an operation
+activate Controller
+
+Controller -> ApplicationService : request an operation
+activate ApplicationService
+
+ApplicationService -> Repository : request an operation
+activate Repository
+
+Repository -> Persistence : request an operation
+activate Persistence
+
+Persistence -> Database : request an operation
+activate Database
+
+Database --> Persistence :operation request submitted
+deactivate Database
+
+Persistence --> Repository : loperation request submitted
+deactivate Persistence
+
+Repository --> ApplicationService : operation request submitted
+deactivate Repository
+
+ApplicationService --> Controller : successful submission of the\n operation request
+deactivate ApplicationService
+
+Controller --> Routing : successful submission of the\n operation request
+deactivate Controller
+
+Routing --> Doctor : successful submission of the\n operation request
+deactivate Routing
+@enduml

@@ -8,6 +8,7 @@ participant SurgeryAppointmentSystem
 participant Backend
 database DataBase
 
+activate Admin
 Admin -> SurgeryAppointmentSystem : list/search operation types by name
 activate SurgeryAppointmentSystem
 

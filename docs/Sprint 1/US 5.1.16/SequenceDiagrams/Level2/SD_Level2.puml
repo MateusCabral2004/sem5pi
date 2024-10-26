@@ -1,0 +1,31 @@
+﻿@startuml
+'https://plantuml.com/sequence-diagram
+
+title US 5.1.16 - Sequence Diagram Level 2
+
+actor Doctor
+participant SurgeryAppointmentSystem
+participant Backend
+database DataBase
+
+activate Doctor
+
+Doctor -> SurgeryAppointmentSystem: request an operation
+
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend: request an operation
+activate Backend
+
+Backend -> DataBase:request an operation
+activate DataBase
+
+DataBase -->Backend:operation request submitted 
+deactivate DataBase
+
+Backend --> SurgeryAppointmentSystem: successful submission of the\n operation request
+deactivate Backend
+
+SurgeryAppointmentSystem --> Doctor: successful submission of the\n operation request
+deactivate SurgeryAppointmentSystem
+@enduml
