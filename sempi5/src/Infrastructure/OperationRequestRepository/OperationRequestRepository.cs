@@ -1,3 +1,4 @@
+﻿using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
