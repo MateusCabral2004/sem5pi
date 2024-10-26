@@ -90,7 +90,15 @@ namespace Sempi5
                         }
                         else
                         {
-                            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Result.Role));
+                            if (user.Result.IsVerified)
+                            {
+                                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Result.Role));
+                            }
+                            else
+                            {
+                                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Unverified"));
+                            }
+
                         }
                     };
                 });
@@ -218,7 +226,7 @@ namespace Sempi5
                     var administratorUser = new SystemUser(new Email("rpsoares8@gmail.com"), "Admin");
                     var doctorUser = new SystemUser(new Email("mateuscabral2004@gmail.com"), "Admin");
                     var nurseUser = new SystemUser(new Email("nurse@example.com"), "Nurse");
-                    var adminUser = new SystemUser(new Email("admin@example.com"), "Admin");
+                    var adminUser = new SystemUser(new Email("admin@example.com"), "Admin",true);
 
                     // Create staff members
 

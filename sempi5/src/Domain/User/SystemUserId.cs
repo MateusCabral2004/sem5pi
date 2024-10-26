@@ -8,10 +8,6 @@ namespace Sempi5.Domain.User
 
         public SystemUserId(long value) : base(value)
         {
-            if(value < 0)
-            {
-                throw new ArgumentException("SystemUserId cannot be negative");
-            }
         }
         
         public override string AsString()

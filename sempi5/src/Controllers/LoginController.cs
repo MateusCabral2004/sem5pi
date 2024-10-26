@@ -25,11 +25,15 @@ namespace Sempi5.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
 
             var role = claimsIdentity?.FindFirst(ClaimTypes.Role).Value;
-            //TODO - If user is not registered, redirect to registration page
             if (role.Equals("Unregistered"))
             {
                 return Redirect("patient/register");
             }
+            if(role.Equals("Unverified"))
+            {
+                return Ok("Please verify your account using the link sent to your email and then login again");
+            }
+            
             if (role.Equals("Patient"))
             {
                 //implement this in patient controller and if user exist show profile else show registration form

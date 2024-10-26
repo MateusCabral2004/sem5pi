@@ -23,14 +23,6 @@ public class SystemUserIdTest
     }
     
     [Fact]
-    public void ConstructorWithInvalidParameter()
-    {
-        // Arrange
-        var id = -10;
-        Assert.Throws<ArgumentException>(() => new SystemUserId(id));
-    }
-    
-    [Fact]
     public void AsString()
     {
         // Arrange

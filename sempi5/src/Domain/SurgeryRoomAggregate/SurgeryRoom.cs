@@ -15,6 +15,9 @@ public class SurgeryRoom : Entity<RoomNumber>, IAggregateRoot
     
     public SurgeryRoom(RoomTypeEnum type, RoomCapacity capacity, List<string> equipment, RoomStatusEnum status, List<string> maintenanceSlots)
     {
+        ArgumentNullException.ThrowIfNull(capacity);
+        ArgumentNullException.ThrowIfNull(equipment);
+        ArgumentNullException.ThrowIfNull(maintenanceSlots);
         Type = type;
         Capacity = capacity;
         Equipment = equipment;

@@ -27,5 +27,17 @@ namespace Sempi5.Infrastructure.UserRepository
             return user;
         }
         
+        public async Task<SystemUser> GetByEmailAndItsActivated(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return null;
+            }
+            
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(new Email(email.ToLower())) && u.IsVerified);
+           
+            return user;
+        }
+        
     }
 }
