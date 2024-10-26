@@ -1,8 +1,9 @@
 using System;
-using Moq;
 using Xunit;
-using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.ConfirmationToken;
+
+namespace Sempi5.Tests.Domain.ConfirmationTokenTests.IntegrationTests;
 
 public class ConfirmationTokenIntegrationTests
 {

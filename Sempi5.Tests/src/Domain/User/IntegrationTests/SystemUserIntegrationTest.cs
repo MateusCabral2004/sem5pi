@@ -1,7 +1,4 @@
 using System;
-using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Moq;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
 using Xunit;
@@ -105,19 +102,19 @@ public class SystemUserIntegrationTest
     public void ConstructorWithEmptyRoleAndIsVerified()
     {
         // Arrange
-        var mockEmail = new Mock<Email>("user@example.com");
+        var email = new Email("user@example.com");
 
         // Act && Assert
-        Assert.Throws<ArgumentException>(() => new SystemUser(mockEmail.Object, ""));
+        Assert.Throws<ArgumentException>(() => new SystemUser(email, ""));
     }
 
     [Fact]
     public void Verify()
     {
         // Arrange
-        var mockEmail = new Mock<Email>("user@example.com");
+        var email = new Email("user@example.com");
         var role = "UserRole";
-        var user = new SystemUser(mockEmail.Object, role);
+        var user = new SystemUser(email, role);
 
         // Act
         user.Verify();

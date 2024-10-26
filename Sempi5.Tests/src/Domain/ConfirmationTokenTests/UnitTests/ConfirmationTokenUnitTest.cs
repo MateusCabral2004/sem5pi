@@ -4,6 +4,8 @@ using Xunit;
 using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Shared;
 
+namespace Sempi5.Tests.Domain.ConfirmationTokenTests.UnitTests;
+
 public class ConfirmationTokenUnitTests
 {
     [Fact]
