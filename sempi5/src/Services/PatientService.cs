@@ -12,6 +12,7 @@ using Sempi5.Infrastructure.ConfirmationTokenRepository;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.LinkConfirmationRepository;
 using Sempi5.Infrastructure.PatientRepository;
+using Sempi5.Infrastructure.PersonRepository;
 
 namespace Sempi5.Services;
 
@@ -24,10 +25,11 @@ public class PatientService
     private readonly IAccountToDeleteRepository _accountToDeleteRepository;
     private readonly EmailService _emailService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IPersonRepository _personRepository;
 
 
     public PatientService(IPatientRepository patientRepository, EmailService emailService,
-        IConfirmationTokenRepository confirmationRepository, IAccountToDeleteRepository accountToDeleteRepository,IConfirmationLinkRepository confirmationLinkRepository,  IUnitOfWork unitOfWork)
+        IConfirmationTokenRepository confirmationRepository, IAccountToDeleteRepository accountToDeleteRepository,IConfirmationLinkRepository confirmationLinkRepository,  IUnitOfWork unitOfWork,IPersonRepository personRepository)
     {
         _confirmationRepository = confirmationRepository;
         _patientRepository = patientRepository;
@@ -35,6 +37,8 @@ public class PatientService
         _accountToDeleteRepository = accountToDeleteRepository;
         _confirmationLinkRepository = confirmationLinkRepository;
         _unitOfWork = unitOfWork;
+        _personRepository = personRepository;
+
 
     }
 
@@ -346,15 +350,12 @@ public class PatientService
             {
                 throw new ArgumentException("The email address can´t be null");
             }
-
-            var patient = await _patientRepository.GetByEmail(email);
-
-
-            patient.Person = new Person(new Name("anonymous"), new Name("anonymous"),
-                new ContactInfo(new Email("anonymous@anonymous"), new PhoneNumber(999999999)));
-            patient.BirthDate = new DateTime(2024 / 01 / 01);
-            patient.EmergencyContact = "anonymous";
-            patient.AllergiesAndMedicalConditions = new List<string>{"anonymous"};
+            
+            var patient = await _patientRepository.GetByPatientEmail(email);
+            
+            patient.Person = null;
+            patient.EmergencyContact = null;
+            patient.AllergiesAndMedicalConditions = null;
         
             await _unitOfWork.CommitAsync();
         }
@@ -372,16 +373,27 @@ public class PatientService
 
             var originalPhoneNumber = patient.Person.ContactInfo._phoneNumber;
 
-            if (editPatientDto.allergiesAndMedicalConditions != null)
+
+            if (editPatientDto.firstName != null)
             {
-                patient.AllergiesAndMedicalConditions = editPatientDto.allergiesAndMedicalConditions;
+                patient.Person.FirstName = new Name(editPatientDto.firstName);
             }
 
-            if (editPatientDto.appointmentHistory != null)
+            if (editPatientDto.lastName != null)
             {
-                patient.AppointmentHistory = editPatientDto.appointmentHistory;
+                patient.Person.LastName = new Name(editPatientDto.lastName);
             }
 
+             // if (editPatientDto.birthDate != null)
+             // {
+             //     var editedBirthDate = "";
+             //     if (DateTime.TryParse(editPatientDto.birthDate, out var data))
+             //     {
+             //         editedBirthDate = data.ToString("yyyy MMMM dd");
+             //     }
+             //     patient.BirthDate = editedBirthDate;
+             // }
+            
             if (editPatientDto.phoneNumber == -1)
             {
                 patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber ?? 0);
@@ -391,12 +403,7 @@ public class PatientService
             {
                 patient.Person.ContactInfo._email = new Email(editPatientDto.firstName);
             }
-
-            if (editPatientDto.fullName != null)
-            {
-                patient.Person.FullName._name = editPatientDto.fullName;
-            }
-
+            
             await _patientRepository.AddAsync(patient);
             await _unitOfWork.CommitAsync();
 
@@ -414,12 +421,37 @@ public class PatientService
         
         private Patient patientDTOToPatient(PatientDTO patientDTO)
         {
+            var phoneNumber = new PhoneNumber(patientDTO.phoneNumber??0);
+            VerifyPhoneNumberAvailability(phoneNumber);
+
+            var email = new Email(patientDTO.email);
+            VerifyEmailAvailability(email);
+            
             return new Patient(null, new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName),
                     new ContactInfo(new Email(patientDTO.email),
                         new PhoneNumber(patientDTO.phoneNumber ?? 0))), DateTime.Parse(patientDTO.birthDate),
                 patientDTO.gender,
-                patientDTO.allergiesAndMedicalConditions,
-                patientDTO.emergencyContact, patientDTO.appointmentHistory);
+                null,
+                patientDTO.emergencyContact, null);
+        }
+
+        public async Task VerifyPhoneNumberAvailability(PhoneNumber phoneNumber)
+        {
+            var personByPhoneNumber = await _personRepository.GetPersonByPhoneNumber(phoneNumber);
+
+            if (personByPhoneNumber != null)
+            {
+                throw new ArgumentException("Phone Number already in use");
+            }
+        }
+
+        public async Task VerifyEmailAvailability(Email email)
+        {
+            var personByEmail = await _personRepository.GetPersonByEmail(email);
+            if (personByEmail != null)
+            {
+                throw new ArgumentException("Email already in use");
+            }
         }
         public async Task CreatePatientProfile(PatientDTO patientDTO)
         {

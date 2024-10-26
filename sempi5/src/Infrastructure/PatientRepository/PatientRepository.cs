@@ -30,6 +30,23 @@ namespace Sempi5.Infrastructure.PatientRepository
             return patient;
         }
 
+        public async Task<Patient> GetByPatientEmail(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+            {
+                return null;
+            }
+            
+            var patient = await Task.Run(() => context.Patients
+                .Include(p => p.Person)
+                .AsEnumerable() //Permite que use metodos de c# 
+                .FirstOrDefault(p => p.Person.ContactInfo.email().ToString().ToLower().Equals(email.ToLower())));
+
+            return patient;
+
+        }
+        
+
         public async Task<Patient> GetByPhoneNumber(int phoneNumber)
         {
             if (phoneNumber <= 0)
