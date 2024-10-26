@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using Sempi5.Domain.Shared;
 using Sempi5.Infrastructure.Shared;
-using Sempi5.Infrastructure.TodoItemRepository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Domain.User;
@@ -184,7 +183,6 @@ namespace Sempi5
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddTransient<ITodoItemRepository, TodoItemRepository>();
             services.AddTransient<ISpecializationRepository, SpecializationRepository>();
             services.AddTransient<IStaffRepository, StaffRepository>();
             services.AddTransient<IUserRepository, UserRepository>();

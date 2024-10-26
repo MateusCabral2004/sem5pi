@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
-using Sempi5.Domain.TodoItem;
 
 namespace Sempi5.Infrastructure.Databases;
 
