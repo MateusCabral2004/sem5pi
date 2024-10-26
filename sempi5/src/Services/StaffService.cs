@@ -1,4 +1,7 @@
+using System.Text.Json;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
+using Sempi5.Domain.ConfirmationLink;
+using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
@@ -19,10 +22,11 @@ namespace Sempi5.Services
         private readonly ISpecializationRepository _specializationRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IPatientRepository _patientRepository;
+        private readonly EmailService _emailService;
         private readonly IUnitOfWork _unitOfWork;
         
         
-        public StaffService(IStaffRepository staffRepository, ISpecializationRepository specializationRepository, IPersonRepository personRepository, IPatientRepository patientRepository, IUnitOfWork unitOfWork)
+        public StaffService(EmailService emailService, IStaffRepository staffRepository, ISpecializationRepository specializationRepository, IPersonRepository personRepository, IPatientRepository patientRepository, IUnitOfWork unitOfWork)
         {
             _staffRepository = staffRepository;
             _specializationRepository = specializationRepository;
@@ -30,6 +34,7 @@ namespace Sempi5.Services
            _specializationRepository = specializationRepository;
             _patientRepository = patientRepository;
             _personRepository = personRepository;
+            _emailService = emailService;
         }
         
         
@@ -117,7 +122,30 @@ namespace Sempi5.Services
                 throw new ArgumentException("Email already in use.");
             }
         }
-        
+
+        public async Task PrepareConfirmationEmail(EditStaffDTO editStaffDto)
+        {
+
+            var staff = await  _staffRepository.GetActiveStaffById(new StaffId(editStaffDto.Id));
+
+            if(staff == null)
+            {
+                throw new ArgumentException("Staff not found.");
+            }
+            
+            string serializedDto = JsonSerializer.Serialize(editStaffDto);
+            
+            var link = $"https://localhost:5001/staff/editStaffProfile/{serializedDto}";
+            
+            var body = $@"
+            <p>Please confirm this email by clicking the following link:</p>
+            <a href='{link}'>Confirm Email</a>
+            <p>If you did not request this, please ignore this email.</p>";
+
+            
+            await _emailService.SendEmailAsync(staff.Person.ContactInfo._email.ToString(), body, "Please Confirm Your Profile Changes");
+        }
+
         public async Task<StaffDTO> EditStaffProfile(EditStaffDTO editStaffDto)
         {
 

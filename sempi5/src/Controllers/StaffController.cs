@@ -1,37 +1,34 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Sempi5.Domain.PatientAggregate;
+using System.Text.Json;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
-using Sempi5.Infrastructure.Databases;
 using Sempi5.Services;
 
 namespace Sempi5.Controllers.StaffControllers
 {
     [Route("[controller]")]
     [ApiController]
-   // [Authorize]
+    // [Authorize]
     public class StaffController : ControllerBase
     {
-   private readonly StaffService _staffService;  
-        
-        public StaffController(StaffService staffService)
+        private readonly StaffService _staffService;
+        private readonly Serilog.ILogger _logger;
+
+        public StaffController(StaffService staffService, Serilog.ILogger logger)
         {
             _staffService = staffService;
+            _logger = logger;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StaffDTO>>> GetAllStaffMembers()
         {
-            
             return Ok();
         }
 
         [HttpGet("{email}")]
         public async Task<ActionResult<StaffDTO>> GetStaffMember(string email)
         {
-          
             return Ok();
         }
 
@@ -40,7 +37,7 @@ namespace Sempi5.Controllers.StaffControllers
         {
             try
             {
-               await _staffService.CreateStaffProfile(staff);
+                await _staffService.CreateStaffProfile(staff);
                 return Ok("Staff profile created successfully");
             }
             catch (Exception e)
@@ -49,13 +46,31 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
         
+        
+        
         [HttpPatch("editStaffProfile")]
         public async Task<IActionResult> EditStaffProfile(EditStaffDTO editStaffDto)
         {
             try
             {
-                await _staffService.EditStaffProfile(editStaffDto);
-                return Ok("Staff profile edited successfully");
+
+                if (editStaffDto.email != null || editStaffDto.phoneNumber > 0)
+                {
+                    await _staffService.PrepareConfirmationEmail(editStaffDto);
+                }
+                else
+                {
+                    await _staffService.EditStaffProfile(editStaffDto);
+                    _logger.ForContext("CustomLogLevel", "CustomLevel")
+                        .Information($"\nChanges To Staff {editStaffDto.Id} :" +
+                                     $" {editStaffDto.phoneNumber}" +
+                                     $" {editStaffDto.email}" +
+                                     $" {editStaffDto.specialization} \n");
+
+                    return Ok("Staff profile edited successfully!");
+                }
+
+                return Ok("A confirmation email was sent.");
             }
             catch (Exception e)
             {
@@ -63,6 +78,34 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
         
+        [HttpGet("editStaffProfile/{jsonString}")]
+        public async Task<IActionResult> EditStaffProfile(string jsonString)
+        {
+            
+            Console.Write("Inciando edit staff");
+            
+            EditStaffDTO editStaffDto;
+            try
+            {
+                editStaffDto = JsonSerializer.Deserialize<EditStaffDTO>(jsonString);
+                
+
+                Console.Write(editStaffDto);
+                
+                await _staffService.EditStaffProfile(editStaffDto);
+                
+            }
+            catch (JsonException ex)
+            {
+                return BadRequest($"Invalid JSON format: {ex.Message}");
+            } catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+            
+            return Ok("Staff profile edited successfully!");
+        }
+
         [HttpPatch("deactivateStaffProfile")]
         public async Task<IActionResult> DeactivateStaffProfile(StaffIdDTO staffId)
         {
@@ -76,7 +119,5 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message);
             }
         }
-
-
     }
 }

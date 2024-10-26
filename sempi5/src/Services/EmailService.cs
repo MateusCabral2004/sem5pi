@@ -75,6 +75,16 @@ public class EmailService
         var subject = "Email Confirmation";
         await SendEmailAsync(email, body, subject);
     }
+    
+    private async Task SendEditStaffProfileConfirmationEmail(string email, string token)
+    {
+        var body = $"Please confirm your email by clicking " +
+                   $"<a href='http://localhost:5001/confirmToken/staff/{token}'>here</a>";
+        var subject = "Please Confirm Your Profile Changes";
+        await SendEmailAsync(email, body, subject);
+    }
+    
+    
     public async Task SendPatientConfirmationEmail(string email, string token)
     {
         var body = $"Please confirm your email by clicking " +

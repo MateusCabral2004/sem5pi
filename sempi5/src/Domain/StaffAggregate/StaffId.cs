@@ -25,5 +25,10 @@ namespace Sempi5.Domain.StaffAggregate
         {
             return ObjValue.Equals(other.ObjValue);
         }
+
+        public string ToString()
+        {
+            return (string)ObjValue;
+        }
     }
 }
