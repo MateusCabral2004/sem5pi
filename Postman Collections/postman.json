@@ -78,7 +78,20 @@
 			"item": [
 				{
 					"name": "RegisterStaffUser",
-					"item": [],
+					"item": [
+						{
+							"name": "New Request",
+							"id": "092cbee2-aca7-4154-8051-a28c72971979",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
 					"id": "5903608d-c097-4cba-bb4a-2f05e1420282"
 				}
 			],
