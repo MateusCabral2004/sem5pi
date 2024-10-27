@@ -134,7 +134,7 @@ public class OperationTypeController : ControllerBase
         }
     }
 
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     [HttpGet("listOperationTypeByName")]
     public async Task<IActionResult> ListOperationTypesByName(OperationNameDTO operationName)
     {

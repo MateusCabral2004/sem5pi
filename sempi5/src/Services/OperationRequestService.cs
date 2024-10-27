@@ -73,51 +73,50 @@ public class OperationRequestService
         return false;
     }
 
-    public async Task<OperationRequest> UpdateOperationRequestDeadline(OperationRequestDTO operationRequestDto, string doctor)
+    public async Task UpdateOperationRequestDeadline(string operationRequestId, string deadline, string doctor)
     {
-        await ValidateRequestingDoctor(doctor, operationRequestDto);
-
-        var operationRequest =
-            await _operationRequestRepository.GetOperationRequestById(operationRequestDto.operationRequestId);
+        var operationRequest = await _operationRequestRepository.GetOperationRequestById(operationRequestId);
         if (operationRequest == null)
         {
             throw new ArgumentException("Operation request not found");
         }
 
-        operationRequest.DeadLineDate = DateTime.Parse(operationRequestDto.deadline);
+        await ValidateRequestingDoctor(doctor, operationRequest.Doctor.Id);
+        
+        operationRequest.DeadLineDate = DateTime.Parse(deadline);
         await _unitOfWork.CommitAsync();
         
-        return operationRequest;
     }
 
-    public async Task<OperationRequest> UpdateOperationRequestPriority(OperationRequestDTO operationRequestDto, string doctor)
+    public async Task UpdateOperationRequestPriority(string operationRequestId, string priority, string doctor)
     {
-        await ValidateRequestingDoctor(doctor, operationRequestDto);
-        var operationRequest =
-            await _operationRequestRepository.GetOperationRequestById(operationRequestDto.operationRequestId);
+        var operationRequest = await _operationRequestRepository.GetOperationRequestById(operationRequestId);
         if (operationRequest == null)
         {
             throw new ArgumentException("Operation request not found");
         }
-        operationRequest.PriorityEnum =
-            (PriorityEnum)Enum.Parse(typeof(PriorityEnum), operationRequestDto.priority.ToUpper());
+        
+        await ValidateRequestingDoctor(doctor, operationRequest.Doctor.Id);
+
+        operationRequest.PriorityEnum = (PriorityEnum)Enum.Parse(typeof(PriorityEnum), priority.ToUpper());
         await _unitOfWork.CommitAsync();
         
-        return operationRequest;
     }
 
-    private async Task<Staff>ValidateRequestingDoctor(string doctor, OperationRequestDTO operationRequestDto)
+    private async Task ValidateRequestingDoctor(string doctor, StaffId operationDoctor)
     {
-        var requestingDoctor = await _staffRepository.GetActiveStaffById(new StaffId(operationRequestDto.doctorId));
-        if (requestingDoctor == null)
+        var doctorR = await _staffRepository.GetActiveStaffById(operationDoctor);
+      
+        if (doctorR == null)
         {
-            throw new ArgumentException("Requesting doctor not found");
+            throw new ArgumentException("Doctor does not exits");
         }
-        if (!requestingDoctor.ToString().Equals(doctor))
+        
+        if (!doctor.Equals(doctorR.User.Email.ToString()))
         {
             throw new ArgumentException("Only the doctor that requested the operation can edit it!");
         }
-        return requestingDoctor;
+        
     }
 
    
