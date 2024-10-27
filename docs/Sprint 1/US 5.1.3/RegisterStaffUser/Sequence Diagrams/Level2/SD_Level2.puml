@@ -1,0 +1,38 @@
+@startuml
+
+title US 5.1.3-Register Patient user-\nSequence Diagram Level 2
+
+actor Patient
+participant SurgeryAppointmentSystem
+participant Backend
+database DataBase
+
+activate Patient
+
+Patient -> SurgeryAppointmentSystem: create new Patient user
+
+    activate SurgeryAppointmentSystem
+        
+    SurgeryAppointmentSystem -> Backend: create new Patient user
+    
+    activate Backend
+    
+    Backend -> Backend: create a new Patient user
+    
+    Backend -> DataBase: insert new Patient user
+    
+        activate DataBase
+        
+        DataBase --> Backend: new Patient user inserted
+        
+        deactivate DataBase
+        
+    Backend --> SurgeryAppointmentSystem: new Patient user created
+    
+    deactivate Backend
+    
+    SurgeryAppointmentSystem --> Patient: new Patient user created
+    
+    deactivate SurgeryAppointmentSystem
+    
+@enduml

@@ -1,0 +1,14 @@
+@startuml
+actor Patient
+participant SurgeyApointmentSystem
+
+activate Patient
+Patient -> SurgeyApointmentSystem: delete patientAccout
+SurgeyApointmentSystem -> Patient: send email confirmation
+activate SurgeyApointmentSystem
+alt confirm delete
+SurgeyApointmentSystem --> Patient: patientAccout deleted(after 30 days)
+end
+deactivate SurgeyApointmentSystem
+
+@enduml
