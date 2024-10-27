@@ -2,7 +2,7 @@
 
 public class OperationRequestDTO
 {
-    public string operationRequestId { get; set; }
+    public string? operationRequestId { get; set; }
     public string patientID { get; set; } 
     public string doctorId{ get; set; }
     public string operationName { get; set; }

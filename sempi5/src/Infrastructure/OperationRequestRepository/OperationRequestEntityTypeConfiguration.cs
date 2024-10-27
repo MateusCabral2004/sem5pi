@@ -13,7 +13,7 @@ public class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguration<
         builder.HasKey(p => p.Id);
         
         builder.Property(s => s.Id)
-            .HasColumnName("OperationTypeID")
+            .HasColumnName("OperationRequestID")
             .IsRequired()
             .HasConversion(
                 s => s.AsLong(),
@@ -21,18 +21,18 @@ public class OperationRequestEntityTypeConfiguration : IEntityTypeConfiguration<
             .ValueGeneratedOnAdd();
 
         builder.HasOne(s => s.Doctor)
-            .WithOne()
-            .HasForeignKey<OperationRequest>("DoctorID")
+            .WithMany()
+            .HasForeignKey("DoctorID")
             .IsRequired();
         
         builder.HasOne(s => s.Patient)
-            .WithOne()
-            .HasForeignKey<OperationRequest>("PatientID")
+            .WithMany()
+            .HasForeignKey("PatientID")
             .IsRequired();
         
         builder.HasOne(s => s.OperationType)
-            .WithOne()
-            .HasForeignKey<OperationRequest>("OperationTypeID")
+            .WithMany()
+            .HasForeignKey("OperationTypeID")
             .IsRequired();
         
         builder.Property(p => p.DeadLineDate)

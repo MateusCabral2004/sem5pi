@@ -50,10 +50,13 @@ public class OperationRequestService
     {
         var patient = await _patientRepository.GetByPatientId(operationRequestDto.patientID);
         var doctor = await _staffRepository.GetActiveStaffById(new StaffId(operationRequestDto.doctorId));
-        var operationType = await _operationTypeRepository.GetOperationTypeByName(new OperationName(operationRequestDto.operationName));
-        var deadline = DateTime.Parse(operationRequestDto.deadline);
+        var operationType = await _operationTypeRepository.GetOperationTypeByName(new OperationName(operationRequestDto.operationType));
+        var deadline = new DateTime(2020, 1, 1);
 
-        ValidateSpecialization(doctor.Specialization, operationType);
+        if (ValidateSpecialization(doctor.Specialization, operationType) ==false)
+        {
+            throw new ArgumentException("Doctor specialization does not match the operation request");
+        }
         
         return new OperationRequest(doctor,patient,operationType,deadline,(PriorityEnum)Enum.Parse(typeof(PriorityEnum),operationRequestDto.priority.ToUpper()));
     }
