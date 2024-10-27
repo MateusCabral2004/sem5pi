@@ -368,7 +368,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/patient/account/exclude/{token}"
+						"url": "{{base_url}}/patient/account/exclude/confirm/08dcf6d6-a74a-4340-8106-e7c585df7cfb"
 					},
 					"response": []
 				}
@@ -1564,13 +1564,41 @@
 			"name": "5.1.17",
 			"item": [],
 			"id": "a5906108-2a3a-47c1-a401-33a71b6bc8b8"
+		},
+		{
+			"name": "5.1.23",
+			"item": [
+				{
+					"name": "http://localhost:5001/OperationType/listOperationTypeByStatus/true",
+					"id": "72126b6a-3186-41dc-b797-bb4540f27ca3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"specializationName\":\"Cleaner\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/OperationType/listOperationTypeBySpecialization/Cleaner"
+					},
+					"response": []
+				}
+			],
+			"id": "166f6465-59a3-4c7f-8828-2fd683a8cf04"
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "38e7c688-e358-46de-b0ab-6393195ea621",
+				"id": "5432e805-dd07-404d-84f7-22f516e47002",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1580,7 +1608,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "59cfb3d4-4a14-4359-a352-724442ce9dde",
+				"id": "52dafc76-b3fc-47d0-b38e-19b93b942820",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1631,6 +1659,11 @@
 		{
 			"key": "AdminCookieRute",
 			"value": ".AspNetCore.Cookies=CfDJ8KVrZduF2lRPo7ioB0pDQ4_yH0W824o-a1_l2Pde6sZiE7_LenD4TQrMX9tMAqsp_X25tCxZWv90ddQDcrIgKlDjPN66nNYp9MFgOvHeIuyVWpO4TV3q7RtH7oSzN9WkPCWkyifVxR0MLFce1iSCx9CVbSglkmhPlNATvC3Fe8ctNXvZzqehkP_5S8LOyJciW8Cg2Ex0WxLTyaMBKv2j1HJtOk5CChy_64NHM2wop2d0fQkrdS99nJP_YCE3I0icDtqfLR_Z8V_GnkiTcw_wBtdXsWqq5OuPycXafUF8O-soewoDUnyxG9At8rfouZZBJSVFlxWZdzCRZd9Qab4KXd-p1Y6HDyzCFKlfsCpoqzuBWfO82k8i5YSco3XIZpRaNXV2oM_cOYvhevCdnOf9Z4De1_Qy_Uv_5AgRncP1pjMYvyhSZNJrAcQgUC8uDmZAFC4t75-k8ORxDzS6UfslkLUVo92_lNF7hYDbl6c0yhrKpeMC2iPq13eFl3p05PpWZ3M7bdNuzJrCEAgbUes-zlHzENn58AVRcGd_qEITWQlaFfLa9UcP0trqtUJkt5hRM9lAO4brGDo_awkMPPF5HUYNkARJpnqcwlckPb4s-FWUzDcMrm8Zh4KLhqzvxEE1du8fOadRseg8kDcWXFX7nxB4lHAGR11STXYIs0XN6uulijdYuv6ePlL_Q4pASBcYzpWFA8NNXIEkth0S2px1K2ZlrQNgX74bekf-cSh7tQnj8rrTe1-FwZN1vQOgCTPC6Uy1jMD-KZY9KujEahjr3BcMA1NvuThMriOp0c77nAQn_5lI8mUAJX_3eL48-NToIe-XajrxvSiv77-tgRz0t4dS3ZyRyQ77GnzOy9oussub7S0d0PYo0U4N7kGVUV3QV9gMsvtBKoiYbqGTsbvsZOTuaLtGBhZRUxQHFYrOBKoi5cRzcV18qEhbJOYpxmeDj4b8_IIsrRbOtQ9f-aYL27dPoTah2h4IfdABz1_sLhGxXuS2anVJCl6EkN12p0Whs79EiLPtslTcvPHxf82LuxyhnFZ8tKbi2Gdw1YC41ZAMNoIgh3uAUXjKc0XvFMjMcjaLetDYQ4z0uJKniW7po1uHvsK0G9MyZZrni9kiEgcqvlaYV2kG6cGRFukCpwk9VgDVw49wWtDjkINAbWv1DOd0nHdKSkuC-dxZTC0L0mNv4-EDEuKCnTavYpaqbPCxSG5o2A4jCV0P-eDk6HZEnZ7M4laoTpiNQQ-Vs-ywtV5jF4kt30_rm60XKuvPh7ngWXUx3gr_aNLhLtu4o9cBjg1rzW_tYQ06NTXVgIymlZ_rQ2VZRjkg0UqJR9XLtqLp6APUJra7E49AfzqyjUXZhFHFZa9xLo7F-OIVjKwvc561ZYKAvFNJ425on-N19tJoOjeOyOMj7QThfFhLtTMJGKzIkFaZLsE-_X-_pQJ8rS1h",
+			"type": "string"
+		},
+		{
+			"key": "tokenDeleteAccount",
+			"value": "08dcf6d6-a74a-4340-8106-e7c585df7cfb",
 			"type": "string"
 		}
 	]
