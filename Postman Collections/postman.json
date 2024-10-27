@@ -245,13 +245,13 @@
 							"response": []
 						},
 						{
-							"name": "send email to update phoneNumber Copy",
+							"name": "confirm update",
 							"id": "0da19740-9bfb-44bb-a9f0-03bcd34aa0c5",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "POST",
+								"method": "GET",
 								"header": [
 									{
 										"key": "Cookie",
@@ -261,13 +261,14 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"phonenumber\":\"938536401\",\r\n    \"firstName\": \"updateSandro\",\r\n  \"lastName\": \"updateLuis\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Male\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 987654321\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
+									"raw": "",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
-								}
+								},
+								"url": "{{base_url}}/patient/account/update/%7B%22email%22:null,%22phoneNumber%22:%22938536401%22,%22firstName%22:%22updateSandro%22,%22lastName%22:%22updateLuis%22,%22birthDate%22:%221985-10-12T00:00:00%22,%22gender%22:%22Male%22,%22allergiesAndMedicalConditions%22:%5B%22Penicillin%22,%22Asthma%22%5D,%22emergencyContact%22:%22Jane%20Doe%20-%20987654321%22,%22appointmentHistory%22:%5B%222023-05-15%22,%222024-03-12%22%5D%7D"
 							},
 							"response": []
 						}
@@ -1530,6 +1531,39 @@
 			"name": "5.1.10",
 			"item": [],
 			"id": "25946838-30b8-4d39-912b-8d0f059ca7bb"
+		},
+		{
+			"name": "5.1.16",
+			"item": [
+				{
+					"name": "http://localhost:5001/OperationRequest/requestOperation",
+					"id": "1a5f00da-aba9-4577-a6ea-297e4138909a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patientID\": \"20241000001\" ,\r\n    \"doctorID\":\"D202400003\" ,\r\n    \"operationName\":\"Heart transplant\",\r\n    \"operationType\":\"Heart Surgery\",\r\n    \"deadline\": \"2024-10-10\",\r\n    \"priority\": \"HIGH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/OperationRequest/requestOperation"
+					},
+					"response": []
+				}
+			],
+			"id": "928b06b7-38bc-4aa8-9c9b-6f4b7c376f49"
+		},
+		{
+			"name": "5.1.17",
+			"item": [],
+			"id": "a5906108-2a3a-47c1-a401-33a71b6bc8b8"
 		}
 	],
 	"event": [
