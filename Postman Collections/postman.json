@@ -106,9 +106,77 @@
 								"url": "{{base_url}}/systemUser/registerStaff"
 							},
 							"response": []
+						},
+						{
+							"name": "RegisterStaffWithStaffBeingUsed",
+							"id": "51381ed5-db6d-4411-a305-bcdbcc1b98c3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieMateus}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"email\": \"mateuscabral2007@gmail.com\",\r\n   \"role\": \"Doctor\", \r\n   \"staffOrStaffId\" : \"D202400007\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/systemUser/registerStaff"
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterStaffWithStaffNotExistent",
+							"id": "40186446-4d12-414d-b3f3-2d4d082e97ad",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieMateus}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"email\": \"mateuscabral2007@gmail.com\",\r\n   \"role\": \"Doctor\", \r\n   \"staffOrStaffId\" : \"D202400007345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/systemUser/registerStaff"
+							},
+							"response": []
 						}
 					],
 					"id": "5903608d-c097-4cba-bb4a-2f05e1420282"
+				},
+				{
+					"name": "New Request",
+					"id": "8917aacd-d547-4452-a18e-16c6d679930f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "a9c48bfa-281a-4128-9e2b-09b8a8219b1b"
@@ -257,8 +325,32 @@
 			"name": "5.1.13",
 			"item": [
 				{
-					"name": "createStaffProfile",
+					"name": "createStaffProfileValidCase",
 					"id": "75bd69a4-e2c9-48c4-9b32-428d5b6fde4f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "createStaffProfileDuplicateLicenseNumber",
+					"id": "cb4e3051-30cc-4b54-99dd-9f9e50dab4d8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "createStaffProfileDuplicatePhoneNumber",
+					"id": "c905ea30-b0ed-4297-9240-7100cbdcdb53",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
