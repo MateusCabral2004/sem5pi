@@ -982,8 +982,25 @@
 			"name": "5.1.3",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "ListAppointment_verified",
 					"id": "29a0a0fe-f792-45a4-9504-f3d7c626c492",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{base_url}}/patient/account/appointment"
+					},
+					"response": []
+				},
+				{
+					"name": "ListAppointment_notVerified",
+					"id": "f55ee4cb-4ede-4790-b8a2-ed043e8118cf",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
