@@ -256,8 +256,20 @@
 					"name": "listPatientByEmail",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "listPatientByEmailInvalidCase",
 							"id": "6dae999b-41ed-40d4-88af-6aeb4750c5a3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "listPatientByEmailValidCase",
+							"id": "cb3c42b3-f41b-476e-9f58-9aad4c230349",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
