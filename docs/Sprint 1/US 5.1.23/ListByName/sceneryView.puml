@@ -1,0 +1,9 @@
+﻿@startuml
+left to right direction
+
+actor "Admin" as user
+usecase "List operation types by name" as goal
+
+user --> goal
+
+@enduml

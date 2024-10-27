@@ -1,0 +1,9 @@
+﻿@startuml
+left to right direction
+
+actor "Unregistered User" as user
+usecase "Activate account" as goal
+
+user --> goal
+
+@enduml

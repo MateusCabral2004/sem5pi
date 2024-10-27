@@ -1,0 +1,9 @@
+﻿@startuml
+left to right direction
+
+actor "Doctor" as user
+usecase "List operation requests" as goal
+
+user --> goal
+
+@enduml

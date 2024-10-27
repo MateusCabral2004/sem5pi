@@ -1,0 +1,9 @@
+﻿@startuml
+left to right direction
+
+actor "Admin" as user
+usecase "Add new operation type" as goal
+
+user --> goal
+
+@enduml

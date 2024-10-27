@@ -1,0 +1,9 @@
+﻿@startuml
+left to right direction
+
+actor "Admin" as user
+usecase "List patient profiles by email" as goal
+
+user --> goal
+
+@enduml
