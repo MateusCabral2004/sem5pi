@@ -1,6 +1,7 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.SpecializationAggregate;
@@ -39,6 +40,7 @@ namespace Sempi5.Controllers.StaffControllers
         }
 
         [HttpPost("createStaffProfile")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateStaffProfile(StaffDTO staff)
         {
             try
@@ -54,6 +56,7 @@ namespace Sempi5.Controllers.StaffControllers
 
 
         [HttpPatch("editStaffProfile")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditStaffProfile(EditStaffDTO editStaffDto)
         {
             try
@@ -112,6 +115,7 @@ namespace Sempi5.Controllers.StaffControllers
         }
 
         [HttpPatch("deactivateStaffProfile")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeactivateStaffProfile(StaffIdDTO staffId)
         {
             try
@@ -127,6 +131,7 @@ namespace Sempi5.Controllers.StaffControllers
 
 
         [HttpGet("listStaffProfilesByName")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListStaffProfileByName(NameDTO nameDto)
         {
             try
@@ -141,6 +146,7 @@ namespace Sempi5.Controllers.StaffControllers
         }
 
         [HttpGet("listStaffProfileByEmail")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListStaffProfileByEmail(EmailDTO emailDto)
         {
             try
