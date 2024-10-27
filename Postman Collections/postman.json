@@ -1531,7 +1531,21 @@
 		},
 		{
 			"name": "5.1.10",
-			"item": [],
+			"item": [
+				{
+					"name": "New Request",
+					"id": "5adcdc99-9c90-4dc0-bb24-9bf4c1e3a9eb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:5001/Patient/deletePatientProfile/anotherEmail@gmail.com"
+					},
+					"response": []
+				}
+			],
 			"id": "25946838-30b8-4d39-912b-8d0f059ca7bb"
 		},
 		{
@@ -1605,8 +1619,9 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:5001/OperationRequest/updateOperationRequestDeadline/2/2024-12-12"
 					},
 					"response": []
 				}
