@@ -272,7 +272,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookiePatient}}",
+								"type": "text"
+							}
+						]
 					},
 					"response": []
 				},
@@ -284,7 +290,23 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookiePatient}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "?",
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"type": "text"
+								}
+							]
+						}
 					},
 					"response": []
 				},
