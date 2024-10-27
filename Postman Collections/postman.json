@@ -86,8 +86,24 @@
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
-								"header": []
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieMateus}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"email\": \"mateuscabral2007@gmail.com\",\r\n   \"role\": \"Doctor\", \r\n   \"staffOrStaffId\" : \"F202400003\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/systemUser/registerStaff"
 							},
 							"response": []
 						}
@@ -185,8 +201,24 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\":\"N202400001\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/deactivateStaffProfile"
 					},
 					"response": []
 				},
@@ -197,8 +229,24 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\":\"A202400009\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/deactivateStaffProfile"
 					},
 					"response": []
 				}
@@ -207,7 +255,20 @@
 		},
 		{
 			"name": "5.1.13",
-			"item": [],
+			"item": [
+				{
+					"name": "createStaffProfile",
+					"id": "75bd69a4-e2c9-48c4-9b32-428d5b6fde4f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
 			"id": "ee2581c9-42cc-47a1-8e94-b916e976c893"
 		},
 		{
