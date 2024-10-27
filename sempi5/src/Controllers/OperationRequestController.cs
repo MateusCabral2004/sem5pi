@@ -20,7 +20,7 @@ public class OperationRequestController : ControllerBase
         _logger = logger;
     }
 
-    [Authorize(Roles = "Doctor")]
+    //[Authorize(Roles = "Doctor")]
     [HttpPost("requestOperation")]
     public async Task<IActionResult> RequestOperation(OperationRequestDTO operationRequestDto)
     {
@@ -35,7 +35,7 @@ public class OperationRequestController : ControllerBase
         }
     }
 
-    [HttpPut("updateOperationRequestDeadline/operationRequestId/{deadline}")]
+    [HttpPut("updateOperationRequestDeadline/{operationRequestId}/{deadline}")]
     public async Task<IActionResult> UpdateOperationRequestDeadline(string operationRequestId, string deadline)
     {
         try
@@ -45,7 +45,7 @@ public class OperationRequestController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message+ e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
     
