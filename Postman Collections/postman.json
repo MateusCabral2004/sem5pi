@@ -1137,14 +1137,58 @@
 			"name": "US5.1.21",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "editOperationName",
 					"id": "a5ae2bb7-6f58-4a0e-bb7b-4fe924088a26",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"new Knee Surgery\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/name/Knee%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editOperationName Copy",
+					"id": "e92617a5-e275-4077-8b0c-fc9cdd0d0e4b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"new Knee Surgery\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/name/Knee%20Surgery"
 					},
 					"response": []
 				}
