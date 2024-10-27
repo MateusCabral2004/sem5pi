@@ -286,8 +286,20 @@
 					"name": "listPatientByBirthDate",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "listPatientByBirthDateValidCase",
 							"id": "cea7b4d0-a27c-44f7-b92b-3758689aa83f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "listPatientByBirthDateInvalidCase",
+							"id": "3dda8c3d-ac4e-4f3f-a8bb-3edaaf2f4cc2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
