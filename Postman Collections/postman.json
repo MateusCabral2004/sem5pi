@@ -154,7 +154,7 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [
 							{
 								"key": "Cookie",
@@ -167,19 +167,19 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{base_url}}/patient/account/appointment?",
+							"raw": "{{base_url}}/patient/register?number=987254321",
 							"host": [
 								"{{base_url}}"
 							],
 							"path": [
 								"patient",
-								"account",
-								"appointment"
+								"register"
 							],
 							"query": [
 								{
-									"key": "",
-									"value": null
+									"key": "number",
+									"value": "987254321",
+									"type": "text"
 								}
 							]
 						}
