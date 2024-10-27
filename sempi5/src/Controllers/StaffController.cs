@@ -117,7 +117,7 @@ namespace Sempi5.Controllers.StaffControllers
             try
             {
                 await _staffService.DeactivateStaffProfile(staffId);
-                return Ok("Staff deleted successfully");
+                return Ok("Staff deactivated successfully.");
             }
             catch (Exception e)
             {

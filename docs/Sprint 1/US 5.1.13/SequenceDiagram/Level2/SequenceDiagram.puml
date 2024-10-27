@@ -4,16 +4,36 @@ participant SurgeryAppointmentSystem
 participant Backend
 database DataBase
 
+activate Admin
 
-Admin -> SurgeryAppointmentSystem : Edit A Staff Profile (email, \nphoneNumber, specialization)
+Admin -> SurgeryAppointmentSystem : Deactivate A Staff Profile
 activate SurgeryAppointmentSystem
 
-SurgeryAppointmentSystem -> Backend : Edit Staff Profile (email, \nphoneNumber, specialization)
+SurgeryAppointmentSystem -> Backend : Deactivate A Staff Profile
 activate Backend
 
+Backend -> DataBase : Find Staff Profile
+activate DataBase
 
+DataBase --> Backend : Staff Profile Found
+deactivate DataBase
+
+Backend -> Backend : Deactivate Staff Profile
+activate Backend
+
+Backend -> DataBase : Update Staff Profile
+activate DataBase
+
+DataBase --> Backend : Staff Profile Updated
+deactivate DataBase
+deactivate Backend
+
+Backend --> SurgeryAppointmentSystem : Staff Profile Deactivated Successfully
+deactivate Backend
 
 SurgeryAppointmentSystem --> Admin : Staff Profile Edited Successfully
 deactivate SurgeryAppointmentSystem
+
+deactivate Admin
 
 @enduml
