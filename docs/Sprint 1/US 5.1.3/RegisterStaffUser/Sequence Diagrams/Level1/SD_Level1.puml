@@ -1,6 +1,6 @@
 @startuml
 
-title US 5.1.1-Register Patient User-\nSequence Diagram Level 1
+title US 5.1.3-Register Patient User-\nSequence Diagram Level 1
 
 actor Patient
 participant SurgeryAppointmentSystem
