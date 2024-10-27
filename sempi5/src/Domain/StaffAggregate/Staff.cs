@@ -32,45 +32,32 @@ namespace Sempi5.Domain.StaffAggregate
             Person = person;
             Status = StaffStatusEnum.INACTIVE;
         }
-        //Apagar
-        public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)
+        
+        public Staff(SystemUser user,LicenseNumber licenseNumber, Person person, Specialization specialization, StaffStatusEnum status)
         {
+            
+            ArgumentNullException.ThrowIfNull(licenseNumber);
+            ArgumentNullException.ThrowIfNull(person);
+            ArgumentNullException.ThrowIfNull(specialization);
+            
             User = user;
             LicenseNumber = licenseNumber;
             Specialization = specialization;
-            AvailabilitySlots = availabilitySlots;
-            Person = new Person(firstName, lastName, contactInfo);
-            Status = StaffStatusEnum.ACTIVE;
-        }
-        //Apagar
-        public Staff(SystemUser user, LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots, StaffStatusEnum status)
-        {
-            User = user;
-            LicenseNumber = licenseNumber;
-            Specialization = specialization;
-            AvailabilitySlots = availabilitySlots;
-            Person = new Person(firstName, lastName, contactInfo);
+            AvailabilitySlots = new List<string>();
+            Person = person;
             Status = status;
         }
         
-        
-        //Apagar
-        public Staff(LicenseNumber licenseNumber, Name firstName, Name lastName, Specialization specialization, ContactInfo contactInfo, List<string> availabilitySlots)
-        {
-            User = null;
-            LicenseNumber = licenseNumber;
-            Specialization = specialization;
-            AvailabilitySlots = availabilitySlots;
-            Person = new Person(firstName, lastName, contactInfo);
-            Status = StaffStatusEnum.ACTIVE;
-        }        
         
         public void AddUser(SystemUser user)
         {
             User = user;
         }
         
-     
+        public void markAsActive()
+        {
+            Status = StaffStatusEnum.ACTIVE;
+        }
         
     }
 }
