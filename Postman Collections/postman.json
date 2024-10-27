@@ -1124,7 +1124,8 @@
 							{
 								"key": "Cookie",
 								"value": "{{SandroCookieDoctor}}",
-								"type": "text"
+								"type": "text",
+								"disabled": true
 							}
 						],
 						"url": "{{base_url}}/staff/request/deleteRequest"
