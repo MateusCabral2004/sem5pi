@@ -2,7 +2,7 @@
 left to right direction
 
 actor "Admin" as user
-usecase "Create a new patient profile" as goal
+usecase "Register staff user" as goal
 
 user --> goal
 
