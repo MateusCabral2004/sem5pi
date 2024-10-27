@@ -106,9 +106,83 @@
 								"url": "{{base_url}}/systemUser/registerStaff"
 							},
 							"response": []
+						},
+						{
+							"name": "RegisterStaffWithStaffBeingUsed",
+							"id": "51381ed5-db6d-4411-a305-bcdbcc1b98c3",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieMateus}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"email\": \"mateuscabral2007@gmail.com\",\r\n   \"role\": \"Doctor\", \r\n   \"staffOrStaffId\" : \"D202400007\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/systemUser/registerStaff"
+							},
+							"response": []
+						},
+						{
+							"name": "RegisterStaffWithStaffNotExistent",
+							"id": "40186446-4d12-414d-b3f3-2d4d082e97ad",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieMateus}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n   \"email\": \"mateuscabral2007@gmail.com\",\r\n   \"role\": \"Doctor\", \r\n   \"staffOrStaffId\" : \"D202400007345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/systemUser/registerStaff"
+							},
+							"response": []
 						}
 					],
 					"id": "5903608d-c097-4cba-bb4a-2f05e1420282"
+				},
+				{
+					"name": "ActivateStaffAccount",
+					"item": [
+						{
+							"name": "ConfirmToken",
+							"id": "55b99a4f-1ebf-4bca-9729-910a87aa84ef",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "abc2b245-9bcb-43a7-8cf6-0a279cec6681"
 				}
 			],
 			"id": "a9c48bfa-281a-4128-9e2b-09b8a8219b1b"
@@ -257,14 +331,114 @@
 			"name": "5.1.13",
 			"item": [
 				{
-					"name": "createStaffProfile",
+					"name": "createStaffProfileValidCase",
 					"id": "75bd69a4-e2c9-48c4-9b32-428d5b6fde4f",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\":\"João\",\r\n    \"LastName\":\"Tavares\",\r\n    \"LicenseNumber\":999,\r\n    \"Specialization\":\"Doctor\",\r\n    \"Email\":\"joaotavares@gmail.com\",\r\n    \"PhoneNumber\":964777123\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/createStaffProfile"
+					},
+					"response": []
+				},
+				{
+					"name": "createStaffProfileDuplicateLicenseNumber",
+					"id": "cb4e3051-30cc-4b54-99dd-9f9e50dab4d8",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\":\"João\",\r\n    \"LastName\":\"Tavares\",\r\n    \"LicenseNumber\":999,\r\n    \"Specialization\":\"Doctor\",\r\n    \"Email\":\"joaotavares@gmail.com\",\r\n    \"PhoneNumber\":964777123\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/createStaffProfile"
+					},
+					"response": []
+				},
+				{
+					"name": "createStaffProfileDuplicatePhoneNumber",
+					"id": "c905ea30-b0ed-4297-9240-7100cbdcdb53",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\":\"João\",\r\n    \"LastName\":\"Tavares\",\r\n    \"LicenseNumber\":981,\r\n    \"Specialization\":\"Doctor\",\r\n    \"Email\":\"joaotavares@gmail.com\",\r\n    \"PhoneNumber\":964777123\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/createStaffProfile"
+					},
+					"response": []
+				},
+				{
+					"name": "createStaffProfileDuplicateEmail",
+					"id": "35c2822f-a789-4789-95a5-3b07b0d1c4ed",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"FirstName\":\"João\",\r\n    \"LastName\":\"Tavares\",\r\n    \"LicenseNumber\":981,\r\n    \"Specialization\":\"Doctor\",\r\n    \"Email\":\"joaotavares@gmail.com\",\r\n    \"PhoneNumber\":964777122\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/createStaffProfile"
 					},
 					"response": []
 				}
@@ -383,7 +557,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "7dea1979-1f62-4723-b1ba-27eb775a3b5b",
+				"id": "541c4076-278a-4d1a-86a2-5f6739c9fbbc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -393,7 +567,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "c8bfc405-b58e-41d5-9a5d-df7e6652cd13",
+				"id": "de34f08b-802a-4638-9936-f6cd2d2dc280",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -420,6 +594,11 @@
 			"key": "AdminCookieMateus",
 			"value": ".AspNetCore.Cookies=CfDJ8C1qEftZwfhChaaurTMpFZ_qG_NSmwFVo1vANleKIubIwmgaG--MvqGaWAv5dV3ZazzsStIYNi_VHCZJ48IrTn-XKk5GEvygRagjSfAq9qkbUFYaR3oKMG8zRyT7hegmqt6Qn5ZxaAkDeRMd0fFk3JVkfJOA5Z0GFT6pyxnpLiZuUNdLnPJfpEt-JQxxojhEmIFoFAaVlpDdZ9ybOLNzUItBngbXAomNfhl5XCKNQdXHdOyy-QScpGuBmayang1dN86mCA5nF_cIAGZLsR7GFA10iXcBQ8Cu0oPBROqZKfDYnjQHB-I5OF1Vr3UtDZ1SHoxOY3O4ubrhpjzQc5j8K1Q-Hbjv4RwNdRA57nWNZnsI08hI0ylvvGVAZ2hCctbMQN1dg7kiPH9CMjFuGuR8T3CJ2e1niIRuTqhjl8Wt0VTunmY1mKzNwcqjoKk58oHX8K-APBt_iQozxbCWyd9wY3kHfgkPiA6F1cTPg75U-6VE9FhgihniW4acLQfTobw54C1LERRLIwu9yZIJHEHfBHMWLcML1l3SrdbGCC0LG_kgRzw0MD8vexdnrKjF02PVWHl7tdUtgyZIOF2nDEkABp7JNsHn92nrrvCicCKvXQKZPVWCkY0KEW7AVIm5l-9glAb1Rre0lJ0ZR3hKSWxW1Nb3yuOMi4bluFMjmMqlCdCoEkKcQrnmfhBtnjhBi4FU9uZsPnA9d6-6I6YDYC7E_mLEoz-WHOD6hmI1gZ6tBfbvUggL7lSD4Jzl7u3oNXEsy0jWIeEFOijolXnfW7e3GwGKLD7oqRHkd3MaFv3nSqm_ex-Rp8QT51DcR5hD7hto-PIoq8h8C9tGtGNGugg8TmP5mNyUz04wkUlSQyxJbUURZaSvush76VDuIWU27y5GrcW5itTUq6U0M6oTmwrsWD-3-czCbSDdzDfo8DujIKeIY0zTKzzXv4poxZc49dKeIThaZyGrXJXE-K5qBWaqmh1YdyPW7xUhDjmNL9glKc2AF6tl_gQpBDuCiJhckNkWu4TWUkV6JqYEuQylALLJf8_Fj6h8EIZQ22mM8Ka0ClCh0UflrYG4VK0CZqytN7zviNR_BCDKb9AIdr7mBecyuJlq_Gx057-j6fdWvzwq15ZZ3HdFeTkvprT9_pncKhAKgeMA2VKgafCRvpPwbkMokQ4Y_Ut26m_laL4mtRQ9IJ2R7CSzsmAXairN0UHNsXnqRwBLfTyg7x2NYKMyyVjW48BleauOFVlrxmRhxL8mE-soGOsuflAtAEzTuh-5uqZGGWISeJfap5HIWg7Gm09ghfxwHHnl-GTzq_1sWMVEGY47-3f7m0dIHfp9fE9j8uxYT4mJbEz1B775Lhv-Qw7S301ebUK6OYDYq4nxkQKUb5yovhD8VMG6-NHumN2xPxDX6-OwQyQtHPK362x_GEABZ0o1n29POR_RVonbUyjd4LLi",
 			"type": "string"
+		},
+		{
+			"key": "tokenConfirmStaff",
+			"value": "08dcf6aa-0915-448d-8c8b-8993eb632fc7",
+			"type": "default"
 		}
 	]
 }
