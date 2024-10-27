@@ -1611,18 +1611,6 @@
 						"url": "http://localhost:5001/OperationType/listOperationTypeByStatus/true"
 					},
 					"response": []
-				},
-				{
-					"name": "New Request",
-					"id": "4034d318-ccce-4250-bde5-04f91102c400",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
 				}
 			],
 			"id": "166f6465-59a3-4c7f-8828-2fd683a8cf04"
