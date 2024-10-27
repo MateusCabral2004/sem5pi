@@ -1,0 +1,29 @@
+﻿@startuml
+actor Admin
+participant SurgeryAppointmentSystem
+participant Backend
+database Database
+
+activate Admin
+
+Admin -> SurgeryAppointmentSystem : List Staff Profile By Specialization
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend : Search Staff Profile By Specialization
+activate Backend
+
+Backend -> Database : Search For Staff Profile By Specialization
+activate Database
+
+Database --> Backend : Staff Profile Found
+deactivate Database
+
+Backend --> SurgeryAppointmentSystem : Staff Profile Created
+deactivate Backend
+
+SurgeryAppointmentSystem --> Admin : New Staff Profile Created
+deactivate SurgeryAppointmentSystem
+
+deactivate Admin
+
+@enduml
