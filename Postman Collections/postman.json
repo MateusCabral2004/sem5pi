@@ -189,6 +189,18 @@
 						"header": []
 					},
 					"response": []
+				},
+				{
+					"name": "deactivateActiveStaffProfile",
+					"id": "7b6834a6-e899-40e1-b249-6baab6ba8c86",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "ba34e0ec-c92a-4b91-95a8-9395d37ae897"
