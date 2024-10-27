@@ -218,7 +218,7 @@
 					"name": "updateEmail",
 					"item": [
 						{
-							"name": "Com confirmação",
+							"name": "send email to update phoneNumber",
 							"id": "7fc3df04-735f-497f-92e2-f4b3410565d6",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -234,7 +234,34 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"email\":\"sa@fmail.com\",\r\n    \"phonenumber\":\"111111111\",\r\n    \"firstName\": \"updateSandro\",\r\n  \"lastName\": \"updateLuis\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Male\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 987654321\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
+									"raw": "{\r\n    \"phonenumber\":\"938536401\",\r\n    \"firstName\": \"updateSandro\",\r\n  \"lastName\": \"updateLuis\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Male\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 987654321\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "send email to update phoneNumber Copy",
+							"id": "0da19740-9bfb-44bb-a9f0-03bcd34aa0c5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{SandroCookiePatient}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"phonenumber\":\"938536401\",\r\n    \"firstName\": \"updateSandro\",\r\n  \"lastName\": \"updateLuis\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Male\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 987654321\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -251,7 +278,7 @@
 					"name": "updateProfile sem confirmação de email",
 					"item": [
 						{
-							"name": "Com confirmação",
+							"name": "sem confirmação",
 							"id": "081b07e7-daf0-431b-9f71-7525bcdefaa1",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -267,7 +294,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n  \"firstName\": \"updateSandro\",\r\n  \"lastName\": \"updateLuis\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Male\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 987654321\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
+									"raw": "{\r\n  \"firstName\": \"updateSandro\",\r\n  \"lastName\": \"updateLuis\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Female\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 999111999\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1439,8 +1466,70 @@
 		},
 		{
 			"name": "5.1.8",
-			"item": [],
+			"item": [
+				{
+					"name": "http://localhost:5001/Patient/registerPatientProfile",
+					"id": "eef737fd-b1ab-41c5-aa3a-1213a868a9e0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{Admin",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Bárbara\",\r\n  \"lastName\": \"Bandeira\",\r\n  \"email\": \"barbarabandeira@gmail.com\",\r\n  \"birthDate\": \"2004-11-04\",\r\n  \"phoneNumber\": 914129219,\r\n  \"gender\": \"Female\",\r\n  \"emergencyContact\": \"Carlos Bandeira\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/Patient/registerPatientProfile"
+					},
+					"response": []
+				}
+			],
 			"id": "f310de49-84cf-4a7c-aaf8-046932d928d2"
+		},
+		{
+			"name": "5.1.9",
+			"item": [
+				{
+					"name": "http://localhost:5001/Patient/editPatientProfile/newUser@gmail.com",
+					"id": "6e0b9bb5-4d94-4ebc-ae32-eeda27e87a25",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"Madalena\",\r\n    \"lastName\":\"Sousa\",\r\n    \"birthDate\":\"2009-12-12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/Patient/editPatientProfile/newUser@gmail.com"
+					},
+					"response": []
+				}
+			],
+			"id": "501eb3f0-e17e-488e-a600-243d688859e9"
+		},
+		{
+			"name": "5.1.10",
+			"item": [],
+			"id": "25946838-30b8-4d39-912b-8d0f059ca7bb"
 		}
 	],
 	"event": [
