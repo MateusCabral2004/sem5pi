@@ -1144,7 +1144,8 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": "{{base_url}}/staff/search/requests"
 					},
 					"response": []
 				}
@@ -1153,7 +1154,20 @@
 		},
 		{
 			"name": "US5.1.22",
-			"item": [],
+			"item": [
+				{
+					"name": "New Request",
+					"id": "d9344961-077d-4dd2-836b-5d42b5c7bf94",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
 			"id": "b83ac0c8-af47-48fa-8fba-5cc9829503f9"
 		}
 	],
