@@ -90,9 +90,6 @@ public class PatientController : ControllerBase
         {
             return BadRequest("Unauthorized acess(you need to confirm your account)");
         }
-
-        Console.WriteLine("Listando agendamentos");
-        Console.WriteLine(appointments);
         return Ok(appointments);
     }
 
