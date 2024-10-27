@@ -1531,41 +1531,7 @@
 		},
 		{
 			"name": "5.1.10",
-			"item": [
-				{
-					"name": "New Request",
-					"id": "cfa9b6ec-06fd-445e-8b2b-1cceb51aa5c9",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "PUT",
-						"header": [
-							{
-								"key": "",
-								"value": "",
-								"type": "text"
-							},
-							{
-								"key": "Cookie",
-								"value": ".AspNetCore.Cookies=CfDJ8KVrZduF2lRPo7ioB0pDQ4-qW8JM36249z8WJIf3UY-OSoJt0RzGvTNQYMhWC0P0I4GUwIgeEujtfPMq65HOupABUyTLq0NUzjs8XqnzkjI84xCAiyunCDhpvk0J2QBYaUFLswxwUpo5GqJoHHVYx7uN32LF6yWrE8VRxN0UVSKIhPdPOgQU8PIRy1uShDcs5ZJ4YL-RjV1HBMvJqVx4oVk6KlKvubqcibCrPfx4JSzvujlzdJcsLGFstcXhCS0deQpz_AnPp7QHMihNbfzya4HJHTMl0f8bGLfF58jJi-LRJ4qvZAqPodDE7FxPvd1nvJZBnOrPFWubyiSMcQ-DLYQ98SWpWELhbotrhkq_gclthwRsO5IEtx9V7YEhi7iWs3wrs7tFa35iZOI0N5q5F7c5RZSEoKRVlcWhIrBOW8kdqPwPE932ORj1WJM_U8IEpfctdBKFYEI4EgXxVRiGSorcrAxSxKgYvOrFifu9EAcHAyIjPtEer7nxUTKKV9aNQagdWRcnbZ8SaIC2cHebOlxGm24DhRQ_YRt2UfytQY6u_5uhsRxB5RKT-BLFe1AHHCBUoz1t1e7HIbAVcyMjPbn2UA9GUCY0s4EZPrA-ZxTvZ0Djs6NcQoWD7b-pTPYHPWUU83wUXdsseWITRY974JL5IAwx0I1_TvZZW4e1pgldN0Lty3FLlTO8PNTTZOn4CMa2pWtJJ7YJi4l7yH1CxY5ZVhl1Z4pEVG7Cx32lrpTKMwRLHsmyAYJ5Os6dbTknn8sDTuXRifF2Fnl2tcb3x83mC_tFmXOSTzO3NGFoxbp4EIRBQVb16Rdh30Ai0qektwHAFUYtNV39bZaowfuNi9TyC3P_etnu4lWwQhEu4F2TMWkYafpLN8F2eFozuRSmTJcEMjFsfImELq_WrkBzLUnk9pSK1ZBguCGnTtqLBCOmNoj9ThodO0IL4RR3T-TjjR4sG_1XV2gVVTyIsHyAkNqvQaEtoSE-JdlcAtD7Ad-pl8vtlmruOlBc7zStqfLRzzXkuhc1XL46SurJ-luhRUvLlX5YCdDhDMraQok76oho9V3NZNYQuA19qU6vKxiWBwMWqiknMMXxjfgAIMj2HdN-JoloLrBcfb5JdTcx0Fuq0H-j6MEBzLRVKOjYPNKYLS7lITbHAEsMDzJYcZdo3INPlj7_b8_oyluBXT6dp5C1znXtrgXwrdrAAUW14P-iOtGz1HDIo2RinmYvLykRs0EK0X6xYBZ0XuNtg1crUVZ6FeNbnBRcHKwaCkU5be3VDrMZkSMR-bKt6nO1pQ2CqnFM74hXlpklyIY52vauQQCHUouQYvjEBWEvFDIjSI8e3FOXIgQjNyYMepX6NvTlICODCIlCUznbPiZMslMQLvrWDDtHfMsvqQZBCM1pJV6xdpF5Cj1h8jGWFQlIcUoR0UqB9ws-E08IImxY-3vBuhDt",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:5001/OperationRequest/updateOperationRequestPriority/2/LOW"
-					},
-					"response": []
-				}
-			],
+			"item": [],
 			"id": "25946838-30b8-4d39-912b-8d0f059ca7bb"
 		},
 		{
@@ -1598,7 +1564,53 @@
 		},
 		{
 			"name": "5.1.17",
-			"item": [],
+			"item": [
+				{
+					"name": "updateOperationRequestPriority",
+					"id": "cfa9b6ec-06fd-445e-8b2b-1cceb51aa5c9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": ".AspNetCore.Cookies=CfDJ8KVrZduF2lRPo7ioB0pDQ4-qW8JM36249z8WJIf3UY-OSoJt0RzGvTNQYMhWC0P0I4GUwIgeEujtfPMq65HOupABUyTLq0NUzjs8XqnzkjI84xCAiyunCDhpvk0J2QBYaUFLswxwUpo5GqJoHHVYx7uN32LF6yWrE8VRxN0UVSKIhPdPOgQU8PIRy1uShDcs5ZJ4YL-RjV1HBMvJqVx4oVk6KlKvubqcibCrPfx4JSzvujlzdJcsLGFstcXhCS0deQpz_AnPp7QHMihNbfzya4HJHTMl0f8bGLfF58jJi-LRJ4qvZAqPodDE7FxPvd1nvJZBnOrPFWubyiSMcQ-DLYQ98SWpWELhbotrhkq_gclthwRsO5IEtx9V7YEhi7iWs3wrs7tFa35iZOI0N5q5F7c5RZSEoKRVlcWhIrBOW8kdqPwPE932ORj1WJM_U8IEpfctdBKFYEI4EgXxVRiGSorcrAxSxKgYvOrFifu9EAcHAyIjPtEer7nxUTKKV9aNQagdWRcnbZ8SaIC2cHebOlxGm24DhRQ_YRt2UfytQY6u_5uhsRxB5RKT-BLFe1AHHCBUoz1t1e7HIbAVcyMjPbn2UA9GUCY0s4EZPrA-ZxTvZ0Djs6NcQoWD7b-pTPYHPWUU83wUXdsseWITRY974JL5IAwx0I1_TvZZW4e1pgldN0Lty3FLlTO8PNTTZOn4CMa2pWtJJ7YJi4l7yH1CxY5ZVhl1Z4pEVG7Cx32lrpTKMwRLHsmyAYJ5Os6dbTknn8sDTuXRifF2Fnl2tcb3x83mC_tFmXOSTzO3NGFoxbp4EIRBQVb16Rdh30Ai0qektwHAFUYtNV39bZaowfuNi9TyC3P_etnu4lWwQhEu4F2TMWkYafpLN8F2eFozuRSmTJcEMjFsfImELq_WrkBzLUnk9pSK1ZBguCGnTtqLBCOmNoj9ThodO0IL4RR3T-TjjR4sG_1XV2gVVTyIsHyAkNqvQaEtoSE-JdlcAtD7Ad-pl8vtlmruOlBc7zStqfLRzzXkuhc1XL46SurJ-luhRUvLlX5YCdDhDMraQok76oho9V3NZNYQuA19qU6vKxiWBwMWqiknMMXxjfgAIMj2HdN-JoloLrBcfb5JdTcx0Fuq0H-j6MEBzLRVKOjYPNKYLS7lITbHAEsMDzJYcZdo3INPlj7_b8_oyluBXT6dp5C1znXtrgXwrdrAAUW14P-iOtGz1HDIo2RinmYvLykRs0EK0X6xYBZ0XuNtg1crUVZ6FeNbnBRcHKwaCkU5be3VDrMZkSMR-bKt6nO1pQ2CqnFM74hXlpklyIY52vauQQCHUouQYvjEBWEvFDIjSI8e3FOXIgQjNyYMepX6NvTlICODCIlCUznbPiZMslMQLvrWDDtHfMsvqQZBCM1pJV6xdpF5Cj1h8jGWFQlIcUoR0UqB9ws-E08IImxY-3vBuhDt",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/OperationRequest/updateOperationRequestPriority/2/LOW"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "75cc8540-b1b8-4e98-8c18-bdc4678a4d9a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
 			"id": "a5906108-2a3a-47c1-a401-33a71b6bc8b8"
 		},
 		{
