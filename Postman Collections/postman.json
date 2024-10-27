@@ -167,7 +167,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{base_url}}/patient/register?number=987654322",
+							"raw": "{{base_url}}/patient/register?number=938536401",
 							"host": [
 								"{{base_url}}"
 							],
@@ -178,7 +178,7 @@
 							"query": [
 								{
 									"key": "number",
-									"value": "987654322"
+									"value": "938536401"
 								}
 							]
 						}
@@ -1702,7 +1702,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "53a05f2a-bf0b-4001-8788-4eb50fc42bb0",
+				"id": "c28ec447-6188-4845-9edf-16ab566ce72b",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1712,7 +1712,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "0ce256a3-47d0-48f6-b945-ad99c28b52ed",
+				"id": "7f8a4a30-4612-449a-874d-d229e182c2e5",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1767,6 +1767,11 @@
 		},
 		{
 			"key": "tokenDeleteAccount",
+			"value": "08dcf6d6-a74a-4340-8106-e7c585df7cfb",
+			"type": "string"
+		},
+		{
+			"key": "tokenConfirmEmail",
 			"value": "08dcf6d6-a74a-4340-8106-e7c585df7cfb",
 			"type": "string"
 		}
