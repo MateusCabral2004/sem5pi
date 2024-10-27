@@ -1,5 +1,5 @@
 @startuml
-title US 5.1.9-Sequence Diagram Level 2
+title US 5.1.4-Sequence Diagram Level 2
 
 actor Patient
 participant SurgeryAppointmentSystem
