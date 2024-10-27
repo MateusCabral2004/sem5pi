@@ -201,7 +201,23 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Bob Smith\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByName"
 							},
 							"response": []
 						},
@@ -213,7 +229,23 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Alice Doe\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByName"
 							},
 							"response": []
 						}
@@ -224,8 +256,8 @@
 					"name": "listPatientByEmail",
 					"item": [
 						{
-							"name": "listPatientProfilesByEmailInvalidCase",
-							"id": "e8c9c12b-2e3b-4a9d-87fa-4726af455289",
+							"name": "New Request",
+							"id": "6dae999b-41ed-40d4-88af-6aeb4750c5a3",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
