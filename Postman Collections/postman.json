@@ -297,7 +297,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{SandroCookiePatient}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
@@ -1446,7 +1446,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "f3639b53-6083-4187-ac04-e0a3bddf6f24",
+				"id": "30c2654c-f8e1-4d7f-b3ca-9ab4173c4d96",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1456,7 +1456,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "e358e182-cf1f-479d-9386-7b44f1b7b060",
+				"id": "35ff31e7-53d2-4d1b-98a0-e87632404234",
 				"type": "text/javascript",
 				"exec": [
 					""
