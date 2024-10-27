@@ -1095,7 +1095,7 @@
 			"name": "5.1.5",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "checks if exist user to delete",
 					"id": "df074625-57e4-4cdb-b632-eb9085727f15",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1107,7 +1107,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "send email to confirm de delete of account",
 					"id": "4ad10ded-983d-4067-a78d-012328166854",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1119,7 +1119,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "register de delete request",
 					"id": "c1f2ca1a-3d83-4f29-aa31-072e8dc20e62",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
