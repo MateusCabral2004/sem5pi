@@ -194,8 +194,20 @@
 					"name": "listPatientByEmail",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "listPatientProfilesByNameInvalidCase",
 							"id": "ba47b4e9-0fd2-443c-8ccc-7657f8b8a2d6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "listPatientProfilesByNameValidCase",
+							"id": "b358958b-b458-4374-ac48-a0bf5f250ae2",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
