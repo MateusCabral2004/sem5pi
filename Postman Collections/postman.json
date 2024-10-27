@@ -209,7 +209,16 @@
 										"value": "{{SandroCookiePatient}}",
 										"type": "text"
 									}
-								]
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"sa@fmail.com\",\r\n    \"phonenumber\":\"111111111\",\r\n  \"firstName\": \"hdgf\",\r\n  \"lastName\": \"jusfsfsfsfnioe\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Male\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 987654321\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								}
 							},
 							"response": []
 						}
@@ -233,7 +242,16 @@
 										"value": "{{SandroCookiePatient}}",
 										"type": "text"
 									}
-								]
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"hdgf\",\r\n  \"lastName\": \"jusfsfsfsfnioe\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Male\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 987654321\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								}
 							},
 							"response": []
 						}
