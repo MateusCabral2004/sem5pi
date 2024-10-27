@@ -20,4 +20,13 @@ public class OperationName : IValueObject
         return name;
     }
 
+    public bool Equals(OperationName name)
+    {
+        if (name == null) return false;
+
+        return name.name == this.name;
+    }
+    
+    
+
 }

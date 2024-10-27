@@ -14,15 +14,36 @@ namespace Sempi5.Services;
 
 public class SystemUserService
 {
-    
     private readonly IStaffRepository _staffRepository;
     private readonly IUserRepository _userRepository;
     private readonly IConfirmationTokenRepository _confirmationRepository;
     private readonly IUnitOfWork _unitOfWork;
-    
+
+    public SystemUserService(IStaffRepository staffRepository, IUserRepository userRepository,
+        IConfirmationTokenRepository confirmationRepository, IUnitOfWork unitOfWork)
+    {
+        _staffRepository = staffRepository;
+        _userRepository = userRepository;
+        _confirmationRepository = confirmationRepository;
+        _unitOfWork = unitOfWork;
+    }
+
+
     public async Task<RegisterUserDTO> RegisterUser(RegisterUserDTO userDTO)
     {
         var user = registerUserDTOtoUser(userDTO);
+        
+        var staff = await _staffRepository.GetByIdAsync(new StaffId(userDTO.staffOrStaffId));
+        if (staff == null)
+        {
+            throw new ArgumentException("Staff not found");
+        }
+
+        if (staff.User != null)
+        {
+            throw new ArgumentException("Staff already has an account");
+        }
+        
         var userExists = await _userRepository.GetByEmail(user.Email.ToString());
         if (userExists != null)
         {
@@ -44,16 +65,6 @@ public class SystemUserService
         var confirmationToken = new ConfirmationToken(email, userDTO.staffOrStaffId);
 
         var token = await RegisterToken(confirmationToken);
-        var staff = await _staffRepository.GetByIdAsync(new StaffId(userDTO.staffOrStaffId));
-        if (staff == null)
-        {
-            throw new ArgumentException("Staff not found");
-        }
-
-        if (staff.User.IsVerified)
-        {
-            throw new ArgumentException("Staff already verified");
-        }
 
         var staffEmail = staff.Person.ContactInfo._email.ToString();
         await _unitOfWork.CommitAsync();
@@ -71,7 +82,7 @@ public class SystemUserService
         var email = new Email(user.email);
         return new SystemUser(email, user.role);
     }
-    
+
     private async Task<ConfirmationToken> RegisterToken(ConfirmationToken confirmationToken)
     {
         var token = await _confirmationRepository.GetByEmail(confirmationToken.email.ToString());
@@ -91,6 +102,4 @@ public class SystemUserService
 
         return token;
     }
-    
-    
 }

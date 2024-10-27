@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Services;
+using ILogger = Serilog.ILogger;
 
 namespace Sempi5.Controllers;
 
@@ -14,14 +15,14 @@ public class PatientController : ControllerBase
     private readonly PatientService patientService;
     private readonly EmailService emailService;
     private readonly CheckUserToDeleteService _checkUserToDeleteService;
-
-
-    public PatientController(PatientService patientService, EmailService emailService,
-        CheckUserToDeleteService checkUserToDeleteService)
+    private readonly Serilog.ILogger _logger;
+    
+    public PatientController(PatientService patientService, EmailService emailService, CheckUserToDeleteService checkUserToDeleteService, ILogger logger)
     {
         this.patientService = patientService;
         this.emailService = emailService;
         _checkUserToDeleteService = checkUserToDeleteService;
+        _logger = logger;
     }
 
     [HttpGet("checkUserToDelete")]
@@ -57,21 +58,27 @@ public class PatientController : ControllerBase
     //TODO - Use email from the cookies (claim principal)
     public async Task<IActionResult> RegisterNumber(int number)
     {
-        if (number <= 0)
+        try
         {
-            return BadRequest("Número de registro não pode ser vazio ou negativo.");
-        }
+            if (number <= 0)
+            {
+                return BadRequest("Número de registro não pode ser vazio ou negativo.");
+            }
 
         Console.WriteLine("Iniciando registro de conta com email: " + getEmail());
         var success = await patientService.RegisterPatientUser(getEmail(), number);
 
-        if (success)
+            if (success)
+            {
+                return Ok($"Número de registro {number} registrado com sucesso para o email: {getEmail()}.");
+            }
+            else
+            {
+                return BadRequest("Erro ao registrar número.");
+            }
+        }   catch (Exception e)
         {
-            return Ok($"Número de registro {number} registrado com sucesso para o email: {getEmail()}.");
-        }
-        else
-        {
-            return BadRequest("Erro ao registrar número.");
+            return BadRequest(e.Message);
         }
     }
 
@@ -111,7 +118,7 @@ public class PatientController : ControllerBase
         try
         {
             await patientService.excludeAccountSchedule(token);
-            return Ok("Account excluded");
+            return Ok("Your accoount will be deleted in 30 days");
         }
         catch (ArgumentException ex)
         {
@@ -268,6 +275,7 @@ public class PatientController : ControllerBase
         try
         {
             await patientService.EditPatientProfile(patientDto);
+           // _logger.
             return Ok("Patient profile edited successfully");
         }
         catch (Exception e)

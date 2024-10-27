@@ -10,12 +10,13 @@ namespace Sempi5.Controllers;
 [Authorize]
 public class SystemUserController : ControllerBase
 {
-    private readonly SystemUserService _adminService;
+    private readonly SystemUserService _userService;
     private readonly EmailService _sendEmailService;
     
-    public SystemUserController(SystemUserService adminService)
+    public SystemUserController(SystemUserService userService, EmailService sendEmailService)
     {
-        _adminService = adminService;
+        _userService = userService;
+        _sendEmailService = sendEmailService;
     }
     
     [HttpPost("registerStaff")]
@@ -24,7 +25,11 @@ public class SystemUserController : ControllerBase
     {
         try
         {
-            var responseDto = await _adminService.RegisterUser(user);
+            if(user.role == "Patient")
+            {
+                return BadRequest("Invalid role");
+            }
+            var responseDto = await _userService.RegisterUser(user);
             await _sendEmailService.SendStaffConfirmationEmail(responseDto.email, responseDto.staffOrStaffId);
             return Ok("Staff member registered successfully");
         }

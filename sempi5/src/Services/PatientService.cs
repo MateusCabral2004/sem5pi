@@ -54,7 +54,7 @@ public class PatientService
         if (!token.Id.Equals(confirmationToken.Id))
         {
             throw new ArgumentException(
-                "Account already waiting for verification with a different patient profile. If you made a mistake, please contact support.");
+                "Account already waiting for verification. If you made a mistake, please contact support.");
         }
 
         token.ResetExpiryDate();
@@ -89,13 +89,18 @@ public class PatientService
         patient.User = new SystemUser(userEmail, "Patient");
 
         //TODO - Generate a token and send it to the user's email
-        var confirmationToken = new ConfirmationToken(userEmail, "patient.Id.AsString()");
-
-        var token = await RegisterToken(confirmationToken);
-
-        _emailService.SendPatientConfirmationEmail(email, token.Id.ToString());
-
-        await _patientRepository.SavePatientAsync(patient);
+        var confirmationToken = new ConfirmationToken(userEmail, "Confirm your account");
+        
+        try
+        {
+            var token = await RegisterToken(confirmationToken);
+            await _patientRepository.SavePatientAsync(patient);
+            await _emailService.SendPatientConfirmationEmail(email, token.Id.ToString());
+        }
+        catch (Exception e)
+        {
+            throw new Exception(e.Message + " And try checking your email for the confirmation link.");
+        }
 
         return true;
     }
@@ -418,18 +423,9 @@ public class PatientService
 
     private Patient patientDTOToPatient(PatientDTO patientDTO)
     {
-        var phoneNumber = new PhoneNumber(patientDTO.phoneNumber ?? 0);
-         VerifyPhoneNumberAvailability(phoneNumber);
-
-        var email = new Email(patientDTO.email);
-        VerifyEmailAvailability(email);
-
-        return new Patient(null, new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName),
-                new ContactInfo(new Email(patientDTO.email),
-                    new PhoneNumber(patientDTO.phoneNumber ?? 0))), DateTime.Parse(patientDTO.birthDate),
-            patientDTO.gender,
-            null,
-            patientDTO.emergencyContact, null);
+        return new Patient(new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName),
+                new ContactInfo(new Email(patientDTO.email), new PhoneNumber(patientDTO.phoneNumber ?? 0))),
+            DateTime.Parse(patientDTO.birthDate), patientDTO.gender, patientDTO.emergencyContact);
     }
 
     public async Task VerifyPhoneNumberAvailability(PhoneNumber phoneNumber)
@@ -453,6 +449,12 @@ public class PatientService
 
     public async Task CreatePatientProfile(PatientDTO patientDTO)
     {
+        var phoneNumber = new PhoneNumber(patientDTO.phoneNumber ?? 0);
+        await VerifyPhoneNumberAvailability(phoneNumber);
+
+        var email = new Email(patientDTO.email);
+        await VerifyEmailAvailability(email);
+        
         var patient = patientDTOToPatient(patientDTO);
         await _patientRepository.AddAsync(patient);
 

@@ -143,7 +143,6 @@ namespace Sempi5
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                Console.WriteLine(e.StackTrace);
                 Console.WriteLine("Error seeding data");
             }
 
@@ -240,6 +239,8 @@ namespace Sempi5
             services.AddTransient<TokenService>();
             services.AddTransient<OperationTypeService>();
             services.AddTransient<CheckUserToDeleteService>();
+            services.AddTransient<OperationRequestService>();
+            services.AddTransient<SystemUserService>();
 
             services.AddSingleton(Log.Logger);
         }
