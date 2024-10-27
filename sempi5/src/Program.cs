@@ -7,6 +7,7 @@ using Sempi5.Domain.User;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Infrastructure.Databases;
 using Microsoft.IdentityModel.Tokens;
+using Sempi5.Bootstrappers;
 using Sempi5.Domain;
 using Sempi5.Domain.AppointmentAggregate;
 using Sempi5.Domain.OperationRequestAggregate;
@@ -56,7 +57,7 @@ namespace Sempi5
             var builder = WebApplication.CreateBuilder(args);
 
             CreateLogginsMechanism(builder);
-            
+
             CreateDataBase(builder);
 
             ConfigureMyServices(builder.Services);
@@ -98,7 +99,7 @@ namespace Sempi5
                         var user = repo.GetByEmail(email);
                         if (user.Result == null)
                         {
-                             claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Unregistered"));
+                            claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Unregistered"));
                         }
                         else
                         {
@@ -110,7 +111,6 @@ namespace Sempi5
                             {
                                 claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Unverified"));
                             }
-
                         }
                     };
                 });
@@ -138,9 +138,7 @@ namespace Sempi5
 
             try
             {
-                SeedData(app.Services);
-                SeedPatiens(app.Services);
-                SeedStaffProfiles(app.Services);
+                SeedAllData(app.Services);
             }
             catch (Exception e)
             {
@@ -150,6 +148,30 @@ namespace Sempi5
             }
 
             app.Run();
+        }
+
+        public static void SeedAllData(IServiceProvider services)
+        {
+            using (var scope = services.CreateScope())
+            {
+                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
+                var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
+                var staffRepository = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
+                var operationRequestRepository = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
+
+                new UsersBootstrap(userRepository).SeedAdminUser().Wait();
+                unitOfWork.CommitAsync().Wait();
+
+                var staffBootstrap = new StaffBootstrap(staffRepository);
+                staffBootstrap.SeedActiveStaff().Wait();
+                staffBootstrap.SeedStaffProfiles().Wait();
+                unitOfWork.CommitAsync().Wait();
+                
+                var operationRequestBootstrap = new OperationRequestBootstrap(operationRequestRepository);
+                operationRequestBootstrap.SeedOperationRequests().Wait();
+                unitOfWork.CommitAsync().Wait();
+            }
+            
         }
 
         public static void CreateDataBase(WebApplicationBuilder builder)
@@ -173,8 +195,8 @@ namespace Sempi5
                 Environment.Exit(3);
             }
         }
-        
-        
+
+
         private static void CreateLogginsMechanism(WebApplicationBuilder builder)
         {
             Log.Logger = new LoggerConfiguration()
@@ -184,13 +206,14 @@ namespace Sempi5
                 .WriteTo.Console()
                 .WriteTo.Logger(lc => lc
                     .Filter.ByIncludingOnly(e =>
-                        e.Properties.ContainsKey("CustomLogLevel") && e.Properties["CustomLogLevel"].ToString() == "\"CustomLevel\"")
+                        e.Properties.ContainsKey("CustomLogLevel") &&
+                        e.Properties["CustomLogLevel"].ToString() == "\"CustomLevel\"")
                     .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day))
                 .CreateLogger();
 
             builder.Host.UseSerilog();
         }
-        
+
 
         public static void ConfigureMyServices(IServiceCollection services)
         {
@@ -209,7 +232,7 @@ namespace Sempi5
             services.AddTransient<IAppointmentRepository, AppointmentRepository>();
             services.AddTransient<IAccountToDeleteRepository, AccountToDeleteRepository>();
             services.AddTransient<IConfirmationLinkRepository, ConfirmationLinkRepository>();
-            
+
             services.AddTransient<StaffService>();
             services.AddTransient<LoginService>();
             services.AddTransient<EmailService>();
@@ -219,263 +242,6 @@ namespace Sempi5
             services.AddTransient<CheckUserToDeleteService>();
 
             services.AddSingleton(Log.Logger);
-        }
-
-        public static void SeedData(IServiceProvider services)
-        {
-            using (var scope = services.CreateScope())
-            {
-                var staffRepo = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
-                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-
-                var specializationRepo = scope.ServiceProvider.GetRequiredService<ISpecializationRepository>();
-
-                // Check if there are any staff members already in the database
-                if (!staffRepo.GetAllAsync().Result.Any())
-                {
-                    // Create the system users for staff
-                    var administratorUser = new SystemUser(new Email("rpsoares8@gmail.com"), "Admin");
-                    var doctorUser = new SystemUser(new Email("mateuscabral2004@gmail.com"), "Admin");
-                    var nurseUser = new SystemUser(new Email("nurse@example.com"), "Nurse");
-                    var adminUser = new SystemUser(new Email("admin@example.com"), "Admin",true);
-
-                    // Create staff members
-
-                    var specialization1 = new Specialization(new SpecializationName("Cardiology"));
-                    var specialization2 = new Specialization(new SpecializationName("Administration"));
-
-                    var administrator = new Staff
-                    (
-                        administratorUser,
-                        new LicenseNumber(122),
-                        new Name("Rui"),
-                        new Name("Soares"),
-                        specialization1,
-                        new ContactInfo("rpsoares8@gmail.com", 964666298),
-                        new List<string> { "Monday" }
-                    );
-
-
-                    var doctor = new Staff
-                    (
-                        doctorUser,
-                        new LicenseNumber(123),
-                        new Name("John"),
-                        new Name("Doe"),
-                        specialization1,
-                        new ContactInfo("doctor1@example.com", 987654321),
-                        new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" },
-                        StaffStatusEnum.ACTIVE
-                    );
-
-                    var nurse = new Staff
-                    (
-                        nurseUser,
-                        new LicenseNumber(124),
-                        new Name("Jane"),
-                        new Name("Smith"),
-                        specialization1,
-                        new ContactInfo("nurse@example.com", 988654321),
-                        new List<string> { "Tuesday 10am-3pm", "Thursday 9am-12pm" }
-                        , StaffStatusEnum.INACTIVE
-                    );
-
-                    var admin = new Staff
-                    (
-                        adminUser,
-                        new LicenseNumber(125),
-                        new Name("Alice"),
-                        new Name("Johnson"),
-                        specialization2,
-                        new ContactInfo("admin@example.com", 977654321),
-                        new List<string> { "Monday-Friday 9am-5pm" }
-                    );
-
-                    specializationRepo.AddAsync(specialization1).Wait();
-                    specializationRepo.AddAsync(specialization2).Wait();
-
-                    // Add staff to repository
-                    staffRepo.AddAsync(administrator).Wait();
-                    staffRepo.AddAsync(doctor).Wait();
-                    staffRepo.AddAsync(nurse).Wait();
-                    staffRepo.AddAsync(admin).Wait();
-
-                    // Save changes
-                    unitOfWork.CommitAsync().Wait();
-
-                    Console.WriteLine("Seeded 3 staff members: Doctor, Nurse, Admin");
-                }
-                else
-                {
-                    Console.WriteLine("Staff members already exist. Skipping seeding.");
-                }
-            }
-        }
-
-        public static void SeedPatiens(IServiceProvider services)
-        {
-            using (var scope = services.CreateScope())
-            {
-                var patientRepo = scope.ServiceProvider.GetRequiredService<IPatientRepository>();
-                var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-                var specRepo = scope.ServiceProvider.GetRequiredService<ISpecializationRepository>();
-                var requiredRepo = scope.ServiceProvider.GetRequiredService<IRequiredStaffRepository>();
-                var opTypeRepo = scope.ServiceProvider.GetRequiredService<IOperationTypeRepository>();
-                var requestRepo = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
-                var surgeryRoomRepo = scope.ServiceProvider.GetRequiredService<ISurgeryRoomRepository>();
-                var appointmentRepo = scope.ServiceProvider.GetRequiredService<IAppointmentRepository>();
-
-                // Check if there are any patients already in the database
-                if (!patientRepo.GetAllAsync().Result.Any())
-                {
-                    Console.WriteLine("Seeding patients...");
-                    SystemUser user1 = new SystemUser(new Email("mateuscabral123321@gmail.com"), "Patient");
-                    SystemUser user2 = new SystemUser(new Email("mateuscabral20042@gmail.com"), "Patient");
-                    // Create patients
-                    var patient1 = new Patient
-                    (user1,
-                        new Person(new Name("Alice"), new Name("Doe"),
-                            new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654322))),
-                        new DateTime(1990, 1, 10),
-                        "Combat Helicopter",
-                        new List<string> { "Peanuts", "Asthma" },
-                        "456",
-                        new List<string> { "01/01/2021 9am-10am", "02/02/2021 10am-11am" },
-                        PatientStatusEnum.ACTIVATED
-                    );
-
-                    var patient2 = new Patient
-                    (user2,
-                        new Person(new Name("Bob"), new Name("Smith"),
-                            new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654329))),
-                        new DateTime(1990, 1, 10),
-                        "Ambulance",
-                        new List<string> { "Shellfish", "Diabetes" },
-                        "789",
-                        new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },
-                        PatientStatusEnum.DEACTIVATED
-                    );
-
-                    var specialization1 = new Specialization(new SpecializationName("Nurse")
-                    );
-
-                    var specialization2 = new Specialization(new SpecializationName("Operation"));
-
-                    var requiredStaff1 = new RequiredStaff(new NumberOfStaff(10), specialization1);
-                    var requiredStaff2 = new RequiredStaff(new NumberOfStaff(20), specialization1);
-                    var requiredStaff3 = new RequiredStaff(new NumberOfStaff(30), specialization1);
-                    var requiredStaff4 = new RequiredStaff(new NumberOfStaff(40), specialization2);
-
-                    var time11 = TimeSpan.Parse("03:00:00");
-                    var time12 = TimeSpan.Parse("02:00:00");
-                    var time13 = TimeSpan.Parse("01:00:00");
-                    
-                    var operationType1 = new OperationType(new OperationName("Heart Surgery"),
-                        new List<RequiredStaff> { requiredStaff1, requiredStaff2 }, time11, time12, time13);
-                    var operationType2 = new OperationType(new OperationName("Brain Surgery"),
-                        new List<RequiredStaff> { requiredStaff3, requiredStaff4 }, time11, time12, time13);
-
-                    var doctorUser = new SystemUser(new Email("mateuscabral22004@gmail.com"), "Admin");
-
-                    var doctor = new Staff
-                    (
-                        doctorUser,
-                        new LicenseNumber(213),
-                        new Name("Johnnnnn"),
-                        new Name("Doe"),
-                        specialization1,
-                        new ContactInfo("doctor@example.com", 987254321),
-                        new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }, StaffStatusEnum.INACTIVE
-                    );
-
-                    var request1 = new OperationRequest(doctor, patient1, operationType1, new DateTime(2021, 1, 1),
-                        PriorityEnum.HIGH);
-
-                    var surgeryRoom = new SurgeryRoom(RoomTypeEnum.CONSULTATION_ROOM, new RoomCapacity(10),
-                        new List<string> { "Tesoura" }, RoomStatusEnum.AVAILABLE, new List<string> { "???????" });
-
-                    var appointment1 = new Appointment(request1, surgeryRoom, new DateTime(2024, 10, 23),
-                        StatusEnum.SCHEDULED);
-
-                    // Add patients to repository
-                    patientRepo.AddAsync(patient1).Wait();
-                    patientRepo.AddAsync(patient2).Wait();
-
-                    specRepo.AddAsync(specialization1).Wait();
-                    specRepo.AddAsync(specialization2).Wait();
-
-                    requiredRepo.AddAsync(requiredStaff1).Wait();
-                    requiredRepo.AddAsync(requiredStaff2).Wait();
-                    requiredRepo.AddAsync(requiredStaff3).Wait();
-                    requiredRepo.AddAsync(requiredStaff4).Wait();
-
-                    opTypeRepo.AddAsync(operationType1);
-                    opTypeRepo.AddAsync(operationType2);
-
-                    requestRepo.AddAsync(request1);
-
-                    surgeryRoomRepo.AddAsync(surgeryRoom);
-
-                    appointmentRepo.AddAsync(appointment1);
-
-                    // Save changes
-                    unitOfWork.CommitAsync().Wait();
-                }
-            }
-        }
-
-        public static void SeedStaffProfiles(IServiceProvider services)
-{
-    using (var scope = services.CreateScope())
-    {
-        var staffRepo = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
-        var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-        var specializationRepo = scope.ServiceProvider.GetRequiredService<ISpecializationRepository>();
-
-        // Check if there are any staff members already in the database
-        if (!staffRepo.GetAllAsync().Result.Any())
-        {
-            Console.WriteLine("Seeding staff profiles...");
-
-            // Define specializations
-            var doctorSpecialization = new Specialization(new SpecializationName("Doctor"));
-            var nurseSpecialization = new Specialization(new SpecializationName("Nurse"));
-            var adminSpecialization = new Specialization(new SpecializationName("Administration"));
-
-            // Add specializations to the repository
-            specializationRepo.AddAsync(doctorSpecialization).Wait();
-            specializationRepo.AddAsync(nurseSpecialization).Wait();
-            specializationRepo.AddAsync(adminSpecialization).Wait();
-
-            // Create staff profiles
-            var staffProfiles = new List<Staff>
-            {
-                CreateStaffProfile(new LicenseNumber(217), "John", "Stuart", doctorSpecialization, "john@example.com", new List<string> { "Monday 9am-12pm", "Wednesday 1pm-4pm" }, StaffStatusEnum.ACTIVE),
-                CreateStaffProfile(new LicenseNumber(218), "Alice", "Johnson", nurseSpecialization, "alice@example.com", new List<string> { "Tuesday 10am-3pm", "Thursday 1pm-5pm" }, StaffStatusEnum.ACTIVE),
-                CreateStaffProfile(new LicenseNumber(219), "Robert", "Brown", adminSpecialization, "robert@example.com", new List<string> { "Monday-Friday 9am-5pm" }, StaffStatusEnum.INACTIVE)
-            };
-
-            // Add staff to repository
-            foreach (var staffProfile in staffProfiles)
-            {
-                staffRepo.AddAsync(staffProfile).Wait();
-            }
-
-            // Save changes
-            unitOfWork.CommitAsync().Wait();
-
-            Console.WriteLine("Seeded staff profiles: Doctor, Nurse, Admin");
-        }
-        else
-        {
-            Console.WriteLine("Staff profiles already exist. Skipping seeding.");
-        }
-    }
-}
-        private static Staff CreateStaffProfile(LicenseNumber licenseNumber, string firstName, string lastName, Specialization specialization, string email, List<string> availability, StaffStatusEnum status)
-        {
-            var user = new SystemUser(new Email(email), "Staff");
-            return new Staff(user, licenseNumber, new Name(firstName), new Name(lastName), specialization, new ContactInfo(email, 987654320), availability, status);
         }
     }
 }
