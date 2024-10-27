@@ -14,6 +14,6 @@ public class PatientDTO
     public int? phoneNumber { get; set; }
     public string? gender { get; set; }
     public List<string>? allergiesAndMedicalConditions { get; set; }
-    public string emergencyContact { get; set; }
+    public string? emergencyContact { get; set; }
     public List<string>? appointmentHistory { get; set; }
 }
