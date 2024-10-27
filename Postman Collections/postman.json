@@ -1145,6 +1145,15 @@
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"patientName\": \"new User\",\r\n  \"type\": \"Heart Surgery\",\r\n  \"priority\": \"HIGH\"\r\n  \r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": "{{base_url}}/staff/search/requests"
 					},
 					"response": []
