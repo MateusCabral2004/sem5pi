@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.UsefullDTOs;
 using Sempi5.Services;
 
@@ -6,6 +7,7 @@ namespace Sempi5.Controllers;
 
 [Route("[controller]")]
 [ApiController]
+[Authorize]
 public class SystemUserController : ControllerBase
 {
     private readonly SystemUserService _adminService;
@@ -17,11 +19,11 @@ public class SystemUserController : ControllerBase
     }
     
     [HttpPost("registerStaff")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> RegisterStaff(RegisterUserDTO user)
     {
         try
         {
-            Console.WriteLine("StaffId: " + user.staffOrStaffId);
             var responseDto = await _adminService.RegisterUser(user);
             await _sendEmailService.SendStaffConfirmationEmail(responseDto.email, responseDto.staffOrStaffId);
             return Ok("Staff member registered successfully");
