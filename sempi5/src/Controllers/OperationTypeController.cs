@@ -135,46 +135,46 @@ public class OperationTypeController : ControllerBase
         }
     }
 
-    [Authorize(Roles = "Admin")]
-    [HttpPost("listOperationTypeByName")]
+    //[Authorize(Roles = "Admin")]
+    [HttpGet("listOperationTypeByName")]
     public async Task<IActionResult> ListOperationTypesByName(OperationNameDTO operationName)
     {
         try
         {
-            await _operationTypeService.ListOperationTypeByName(operationName);
-            return Ok("Operation types listed successfully");
+            var listOperationTypeByName = await _operationTypeService.ListOperationTypeByName(operationName);
+            return Ok(listOperationTypeByName);
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
     
-    [HttpPost("listOperationTypeBySpecialization")]
+    [HttpGet("listOperationTypeBySpecialization/{specializationName}")]
     public async Task<IActionResult> ListOperationTypesBySpecialization(SpecializationNameDTO specializationName)
     {
         try
         {
-            await _operationTypeService.ListOperationTypeBySpecialization(specializationName);
-            return Ok("Operation types listed successfully");
+           var listOperationTypeBySpecialization= await _operationTypeService.ListOperationTypeBySpecialization(specializationName);
+            return Ok(listOperationTypeBySpecialization);
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
     
-    [HttpPost("listOperationTypeByStatus")]
-    public async Task<IActionResult> ListOperationTypesBySpecialization(OperationType status)
+    [HttpGet("listOperationTypeByStatus/{status}")]
+    public async Task<IActionResult> ListOperationTypesByStatus(bool status)
     {
         try
         {
-            await _operationTypeService.ListOperationTypeByStatus(status);
-            return Ok("Operation types listed successfully");
+            var listOperationTypeByStatus = await _operationTypeService.ListOperationTypeByStatus(status);
+            return Ok(listOperationTypeByStatus);
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
 

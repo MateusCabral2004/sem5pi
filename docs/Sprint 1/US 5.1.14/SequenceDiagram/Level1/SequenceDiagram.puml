@@ -4,10 +4,10 @@ participant SurgeyAppointmentSystem
 
 activate Admin
 
-Admin -> SurgeyAppointmentSystem : Deactivate A Staff Profile
+Admin -> SurgeyAppointmentSystem : Edit A Staff Profile
 activate SurgeyAppointmentSystem
 
-SurgeyAppointmentSystem -> Admin : Staff Profile Deactivated
+SurgeyAppointmentSystem -> Admin : Staff Profile Edited
 deactivate SurgeyAppointmentSystem
 
 deactivate Admin

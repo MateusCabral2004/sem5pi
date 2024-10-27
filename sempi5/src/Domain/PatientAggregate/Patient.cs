@@ -14,9 +14,9 @@ namespace Sempi5.Domain.PatientAggregate
         public Person? Person { get; set; }
         public DateTime BirthDate { get; set; }
         public string Gender { get; set; }
-        public List<string> AllergiesAndMedicalConditions { get; set; }
+        public List<string>? AllergiesAndMedicalConditions { get; set; }
         public string? EmergencyContact { get; set; }
-        public List<string> AppointmentHistory { get; set; }
+        public List<string>? AppointmentHistory { get; set; }
         public PatientStatusEnum PatientStatus { get; set; }
 
         private Patient() {}
@@ -58,6 +58,24 @@ namespace Sempi5.Domain.PatientAggregate
             AppointmentHistory = appointmentHistory;
             PatientStatus = patientStatus;
         }
+        
+        public Patient( Person person, DateTime birthDate, string gender, string emergencyContact)
+        {
+            ArgumentNullException.ThrowIfNull(person);
+            ArgumentException.ThrowIfNullOrWhiteSpace(gender);
+            ArgumentException.ThrowIfNullOrWhiteSpace(emergencyContact);
+            
+            Person = person;
+            BirthDate = birthDate;
+            Gender = gender;
+            AllergiesAndMedicalConditions = new List<string>();
+            EmergencyContact = emergencyContact;
+            AppointmentHistory =  new List<string>();
+            PatientStatus = PatientStatusEnum.DEACTIVATED;
+        }
+
+        
+        
         
     }
 }

@@ -423,18 +423,9 @@ public class PatientService
 
     private Patient patientDTOToPatient(PatientDTO patientDTO)
     {
-        var phoneNumber = new PhoneNumber(patientDTO.phoneNumber ?? 0);
-         VerifyPhoneNumberAvailability(phoneNumber);
-
-        var email = new Email(patientDTO.email);
-        VerifyEmailAvailability(email);
-
-        return new Patient(null, new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName),
-                new ContactInfo(new Email(patientDTO.email),
-                    new PhoneNumber(patientDTO.phoneNumber ?? 0))), DateTime.Parse(patientDTO.birthDate),
-            patientDTO.gender,
-            null,
-            patientDTO.emergencyContact, null);
+        return new Patient(new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName),
+                new ContactInfo(new Email(patientDTO.email), new PhoneNumber(patientDTO.phoneNumber ?? 0))),
+            DateTime.Parse(patientDTO.birthDate), patientDTO.gender, patientDTO.emergencyContact);
     }
 
     public async Task VerifyPhoneNumberAvailability(PhoneNumber phoneNumber)
@@ -458,6 +449,12 @@ public class PatientService
 
     public async Task CreatePatientProfile(PatientDTO patientDTO)
     {
+        var phoneNumber = new PhoneNumber(patientDTO.phoneNumber ?? 0);
+        await VerifyPhoneNumberAvailability(phoneNumber);
+
+        var email = new Email(patientDTO.email);
+        await VerifyEmailAvailability(email);
+        
         var patient = patientDTOToPatient(patientDTO);
         await _patientRepository.AddAsync(patient);
 

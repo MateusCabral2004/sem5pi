@@ -6,10 +6,10 @@ database Database
 
 activate Admin
 
-Admin -> SurgeryAppointmentSystem : Deactivate A Staff Profile
+Admin -> SurgeryAppointmentSystem : Edit A Staff Profile
 activate SurgeryAppointmentSystem
 
-SurgeryAppointmentSystem -> Backend : Deactivate Staff Profile
+SurgeryAppointmentSystem -> Backend : Edit Staff Profile
 activate Backend
 
 Backend -> Database : Get Active Staff Profile
@@ -18,20 +18,20 @@ activate Database
 Database --> Backend : Active Staff Profile Retrieved
 deactivate Database
 
-Backend -> Backend : Deactivate Staff Profile
+Backend -> Backend : Edit Staff Profile
 activate Backend
 
-Backend --> Database : Save Deactivated Staff
+Backend --> Database : Save Edited Staff
 activate Database
 
 Database --> Backend : Staff Profile Saved
 deactivate Database
 deactivate Backend
 
-Backend --> SurgeryAppointmentSystem : Staff Profile Deactivated
+Backend --> SurgeryAppointmentSystem : Staff Profile Edited
 deactivate Backend
 
-SurgeryAppointmentSystem --> Admin : Staff Profile Deactivated
+SurgeryAppointmentSystem --> Admin : Staff Profile Edited
 deactivate SurgeryAppointmentSystem
 
 deactivate Admin
