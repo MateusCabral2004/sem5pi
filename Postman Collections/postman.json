@@ -72,7 +72,7 @@
 			"name": "US 5.1.20",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "addNewOperationType",
 					"id": "42252f53-add2-45b4-a937-7d216053db93",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -89,6 +89,34 @@
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n  \"OperationName\": \"Example Operation \",\r\n  \"RequiredStaff\": [\r\n    {\r\n      \"NumberOfStaff\": 2,\r\n      \"Specialization\": \"Anesthesiologist\"\r\n    },\r\n    {\r\n      \"NumberOfStaff\": 3,\r\n      \"Specialization\": \"Nurse\"\r\n    }\r\n  ],\r\n  \"SetupDuration\": \"00:15:00\",\r\n  \"SurgeryDuration\": \"01:00:00\",\r\n  \"CleaningDuration\": \"00:30:00\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/operationType/addNewOperationType"
+					},
+					"response": []
+				},
+				{
+					"name": "addNewOperationType-SameTestWithDifferentNameº",
+					"id": "44000630-7cc2-4cbe-869e-0f82a5103048",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"OperationName\": \"Example Operation 2\",\r\n  \"RequiredStaff\": [\r\n    {\r\n      \"NumberOfStaff\": 2,\r\n      \"Specialization\": \"Anesthesiologist\"\r\n    },\r\n    {\r\n      \"NumberOfStaff\": 3,\r\n      \"Specialization\": \"Nurse\"\r\n    }\r\n  ],\r\n  \"SetupDuration\": \"00:15:00\",\r\n  \"SurgeryDuration\": \"01:00:00\",\r\n  \"CleaningDuration\": \"00:30:00\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
