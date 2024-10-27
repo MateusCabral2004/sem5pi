@@ -14,14 +14,12 @@ public class PatientController : ControllerBase
 {
     private readonly PatientService patientService;
     private readonly EmailService emailService;
-    private readonly CheckUserToDeleteService _checkUserToDeleteService;
     private readonly Serilog.ILogger _logger;
     
-    public PatientController(PatientService patientService, EmailService emailService, CheckUserToDeleteService checkUserToDeleteService, ILogger logger)
+    public PatientController(PatientService patientService, EmailService emailService, ILogger logger)
     {
         this.patientService = patientService;
         this.emailService = emailService;
-        _checkUserToDeleteService = checkUserToDeleteService;
         _logger = logger;
     }
 
@@ -30,7 +28,7 @@ public class PatientController : ControllerBase
     {
         try
         {
-            await _checkUserToDeleteService.checkUserToDelete();
+            await patientService.checkUserToDelete();
             return Ok("Users deleted");
         }
         catch (Exception ex)

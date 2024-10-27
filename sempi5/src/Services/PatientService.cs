@@ -13,6 +13,7 @@ using Sempi5.Infrastructure.PatientAggregate;
 using Sempi5.Infrastructure.PatientRepository;
 using Sempi5.Infrastructure.PersonAggregate;
 using Sempi5.Infrastructure.PersonRepository;
+using Sempi5.Infrastructure.UserAggregate;
 
 namespace Sempi5.Services;
 
@@ -26,12 +27,12 @@ public class PatientService
     private readonly EmailService _emailService;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IPersonRepository _personRepository;
-
+    private readonly IUserRepository _userRepository;
 
     public PatientService(IPatientRepository patientRepository, EmailService emailService,
         IConfirmationTokenRepository confirmationRepository, IAccountToDeleteRepository accountToDeleteRepository,
         IConfirmationLinkRepository confirmationLinkRepository, IUnitOfWork unitOfWork,
-        IPersonRepository personRepository)
+        IPersonRepository personRepository, IUserRepository userRepository)
     {
         _confirmationRepository = confirmationRepository;
         _patientRepository = patientRepository;
@@ -40,7 +41,46 @@ public class PatientService
         _confirmationLinkRepository = confirmationLinkRepository;
         _unitOfWork = unitOfWork;
         _personRepository = personRepository;
+        _userRepository = userRepository;
     }
+    
+    public async Task checkUserToDelete()
+    {
+        try
+        {
+            var usersToDelete = await _accountToDeleteRepository.checkUserToDelete();
+            foreach (var user in usersToDelete)
+            {
+                try
+                {
+                    var patient = await _patientRepository.getByUserId(user.AsLong());
+
+                    var userPatient=patient.User;
+                    if (userPatient != null)
+                    {
+                        await _userRepository.RemoveAsync(userPatient);
+                    }
+                    var personPatient=patient.Person;
+                    if (personPatient != null)
+                    {
+                        await _personRepository.RemoveAsync(personPatient);
+                    }
+                    patient.EmergencyContact=null;
+                    await _accountToDeleteRepository.removeUserbyId(user);
+                    await _patientRepository.SavePatientAsync(patient);
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception($"Error processing user deletion for user ID: {user.AsLong()}", ex);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Error fetching users to delete.", ex);
+        }
+    }
+    
 
     private async Task<ConfirmationToken> RegisterToken(ConfirmationToken confirmationToken)
     {
