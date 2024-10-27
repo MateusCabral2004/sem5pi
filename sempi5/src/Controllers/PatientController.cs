@@ -252,7 +252,7 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpPost("deletePatientProfile/{email}")]
+    [HttpDelete("deletePatientProfile/{email}")]
     public async Task<IActionResult> DeletePatientProfile(string email)
     {
         try
@@ -262,7 +262,7 @@ public class PatientController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.Message );
         }
     }
 
