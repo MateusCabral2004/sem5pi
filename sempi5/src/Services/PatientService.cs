@@ -67,7 +67,7 @@ public class PatientService
         var token = await _confirmationLinkRepository.GetByEmail(confirmationLink.email.ToString());
         if (token == null)
         {
-            return await _confirmationLinkRepository.AddAsync(confirmationLink);
+            return await _confirmationLinkRepository.addAsync(confirmationLink);
         }
 
         token.ResetExpiryDate();
@@ -228,27 +228,43 @@ public class PatientService
         var confirmationLink = new ConfirmationLink(new Email(email));
         Console.WriteLine("Email to delete: " + confirmationLink.email+ " "+ confirmationLink.Id+ " "+ confirmationLink.ExpiryDate);
         var token = await registerLink(confirmationLink);
-        _confirmationLinkRepository.saveAsyc();
-        _emailService.SendPatientDeleteConfirmationEmail(email, token.Id.ToString());
+        await _confirmationLinkRepository.saveChangesAsync();
+        await _emailService.SendPatientDeleteConfirmationEmail(email, token.Id.ToString());
     }
-
-    /*
-     * Quero excluir um paciente
-     * mando email
-     * confirmo o email
-     * e acesso o link que vai exexecutar um metoda que define quando sera exluido o paciente
-     * e por fim este metodo é executado periodicamente
-     */
+    
     public async Task excludeAccountSchedule(string token)
     {
+
+        // Obtém o token de confirmação e verifica se ele é válido
         var confirmationToken = await _confirmationLinkRepository.GetByIdAndNotUsed(token);
-        Console.WriteLine("Token for exclude: " + token);
-        Console.WriteLine("Token for exclude in object: " + confirmationToken.Id);
-        Console.WriteLine("email to exclude: " + confirmationToken.email);
-        var patient = await _patientRepository.GetByEmail(confirmationToken.email.ToString());
-        var userID = patient.User.Id.AsLong();
+    
+        if (confirmationToken == null)
+        {
+            throw new InvalidOperationException("Token não encontrado ou já foi utilizado.");
+        }
+
+        Console.WriteLine("Token para exclusão: " + token);
+        Console.WriteLine("Token de exclusão no objeto: " + confirmationToken.Id);
+        Console.WriteLine("Email para exclusão: " + confirmationToken.email);
+
+        var patient = await _patientRepository.GetByEmail(confirmationToken.email?.ToString());
+    
+        if (patient == null)
+        {
+            throw new InvalidOperationException("Paciente não encontrado com o email fornecido.");
+        }
+
+        var userID = patient.User?.Id.AsLong() ?? -1;
+
+        if (userID == -1)
+        {
+            throw new InvalidOperationException("ID de usuário inválido.");
+        }
+
         await _accountToDeleteRepository.saveUserToDelete(userID);
+        Console.WriteLine("Usuário com ID " + userID + " adicionado à lista de exclusão.");
     }
+
 
 
     public async Task<List<SearchedPatientDTO>> ListPatientByName(NameDTO nameDto)

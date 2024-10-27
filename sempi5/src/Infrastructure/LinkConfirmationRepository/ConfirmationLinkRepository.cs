@@ -27,6 +27,13 @@ public class ConfirmationLinkRepository : BaseRepository<ConfirmationLink, Confi
         return token;
     }
 
+    public async Task<ConfirmationLink> addAsync(ConfirmationLink obj)
+{
+    var result = await context.ConfirmationLink.AddAsync(obj);
+    await context.SaveChangesAsync();
+    return result.Entity;
+}
+
     public async Task<ConfirmationLink> GetByIdAndNotUsed(string id)
     {
         if (Guid.TryParse(id, out Guid guid))
@@ -37,7 +44,9 @@ public class ConfirmationLinkRepository : BaseRepository<ConfirmationLink, Confi
         throw new ArgumentException("Invalid Guid format", nameof(id));
     }
 
-    public async Task saveAsyc()
+   
+
+    public async Task saveChangesAsync()
     {
         await context.SaveChangesAsync();
     }

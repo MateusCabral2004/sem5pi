@@ -74,23 +74,47 @@ Console.WriteLine("Listando agendamentos");
     
 
     [HttpGet("account/exclude")]
-    [Authorize(Roles = "Patient")]
+   // [Authorize(Roles = "Patient")]
     public async Task<IActionResult> excludeAccount()
     {
-      await  patientService.defineDataToExcludeAccount(getEmail());
+      await  patientService.defineDataToExcludeAccount("sandroluis720@gmail.com");
         Console.WriteLine("Email to delete accout was sent");
 
         return Ok("We have sent email to confirm the exclusion");
     }
 
     [HttpGet("account/exclude/confirm/{token}")]
-    [Authorize(Roles = "Patient")]
+// [Authorize(Roles = "Patient")]
     public async Task<IActionResult> excludeAccountEmailConfirm(string token)
     {
         Console.WriteLine("Iniciando agendamento para exclusão de conta");
-        await patientService.excludeAccountSchedule(token);
-        return Ok("Account excluded");
+    
+        try
+        {
+            // Chama o serviço para agendar a exclusão da conta
+            await patientService.excludeAccountSchedule(token);
+            return Ok("Account excluded");
+        }
+        catch (ArgumentException ex)
+        {
+            // Trata erros de argumento, como um token inválido
+            Console.WriteLine("Erro de argumento: " + ex.Message);
+            return BadRequest("Token inválido: " + ex.Message);
+        }
+        catch (InvalidOperationException ex)
+        {
+            // Trata operações inválidas, como token não encontrado ou usuário não encontrado
+            Console.WriteLine("Erro de operação inválida: " + ex.Message);
+            return NotFound("Erro ao excluir a conta: " + ex.Message);
+        }
+        catch (Exception ex)
+        {
+            // Trata qualquer outro erro inesperado
+            Console.WriteLine("Erro inesperado: " + ex.Message);
+            return StatusCode(500, "Erro interno do servidor. Tente novamente mais tarde.");
+        }
     }
+
 
     [HttpPost("account/update")]
     [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
