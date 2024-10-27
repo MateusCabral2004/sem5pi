@@ -1471,7 +1471,7 @@
 			"name": "5.1.8",
 			"item": [
 				{
-					"name": "http://localhost:5001/Patient/registerPatientProfile",
+					"name": "registerPatientProfile",
 					"id": "eef737fd-b1ab-41c5-aa3a-1213a868a9e0",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1505,7 +1505,7 @@
 			"name": "5.1.9",
 			"item": [
 				{
-					"name": "http://localhost:5001/Patient/editPatientProfile/newUser@gmail.com",
+					"name": "editPatientProfile",
 					"id": "6e0b9bb5-4d94-4ebc-ae32-eeda27e87a25",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1531,14 +1531,28 @@
 		},
 		{
 			"name": "5.1.10",
-			"item": [],
+			"item": [
+				{
+					"name": "deletePatient",
+					"id": "5adcdc99-9c90-4dc0-bb24-9bf4c1e3a9eb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:5001/Patient/deletePatientProfile/anotherEmail@gmail.com"
+					},
+					"response": []
+				}
+			],
 			"id": "25946838-30b8-4d39-912b-8d0f059ca7bb"
 		},
 		{
 			"name": "5.1.16",
 			"item": [
 				{
-					"name": "http://localhost:5001/OperationRequest/requestOperation",
+					"name": "requestOperation",
 					"id": "1a5f00da-aba9-4577-a6ea-297e4138909a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1599,14 +1613,15 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "updateOperationRequestDeadline",
 					"id": "75cc8540-b1b8-4e98-8c18-bdc4678a4d9a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:5001/OperationRequest/updateOperationRequestDeadline/2/2024-12-12"
 					},
 					"response": []
 				}
@@ -1617,7 +1632,7 @@
 			"name": "5.1.23",
 			"item": [
 				{
-					"name": "http://localhost:5001/OperationType/listOperationTypeBySpecialization/Cleaner",
+					"name": "listOperationTypeBySpecialization",
 					"id": "72126b6a-3186-41dc-b797-bb4540f27ca3",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1637,6 +1652,47 @@
 						"url": "http://localhost:5001/OperationType/listOperationTypeBySpecialization/Cleaner"
 					},
 					"response": []
+				},
+				{
+					"name": "listOperationTypeByStatus",
+					"id": "42b99ffd-99f8-4021-b8e1-4c207e311604",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5001/OperationType/listOperationTypeByStatus/true"
+					},
+					"response": []
+				},
+				{
+					"name": "listOperationTypeByName",
+					"id": "f782a2e7-21a0-44a0-ba56-40cd85b95357",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": ".AspNetCore.Cookies=CfDJ8KVrZduF2lRPo7ioB0pDQ48cPLZJkgzoFwA_xkcCUUXTxdGvbs9Gg_aZIHysDCew09SHsQNtkbhs5SRYXCNzDDDmMEdeOsZOJHzu-Fm4OVa3LZ7fAT5RQzNhNwUc4TSt2ND_J_-Bv5_pWvzU-TsC4y2krrkA3sMWEnTsndixw6lzXY8kP-M6SPM66ito9QH4ToRpK-oHfplnfo_PwAU0RO84xg4KlB2fBDyjF1x5Qni8zD89rR_eVa9UMKl9EAzvlP0hraWgJxXJZEtmjQRQuTG79mDHliXD5S_kP1sqyS-A1oy6YBkpbkMrUcADv8zeItsaTDMszvvC8pjShGSw535LDyOlcUgW1VJSKt0bEXjQJVBgwzt3Azj6RZQMT4E18QBCFZ-DByufmPN4Q6L5cMCPFrn2KuX2koD0CRCYIH3qtAJ17uQafb9-XqYxljVacmsOKbeiUEeVLqC3sqVO732EMLotPnBrgMaSUcGVkXz8O4vZQ2cSQV6QewMz8zDeU1jrNwt4S8D5_Ck5OaVDDiss_05fvLTSIcZYKrWQ-IsxwW8eTUXLamAnKlZCdXl1C7q_P4T-gzsBwRc9aRBBoN_UuRBWe_9Sorj92aPemmsd-msl7LE6rquQzvowbTGdRX0vspLcppfX20Z3HswlH_1ZlS5tYSV3tq_P6WD1CtAMvaXu1V4zLQhYIUY1FSESuR-jm2L6KWyrLbqVnFTEoXV56Myaazl26Gm39npSEOLgxC7-_H6jkZyw48awnGVPFoYfzwPrXcKdLlZUjBuul_gdW5aLrm4aqqgasEjilYKraQnnBm0m_qGQug_SS6TWVJjn6zApGpZlfOe0aZekw2QCvEgNzLHg96vWob453IqPgxOzD8cFYhfPoLFknhxMb-3L4FDVWj3PV5byor4Csn0A6i5WyKi5vSgSkv4pB5WA6Ph2F3vkwCJf7XnH1m9nTretXB2sCwj_mH7PWGfMA5Mabjp1FO9cYl1av39-YRVyKLpqQTthCxWIuJWFi9W5vhQZDA0w1WRIM-LFx_Xe-mk8woksuBT4w6LmP7n1K-mCzV5-KXYQtgGrqupEQt_JkqbPzU93yGsUWoLdrL_cFePhOTGDJVAWqfyABJjuGazFm9PYlZVj7CdmBtaKZ8oXKc4rBWMHEH-ZPqhR1FofWOPGXe2hmghwFEp0aGBKKFQeAbNsSc55bQIesjAT57qk8qnY2lvfiXONmDp-4m0h21ml6wFhkh747Ppezoy1WINDbMQU8sUEWl1oA35vkz8f_QZ8EEISgcTjlg2l08kU7vz5YQGwGpd2QJiT-lV-DSEza0zyZJ-grNvxJ1SJSOWY1N0OkYifrvM1DbywwETAaTbu65UXEJUuOCDobYpbt1A7IxcI2gpmN_BdGvALVZtNu4J1UPLXawlnoqqu08TlZsLn_xh9WFLsAb1JbLzJvvlW",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\":\"Knee Surgery\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/OperationType/listOperationTypeByName"
+					},
+					"response": []
 				}
 			],
 			"id": "166f6465-59a3-4c7f-8828-2fd683a8cf04"
@@ -1646,7 +1702,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "56ebf589-3cc1-450e-8a98-664de6f23c7e",
+				"id": "53a05f2a-bf0b-4001-8788-4eb50fc42bb0",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1656,7 +1712,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "34268e79-735e-43f9-aede-83a6c269def5",
+				"id": "0ce256a3-47d0-48f6-b945-ad99c28b52ed",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1676,7 +1732,7 @@
 		},
 		{
 			"key": "AdminCookieRui",
-			"value": ".AspNetCore.Cookies=CfDJ8PAr93lbJ8BCkTvnmDiOxGQ494fAjlUDCwOAUw3J05914pCutTCt9qbiookIEF7dhIQ1IiWryTffkjSOt7snXWSepXY8_doRth4tyijEvr50EZwy3NbVYxswyvkN3VS-Iief8bIQlk8Q6TqVi34ycwe6boM5Gk--yW69klf0-m0esCtu7j0gl1EbW7LDBWYUDbWMqE6PZ7Fi24LxLfAzm4p2XtnIqw0orkNZEo4U3Tg3agzK2nEZJgkcnNNrCHdKxN0U6P-ggLUj9ukqNxmtBI0es8LdtHMy8kICPLOgYuzuw3lgmnjnVXm3tOhnpZ-AE0ePhlerT8VsyMD6523bGrmSnMccwm8gfxmemhvZNM7i2UEFEuyI5u8e5y40dWiOhP2UmcPc4CbNn8ZS5U064mX8FLKKHPGcJ6tEDnefwHjeVfKqIgpGM_-nE7FBSWU2tG_fgxkZoNBrVcatNk_FY4EXs1w_y0Mi-VeqfKnQ_-Yaz_JnyVMORRCNV3Nv24FmYo5wBU_LCffqst2xhNFBXBCt-1Xne_Y4TviOW3pzysIR-gQoYsKKEmIv4dg4Ue00z28wvhdrwxl6_hxbCWEGZkmQ69pz3xzSP6ClMDJmg8WtycN1lDYSxGoG8WFRqAhl8FkxBErwsBbRyIiKAHjUaBfYVgv6Bm5_8uVXf6BZPYOn-mzKh-LoTwoFktmKABlrNQu8JCVxqdx73Wq9rMh2f6PPKnKNvW72Afi5hejcakF1ZbpnwqzbiKs2Yg_CkRhTrIi-ExjcqYc_DJGnbhMgimICx5NyHd0oRwzVMy6pTfQSDN7bKYfHe3xFgO_JEZrMWew6o-iV_RK55ax6hEar8LEFjnJpououShB2xO8YGCdcpSIMM8-lfbuFdWf1hh6oFJEL8M5At5PZ96ZGh5ft8w_SR87YKLYadlrEDmTHtyYMwFhEyxICD8qFbUvGojXC2GxVcMbMnSbPFFGd414coJqm_j8iwkVdIAIm9jX5lrVLS_Z3auKBg6RDEvoXv_HE057kgz5m-RVf-okW_WtHxdxIned35ywkTCzEmXHV0C4mdASfqdpcPeXDVK1syRpC8RmQSuzI6qSGuQTAtKfI-MPYF9-B4q1EVijFvECcYg7bshqa1tdGFTTZl7JFuYYzrZIl9LMgEAusaQIGcR638efhhYfbfjvN2Geh8osmEReWWGxR5c1GEMvcjxaUXxBZVl1mzXhKWG6z_8fvxoefKNaYuwEldwtn2UwOaFGzMEDUGMtrorPy27G7B35QSHitcbTD47fcdbBCKxSNsP30rmCDGFBVY53kW8l7dX2c5yMz3vS1Vpmn8rob0M3viVsJiML2TuSMLEMuZornpBxWnt7HsCjG7tAdzz2yp5QVjko9bg6ziGlxrh2XKGM9E5lhr4u8g7nN9ZcPqvznBqPNg5McnjXJvB3jQ-8JmNSHyht2",
+			"value": ".AspNetCore.Cookies=CfDJ8PAr93lbJ8BCkTvnmDiOxGQec0zyLqyF8y7KgmO54nc2qgtxSCwIvQe4lqzQ8Fe3xY_o52itAPtDOtwFHeWieGUHNy5fDdHITAIxfhZxN0u9Sk_S5P8DXLq45kWQiRgfqOP_18wR41AOvZZOYIgmDJfZbVk2OxKdjT27sFxTsriLeirit-Y905Cn-m6JkVnzArnJCxa5OW9GtTVgbZjSS2eT6AzzhXzVE7UyXYay0IZqEO8MZLudlzoVrEUAzeyxIAx4xRYH-O_6sD6VTmG-7x1exH-D_G3lkdDmUcbS-F8UnPi4FPgWcmVTZSfb4DiQeNegfI3uvH2-2lZmHM5oDaoYBPisYtN7n1j1s69kCc8fp2efk9p-ahIzvjqXUYaJHVTgmXGlWqjKOevDawXA_Rto7T5yq5lnzr4EZl7QQufA_QiXpjTxBKvMnUMztIsoOZKGV7uy10FiKvqQ7Nirmaor5lkF6hccFaTCePmdUq_6U0qXnCsYlsMiWNIAI8Nb9UodSBZX0WxCO7q39iEQX0TKfXXATla2gqUio3FBLYKF6B6_MQezgHG4o2a4dWb1Gq8QdwmuL9mbDCOxuJ187r2_2To9NG6RMVLWAhtIdpo2T85d_ZvE149qloR4fyOd4OFaI25MfroEDEDwMm8VqYND-AnSfqaHlNEoQjViWKdHCszduEWHiYkVqbiBP0ts1JlhO2xYyhMeTzc-aUQgwWSC9apa7I0LlhS8WWGRw4V9LGPSjF1m99dX3SeLLRI_YO53qp2RJQY-KvI0PDdtRStyPgzp31LYbhuQysTQtnnUqG3LO_EL_ggEh-O5qvyeEGtIXehn8Jf9D0K6PKVpWj4o0tRE4Nw6A1m99Np0X-haEFrc0KbdTzt0uPo2-TF4O8lpgHKtOysSJU3Q-UltAhpiBnkhyMcP2HC7xcSs-uln6IzcAyvCJPPempdNehxyIuxFOMJyRGXFPM9tzJLhQOuccaRHuPBeQAnxP5oox57vwIftoBSPKECAqHqRH-afsG2hKqVUzhP5TaLHmsYb_rV5Y95y55pJ6iDMoHFZyyz9AsK1Im0Y_Stqo2bo9fA63j0qwjvdLXDz7-JmtHPR3xS5yys1S9xIKqg0pWr3DxXqB-56k17rKbM6Awk07H3-nRhPCF2zgaEWtc1G4s1V3Rj9H1mx8NOwZPMbPhjpcYcMApEP_Jv3FE4W8ZHn_rSezxvKAiXPFsDnPInU23pwkxiIi2o9HLuj7VOiMdpsm38ps3R3vQl22C11zPJofT6EjOGuqogaEOGI5UAgTSKToEzBuPhTxpWzCzCgasc30SNOHDvC_AtO8UrUCKCJ6yP5xo_A8wsnoPY0bBhnpXSkI_Ys8uyYd16fVxgQ9SZINNz3FvedNGQRGG2_3tzJx8Mr7n5oSeyoE8yfnrNGvXTZtddFWA6U2JW1PTecTHob9vQu",
 			"type": "string"
 		},
 		{
