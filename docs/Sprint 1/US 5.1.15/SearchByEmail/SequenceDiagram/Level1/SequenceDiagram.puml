@@ -2,10 +2,10 @@
 actor Admin
 participant SurgeyApointmentSystem
 
-Admin -> SurgeyApointmentSystem : Edit A Staff Profile
+Admin -> SurgeyApointmentSystem : Search Staff Profile By Email
 activate SurgeyApointmentSystem
 
-SurgeyApointmentSystem -> Admin : Staff Profile Edited Successfully
+SurgeyApointmentSystem -> Admin : Searched Staff Profile
 deactivate SurgeyApointmentSystem
 
 @enduml

@@ -2,10 +2,10 @@
 actor Admin
 participant SurgeyApointmentSystem
 
-Admin -> SurgeyApointmentSystem : Create New Staff Profile
+Admin -> SurgeyApointmentSystem : Search Staff Profiles By Specialization
 activate SurgeyApointmentSystem
 
-SurgeyApointmentSystem -> Admin : New Staff Profile Created
+SurgeyApointmentSystem -> Admin : Searched Staff Profile
 deactivate SurgeyApointmentSystem
 
 @enduml
