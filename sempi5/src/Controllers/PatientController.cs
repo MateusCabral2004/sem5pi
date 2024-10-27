@@ -35,7 +35,7 @@ public class PatientController : ControllerBase
         }
         catch (Exception ex)
         {
-            return StatusCode(500, "An error occurred while processing your request.");
+            return BadRequest( "An error occurred while processing your request. "+ ex.Message);
         }
     }
 
@@ -47,14 +47,14 @@ public class PatientController : ControllerBase
     }
 
     [HttpGet("register")]
-    [Authorize(Roles = "Unregistered")] //patient only  - falar com mateus para criar novo role
+    [Authorize(Roles = "Unregistered")] 
     public IActionResult Register()
     {
         return Ok("Por favor, forneça o seu número.");
     }
 
     [HttpPost("register")]
-    [Authorize(Roles = "Unregistered")] //patient only  - falar com mateus para criar novo role
+    [Authorize(Roles = "Unregistered")] 
     //TODO - Use email from the cookies (claim principal)
     public async Task<IActionResult> RegisterNumber(int number)
     {
@@ -83,7 +83,7 @@ public class PatientController : ControllerBase
     }
 
     [HttpGet("account/appointment")]
-    [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
+    [Authorize(Roles = "Patient")]
     public async Task<IActionResult> listAppointments()
 
     {
@@ -142,7 +142,7 @@ public class PatientController : ControllerBase
 
 
     [HttpPost("account/update")]
-    [Authorize(Roles = "Patient")] //patient only  - falar com mateus para criar novo role
+    [Authorize(Roles = "Patient")] 
     public async Task<IActionResult> updateAccount(PatientProfileDto profileDto)
     {
         Console.WriteLine("Iniciando Update");
@@ -164,7 +164,6 @@ public class PatientController : ControllerBase
     [HttpGet("account/update/{jsonString}")]
     public async Task<IActionResult> updateAccounlt(string jsonString)
     {
-        // Serializing the DTO
         PatientProfileDto profileDto;
         try
         {

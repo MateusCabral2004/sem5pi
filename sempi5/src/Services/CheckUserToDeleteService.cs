@@ -41,8 +41,9 @@ public class CheckUserToDeleteService
                     {
                         await _personRepository.RemoveAsync(patient.Person);
                     }
-
-                    await _patientRepository.SaveChangesAsync();
+                    patient.EmergencyContact=null;
+                    await _accountToDeleteRepository.removeUserbyId(user);
+                    await _patientRepository.SavePatientAsync(patient);
                 }
                 catch (Exception ex)
                 {
