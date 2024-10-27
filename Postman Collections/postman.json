@@ -1652,6 +1652,31 @@
 						"url": "http://localhost:5001/OperationType/listOperationTypeBySpecialization/Cleaner"
 					},
 					"response": []
+				},
+				{
+					"name": "listOperationTypeByStatus",
+					"id": "42b99ffd-99f8-4021-b8e1-4c207e311604",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5001/OperationType/listOperationTypeByStatus/true"
+					},
+					"response": []
+				},
+				{
+					"name": "listOperationTypeByName",
+					"id": "f782a2e7-21a0-44a0-ba56-40cd85b95357",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
 				}
 			],
 			"id": "166f6465-59a3-4c7f-8828-2fd683a8cf04"
