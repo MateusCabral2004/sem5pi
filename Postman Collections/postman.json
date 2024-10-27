@@ -730,7 +730,62 @@
 		},
 		{
 			"name": "5.1.15",
-			"item": [],
+			"item": [
+				{
+					"name": "searchStaffByEmail",
+					"item": [
+						{
+							"name": "New Request",
+							"id": "3c0fb15c-ceb9-4dfa-9502-70a0f9ff072d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "6ebe3b45-76ea-4b65-8a9e-135849868181"
+				},
+				{
+					"name": "searchStaffByName",
+					"item": [
+						{
+							"name": "New Request",
+							"id": "dba11e9e-4576-4c2f-8636-76b4fa80f657",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "5cd48993-9036-4326-b125-8ac564c5f305"
+				},
+				{
+					"name": "searchStaffBySpecialization",
+					"item": [
+						{
+							"name": "New Request",
+							"id": "94fdad2d-e63f-4cbc-b815-0e2d34a04263",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "0fa11ad1-5e13-4e55-a6b0-74c4547fc5dc"
+				}
+			],
 			"id": "37e0cba5-aec8-4b30-8f8e-0edd57f22a02"
 		}
 	],
