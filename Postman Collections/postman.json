@@ -177,7 +177,32 @@
 		},
 		{
 			"name": "5.1.14",
-			"item": [],
+			"item": [
+				{
+					"name": "editStaffProfileDuplicatePhoneNumber",
+					"id": "dac4c875-7a3c-4f7f-933b-7ea6a62e210e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "editStaffProfileDuplicateEmail",
+					"id": "7380fe5c-1b9f-427e-889b-49d5ca813eb5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
 			"id": "e12c6ebd-e6ad-4d5d-943e-e109ff95b8ba"
 		}
 	],
