@@ -258,8 +258,24 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\": \"D202400005\",\r\n    \"email\": \"novoEmail@gmail.com\",\r\n    \"phoneNumber\":964777298,\r\n    \"specialization\": \"New Cardiology\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/editStaffProfile"
 					},
 					"response": []
 				}
