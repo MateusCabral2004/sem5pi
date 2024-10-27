@@ -57,21 +57,27 @@ public class PatientController : ControllerBase
     //TODO - Use email from the cookies (claim principal)
     public async Task<IActionResult> RegisterNumber(int number)
     {
-        if (number <= 0)
+        try
         {
-            return BadRequest("Número de registro não pode ser vazio ou negativo.");
-        }
+            if (number <= 0)
+            {
+                return BadRequest("Número de registro não pode ser vazio ou negativo.");
+            }
 
         Console.WriteLine("Iniciando registro de conta com email: " + getEmail());
         var success = await patientService.RegisterPatientUser(getEmail(), number);
 
-        if (success)
+            if (success)
+            {
+                return Ok($"Número de registro {number} registrado com sucesso para o email: {getEmail()}.");
+            }
+            else
+            {
+                return BadRequest("Erro ao registrar número.");
+            }
+        }   catch (Exception e)
         {
-            return Ok($"Número de registro {number} registrado com sucesso para o email: {getEmail()}.");
-        }
-        else
-        {
-            return BadRequest("Erro ao registrar número.");
+            return BadRequest(e.Message);
         }
     }
 
@@ -111,7 +117,7 @@ public class PatientController : ControllerBase
         try
         {
             await patientService.excludeAccountSchedule(token);
-            return Ok("Account excluded");
+            return Ok("Your accoount will be deleted in 30 days");
         }
         catch (ArgumentException ex)
         {
