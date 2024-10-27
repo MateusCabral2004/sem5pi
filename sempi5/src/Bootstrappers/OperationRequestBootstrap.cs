@@ -67,5 +67,50 @@ public class OperationRequestBootstrap
             new DateTime(2021, 1, 1), PriorityEnum.HIGH);
         
         await _operationRequestRepository.AddAsync(request1);
+        
+        
+        var user2 = new SystemUser(new Email("exampleUser@gmail.com"), "Patient", true);
+        var patient2 = new Patient
+        (
+            user2, 
+            new Person(new Name("Alice"), new Name("Smith"),
+                new ContactInfo(new Email("alice_smith@example.com"), new PhoneNumber(912345678))),
+            new DateTime(1985, 5, 20),
+            "Female",
+            new List<string> { "Gluten", "Penicillin" },
+            "789",
+            new List<string> { "15/03/2021 8am-9am", "18/04/2021 10am-11am" },
+            PatientStatusEnum.ACTIVATED
+        );
+
+        var specialization3 = new Specialization(new SpecializationName("Neurologist"));
+        var specialization4 = new Specialization(new SpecializationName("Anesthesiologist"));
+
+        var requiredStaff3 = new RequiredStaff(new NumberOfStaff(2), specialization3);
+        var requiredStaff4 = new RequiredStaff(new NumberOfStaff(1), specialization4);
+
+        var time21 = TimeSpan.Parse("04:00:00");
+        var time22 = TimeSpan.Parse("02:30:00");
+        var time23 = TimeSpan.Parse("01:30:00");
+
+        var operationType2 = new OperationType(new OperationName("Brain Surgery"),
+            new List<RequiredStaff> { requiredStaff3, requiredStaff4 }, time21, time22, time23);
+
+        var doctorUser2 = new SystemUser(new Email("neuro_doctor@gmail.com"), "Doctor", true);
+
+        var doctor2 = new Staff
+        (
+            doctorUser2,
+            new LicenseNumber(987),
+            new Person(new Name("Michael"), new Name("Anderson"), new ContactInfo(new Email("michael.anderson@example.com"), new PhoneNumber(912345679))),
+            specialization3,
+            StaffStatusEnum.ACTIVE
+        );
+
+        var request2 = new OperationRequest(doctor2, patient2, operationType2,
+            new DateTime(2021, 5, 20), PriorityEnum.LOW);
+
+        await _operationRequestRepository.AddAsync(request2);
+
     }
 }
