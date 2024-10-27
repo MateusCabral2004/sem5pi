@@ -176,6 +176,29 @@
 			"id": "eba2f931-4ef7-4951-a812-931565bd42ba"
 		},
 		{
+			"name": "5.1.12",
+			"item": [
+				{
+					"name": "New Request",
+					"id": "64612c46-2ab9-4bb9-97a1-ba9040fa246f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"id": "ba34e0ec-c92a-4b91-95a8-9395d37ae897"
+		},
+		{
+			"name": "5.1.13",
+			"item": [],
+			"id": "ee2581c9-42cc-47a1-8e94-b916e976c893"
+		},
+		{
 			"name": "5.1.14",
 			"item": [
 				{
@@ -195,7 +218,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"phoneNumber\": 964666298\r\n}",
+							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"phoneNumber\": 964666299,\r\n    \"email\": \"novoEmail@gmail.com\",\r\n    \"specialization\": \"Dermatology \"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -240,7 +263,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"email\":\"rpsoares8@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"email\": \"swag4yt@gmail.com\",\r\n    \"phoneNumber\": 964666298,\r\n    \"specialization\": \"Dermatology \"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -268,7 +291,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\": \"D202400005\",\r\n    \"email\": \"novoEmail@gmail.com\",\r\n    \"phoneNumber\":964777298,\r\n    \"specialization\": \"New Cardiology\"\r\n}",
+							"raw": "{\r\n    \"Id\": \"N202400003\",\r\n    \"email\": \"novoEmail@gmail.com\",\r\n    \"phoneNumber\":964777298,\r\n    \"specialization\": \"Dermatology\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
