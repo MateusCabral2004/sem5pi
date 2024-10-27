@@ -300,7 +300,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookiePatient}}",
+								"type": "text"
+							}
+						]
 					},
 					"response": []
 				}
@@ -1051,8 +1057,14 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "{{base_url}}"
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookieDoctor}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/staff/"
 					},
 					"response": []
 				}
@@ -1070,7 +1082,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookieDoctor}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n  \"patientName\": \"new User\",\r\n  \"type\": \"Heart Surgery\",\r\n  \"priority\": \"HIGH\"\r\n  \r\n}\r\n",
