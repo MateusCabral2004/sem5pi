@@ -1,8 +1,6 @@
 using System.Text.Json;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Sempi5.Domain.AppointmentAggregate;
-using Sempi5.Domain.ConfirmationLink;
-using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.PatientAggregate;
@@ -11,11 +9,17 @@ using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
+using Sempi5.Infrastructure.AppointmentAggregate;
 using Sempi5.Infrastructure.AppointmentRepository;
+using Sempi5.Infrastructure.OperationRequestAggregate;
 using Sempi5.Infrastructure.OperationRequestRepository;
+using Sempi5.Infrastructure.PatientAggregate;
 using Sempi5.Infrastructure.PatientRepository;
+using Sempi5.Infrastructure.PersonAggregate;
 using Sempi5.Infrastructure.PersonRepository;
+using Sempi5.Infrastructure.SpecializationAggregate;
 using Sempi5.Infrastructure.SpecializationRepository;
+using Sempi5.Infrastructure.StaffAggregate;
 using Sempi5.Infrastructure.StaffRepository;
 using Sempi5.Infrastructure.UserRepository;
 

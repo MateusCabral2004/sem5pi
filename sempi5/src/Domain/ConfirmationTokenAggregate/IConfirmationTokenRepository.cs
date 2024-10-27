@@ -1,9 +1,9 @@
-using Sempi5.Domain.ConfirmationToken;
+using Sempi5.Domain.ConfirmationTokenAggregate;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
 
-namespace Sempi5.Infrastructure.ConfirmationTokenRepository
+namespace Sempi5.Infrastructure.ConfirmationTokenAggregate
 {
     public interface IConfirmationTokenRepository : IRepository<ConfirmationToken,ConfirmationTokenId>
     {

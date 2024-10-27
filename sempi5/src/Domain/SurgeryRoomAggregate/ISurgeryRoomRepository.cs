@@ -4,7 +4,7 @@ using Sempi5.Domain;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.SurgeryRoomAggregate;
 
-namespace Sempi5.Infrastructure.SurgeryRoomRepository
+namespace Sempi5.Infrastructure.SurgeryRoomAggregate
 {
     public interface ISurgeryRoomRepository: IRepository<SurgeryRoom, RoomNumber>
     {

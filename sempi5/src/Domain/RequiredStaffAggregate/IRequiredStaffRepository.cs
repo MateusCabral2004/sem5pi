@@ -3,7 +3,7 @@ using Sempi5.Domain.RequiredStaffAggregate;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 
-namespace Sempi5.Infrastructure.RequiredStaffRepository;
+namespace Sempi5.Infrastructure.RequiredStaffAggregate;
 
 public interface IRequiredStaffRepository : IRepository<RequiredStaff, RequiredStaffID>
 {

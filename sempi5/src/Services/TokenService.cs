@@ -1,9 +1,12 @@
-using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.StaffAggregate;
+using Sempi5.Infrastructure.ConfirmationTokenAggregate;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
+using Sempi5.Infrastructure.PatientAggregate;
 using Sempi5.Infrastructure.PatientRepository;
+using Sempi5.Infrastructure.StaffAggregate;
 using Sempi5.Infrastructure.StaffRepository;
+using Sempi5.Infrastructure.UserAggregate;
 using Sempi5.Infrastructure.UserRepository;
 
 namespace Sempi5.Services;

@@ -2,7 +2,7 @@ using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
 
-namespace Sempi5.Infrastructure.PatientRepository
+namespace Sempi5.Infrastructure.PatientAggregate
 {
     public interface IPatientRepository : IRepository<Patient, MedicalRecordNumber>
     {

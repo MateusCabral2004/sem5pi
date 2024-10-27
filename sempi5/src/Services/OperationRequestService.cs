@@ -7,10 +7,15 @@ using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.User;
+using Sempi5.Infrastructure.OperationRequestAggregate;
 using Sempi5.Infrastructure.OperationRequestRepository;
+using Sempi5.Infrastructure.OperationTypeAggregate;
 using Sempi5.Infrastructure.OperationTypeRepository;
+using Sempi5.Infrastructure.PatientAggregate;
 using Sempi5.Infrastructure.PatientRepository;
+using Sempi5.Infrastructure.SpecializationAggregate;
 using Sempi5.Infrastructure.SpecializationRepository;
+using Sempi5.Infrastructure.StaffAggregate;
 using Sempi5.Infrastructure.StaffRepository;
 
 namespace Sempi5.Services;

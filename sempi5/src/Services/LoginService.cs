@@ -1,8 +1,11 @@
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.User;
+using Sempi5.Infrastructure.PatientAggregate;
 using Sempi5.Infrastructure.PatientRepository;
+using Sempi5.Infrastructure.StaffAggregate;
 using Sempi5.Infrastructure.StaffRepository;
+using Sempi5.Infrastructure.UserAggregate;
 using Sempi5.Infrastructure.UserRepository;
 
 namespace Sempi5.Services

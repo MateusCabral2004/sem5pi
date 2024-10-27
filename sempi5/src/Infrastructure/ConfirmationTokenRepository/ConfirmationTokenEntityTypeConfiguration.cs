@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sempi5.Domain.ConfirmationToken;
+using Sempi5.Domain.ConfirmationTokenAggregate;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.Shared;
 

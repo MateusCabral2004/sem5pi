@@ -21,6 +21,11 @@ public class Appointment : Entity<AppointmentID>, IAggregateRoot
     
     public Appointment(OperationRequest operationRequest,SurgeryRoom surgeryRoom, DateTime date, StatusEnum status)
     {
+        ArgumentNullException.ThrowIfNull(operationRequest);
+        ArgumentNullException.ThrowIfNull(surgeryRoom);
+        ArgumentNullException.ThrowIfNull(date);
+        ArgumentNullException.ThrowIfNull(status);
+
         OperationRequest = operationRequest;
         SurgeryRoom = surgeryRoom;
         Date = date;

@@ -1,5 +1,5 @@
 ﻿using System;
-using Sempi5.Domain.ConfirmationLink;
+using Sempi5.Domain.ConfirmationLinkAggregate;
 using Sempi5.Domain.Shared;
 using Xunit;
 

@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain;
-using Sempi5.Domain.AccoutToDelete;
+using Sempi5.Domain.AccoutToDeleteAggregate;
 using Sempi5.Domain.AppointmentAggregate;
-using Sempi5.Domain.ConfirmationLink;
-using Sempi5.Domain.ConfirmationToken;
+using Sempi5.Domain.ConfirmationLinkAggregate;
+using Sempi5.Domain.ConfirmationTokenAggregate;
 using Sempi5.Domain.OperationTypeAggregate;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;

@@ -1,8 +1,9 @@
-using Sempi5.Domain.ConfirmationLink;
-using Sempi5.Domain.ConfirmationToken;
+using Sempi5.Domain.ConfirmationLinkAggregate;
+using Sempi5.Domain.ConfirmationTokenAggregate;
 using Sempi5.Domain.Shared;
 
-namespace Sempi5.Infrastructure.LinkConfirmationRepository;
+namespace Sempi5.Infrastructure.ConfirmationLinkAggregate;
+
 
 public interface IConfirmationLinkRepository : IRepository<ConfirmationLink,ConfirmationTokenId>
 {
