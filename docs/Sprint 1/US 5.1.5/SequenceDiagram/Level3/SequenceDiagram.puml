@@ -1,0 +1,49 @@
+@startuml
+actor Patient
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database Database
+
+activate Patient
+Patient -> Routing: delete patientAccout
+activate Routing
+
+Routing -> Controller: forward request to delete patientAccout
+activate Controller
+
+
+Controller -> ApplicationService: delete patientAccout
+activate ApplicationService
+
+ApplicationService -> Repository: delete patientAccout
+activate Repository
+
+Repository -> Persistence: delete patientAccout
+activate Persistence
+
+Persistence -> Database: schedule de max date to mantein patientAccout(30days)
+activate Database
+
+Database --> Persistence: success
+deactivate Database
+
+Persistence --> Repository: success
+deactivate Persistence
+
+Repository --> ApplicationService: success
+deactivate Repository
+
+ApplicationService --> Controller: success
+deactivate ApplicationService
+
+Controller --> Routing: success
+deactivate Controller
+
+Routing --> Patient:    patientAccout deleted
+Database -->Database:after 30 days delete patientAccout
+deactivate Routing
+
+@enduml

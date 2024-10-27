@@ -1,0 +1,25 @@
+@startuml
+actor Patient
+participant SurgeryAppointmentSystem
+participant Backend
+database Database
+
+activate Patient
+Patient -> SurgeryAppointmentSystem: delete patientAccout
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend: delete patientAccout
+activate Backend
+Backend -> Database: schedule de max date to mantein patientAccout(30days)
+activate Database
+Database --> Backend: sucess
+deactivate Database
+
+Backend --> SurgeryAppointmentSystem: sucess
+deactivate Backend
+
+SurgeryAppointmentSystem --> Patient: sucess
+Database -->Database:after 30 days delete patientAccout
+
+deactivate SurgeryAppointmentSystem
+@enduml
