@@ -805,6 +805,18 @@
 								"header": []
 							},
 							"response": []
+						},
+						{
+							"name": "searchBySpecializationInvalidCase",
+							"id": "0097c57d-65e2-4687-9f83-4113b7319edd",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
 						}
 					],
 					"id": "0fa11ad1-5e13-4e55-a6b0-74c4547fc5dc"
