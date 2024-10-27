@@ -270,7 +270,7 @@ public class PatientService
     {
         var patient = await _patientRepository.GetActivePatientsByName(new Name(nameDto.name));
 
-        if (patient == null)
+        if (patient.Count == 0)
         {
             throw new ArgumentException("Patient not found");
         }

@@ -1,0 +1,285 @@
+{
+	"info": {
+		"_postman_id": "75cdb1f9-1b69-4674-9adc-31420f0dbaa0",
+		"name": "REST API basics: CRUD, test & variable",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "US 5.1.15",
+			"item": [
+				{
+					"name": "listStaffProfilesByNameValidCase",
+					"id": "f44eb278-ae46-4527-8952-989e9edb6251",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Alice Johnson\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/listStaffProfilesByName"
+					},
+					"response": []
+				},
+				{
+					"name": "listStaffProfilesByNameInvalidCase",
+					"id": "fc7ede27-4723-4e83-83a7-f914cbefc305",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Jane Smith\" \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/listStaffProfilesByName"
+					},
+					"response": []
+				}
+			],
+			"id": "16618228-da90-4a4e-86aa-23482482f3eb"
+		},
+		{
+			"name": "US 5.1.",
+			"item": [],
+			"id": "b9c42abb-e54c-4fec-9838-d04c21f3c513"
+		},
+		{
+			"name": "US5.1.1",
+			"item": [
+				{
+					"name": "RegisterStaffUser",
+					"item": [
+						{
+							"name": "RegisterStaffUserValid",
+							"id": "092cbee2-aca7-4154-8051-a28c72971979",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "5903608d-c097-4cba-bb4a-2f05e1420282"
+				}
+			],
+			"id": "a9c48bfa-281a-4128-9e2b-09b8a8219b1b"
+		},
+		{
+			"name": "5.1.11",
+			"item": [
+				{
+					"name": "listPatientByEmail",
+					"item": [
+						{
+							"name": "New Request",
+							"id": "ba47b4e9-0fd2-443c-8ccc-7657f8b8a2d6",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "5aa86f4e-a036-4678-aa59-8453ac948a74"
+				},
+				{
+					"name": "listPatientByName",
+					"item": [
+						{
+							"name": "New Request",
+							"id": "e8c9c12b-2e3b-4a9d-87fa-4726af455289",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "8bf31d7e-1b61-46fd-84d1-6b3146744934"
+				},
+				{
+					"name": "listPatientByBirthDate",
+					"item": [
+						{
+							"name": "New Request",
+							"id": "cea7b4d0-a27c-44f7-b92b-3758689aa83f",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "c086e797-78aa-46f6-863f-66112be2ce9a"
+				},
+				{
+					"name": "listPatientByMedicalRecordNumber",
+					"item": [
+						{
+							"name": "New Request",
+							"id": "3f209c4b-41c1-4bc8-a26b-d72cb8c82608",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "92bf83f1-2041-42d4-8cc8-ddef2f2f1c6c"
+				}
+			],
+			"id": "eba2f931-4ef7-4951-a812-931565bd42ba"
+		},
+		{
+			"name": "5.1.14",
+			"item": [
+				{
+					"name": "editStaffProfileDuplicatePhoneNumber",
+					"id": "dac4c875-7a3c-4f7f-933b-7ea6a62e210e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"phonenUmber\": 964666298\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/Staff/editStaffProfile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Staff",
+								"editStaffProfile"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editStaffProfileDuplicateEmail",
+					"id": "7380fe5c-1b9f-427e-889b-49d5ca813eb5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"id": "e12c6ebd-e6ad-4d5d-943e-e109ff95b8ba"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "7dea1979-1f62-4723-b1ba-27eb775a3b5b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "c8bfc405-b58e-41d5-9a5d-df7e6652cd13",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:5001",
+			"type": "default"
+		},
+		{
+			"key": "AdminCookie",
+			"value": ".AspNetCore.Cookies=CfDJ8C1qEftZwfhChaaurTMpFZ-OE9Bb_KILzHWJP2o-hVUlTXhm_tpYa3qpHHOvWzkXrcz61v8j7ESxZesiJ0FtbUOZLFcq-7L-cDxZD_OIF_jDzkVKG5LWfv4vyQRLwMSBf5WXvDfI8zfoa96YsWbxMQTzLr8ydPwuP9aQAbbSWVHBrmkhSVw_0D1ZYZVtloWmyTM7f-NQMCpWcrOFrmgh2lYeOBDAOd3TpmZZFVq96ZNp0BvDiwgpDhF-6POlMv7486I30CfAcHsObZhVVnGT8w7YR0HT3E3tQgXiUmaxbM2pYEBZbk_ZgdTiNEIvyoEztF2my4Dep_UEfbUCc2vS3vXhzflqHIo0h8lRT2WJ7mYPDSxVPw1fNuwwvwqjTvAcrwRnHEdC1OFfBRCgdzQevuUz54flUegZ4GXVC49j7p5KaTlWV-gXWxPhMCd71E-6v94MXyP1S5JLw6OvDkGW5RGK4MwVPQbzp82gW-EQhlfE1LqJQ0Vw0qImVxiZUmV4yT6vGyU1Bs1s6WcgZMgNcypB4RUNAb0wH-Gq_BzBl2xz_snPgNBN0k939q48ORt70-cwdYFSMgqMxvaeALJnvE-5G1fRpqigcFVcdmYzLYfhQZu6SdYBWaLlFwSy1tEmiSFYMAwNQjUJ5sPZcYCaEBSgo9EjedOVp884s3OfkX-gA6pzqxisHRt2J-GPXXur90LhVnCXmL2tlqfjEaxqU6rqoOqFjQ_SahbMfMcHYikrZ4pYe7SPxTt6CesIQ1tQPxOZ47xnvI5JHsdX4ldwQvrFuBUhFqYBZGbyMfoOcHw49IYMQoAelyTlFNrljR3np_-AFmYjZinTMMDkndNRPXzWCdqdIn_GMnANEiJICCSlY0xYSAKFnsek3U2lDdaSB4mZPN69Nb8JfP1nG9w24hlXCdDT0ykrSN4cMif519hCV4RiOQ5z0SEtQnVzW9uPH_hB7EtnGh2-CRB1zNRLQCdJQsfnelcMFluY-91X_Y_jnZiH-9QKz3hZFc7uvtoh0zopW2hBVlTQzNBz36S1i11S_yOiPb8xCehWnfehbKj7ZIGJSpprGQEnBVXXSGFHvJu76uXEccaIFN09BCkF4TCsfR4Kv6-kF-7uPQPsCU3svozjYCSpoN_sO3gc8avmHnIDU2e6vQG-qfgTyL8_lAO4attr1sFPf3MlW1fEBfAwzjnJdm1SNweSmolHNODeZEMou8zTFPSMO90MvSFERQ9F26PU1DAR9OoxP2WzYbVY5UhCIJmY6Xm1ThJ6MaLbPTIQRW1YfWiV1fUp8qMvcAKZiFzn24vvjjG4RXbWcEcAzJqagduqqsgRjqFLUjRapcIn4lmzKjHA4V0liKnfyjneiLkL3OZ8CpTXFwuN-CqK6Ms7SNnoX-tIE0L2h7_kk7xuGQskXC0t_ipnVNteBJ1Om7zDcu6kUyCAH8-kxoRk"
+		},
+		{
+			"key": "AdminCookieRui",
+			"value": ".AspNetCore.Cookies=CfDJ8PAr93lbJ8BCkTvnmDiOxGQ494fAjlUDCwOAUw3J05914pCutTCt9qbiookIEF7dhIQ1IiWryTffkjSOt7snXWSepXY8_doRth4tyijEvr50EZwy3NbVYxswyvkN3VS-Iief8bIQlk8Q6TqVi34ycwe6boM5Gk--yW69klf0-m0esCtu7j0gl1EbW7LDBWYUDbWMqE6PZ7Fi24LxLfAzm4p2XtnIqw0orkNZEo4U3Tg3agzK2nEZJgkcnNNrCHdKxN0U6P-ggLUj9ukqNxmtBI0es8LdtHMy8kICPLOgYuzuw3lgmnjnVXm3tOhnpZ-AE0ePhlerT8VsyMD6523bGrmSnMccwm8gfxmemhvZNM7i2UEFEuyI5u8e5y40dWiOhP2UmcPc4CbNn8ZS5U064mX8FLKKHPGcJ6tEDnefwHjeVfKqIgpGM_-nE7FBSWU2tG_fgxkZoNBrVcatNk_FY4EXs1w_y0Mi-VeqfKnQ_-Yaz_JnyVMORRCNV3Nv24FmYo5wBU_LCffqst2xhNFBXBCt-1Xne_Y4TviOW3pzysIR-gQoYsKKEmIv4dg4Ue00z28wvhdrwxl6_hxbCWEGZkmQ69pz3xzSP6ClMDJmg8WtycN1lDYSxGoG8WFRqAhl8FkxBErwsBbRyIiKAHjUaBfYVgv6Bm5_8uVXf6BZPYOn-mzKh-LoTwoFktmKABlrNQu8JCVxqdx73Wq9rMh2f6PPKnKNvW72Afi5hejcakF1ZbpnwqzbiKs2Yg_CkRhTrIi-ExjcqYc_DJGnbhMgimICx5NyHd0oRwzVMy6pTfQSDN7bKYfHe3xFgO_JEZrMWew6o-iV_RK55ax6hEar8LEFjnJpououShB2xO8YGCdcpSIMM8-lfbuFdWf1hh6oFJEL8M5At5PZ96ZGh5ft8w_SR87YKLYadlrEDmTHtyYMwFhEyxICD8qFbUvGojXC2GxVcMbMnSbPFFGd414coJqm_j8iwkVdIAIm9jX5lrVLS_Z3auKBg6RDEvoXv_HE057kgz5m-RVf-okW_WtHxdxIned35ywkTCzEmXHV0C4mdASfqdpcPeXDVK1syRpC8RmQSuzI6qSGuQTAtKfI-MPYF9-B4q1EVijFvECcYg7bshqa1tdGFTTZl7JFuYYzrZIl9LMgEAusaQIGcR638efhhYfbfjvN2Geh8osmEReWWGxR5c1GEMvcjxaUXxBZVl1mzXhKWG6z_8fvxoefKNaYuwEldwtn2UwOaFGzMEDUGMtrorPy27G7B35QSHitcbTD47fcdbBCKxSNsP30rmCDGFBVY53kW8l7dX2c5yMz3vS1Vpmn8rob0M3viVsJiML2TuSMLEMuZornpBxWnt7HsCjG7tAdzz2yp5QVjko9bg6ziGlxrh2XKGM9E5lhr4u8g7nN9ZcPqvznBqPNg5McnjXJvB3jQ-8JmNSHyht2",
+			"type": "string"
+		},
+		{
+			"key": "AdminCookieMateus",
+			"value": ".AspNetCore.Cookies=CfDJ8C1qEftZwfhChaaurTMpFZ_qG_NSmwFVo1vANleKIubIwmgaG--MvqGaWAv5dV3ZazzsStIYNi_VHCZJ48IrTn-XKk5GEvygRagjSfAq9qkbUFYaR3oKMG8zRyT7hegmqt6Qn5ZxaAkDeRMd0fFk3JVkfJOA5Z0GFT6pyxnpLiZuUNdLnPJfpEt-JQxxojhEmIFoFAaVlpDdZ9ybOLNzUItBngbXAomNfhl5XCKNQdXHdOyy-QScpGuBmayang1dN86mCA5nF_cIAGZLsR7GFA10iXcBQ8Cu0oPBROqZKfDYnjQHB-I5OF1Vr3UtDZ1SHoxOY3O4ubrhpjzQc5j8K1Q-Hbjv4RwNdRA57nWNZnsI08hI0ylvvGVAZ2hCctbMQN1dg7kiPH9CMjFuGuR8T3CJ2e1niIRuTqhjl8Wt0VTunmY1mKzNwcqjoKk58oHX8K-APBt_iQozxbCWyd9wY3kHfgkPiA6F1cTPg75U-6VE9FhgihniW4acLQfTobw54C1LERRLIwu9yZIJHEHfBHMWLcML1l3SrdbGCC0LG_kgRzw0MD8vexdnrKjF02PVWHl7tdUtgyZIOF2nDEkABp7JNsHn92nrrvCicCKvXQKZPVWCkY0KEW7AVIm5l-9glAb1Rre0lJ0ZR3hKSWxW1Nb3yuOMi4bluFMjmMqlCdCoEkKcQrnmfhBtnjhBi4FU9uZsPnA9d6-6I6YDYC7E_mLEoz-WHOD6hmI1gZ6tBfbvUggL7lSD4Jzl7u3oNXEsy0jWIeEFOijolXnfW7e3GwGKLD7oqRHkd3MaFv3nSqm_ex-Rp8QT51DcR5hD7hto-PIoq8h8C9tGtGNGugg8TmP5mNyUz04wkUlSQyxJbUURZaSvush76VDuIWU27y5GrcW5itTUq6U0M6oTmwrsWD-3-czCbSDdzDfo8DujIKeIY0zTKzzXv4poxZc49dKeIThaZyGrXJXE-K5qBWaqmh1YdyPW7xUhDjmNL9glKc2AF6tl_gQpBDuCiJhckNkWu4TWUkV6JqYEuQylALLJf8_Fj6h8EIZQ22mM8Ka0ClCh0UflrYG4VK0CZqytN7zviNR_BCDKb9AIdr7mBecyuJlq_Gx057-j6fdWvzwq15ZZ3HdFeTkvprT9_pncKhAKgeMA2VKgafCRvpPwbkMokQ4Y_Ut26m_laL4mtRQ9IJ2R7CSzsmAXairN0UHNsXnqRwBLfTyg7x2NYKMyyVjW48BleauOFVlrxmRhxL8mE-soGOsuflAtAEzTuh-5uqZGGWISeJfap5HIWg7Gm09ghfxwHHnl-GTzq_1sWMVEGY47-3f7m0dIHfp9fE9j8uxYT4mJbEz1B775Lhv-Qw7S301ebUK6OYDYq4nxkQKUb5yovhD8VMG6-NHumN2xPxDX6-OwQyQtHPK362x_GEABZ0o1n29POR_RVonbUyjd4LLi",
+			"type": "string"
+		}
+	]
+}

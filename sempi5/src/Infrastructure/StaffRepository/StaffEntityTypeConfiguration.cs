@@ -28,11 +28,9 @@ namespace Sempi5.Infrastructure.StaffRepository
             builder.HasOne(t => t.Person)
                 .WithOne()
                 .HasForeignKey<Staff>("PersonId")
-                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(t => t.LicenseNumber)
-                .IsRequired()
                 .HasConversion(
                     v => v.licenseNumber(),
                     v => new LicenseNumber(v)

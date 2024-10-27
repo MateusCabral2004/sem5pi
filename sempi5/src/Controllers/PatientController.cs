@@ -189,6 +189,7 @@ public class PatientController : ControllerBase
     }
 
     [HttpGet("listPatientProfilesByName")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ListPatientProfilesByName(NameDTO nameDto)
     {
         try
@@ -203,6 +204,7 @@ public class PatientController : ControllerBase
     }
 
     [HttpGet("listPatientProfilesByEmail")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ListPatientProfilesByEmail(EmailDTO emailDto)
     {
         try
@@ -217,6 +219,7 @@ public class PatientController : ControllerBase
     }
 
     [HttpGet("listPatientProfilesByMedicalRecordNumber")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ListPatientProfilesByMedicalRecordNumber(
         PatientIdDto patientId)
     {
@@ -232,6 +235,7 @@ public class PatientController : ControllerBase
     }
 
     [HttpGet("listPatientProfilesByDateOfBirth")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ListPatientProfilesByDateOfBirth(DateDTO dateDto)
     {
         try
