@@ -6,7 +6,10 @@ database Database
 
 activate Patient
 Patient -> SurgeryAppointmentSystem: delete patientAccout
+
 activate SurgeryAppointmentSystem
+SurgeryAppointmentSystem -> Patient: send email confirmation
+alt confirm delete
 
 SurgeryAppointmentSystem -> Backend: delete patientAccout
 activate Backend
@@ -20,6 +23,6 @@ deactivate Backend
 
 SurgeryAppointmentSystem --> Patient: sucess
 Database -->Database:after 30 days delete patientAccout
-
+end
 deactivate SurgeryAppointmentSystem
 @enduml
