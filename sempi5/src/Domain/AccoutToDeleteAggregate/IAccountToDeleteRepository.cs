@@ -8,4 +8,5 @@ public interface IAccountToDeleteRepository: IRepository<AccoutToDelete, SystemU
 {
     Task<int> saveUserToDelete(long userId);
     Task<List<SystemUserId>>checkUserToDelete();
+    Task removeUserbyId(SystemUserId user);
 }

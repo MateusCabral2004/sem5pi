@@ -14,7 +14,7 @@ namespace Sempi5.Infrastructure.PatientRepository
             builder.HasOne(s => s.User)
                 .WithOne()
                 .HasForeignKey<Patient>("UserId")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.Property(p => p.Id)
                 .HasConversion(
@@ -27,7 +27,7 @@ namespace Sempi5.Infrastructure.PatientRepository
             builder.HasOne(p => p.Person)
                 .WithOne()
                 .HasForeignKey<Patient>("PersonId")
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.SetNull);
 
             builder.Property(p => p.BirthDate)
                 .HasColumnType("DATE")

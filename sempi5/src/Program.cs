@@ -243,7 +243,6 @@ namespace Sempi5
             services.AddTransient<PatientService>();
             services.AddTransient<TokenService>();
             services.AddTransient<OperationTypeService>();
-            services.AddTransient<CheckUserToDeleteService>();
             services.AddTransient<OperationRequestService>();
             services.AddTransient<SystemUserService>();
 
