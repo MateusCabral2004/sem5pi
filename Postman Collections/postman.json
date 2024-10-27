@@ -186,7 +186,40 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"phonenUmber\": 964666298\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/Staff/editStaffProfile",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"Staff",
+								"editStaffProfile"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": null,
+									"type": "text",
+									"disabled": true
+								}
+							]
+						}
 					},
 					"response": []
 				},
