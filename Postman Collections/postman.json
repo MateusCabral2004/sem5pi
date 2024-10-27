@@ -735,8 +735,20 @@
 					"name": "searchStaffByEmail",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "searchByEmailInvalidCase",
 							"id": "3c0fb15c-ceb9-4dfa-9502-70a0f9ff072d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "searchByEmailValidCase",
+							"id": "b06a8bc0-3926-49ba-b437-c114b34a9359",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -753,7 +765,7 @@
 					"name": "searchStaffByName",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "searchStaffByName",
 							"id": "dba11e9e-4576-4c2f-8636-76b4fa80f657",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
