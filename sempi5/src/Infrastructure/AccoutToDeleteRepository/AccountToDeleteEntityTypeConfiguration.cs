@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sempi5.Domain.AccoutToDelete;
+using Sempi5.Domain.AccoutToDeleteAggregate;
 using Sempi5.Domain.User;
 
 namespace Sempi5.Infrastructure.AccoutToDeleteRepository;

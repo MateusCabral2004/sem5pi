@@ -4,6 +4,7 @@ using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
+using Sempi5.Infrastructure.StaffAggregate;
 
 namespace Sempi5.Infrastructure.StaffRepository
 {

@@ -2,7 +2,7 @@ using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 
-namespace Sempi5.Infrastructure.StaffRepository
+namespace Sempi5.Infrastructure.StaffAggregate
 {
     public interface IStaffRepository : IRepository<Staff, StaffId>
     {

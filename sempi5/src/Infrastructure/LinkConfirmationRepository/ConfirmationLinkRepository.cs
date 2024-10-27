@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using Sempi5.Domain.ConfirmationLink;
-using Sempi5.Domain.ConfirmationToken;
+using Sempi5.Domain.ConfirmationLinkAggregate;
+using Sempi5.Domain.ConfirmationTokenAggregate;
 using Sempi5.Domain.Shared;
+using Sempi5.Infrastructure.ConfirmationLinkAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.Shared;
 

@@ -2,6 +2,7 @@
 using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.StaffAggregate.DTOs;
+using Sempi5.Infrastructure.ConfirmationTokenAggregate;
 using Sempi5.Infrastructure.ConfirmationTokenRepository;
 
 namespace Sempi5.Services;

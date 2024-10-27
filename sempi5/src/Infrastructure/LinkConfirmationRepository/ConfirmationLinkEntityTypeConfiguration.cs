@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Sempi5.Domain.ConfirmationLink;
+using Sempi5.Domain.ConfirmationLinkAggregate;
 using Sempi5.Domain.Shared;
 
 namespace Sempi5.Infrastructure.LinkConfirmationRepository;

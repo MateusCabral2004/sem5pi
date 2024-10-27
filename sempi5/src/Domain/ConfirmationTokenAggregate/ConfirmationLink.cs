@@ -1,7 +1,7 @@
-using Sempi5.Domain.ConfirmationToken;
+using Sempi5.Domain.ConfirmationTokenAggregate;
 using Sempi5.Domain.Shared;
 
-namespace Sempi5.Domain.ConfirmationLink;
+namespace Sempi5.Domain.ConfirmationLinkAggregate;
 
 public class ConfirmationLink : Entity<ConfirmationTokenId>, IAggregateRoot
 {

@@ -1,17 +1,17 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Sempi5.Domain.ConfirmationLink;
-using Sempi5.Domain.ConfirmationToken;
+﻿using Sempi5.Domain.ConfirmationLinkAggregate;
+using Sempi5.Domain.ConfirmationTokenAggregate;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
-using Sempi5.Infrastructure.AccoutToDeleteRepository;
-using Sempi5.Infrastructure.ConfirmationTokenRepository;
+using Sempi5.Infrastructure.AccoutToDeleteAggregate;
+using Sempi5.Infrastructure.ConfirmationLinkAggregate;
+using Sempi5.Infrastructure.ConfirmationTokenAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.LinkConfirmationRepository;
+using Sempi5.Infrastructure.PatientAggregate;
 using Sempi5.Infrastructure.PatientRepository;
+using Sempi5.Infrastructure.PersonAggregate;
 using Sempi5.Infrastructure.PersonRepository;
 
 namespace Sempi5.Services;

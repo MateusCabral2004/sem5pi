@@ -6,8 +6,11 @@ using Sempi5.Domain.RequiredStaffAggregate;
 using Sempi5.Domain.RequiredStaffAggregate.DTOs;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
+using Sempi5.Infrastructure.OperationTypeAggregate;
 using Sempi5.Infrastructure.OperationTypeRepository;
+using Sempi5.Infrastructure.RequiredStaffAggregate;
 using Sempi5.Infrastructure.RequiredStaffRepository;
+using Sempi5.Infrastructure.SpecializationAggregate;
 using Sempi5.Infrastructure.SpecializationRepository;
 
 namespace Sempi5.Services;

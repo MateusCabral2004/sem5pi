@@ -1,6 +1,6 @@
 using Sempi5.Domain.Shared;
 
-namespace Sempi5.Domain.ConfirmationToken;
+namespace Sempi5.Domain.ConfirmationTokenAggregate;
 
 public class ConfirmationToken : Entity<ConfirmationTokenId>, IAggregateRoot
 {

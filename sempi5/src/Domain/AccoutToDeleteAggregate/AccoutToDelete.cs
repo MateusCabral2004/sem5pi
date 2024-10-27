@@ -1,8 +1,7 @@
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.User;
-using Sempi5.Infrastructure.AccoutToDeleteRepository;
 
-namespace Sempi5.Domain.AccoutToDelete;
+namespace Sempi5.Domain.AccoutToDeleteAggregate;
 
 public class AccoutToDelete:Entity<SystemUserId>, IAggregateRoot
 {

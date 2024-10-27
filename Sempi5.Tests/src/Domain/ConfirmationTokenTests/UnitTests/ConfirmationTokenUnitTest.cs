@@ -1,7 +1,7 @@
 using System;
 using Moq;
+using Sempi5.Domain.ConfirmationTokenAggregate;
 using Xunit;
-using Sempi5.Domain.ConfirmationToken;
 using Sempi5.Domain.Shared;
 
 namespace Sempi5.Tests.Domain.ConfirmationTokenTests.UnitTests;
@@ -12,7 +12,7 @@ public class ConfirmationTokenUnitTests
     public void TestConstructorWithValidParamethers()
     {
         Mock<Email> email = new Mock<Email>("example@gmail.com");
-        ConfirmationToken token = new ConfirmationToken(email.Object, "id");
+        var token = new ConfirmationToken(email.Object, "id");
         Assert.NotNull(token);
         Assert.False(token.IsUsed);
         Assert.True(token.ExpiryDate > DateTime.Now);

@@ -2,12 +2,12 @@
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Sempi5.Domain.ConfirmationLink;
+using Sempi5.Domain.ConfirmationLinkAggregate;
 using Sempi5.Domain.Shared;
 using Xunit;
 using Assert = Xunit.Assert;
 
-namespace Sempi5.Tests.Domain.ConfirmationToken.Unit;
+namespace Sempi5.Tests.Domain.ConfirmationTokenTests.Unit;
 
 
 public class ConfirmationLinkTest

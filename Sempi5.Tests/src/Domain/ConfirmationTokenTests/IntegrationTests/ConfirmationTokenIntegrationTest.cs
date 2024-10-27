@@ -1,7 +1,7 @@
 using System;
+using Sempi5.Domain.ConfirmationTokenAggregate;
 using Xunit;
 using Sempi5.Domain.Shared;
-using Sempi5.Domain.ConfirmationToken;
 
 namespace Sempi5.Tests.Domain.ConfirmationTokenTests.IntegrationTests;
 
