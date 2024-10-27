@@ -80,7 +80,7 @@
 					"name": "RegisterStaffUser",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "RegisterStaffUserValid",
 							"id": "092cbee2-aca7-4154-8051-a28c72971979",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -180,7 +180,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "a6911230-da69-48c6-89ab-d2a862c2496c",
+				"id": "7dea1979-1f62-4723-b1ba-27eb775a3b5b",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -190,7 +190,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "2c1e1ff5-deff-4949-8ed3-5bd01d5c1177",
+				"id": "c8bfc405-b58e-41d5-9a5d-df7e6652cd13",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -211,6 +211,11 @@
 		{
 			"key": "AdminCookieRui",
 			"value": ".AspNetCore.Cookies=CfDJ8PAr93lbJ8BCkTvnmDiOxGQ494fAjlUDCwOAUw3J05914pCutTCt9qbiookIEF7dhIQ1IiWryTffkjSOt7snXWSepXY8_doRth4tyijEvr50EZwy3NbVYxswyvkN3VS-Iief8bIQlk8Q6TqVi34ycwe6boM5Gk--yW69klf0-m0esCtu7j0gl1EbW7LDBWYUDbWMqE6PZ7Fi24LxLfAzm4p2XtnIqw0orkNZEo4U3Tg3agzK2nEZJgkcnNNrCHdKxN0U6P-ggLUj9ukqNxmtBI0es8LdtHMy8kICPLOgYuzuw3lgmnjnVXm3tOhnpZ-AE0ePhlerT8VsyMD6523bGrmSnMccwm8gfxmemhvZNM7i2UEFEuyI5u8e5y40dWiOhP2UmcPc4CbNn8ZS5U064mX8FLKKHPGcJ6tEDnefwHjeVfKqIgpGM_-nE7FBSWU2tG_fgxkZoNBrVcatNk_FY4EXs1w_y0Mi-VeqfKnQ_-Yaz_JnyVMORRCNV3Nv24FmYo5wBU_LCffqst2xhNFBXBCt-1Xne_Y4TviOW3pzysIR-gQoYsKKEmIv4dg4Ue00z28wvhdrwxl6_hxbCWEGZkmQ69pz3xzSP6ClMDJmg8WtycN1lDYSxGoG8WFRqAhl8FkxBErwsBbRyIiKAHjUaBfYVgv6Bm5_8uVXf6BZPYOn-mzKh-LoTwoFktmKABlrNQu8JCVxqdx73Wq9rMh2f6PPKnKNvW72Afi5hejcakF1ZbpnwqzbiKs2Yg_CkRhTrIi-ExjcqYc_DJGnbhMgimICx5NyHd0oRwzVMy6pTfQSDN7bKYfHe3xFgO_JEZrMWew6o-iV_RK55ax6hEar8LEFjnJpououShB2xO8YGCdcpSIMM8-lfbuFdWf1hh6oFJEL8M5At5PZ96ZGh5ft8w_SR87YKLYadlrEDmTHtyYMwFhEyxICD8qFbUvGojXC2GxVcMbMnSbPFFGd414coJqm_j8iwkVdIAIm9jX5lrVLS_Z3auKBg6RDEvoXv_HE057kgz5m-RVf-okW_WtHxdxIned35ywkTCzEmXHV0C4mdASfqdpcPeXDVK1syRpC8RmQSuzI6qSGuQTAtKfI-MPYF9-B4q1EVijFvECcYg7bshqa1tdGFTTZl7JFuYYzrZIl9LMgEAusaQIGcR638efhhYfbfjvN2Geh8osmEReWWGxR5c1GEMvcjxaUXxBZVl1mzXhKWG6z_8fvxoefKNaYuwEldwtn2UwOaFGzMEDUGMtrorPy27G7B35QSHitcbTD47fcdbBCKxSNsP30rmCDGFBVY53kW8l7dX2c5yMz3vS1Vpmn8rob0M3viVsJiML2TuSMLEMuZornpBxWnt7HsCjG7tAdzz2yp5QVjko9bg6ziGlxrh2XKGM9E5lhr4u8g7nN9ZcPqvznBqPNg5McnjXJvB3jQ-8JmNSHyht2",
+			"type": "string"
+		},
+		{
+			"key": "AdminCookieMateus",
+			"value": ".AspNetCore.Cookies=CfDJ8C1qEftZwfhChaaurTMpFZ_qG_NSmwFVo1vANleKIubIwmgaG--MvqGaWAv5dV3ZazzsStIYNi_VHCZJ48IrTn-XKk5GEvygRagjSfAq9qkbUFYaR3oKMG8zRyT7hegmqt6Qn5ZxaAkDeRMd0fFk3JVkfJOA5Z0GFT6pyxnpLiZuUNdLnPJfpEt-JQxxojhEmIFoFAaVlpDdZ9ybOLNzUItBngbXAomNfhl5XCKNQdXHdOyy-QScpGuBmayang1dN86mCA5nF_cIAGZLsR7GFA10iXcBQ8Cu0oPBROqZKfDYnjQHB-I5OF1Vr3UtDZ1SHoxOY3O4ubrhpjzQc5j8K1Q-Hbjv4RwNdRA57nWNZnsI08hI0ylvvGVAZ2hCctbMQN1dg7kiPH9CMjFuGuR8T3CJ2e1niIRuTqhjl8Wt0VTunmY1mKzNwcqjoKk58oHX8K-APBt_iQozxbCWyd9wY3kHfgkPiA6F1cTPg75U-6VE9FhgihniW4acLQfTobw54C1LERRLIwu9yZIJHEHfBHMWLcML1l3SrdbGCC0LG_kgRzw0MD8vexdnrKjF02PVWHl7tdUtgyZIOF2nDEkABp7JNsHn92nrrvCicCKvXQKZPVWCkY0KEW7AVIm5l-9glAb1Rre0lJ0ZR3hKSWxW1Nb3yuOMi4bluFMjmMqlCdCoEkKcQrnmfhBtnjhBi4FU9uZsPnA9d6-6I6YDYC7E_mLEoz-WHOD6hmI1gZ6tBfbvUggL7lSD4Jzl7u3oNXEsy0jWIeEFOijolXnfW7e3GwGKLD7oqRHkd3MaFv3nSqm_ex-Rp8QT51DcR5hD7hto-PIoq8h8C9tGtGNGugg8TmP5mNyUz04wkUlSQyxJbUURZaSvush76VDuIWU27y5GrcW5itTUq6U0M6oTmwrsWD-3-czCbSDdzDfo8DujIKeIY0zTKzzXv4poxZc49dKeIThaZyGrXJXE-K5qBWaqmh1YdyPW7xUhDjmNL9glKc2AF6tl_gQpBDuCiJhckNkWu4TWUkV6JqYEuQylALLJf8_Fj6h8EIZQ22mM8Ka0ClCh0UflrYG4VK0CZqytN7zviNR_BCDKb9AIdr7mBecyuJlq_Gx057-j6fdWvzwq15ZZ3HdFeTkvprT9_pncKhAKgeMA2VKgafCRvpPwbkMokQ4Y_Ut26m_laL4mtRQ9IJ2R7CSzsmAXairN0UHNsXnqRwBLfTyg7x2NYKMyyVjW48BleauOFVlrxmRhxL8mE-soGOsuflAtAEzTuh-5uqZGGWISeJfap5HIWg7Gm09ghfxwHHnl-GTzq_1sWMVEGY47-3f7m0dIHfp9fE9j8uxYT4mJbEz1B775Lhv-Qw7S301ebUK6OYDYq4nxkQKUb5yovhD8VMG6-NHumN2xPxDX6-OwQyQtHPK362x_GEABZ0o1n29POR_RVonbUyjd4LLi",
 			"type": "string"
 		}
 	]
