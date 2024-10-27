@@ -23,9 +23,13 @@ public class StaffBootstrap
         var nurseUser = new SystemUser(new Email("nurse@example.com"), "Nurse", true);
         var doctorUser = new SystemUser(new Email("admin@example.com"), "Doctor", true);
         var doctorTest = new SystemUser(new Email("rutemaia2004@gmail.com"), "Doctor", true);
+        var nurseUserRui = new SystemUser(new Email("rpsoares8@gmail.com"), "Nurse", true);
+        var doctorUserRui2 = new SystemUser(new Email("swag4yt@gmail.com"), "Doctor", true);
+        var nurseUserRui2 = new SystemUser(new Email("rui.soares13749@aesps.pt"), "Nurse", true);
 
         var specialization1 = new Specialization(new SpecializationName("Cardiology"));
         var specialization2 = new Specialization(new SpecializationName("Surgeon"));
+        
 
         var nurse = new Staff
         (
@@ -53,9 +57,44 @@ public class StaffBootstrap
             specialization1,
             StaffStatusEnum.ACTIVE);
 
+        var nurseRui = new Staff
+        (
+            nurseUserRui,
+            new LicenseNumber(200),
+            new Person(new Name("Rui"), new Name("Soares"),
+                new ContactInfo(new Email("rpsoares8@gmail.com"), new PhoneNumber(964666298))),
+            specialization1,
+            StaffStatusEnum.ACTIVE
+        );
+
+        var nurseRui2 = new Staff
+        (
+            nurseUserRui2,
+            new LicenseNumber(201),
+            new Person(new Name("Rui"), new Name("Soares"),
+                new ContactInfo(new Email("rui.soares13749@aesps.pt"), new PhoneNumber(964666299))),
+            specialization1,
+            StaffStatusEnum.ACTIVE
+        );
+
+        var doctorRui2 = new Staff
+        (
+            doctorUserRui2,
+            new LicenseNumber(202),
+            new Person(new Name("Rui"), new Name("Soares"),
+                new ContactInfo(new Email("swag4yt@gmail.com"), new PhoneNumber(964666300))),
+            specialization2,
+            StaffStatusEnum.ACTIVE
+        );
+        
+
         await _staffRepository.AddAsync(nurse);
         await _staffRepository.AddAsync(doctor);
         await _staffRepository.AddAsync(test);
+        await _staffRepository.AddAsync(nurseRui);
+        await _staffRepository.AddAsync(nurseRui2);
+        await _staffRepository.AddAsync(doctorRui2);
+        
     }
 
     public async Task SeedStaffProfiles()

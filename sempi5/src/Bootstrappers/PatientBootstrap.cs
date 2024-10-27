@@ -23,7 +23,7 @@ public class PatientBootstrap
         var patient1 = new Patient
         (
             user1, new Person(new Name("Alice"), new Name("Doe"),
-                new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987654322))),
+                new ContactInfo(new Email("mateuscabral20042@gmail.com"), new PhoneNumber(987653333))),
             new DateTime(1990, 1, 10),
             "Combat Helicopter",
             new List<string> { "Peanuts", "Asthma" },
@@ -35,7 +35,7 @@ public class PatientBootstrap
         var patient2 = new Patient
         (user2,
             new Person(new Name("Bob"), new Name("Smith"),
-                new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654329))),
+                new ContactInfo(new Email("mateuscabral123321@gmail.com"), new PhoneNumber(987654129))),
             new DateTime(1990, 1, 10),
             "Ambulance",
             new List<string> { "Shellfish", "Diabetes" },

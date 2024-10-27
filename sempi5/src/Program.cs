@@ -156,6 +156,7 @@ namespace Sempi5
                 var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
                 var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
                 var staffRepository = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
+                var patentRepository = scope.ServiceProvider.GetRequiredService<IPatientRepository>();
                 var operationRequestRepository = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
 
                 new UsersBootstrap(userRepository).SeedAdminUser().Wait();
@@ -164,6 +165,10 @@ namespace Sempi5
                 var staffBootstrap = new StaffBootstrap(staffRepository);
                 staffBootstrap.SeedActiveStaff().Wait();
                 staffBootstrap.SeedStaffProfiles().Wait();
+                unitOfWork.CommitAsync().Wait();
+                
+                var patientBootstrap = new PatientBootstrap(patentRepository);
+                patientBootstrap.SeedActivePatients().Wait();
                 unitOfWork.CommitAsync().Wait();
                 
                 var operationRequestBootstrap = new OperationRequestBootstrap(operationRequestRepository);
@@ -238,7 +243,6 @@ namespace Sempi5
             services.AddTransient<PatientService>();
             services.AddTransient<TokenService>();
             services.AddTransient<OperationTypeService>();
-            services.AddTransient<CheckUserToDeleteService>();
             services.AddTransient<OperationRequestService>();
             services.AddTransient<SystemUserService>();
 

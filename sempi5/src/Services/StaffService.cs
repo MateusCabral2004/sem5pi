@@ -102,23 +102,26 @@ namespace Sempi5.Services
         private async Task<Person> CreatePerson(string firstName, string lastName, string emailString,
             int phoneNumberInt)
         {
+            
+            await VerifyPhoneNumberAvailability(phoneNumberInt);
+            
             var phoneNumber = new PhoneNumber(phoneNumberInt);
+            
+            await VerifyEmailAvailability(emailString);
 
             var email = new Email(emailString);
-
-            await VerifyPhoneNumberAvailability(phoneNumber);
-
-            await VerifyEmailAvailability(email);
-
+            
             var contactInfo = new ContactInfo(email, phoneNumber);
             var person = new Person(new Name(firstName), new Name(lastName), contactInfo);
 
             return person;
         }
 
-        private async Task VerifyPhoneNumberAvailability(PhoneNumber phoneNumber)
+        public async Task VerifyPhoneNumberAvailability(int phoneNumber)
         {
-            var personByPhoneNumber = await _personRepository.GetPersonByPhoneNumber(phoneNumber);
+            var phone = new PhoneNumber(phoneNumber);
+            
+            var personByPhoneNumber = await _personRepository.GetPersonByPhoneNumber(phone);
 
             if (personByPhoneNumber != null)
             {
@@ -126,9 +129,12 @@ namespace Sempi5.Services
             }
         }
 
-        private async Task VerifyEmailAvailability(Email email)
+        public async Task VerifyEmailAvailability(string email)
         {
-            var personByEmail = await _personRepository.GetPersonByEmail(email);
+
+            var emailAdd = new Email(email);
+            
+            var personByEmail = await _personRepository.GetPersonByEmail(emailAdd);
 
             if (personByEmail != null)
             {
@@ -160,20 +166,21 @@ namespace Sempi5.Services
 
             if (editStaffDto.email != null)
             {
+                await VerifyEmailAvailability(editStaffDto.email);
+
                 var email = new Email(editStaffDto.email);
-
-                await VerifyEmailAvailability(email);
-
+                
                 staff.Person.ContactInfo._email = email;
             }
 
 
             if (editStaffDto.phoneNumber > 0)
             {
+
+                await VerifyPhoneNumberAvailability(editStaffDto.phoneNumber);
+
                 var phoneNumber = new PhoneNumber(editStaffDto.phoneNumber);
-
-                await VerifyPhoneNumberAvailability(phoneNumber);
-
+                
                 staff.Person.ContactInfo._phoneNumber = phoneNumber;
             }
 
@@ -244,6 +251,18 @@ namespace Sempi5.Services
 
         public async Task<List<SearchedStaffDTO>> ListStaffBySpecialization(SpecializationNameDTO specializationDto)
         {
+            
+            var specializationName = new SpecializationName(specializationDto.specializationName);
+            var specializationToSearch = new Specialization(specializationName);
+            
+            var specialization = await 
+                _specializationRepository.GetBySpecializationName(specializationToSearch);
+            
+            if (specialization == null)
+            {
+                throw new ArgumentException("Specialization not found.");
+            }
+            
             var staffList =
                 await _staffRepository.GetActiveStaffBySpecialization(
                     new SpecializationName(specializationDto.specializationName));

@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.PatientAggregate;
+using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
@@ -65,6 +66,11 @@ namespace Sempi5.Controllers.StaffControllers
 
                 if (editStaffDto.email != null || editStaffDto.phoneNumber > 0)
                 {
+                    if (editStaffDto.email != null) await _staffService.VerifyEmailAvailability(editStaffDto.email);
+                    if (editStaffDto.phoneNumber > 0)
+                        await _staffService.VerifyPhoneNumberAvailability(editStaffDto.phoneNumber);
+                    
+                    
                     await _emailService.PrepareEditStaffConfirmationEmail(staff.Person.ContactInfo._email.ToString(),
                         editStaffDto);
                 }
@@ -84,7 +90,7 @@ namespace Sempi5.Controllers.StaffControllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + e.StackTrace);
+                return BadRequest(e.Message);
             }
         }
 
