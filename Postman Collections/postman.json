@@ -1165,7 +1165,7 @@
 					"response": []
 				},
 				{
-					"name": "editOperationName Copy",
+					"name": "editOperationAddRequiredStaff",
 					"id": "e92617a5-e275-4077-8b0c-fc9cdd0d0e4b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1181,14 +1181,42 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\"new Knee Surgery\"",
+							"raw": "    {\r\n      \"NumberOfStaff\": 2,\r\n      \"Specialization\": \"Nurse\"\r\n    }",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{base_url}}/OperationType/editOperationType/name/Knee%20Surgery"
+						"url": "{{base_url}}/OperationType/editOperationType/requiredStaff/add/Heart%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editOperationRemoveRequiredStaff",
+					"id": "90bfb044-07c5-4de4-9c93-e5a4dd884468",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n      \"NumberOfStaff\": 2,\r\n      \"Specialization\": \"Nurse\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/requiredStaff/add/Heart%20Surgery"
 					},
 					"response": []
 				}
