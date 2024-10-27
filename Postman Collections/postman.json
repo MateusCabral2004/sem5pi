@@ -72,6 +72,55 @@
 			"name": "US 5.1.",
 			"item": [],
 			"id": "b9c42abb-e54c-4fec-9838-d04c21f3c513"
+		},
+		{
+			"name": "US5.1.1",
+			"item": [
+				{
+					"name": "New Folder",
+					"item": [],
+					"id": "5903608d-c097-4cba-bb4a-2f05e1420282"
+				}
+			],
+			"id": "a9c48bfa-281a-4128-9e2b-09b8a8219b1b"
+		},
+		{
+			"name": "5.1.11",
+			"item": [
+				{
+					"name": "listPatientByEmail",
+					"item": [],
+					"id": "5aa86f4e-a036-4678-aa59-8453ac948a74"
+				},
+				{
+					"name": "listPatientByName",
+					"item": [],
+					"id": "8bf31d7e-1b61-46fd-84d1-6b3146744934"
+				},
+				{
+					"name": "listPatientByBirthDate",
+					"item": [],
+					"id": "c086e797-78aa-46f6-863f-66112be2ce9a"
+				},
+				{
+					"name": "New Folder",
+					"item": [],
+					"id": "92bf83f1-2041-42d4-8cc8-ddef2f2f1c6c"
+				}
+			],
+			"id": "eba2f931-4ef7-4951-a812-931565bd42ba"
+		},
+		{
+			"name": "New Request",
+			"id": "1a014d93-d43a-49f2-82ef-a0dd99d9d407",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	],
 	"event": [
