@@ -132,7 +132,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookiePatient}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": []
@@ -142,19 +148,63 @@
 					"response": []
 				},
 				{
-					"name": "ListAppointment_notVerified",
+					"name": "register user",
 					"id": "f55ee4cb-4ede-4790-b8a2-ed043e8118cf",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookieUnresgister}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "formdata",
 							"formdata": []
 						},
-						"url": "{{base_url}}/patient/account/appointment"
+						"url": {
+							"raw": "{{base_url}}/patient/register?number=987654322",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"patient",
+								"register"
+							],
+							"query": [
+								{
+									"key": "number",
+									"value": "987654322"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verifyUser",
+					"id": "e091ed78-e134-448c-a8b0-38432ce2f031",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookieUnresgister}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{base_url}}/confirmToken/patient/{{tokenConfirmEmail}}"
 					},
 					"response": []
 				}
@@ -168,14 +218,58 @@
 					"name": "updateEmail",
 					"item": [
 						{
-							"name": "Com confirmação",
+							"name": "send email to update phoneNumber",
 							"id": "7fc3df04-735f-497f-92e2-f4b3410565d6",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{SandroCookiePatient}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"phonenumber\":\"938536401\",\r\n    \"firstName\": \"updateSandro\",\r\n  \"lastName\": \"updateLuis\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Male\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 987654321\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/patient/account/update"
+							},
+							"response": []
+						},
+						{
+							"name": "confirm update",
+							"id": "0da19740-9bfb-44bb-a9f0-03bcd34aa0c5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
 								"method": "GET",
-								"header": []
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{SandroCookiePatient}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/patient/account/update/%7B%22email%22:null,%22phoneNumber%22:%22938536401%22,%22firstName%22:%22updateSandro%22,%22lastName%22:%22updateLuis%22,%22birthDate%22:%221985-10-12T00:00:00%22,%22gender%22:%22Male%22,%22allergiesAndMedicalConditions%22:%5B%22Penicillin%22,%22Asthma%22%5D,%22emergencyContact%22:%22Jane%20Doe%20-%20987654321%22,%22appointmentHistory%22:%5B%222023-05-15%22,%222024-03-12%22%5D%7D"
 							},
 							"response": []
 						}
@@ -186,31 +280,35 @@
 					"name": "updateProfile sem confirmação de email",
 					"item": [
 						{
-							"name": "Com confirmação",
+							"name": "sem confirmação",
 							"id": "081b07e7-daf0-431b-9f71-7525bcdefaa1",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
-								"method": "GET",
-								"header": []
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{SandroCookiePatient}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"firstName\": \"updateSandro\",\r\n  \"lastName\": \"updateLuis\",\r\n  \"birthDate\": \"1985-10-12T00:00:00\",\r\n  \"gender\": \"Female\",\r\n  \"allergiesAndMedicalConditions\": [\"Penicillin\", \"Asthma\"],\r\n  \"emergencyContact\": \"Jane Doe - 999111999\",\r\n  \"appointmentHistory\": [\"2023-05-15\", \"2024-03-12\"]\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/patient/account/update"
 							},
 							"response": []
 						}
 					],
 					"id": "701f1df5-b759-4c64-8f3d-9998eb79e365"
-				},
-				{
-					"name": "Sem confirmação",
-					"id": "a854fbcc-eed6-4a6a-8236-67e597386e95",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
 				}
 			],
 			"id": "a7529494-2ddc-41e8-9e74-4cc751df956b"
@@ -226,7 +324,14 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookie}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/patient/checkUserToDelete"
 					},
 					"response": []
 				},
@@ -238,7 +343,14 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookiePatient}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/patient/account/exclude"
 					},
 					"response": []
 				},
@@ -250,7 +362,14 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookiePatient}}",
+								"type": "text"
+							}
+						],
+						"url": "{{base_url}}/patient/account/exclude/confirm/{{tokenDeleteAccount}}"
 					},
 					"response": []
 				}
@@ -1001,8 +1120,15 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": "{{base_url}}"
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookieDoctor}}",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": "{{base_url}}/staff/request/deleteRequest"
 					},
 					"response": []
 				}
@@ -1020,7 +1146,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookieDoctor}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n  \"patientName\": \"new User\",\r\n  \"type\": \"Heart Surgery\",\r\n  \"priority\": \"HIGH\"\r\n  \r\n}\r\n",
@@ -1126,7 +1258,7 @@
 								}
 							}
 						},
-						"url": "{{base_url}}/OperationType/deleteOperationType/Heart%20Surgery"
+						"url": "{{base_url}}/OperationType/deleteOperationType/Heart%20Surgery%20Simple"
 					},
 					"response": []
 				}
@@ -1135,15 +1267,426 @@
 		},
 		{
 			"name": "US5.1.21",
-			"item": [],
+			"item": [
+				{
+					"name": "editOperationName",
+					"id": "a5ae2bb7-6f58-4a0e-bb7b-4fe924088a26",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"new Knee Surgery\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/name/Knee%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editOperationAddRequiredStaff",
+					"id": "e92617a5-e275-4077-8b0c-fc9cdd0d0e4b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\r\n      \"NumberOfStaff\": 2,\r\n      \"Specialization\": \"Nurse\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/requiredStaff/add/Heart%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editOperationRemoveRequiredStaff",
+					"id": "90bfb044-07c5-4de4-9c93-e5a4dd884468",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"Cleaner\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/requiredStaff/remove/Heart%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editSetupDuration",
+					"id": "ab398041-8a89-4aef-921e-a6abee19e0df",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"00:01:30\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/duration/setup/Heart%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editCleaningDuration",
+					"id": "d26b5091-209c-4fe6-b726-7f49dc98010e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"00:01:00\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/duration/cleaning/Heart%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editSurgeryDuration",
+					"id": "eac56103-c900-4527-b297-af649c34fc10",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"00:03:30\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/duration/surgery/Heart%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editInvalidDuration",
+					"id": "ca555f33-05df-4da4-8c14-f36be8b49bfe",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"00:06:30\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/duration/other/Heart%20Surgery"
+					},
+					"response": []
+				}
+			],
 			"id": "c0082dbc-50ea-40c0-8806-2cbb01c5dbf3"
+		},
+		{
+			"name": "5.1.8",
+			"item": [
+				{
+					"name": "http://localhost:5001/Patient/registerPatientProfile",
+					"id": "eef737fd-b1ab-41c5-aa3a-1213a868a9e0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{Admin",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Bárbara\",\r\n  \"lastName\": \"Bandeira\",\r\n  \"email\": \"barbarabandeira@gmail.com\",\r\n  \"birthDate\": \"2004-11-04\",\r\n  \"phoneNumber\": 914129219,\r\n  \"gender\": \"Female\",\r\n  \"emergencyContact\": \"Carlos Bandeira\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/Patient/registerPatientProfile"
+					},
+					"response": []
+				}
+			],
+			"id": "f310de49-84cf-4a7c-aaf8-046932d928d2"
+		},
+		{
+			"name": "5.1.9",
+			"item": [
+				{
+					"name": "http://localhost:5001/Patient/editPatientProfile/newUser@gmail.com",
+					"id": "6e0b9bb5-4d94-4ebc-ae32-eeda27e87a25",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"Madalena\",\r\n    \"lastName\":\"Sousa\",\r\n    \"birthDate\":\"2009-12-12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/Patient/editPatientProfile/newUser@gmail.com"
+					},
+					"response": []
+				}
+			],
+			"id": "501eb3f0-e17e-488e-a600-243d688859e9"
+		},
+		{
+			"name": "5.1.10",
+			"item": [
+				{
+					"name": "New Request",
+					"id": "5adcdc99-9c90-4dc0-bb24-9bf4c1e3a9eb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:5001/Patient/deletePatientProfile/anotherEmail@gmail.com"
+					},
+					"response": []
+				}
+			],
+			"id": "25946838-30b8-4d39-912b-8d0f059ca7bb"
+		},
+		{
+			"name": "5.1.16",
+			"item": [
+				{
+					"name": "http://localhost:5001/OperationRequest/requestOperation",
+					"id": "1a5f00da-aba9-4577-a6ea-297e4138909a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patientID\": \"20241000001\" ,\r\n    \"doctorID\":\"D202400003\" ,\r\n    \"operationName\":\"Heart transplant\",\r\n    \"operationType\":\"Heart Surgery\",\r\n    \"deadline\": \"2024-10-10\",\r\n    \"priority\": \"HIGH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/OperationRequest/requestOperation"
+					},
+					"response": []
+				}
+			],
+			"id": "928b06b7-38bc-4aa8-9c9b-6f4b7c376f49"
+		},
+		{
+			"name": "5.1.17",
+			"item": [
+				{
+					"name": "updateOperationRequestPriority",
+					"id": "cfa9b6ec-06fd-445e-8b2b-1cceb51aa5c9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": ".AspNetCore.Cookies=CfDJ8KVrZduF2lRPo7ioB0pDQ4-qW8JM36249z8WJIf3UY-OSoJt0RzGvTNQYMhWC0P0I4GUwIgeEujtfPMq65HOupABUyTLq0NUzjs8XqnzkjI84xCAiyunCDhpvk0J2QBYaUFLswxwUpo5GqJoHHVYx7uN32LF6yWrE8VRxN0UVSKIhPdPOgQU8PIRy1uShDcs5ZJ4YL-RjV1HBMvJqVx4oVk6KlKvubqcibCrPfx4JSzvujlzdJcsLGFstcXhCS0deQpz_AnPp7QHMihNbfzya4HJHTMl0f8bGLfF58jJi-LRJ4qvZAqPodDE7FxPvd1nvJZBnOrPFWubyiSMcQ-DLYQ98SWpWELhbotrhkq_gclthwRsO5IEtx9V7YEhi7iWs3wrs7tFa35iZOI0N5q5F7c5RZSEoKRVlcWhIrBOW8kdqPwPE932ORj1WJM_U8IEpfctdBKFYEI4EgXxVRiGSorcrAxSxKgYvOrFifu9EAcHAyIjPtEer7nxUTKKV9aNQagdWRcnbZ8SaIC2cHebOlxGm24DhRQ_YRt2UfytQY6u_5uhsRxB5RKT-BLFe1AHHCBUoz1t1e7HIbAVcyMjPbn2UA9GUCY0s4EZPrA-ZxTvZ0Djs6NcQoWD7b-pTPYHPWUU83wUXdsseWITRY974JL5IAwx0I1_TvZZW4e1pgldN0Lty3FLlTO8PNTTZOn4CMa2pWtJJ7YJi4l7yH1CxY5ZVhl1Z4pEVG7Cx32lrpTKMwRLHsmyAYJ5Os6dbTknn8sDTuXRifF2Fnl2tcb3x83mC_tFmXOSTzO3NGFoxbp4EIRBQVb16Rdh30Ai0qektwHAFUYtNV39bZaowfuNi9TyC3P_etnu4lWwQhEu4F2TMWkYafpLN8F2eFozuRSmTJcEMjFsfImELq_WrkBzLUnk9pSK1ZBguCGnTtqLBCOmNoj9ThodO0IL4RR3T-TjjR4sG_1XV2gVVTyIsHyAkNqvQaEtoSE-JdlcAtD7Ad-pl8vtlmruOlBc7zStqfLRzzXkuhc1XL46SurJ-luhRUvLlX5YCdDhDMraQok76oho9V3NZNYQuA19qU6vKxiWBwMWqiknMMXxjfgAIMj2HdN-JoloLrBcfb5JdTcx0Fuq0H-j6MEBzLRVKOjYPNKYLS7lITbHAEsMDzJYcZdo3INPlj7_b8_oyluBXT6dp5C1znXtrgXwrdrAAUW14P-iOtGz1HDIo2RinmYvLykRs0EK0X6xYBZ0XuNtg1crUVZ6FeNbnBRcHKwaCkU5be3VDrMZkSMR-bKt6nO1pQ2CqnFM74hXlpklyIY52vauQQCHUouQYvjEBWEvFDIjSI8e3FOXIgQjNyYMepX6NvTlICODCIlCUznbPiZMslMQLvrWDDtHfMsvqQZBCM1pJV6xdpF5Cj1h8jGWFQlIcUoR0UqB9ws-E08IImxY-3vBuhDt",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/OperationRequest/updateOperationRequestPriority/2/LOW"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "75cc8540-b1b8-4e98-8c18-bdc4678a4d9a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": "http://localhost:5001/OperationRequest/updateOperationRequestDeadline/2/2024-12-12"
+					},
+					"response": []
+				}
+			],
+			"id": "a5906108-2a3a-47c1-a401-33a71b6bc8b8"
+		},
+		{
+			"name": "5.1.23",
+			"item": [
+				{
+					"name": "http://localhost:5001/OperationType/listOperationTypeBySpecialization/Cleaner",
+					"id": "72126b6a-3186-41dc-b797-bb4540f27ca3",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"specializationName\":\"Cleaner\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/OperationType/listOperationTypeBySpecialization/Cleaner"
+					},
+					"response": []
+				},
+				{
+					"name": "listOperationTypeByStatus",
+					"id": "42b99ffd-99f8-4021-b8e1-4c207e311604",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:5001/OperationType/listOperationTypeByStatus/true"
+					},
+					"response": []
+				},
+				{
+					"name": "listOperationTypeByName",
+					"id": "f782a2e7-21a0-44a0-ba56-40cd85b95357",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			],
+			"id": "166f6465-59a3-4c7f-8828-2fd683a8cf04"
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "c4c32c0d-f398-4331-93fd-369af2bcefb7",
+				"id": "56ebf589-3cc1-450e-8a98-664de6f23c7e",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1153,7 +1696,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "2107da35-4489-4bad-adf2-9d7a96cb633e",
+				"id": "34268e79-735e-43f9-aede-83a6c269def5",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1185,6 +1728,31 @@
 			"key": "tokenConfirmStaff",
 			"value": "08dcf6aa-0915-448d-8c8b-8993eb632fc7",
 			"type": "default"
+		},
+		{
+			"key": "SandroCookiePatient",
+			"value": ".AspNetCore.Cookies=CfDJ8C1qEftZwfhChaaurTMpFZ93tMRFdIUzKh2J_jodYkgGJHVs22peehvOHPdPT7k8wCmZN648vCb9rzGWszbjvc8jqMVnDR82KfYjoPiGfB4ZkyP6i1STWe3EKyNb4UqFrC6tAdCCj4DKUejkYd9fkEcstnH7tK1xDkQz8pEkORmu3hYIP9qZLD3JOqFSodnFb6sqeyN4cXhrhIbhDCFCN018Y_jPxXm9l3XCl2Y3VP4uCjvbr1EFVztI8OCwbLL-FlQtWP40_9frnDumXn5hbTuMaH_koAfMPnO2uGqJgJ6P03Pz1NypWDV4mf7StY4bG1GEi4Cweqk0E8-0F4z0hbjqvXYTwgGe3Fdr7dIu1EJjM5oJHOJ6ipc5VhFhS11-wMxSKHhsfwm0vCN2GVKfRjuazuxHB4xN_m4RCfcuUphGuxo3eWNV6h6Js4LOK9-jnQ52w9sbfkMzDTcx-Cg8POxkCXeXz2HbA5DMaq4eYaL_Wh7rELPppvu9hs_veabqcEc6GaM2NZU0uT5eqnM6X3bdRFtR-ZtGalNJ_JOajBga4M0ZjC0X0Shp80KwC5bEnMIRQ-P_HNkV-9QdEHP00XJ_0rLqGUwnZz7_NA4dlQsMNZnEYzfk7nQWcNWASUD74ihKhOrqlK93XqAAs_Oh2IJqXXeLwavCilYeBXaCXX9UeJQ0FwhCC8YY17sSNBR-t49NJWpVqlty628GgNOXPDfWrqijSeACjVAnyzQ9lq5XPHdv5Ei4r-QOJWrtB9dtxc8Ibu80q5XUHOEZTvOOnB4y4sxjQ_xiHN6SWsGtbVwEWjqpgJ6-a2EXkkqlTDBYHsKCHRChAnKld2q6ZjabeXokSGZ_NK-A7_NKXh1qR6H5mYn1hgWPAQQHlcfuhmEqyTE_8t999vOYOhFk7CoduksRaigblxAH81WnkaPP9yrUkjkIjxGvWEIb4vfFTmoibnvfP5HW_QHbUwpiLD8fE344sZ8iErq-0zWKROJ77VS7CgE3Icl6lVagnZgEqqcjSYIyqMZsb7V7FtED9HgofGQGzWbY6g_bbXToXGb2kZsiXw1rQv7r7tO5Z8wEdIrONGBLQgAA9ieHNxcyFF1cYVVMJguAFR1OwX7NVBCn03vUi5xtxvItA635VW0qhfw8a3hC094n8qbUFatRhEP_TqCiNoWhSg2ZwdKB7fH4V78hGirgx3bpyfnCFfbT-v7SUsezNQVjmJ1MHl4rnah4_JsRZnnagM-4Hi5P4h_kA7A9fYc3rqMXxiKzGKtDaCNMqyPPw18gA430GdfzWvIS2w0EfHo3_Zu3qP6Wmfazdry7GUZw3rQ5Lg3Awy25IRhynO91eTfavG02eIPEqlwDl2tT0_vVVUbcTRmDY434j-C27gOFQxowYLw14TtO8U82V_M-ulUqZ6zTM87s5cD1imIZLoFvQW6pnUeujec0xIYC",
+			"type": "string"
+		},
+		{
+			"key": "SandroCookieUnresgister",
+			"value": ".AspNetCore.Cookies=CfDJ8OkXFUFfzmxLsmbPaGjkY4_JqQet6BIPUHByifiyV9NZOxQIWuQTK6k0b2rkKtFmmz6msdMxVR1u4m1O633ZCBGPpcZitzHXsBwwWOd6eNGtRixVYlXqs9h79EMz1ojagur1dTMDFuwFfAj_fEShoakduDAS2zNY-LKW-kRjA3P2frSaqUHls-FEwmQ0zf_XJf89gUKpWuQLLyJ_w1iCv09pGP2mfVbkgIEmJLyVLFU69jTAHdbFr7JidenRb1fjmsN_-gITc0dk_4jnNVGmuB97Q1D_TLkY-4Svt6kO1oEyMP5kJSNiV4ZQ_WM9E77a0wlenKttt3dY6uBzUct-MUYwwg5LEbFY3Pa7O9r16DP_Q3TxLKgFy-fXO1y2YcfAaMsV5Z1_47_3UEfEWrvP6Nd5C0-uB5hE0QZSs1hEWVNHyzvAqLSbKmckgAHbnODTQdRmyg8US5WDmzwUe8C6lePPsPL8vAAMtDcy3Fw3JfrH33GXf7Hd62JOYiO0g9WdZ5RLkoi6GBUXfywcbPcQnemWT3-m4e9sOyEU5_evvPdrPxd0aKxz1Te4h6KOCh7smHqcy1EqIsICyCgDfZRF8a-eM6luH7QEk2H-dq9zpQEbnRuY7vsKX7QnHzEfhUcwUgU1Vgmll28Y9P4R-Djy45X4Henj0RdRIu5fpEe98wdE1uISdX8Ig8lYQJOFqxRoLB40z0qGGpSK2LIxw7iuGW_6y6eU2yVHEdXuYNEflcPoKtetEUhv7dZHtgpeyvwMdjygyPzZXBbA6wDQN8FXxjFSg6obzwTU0zN62OvzyYOT3OhbdxTwPr44HTkv9ybFUVNqwb2SZPrSRgM2fylE5U4FRKmQakIhX1jjGtzrkCVCJaamHxhCEBLkQcOQtEqOzHjK1Dw7Zj0d2DvPcQ0mycws_WSHMBiUboL46ie4zORaasrEtvpkmnTKYKtE7u4EIT3TUi686_qH-uF7EJqFB3ZfS8MhQNlVja78Yf_UYL3JQzbELM9LhmeJLu3ta0ejh2cPNkSQoAUYwY-jSrXVqrHAohp0_NWbgvPOfmg9nGH1kptkPF-_027FNBaqMu0Va92eIPvEZ6Zue1Y40tfrNVVNLE9SwHPj2C4Iackuv9tBdWn3wH4nAjFTB-cXuftlweqI1-xd24ByFmlYT7Hw0-0d-VtYLILEu2HTzqO9bKPanZh1GU-IhhHf6uc4CZfYdZidv2FR6ExDvQmf12IeqDiR30R3tamXY7YCFAgNazKbTaspqGxIyH2UUanEy7auSelpd9jui3q4IhVHkurejki8H67Ui762vHfcu2LmJC0v",
+			"type": "string"
+		},
+		{
+			"key": "SandroCookieDoctor",
+			"value": ".AspNetCore.Cookies=CfDJ8OkXFUFfzmxLsmbPaGjkY4-SRgMaz-J1ny_58vSXGm319hUAVrr-BNPJzpobXnRYtPFhMIKcX6C8RE2nHX2CV29yXQkgtJwXYS-cSh78SA5U6mPNMDYSWXmf9TlbjvLapgd5gPHt46sBbGEW_R0QS7i1SdauQRBs3UPLloea0r1P_uQx2mc67cX5xWhTRqqTYPcEtFNneFUFaPjlXAIB4uqFy8YNpsWUn6tJC_kXwqye93ef2wdTdKTA_b4t6bPIaa_8NX1vSejMk9GudsqyEWPtCt0lYqHCNQyoP8bx_PsXYIeyqeepWvrHhWoyEPxciaXl3jyfRTcZ_nkiwyaow6b-XiFTmbi7Ruxr-z_1xZFsAbnnJsV4rvs9g4rl-mphRwAXWBo_8PG4u3GjTUueqBWj-L9AvieFOSPwmTWLtPEufDrL_iOUTbn-a_GSXXiGlVaUSQ7qcJunCSEKkCfSe3khgNRi_164pNSQPKzdog2Bh8yUcACiRd346MDOtWGBejaZuz46nKzVuej0kkliLIGOma_FjqDP7pyNP1jhVKtx3K12er2YdXKNovUKUQ0fjWN46Or7hyTl3D6q0rZGyjGzYNwiEUs8mNdzIZRMYREYenvXohN0gt6WXnzHnjHCXxaV82Zy5RD2B5GTk_ZfCACbjrh-KcuHDBcI1FRY2pA5IOQ7KliLgIOhG2GutfTiUHUaCkxV09hDsh7URMjGWphRJlFFT3qcouitLXLxsKLvWcDxJJxf9hg1n4OMvwXkTzm7pBw5TRqmuoS3F8qrVBOXKzxM46Q6GW-Qdbc8Cs52QSkGeVeM98qF7vDJQKeAJtnaxGB0d-r2YohzL6QXtwwKdySZYM27oYz-AiepH23gGicJInYUhAHWUhnf5dCZwHAwP_XMRm7ONuYPcyw-gtwQWF153X93z5ue3_L0If-2pDxQquOdDuw7FjnddykgAj0wdCFzLaILp5nTrHknEZcRUKTcTIo77rQs4Y4FKWz0JDion6yCp2ONw5fWNlAS9NbzSzstabGQrDEd_KU54kWuXCWGMVmTJ9xf-1mM_u4M7PQecaEcQ-Y8t5WBQGG5R5LsLGSb97pkkjVIP3O3N_jtU2xt8mEaSJEJ4nGvwjsjIToFZ2uKE8A9MytShVChseqvfYRRM6Ly8VuZ_3xuBtuUi5r2aUpqlmPjCELQSquptUmmqDZ5rtodkxUw24WmAzj_XDYiFpWFJiD7VpshuxYyfl1AK_ytBJ6LYcZcYVwxlE1tYd83MbvzlPXOBCVsqw3n1daJmd1sBvMLSDxR5oIZQf5AnMRZ-TSs4aIY7df-NbWHeZwQlRnpafNYicxWfr8LD69wH40zAtc8NHgDK69Ir0vw3cEokkKUSjAcfFgKWoxmmjKQBhiTCG7iTSPD-lj-O1ucwhtQ0aQPa7nl4ls",
+			"type": "string"
+		},
+		{
+			"key": "AdminCookieRute",
+			"value": ".AspNetCore.Cookies=CfDJ8KVrZduF2lRPo7ioB0pDQ4_yH0W824o-a1_l2Pde6sZiE7_LenD4TQrMX9tMAqsp_X25tCxZWv90ddQDcrIgKlDjPN66nNYp9MFgOvHeIuyVWpO4TV3q7RtH7oSzN9WkPCWkyifVxR0MLFce1iSCx9CVbSglkmhPlNATvC3Fe8ctNXvZzqehkP_5S8LOyJciW8Cg2Ex0WxLTyaMBKv2j1HJtOk5CChy_64NHM2wop2d0fQkrdS99nJP_YCE3I0icDtqfLR_Z8V_GnkiTcw_wBtdXsWqq5OuPycXafUF8O-soewoDUnyxG9At8rfouZZBJSVFlxWZdzCRZd9Qab4KXd-p1Y6HDyzCFKlfsCpoqzuBWfO82k8i5YSco3XIZpRaNXV2oM_cOYvhevCdnOf9Z4De1_Qy_Uv_5AgRncP1pjMYvyhSZNJrAcQgUC8uDmZAFC4t75-k8ORxDzS6UfslkLUVo92_lNF7hYDbl6c0yhrKpeMC2iPq13eFl3p05PpWZ3M7bdNuzJrCEAgbUes-zlHzENn58AVRcGd_qEITWQlaFfLa9UcP0trqtUJkt5hRM9lAO4brGDo_awkMPPF5HUYNkARJpnqcwlckPb4s-FWUzDcMrm8Zh4KLhqzvxEE1du8fOadRseg8kDcWXFX7nxB4lHAGR11STXYIs0XN6uulijdYuv6ePlL_Q4pASBcYzpWFA8NNXIEkth0S2px1K2ZlrQNgX74bekf-cSh7tQnj8rrTe1-FwZN1vQOgCTPC6Uy1jMD-KZY9KujEahjr3BcMA1NvuThMriOp0c77nAQn_5lI8mUAJX_3eL48-NToIe-XajrxvSiv77-tgRz0t4dS3ZyRyQ77GnzOy9oussub7S0d0PYo0U4N7kGVUV3QV9gMsvtBKoiYbqGTsbvsZOTuaLtGBhZRUxQHFYrOBKoi5cRzcV18qEhbJOYpxmeDj4b8_IIsrRbOtQ9f-aYL27dPoTah2h4IfdABz1_sLhGxXuS2anVJCl6EkN12p0Whs79EiLPtslTcvPHxf82LuxyhnFZ8tKbi2Gdw1YC41ZAMNoIgh3uAUXjKc0XvFMjMcjaLetDYQ4z0uJKniW7po1uHvsK0G9MyZZrni9kiEgcqvlaYV2kG6cGRFukCpwk9VgDVw49wWtDjkINAbWv1DOd0nHdKSkuC-dxZTC0L0mNv4-EDEuKCnTavYpaqbPCxSG5o2A4jCV0P-eDk6HZEnZ7M4laoTpiNQQ-Vs-ywtV5jF4kt30_rm60XKuvPh7ngWXUx3gr_aNLhLtu4o9cBjg1rzW_tYQ06NTXVgIymlZ_rQ2VZRjkg0UqJR9XLtqLp6APUJra7E49AfzqyjUXZhFHFZa9xLo7F-OIVjKwvc561ZYKAvFNJ425on-N19tJoOjeOyOMj7QThfFhLtTMJGKzIkFaZLsE-_X-_pQJ8rS1h",
+			"type": "string"
+		},
+		{
+			"key": "tokenDeleteAccount",
+			"value": "08dcf6d6-a74a-4340-8106-e7c585df7cfb",
+			"type": "string"
 		}
 	]
 }

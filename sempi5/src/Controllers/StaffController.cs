@@ -167,13 +167,12 @@ namespace Sempi5.Controllers.StaffControllers
         }
 
         [HttpGet("request/deleteRequest")]
-        public async Task<IActionResult> DeleteRequest(string email)
+       [Authorize(Roles = "Doctor")]
+        public async Task<IActionResult> DeleteRequest()
         {
             try
             {
-                // await _staffService.DeleteRequestAsync(getEmail());
-                await _staffService.DeleteRequestAsync(email);
-
+                 await _staffService.DeleteRequestAsync(getEmail());
                 return Ok("Operation request deleted successfully");
             }
             catch (UnauthorizedAccessException ex)
@@ -202,6 +201,7 @@ namespace Sempi5.Controllers.StaffControllers
 
 
         [HttpGet("search/requests")]
+        [Authorize(Roles = "Doctor")]
         public async Task<IActionResult> SearchRequests(SeachFilterDto seachFilterDto)
         {
             try

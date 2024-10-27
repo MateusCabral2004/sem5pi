@@ -157,7 +157,9 @@ namespace Sempi5
                 var userRepository = scope.ServiceProvider.GetRequiredService<IUserRepository>();
                 var staffRepository = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
                 var patentRepository = scope.ServiceProvider.GetRequiredService<IPatientRepository>();
-                var operationRequestRepository = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
+                var operationTypeRepository = scope.ServiceProvider.GetRequiredService<IOperationTypeRepository>();
+                var operationRequestRepository =
+                    scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
 
                 new UsersBootstrap(userRepository).SeedAdminUser().Wait();
                 unitOfWork.CommitAsync().Wait();
@@ -166,16 +168,19 @@ namespace Sempi5
                 staffBootstrap.SeedActiveStaff().Wait();
                 staffBootstrap.SeedStaffProfiles().Wait();
                 unitOfWork.CommitAsync().Wait();
-                
+
                 var patientBootstrap = new PatientBootstrap(patentRepository);
                 patientBootstrap.SeedActivePatients().Wait();
                 unitOfWork.CommitAsync().Wait();
-                
+
                 var operationRequestBootstrap = new OperationRequestBootstrap(operationRequestRepository);
                 operationRequestBootstrap.SeedOperationRequests().Wait();
                 unitOfWork.CommitAsync().Wait();
+                
+                var operationTypeBootstrap = new OperationTypeBootstrap(operationTypeRepository);
+                operationTypeBootstrap.SeedOperationTypes().Wait();
+                unitOfWork.CommitAsync().Wait();
             }
-            
         }
 
         public static void CreateDataBase(WebApplicationBuilder builder)

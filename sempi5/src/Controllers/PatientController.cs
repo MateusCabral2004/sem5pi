@@ -90,9 +90,6 @@ public class PatientController : ControllerBase
         {
             return BadRequest("Unauthorized acess(you need to confirm your account)");
         }
-
-        Console.WriteLine("Listando agendamentos");
-        Console.WriteLine(appointments);
         return Ok(appointments);
     }
 
@@ -252,7 +249,7 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpPost("deletePatientProfile/{email}")]
+    [HttpDelete("deletePatientProfile/{email}")]
     public async Task<IActionResult> DeletePatientProfile(string email)
     {
         try
@@ -262,24 +259,24 @@ public class PatientController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.Message );
         }
     }
 
-    [HttpPost("editPatientProfile")]
-    public async Task<IActionResult> EditPatientProfile(PatientDTO patientDto)
+    [HttpPut("editPatientProfile/{email}")]
+    public async Task<IActionResult> EditPatientProfile([FromBody] PatientDTO patientDto, string email)
     {
         try
         {
-            await patientService.EditPatientProfile(patientDto);
-           // _logger.
+            await patientService.EditPatientProfile(patientDto, email);
             return Ok("Patient profile edited successfully");
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message);
+            return BadRequest(e.Message+ e.StackTrace);
         }
     }
+    
 
     [HttpPost("registerPatientProfile")]
     public async Task<IActionResult> RegisterPatientProfile(PatientDTO patient)

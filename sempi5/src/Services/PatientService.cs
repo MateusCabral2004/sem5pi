@@ -402,14 +402,14 @@ public class PatientService
         await _unitOfWork.CommitAsync();
     }
 
-    public async Task EditPatientProfile(PatientDTO editPatientDto)
+    public async Task EditPatientProfile(PatientDTO editPatientDto, string email)
     {
-        if (editPatientDto.email == null)
+        if (email == null)
         {
             throw new ArgumentException("The email address can´t be null");
         }
 
-        var patient = await _patientRepository.GetByEmail(editPatientDto.email);
+        var patient = await _patientRepository.GetByEmail(email);
 
         if (patient == null)
         {
@@ -419,8 +419,7 @@ public class PatientService
         var originalEmail = patient.Person.ContactInfo._email;
 
         var originalPhoneNumber = patient.Person.ContactInfo._phoneNumber;
-
-
+        
         if (editPatientDto.firstName != null)
         {
             patient.Person.FirstName = new Name(editPatientDto.firstName);
@@ -446,7 +445,6 @@ public class PatientService
             patient.Person.ContactInfo._email = new Email(editPatientDto.email);
         }
 
-        await _patientRepository.AddAsync(patient);
         await _unitOfWork.CommitAsync();
 
         if (originalEmail.ToString() != editPatientDto.email)
