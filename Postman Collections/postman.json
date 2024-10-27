@@ -1076,7 +1076,7 @@
 			"name": "5.1.18",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "delete operation request",
 					"id": "e318683c-6ff6-4008-bb01-42a73e0ca183",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1137,7 +1137,7 @@
 			"name": "5.1.19",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "list operation request",
 					"id": "e6111c16-ed97-4427-87af-f172848985d0",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
