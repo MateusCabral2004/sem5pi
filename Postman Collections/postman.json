@@ -203,7 +203,13 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{SandroCookiePatient}}",
+										"type": "text"
+									}
+								]
 							},
 							"response": []
 						}
@@ -221,7 +227,13 @@
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{SandroCookiePatient}}",
+										"type": "text"
+									}
+								]
 							},
 							"response": []
 						}
@@ -236,7 +248,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookiePatient}}",
+								"type": "text"
+							}
+						]
 					},
 					"response": []
 				}
@@ -1249,14 +1267,114 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "editSetupDuration",
 					"id": "ab398041-8a89-4aef-921e-a6abee19e0df",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"00:01:30\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/duration/setup/Heart%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editCleaningDuration",
+					"id": "d26b5091-209c-4fe6-b726-7f49dc98010e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"00:01:30\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/duration/setup/Heart%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editSurgeryDuration",
+					"id": "eac56103-c900-4527-b297-af649c34fc10",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"00:01:30\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/duration/setup/Heart%20Surgery"
+					},
+					"response": []
+				},
+				{
+					"name": "editInvalidDuration",
+					"id": "ca555f33-05df-4da4-8c14-f36be8b49bfe",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "\"00:01:30\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/editOperationType/duration/setup/Heart%20Surgery"
 					},
 					"response": []
 				}
