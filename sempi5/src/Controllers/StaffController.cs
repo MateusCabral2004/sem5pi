@@ -58,12 +58,12 @@ namespace Sempi5.Controllers.StaffControllers
         {
             try
             {
-                
                 var staff = await _staffService.GetStaffById(editStaffDto.Id);
-                
+
                 if (editStaffDto.email != null || editStaffDto.phoneNumber > 0)
                 {
-                    await _emailService.PrepareEditStaffConfirmationEmail(staff.Person.ContactInfo._email.ToString() ,editStaffDto);
+                    await _emailService.PrepareEditStaffConfirmationEmail(staff.Person.ContactInfo._email.ToString(),
+                        editStaffDto);
                 }
                 else
                 {
@@ -84,7 +84,7 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message + e.StackTrace);
             }
         }
-        
+
 
         [HttpGet("editStaffProfile/{jsonString}")]
         public async Task<IActionResult> EditStaffProfile(string jsonString)
@@ -94,9 +94,9 @@ namespace Sempi5.Controllers.StaffControllers
             {
                 var cryptography = new Cryptography();
                 var encryptedString = cryptography.DecryptString(jsonString);
-                    
+
                 editStaffDto = JsonSerializer.Deserialize<EditStaffDTO>(encryptedString);
-                
+
                 await _staffService.EditStaffProfile(editStaffDto);
             }
             catch (JsonException ex)
@@ -125,7 +125,7 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
 
-        
+
         [HttpGet("listStaffProfilesByName")]
         public async Task<IActionResult> ListStaffProfileByName(NameDTO nameDto)
         {
@@ -153,6 +153,7 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message);
             }
         }
+
         [HttpGet("request/deleteRequest")]
         public async Task<IActionResult> DeleteRequest(string email)
         {
@@ -172,7 +173,7 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(ex.Message);
             }
         }
-        
+
         [HttpGet("listStaffProfilesBySpecialization")]
         public async Task<IActionResult> ListStaffProfilesBySpecialization(SpecializationNameDTO specializationDto)
         {
@@ -186,48 +187,61 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message + e.StackTrace);
             }
         }
-        
+
 
         [HttpGet("search/requests")]
-        public async Task<IActionResult> SearchRequests(string patientName, string type, string priority, string status)
+        public async Task<IActionResult> SearchRequests(SeachFilterDto seachFilterDto)
         {
-            var requests = await _staffService.SearchRequestsAsync(patientName, type, priority, status);
-
-            if (status != null)
+            try
             {
-                var tableData = new List<object>();
+                var requests = await _staffService.SearchRequestsAsync(seachFilterDto.patientName, seachFilterDto.type,
+                    seachFilterDto.priority, seachFilterDto.status);
 
-                for (int i = 0; i < requests.Count; i++)
+                if (seachFilterDto.status != null)
                 {
-                    var operationRequest = requests[i];
-                    // Adiciona cada operação como um objeto estruturado
-                    tableData.Add(new
+                    var tableData = new List<object>();
+
+                    for (int i = 0; i < requests.Count; i++)
                     {
-                        PatientName = operationRequest.Patient.Person?.FullName,
-                        OperationType = operationRequest.OperationType.Name.ToString(),
-                        Priority = operationRequest.PriorityEnum.ToString(),
-                        Status = status
-                    });
+                        var operationRequest = requests[i];
+                        tableData.Add(new
+                        {
+                            PatientName = operationRequest.Patient.Person?.FullName.ToString(),
+                            OperationType = operationRequest.OperationType.Name.ToString(),
+                            Priority = operationRequest.PriorityEnum.ToString(),
+                            Status = seachFilterDto.status
+                        });
+                    }
+                    return Ok(tableData);
                 }
+                else
+                {
+                    var tableData = new List<object>();
 
-                // Retorna a tabela estruturada em formato JSON
-                return Ok(tableData);
+                    for (int i = 0; i < requests.Count; i++)
+                    {
+                        var operationRequest = requests[i];
+                        tableData.Add(new
+                        {
+                            PatientName = operationRequest.Patient.Person?.FullName.ToString(),
+                            OperationType = operationRequest.OperationType.Name.ToString(),
+                            Priority = operationRequest.PriorityEnum.ToString(),
+                        });
+                    }
+                    
+                    return Ok(tableData);
+                }
             }
-
-            // Retorna a lista completa de solicitações caso não haja status específico
-            return Ok(requests);
+            catch (Exception e)
+            {
+                return BadRequest($"Error: {e.Message}");
+            }
         }
-
-
 
         public string getEmail()
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
             return claimsIdentity?.FindFirst(ClaimTypes.Email).Value;
         }
-        
-        
     }
-    
-    
 }
