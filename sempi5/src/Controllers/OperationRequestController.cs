@@ -20,13 +20,15 @@ public class OperationRequestController : ControllerBase
         _logger = logger;
     }
 
-    //[Authorize(Roles = "Doctor")]
+    [Authorize(Roles = "Doctor")]
     [HttpPost("requestOperation")]
     public async Task<IActionResult> RequestOperation(OperationRequestDTO operationRequestDto)
     {
         try
         {
             await _operationRequestService.RequestOperation(operationRequestDto);
+            _logger.ForContext("CustomLogLevel", "CustomLevel")
+                .Information($"New request created: {operationRequestDto.operationName}");
             return Ok("Operation request submitted successfully");
         }
         catch (Exception e)
