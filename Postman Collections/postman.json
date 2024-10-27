@@ -368,7 +368,7 @@
 								"type": "text"
 							}
 						],
-						"url": "{{base_url}}/patient/account/exclude/confirm/08dcf6d6-a74a-4340-8106-e7c585df7cfb"
+						"url": "{{base_url}}/patient/account/exclude/confirm/{{tokenDeleteAccount}}"
 					},
 					"response": []
 				}
@@ -1256,7 +1256,7 @@
 								}
 							}
 						},
-						"url": "{{base_url}}/OperationType/deleteOperationType/Heart%20Surgery"
+						"url": "{{base_url}}/OperationType/deleteOperationType/Heart%20Surgery%20Simple"
 					},
 					"response": []
 				}
@@ -1339,14 +1339,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "    {\r\n      \"NumberOfStaff\": 2,\r\n      \"Specialization\": \"Nurse\"\r\n    }",
+							"raw": "\"Cleaner\"",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{base_url}}/OperationType/editOperationType/requiredStaff/add/Heart%20Surgery"
+						"url": "{{base_url}}/OperationType/editOperationType/requiredStaff/remove/Heart%20Surgery"
 					},
 					"response": []
 				},
@@ -1395,14 +1395,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\"00:01:30\"",
+							"raw": "\"00:01:00\"",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{base_url}}/OperationType/editOperationType/duration/setup/Heart%20Surgery"
+						"url": "{{base_url}}/OperationType/editOperationType/duration/cleaning/Heart%20Surgery"
 					},
 					"response": []
 				},
@@ -1423,14 +1423,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\"00:01:30\"",
+							"raw": "\"00:03:30\"",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{base_url}}/OperationType/editOperationType/duration/setup/Heart%20Surgery"
+						"url": "{{base_url}}/OperationType/editOperationType/duration/surgery/Heart%20Surgery"
 					},
 					"response": []
 				},
@@ -1451,14 +1451,14 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "\"00:01:30\"",
+							"raw": "\"00:06:30\"",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{base_url}}/OperationType/editOperationType/duration/setup/Heart%20Surgery"
+						"url": "{{base_url}}/OperationType/editOperationType/duration/other/Heart%20Surgery"
 					},
 					"response": []
 				}
@@ -1569,7 +1569,7 @@
 			"name": "5.1.23",
 			"item": [
 				{
-					"name": "http://localhost:5001/OperationType/listOperationTypeByStatus/true",
+					"name": "http://localhost:5001/OperationType/listOperationTypeBySpecialization/Cleaner",
 					"id": "72126b6a-3186-41dc-b797-bb4540f27ca3",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1587,6 +1587,40 @@
 							}
 						},
 						"url": "http://localhost:5001/OperationType/listOperationTypeBySpecialization/Cleaner"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "cfa9b6ec-06fd-445e-8b2b-1cceb51aa5c9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/OperationType/listOperationTypeByStatus/true"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "4034d318-ccce-4250-bde5-04f91102c400",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
