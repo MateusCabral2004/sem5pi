@@ -179,7 +179,7 @@
 			"name": "5.1.12",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "deactivateInactiveStaffProfile",
 					"id": "64612c46-2ab9-4bb9-97a1-ba9040fa246f",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
