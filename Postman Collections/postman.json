@@ -765,8 +765,20 @@
 					"name": "searchStaffByName",
 					"item": [
 						{
-							"name": "searchStaffByName",
+							"name": "searchStaffByNameInvalidCase",
 							"id": "dba11e9e-4576-4c2f-8636-76b4fa80f657",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "searchByNameValidCase",
+							"id": "070e328d-7c00-458b-abda-3ed7aa5f08f0",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
@@ -783,7 +795,7 @@
 					"name": "searchStaffBySpecialization",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "searchStaffBySpecializationValidCase",
 							"id": "94fdad2d-e63f-4cbc-b815-0e2d34a04263",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
