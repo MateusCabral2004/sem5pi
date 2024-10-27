@@ -191,17 +191,61 @@
 			"name": "5.1.11",
 			"item": [
 				{
-					"name": "listPatientByEmail",
+					"name": "listPatientByName",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "listPatientProfilesByNameInvalidCase",
 							"id": "ba47b4e9-0fd2-443c-8ccc-7657f8b8a2d6",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"Bob Smith\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByName"
+							},
+							"response": []
+						},
+						{
+							"name": "listPatientProfilesByNameValidCase",
+							"id": "b358958b-b458-4374-ac48-a0bf5f250ae2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\":\"Alice Doe\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByName"
 							},
 							"response": []
 						}
@@ -209,17 +253,61 @@
 					"id": "5aa86f4e-a036-4678-aa59-8453ac948a74"
 				},
 				{
-					"name": "listPatientByName",
+					"name": "listPatientByEmail",
 					"item": [
 						{
-							"name": "New Request",
-							"id": "e8c9c12b-2e3b-4a9d-87fa-4726af455289",
+							"name": "listPatientByEmailInvalidCase",
+							"id": "6dae999b-41ed-40d4-88af-6aeb4750c5a3",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"mateuscabral123321@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByEmail"
+							},
+							"response": []
+						},
+						{
+							"name": "listPatientByEmailValidCase",
+							"id": "cb3c42b3-f41b-476e-9f58-9aad4c230349",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"mateuscabral20042@gmail.com\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByEmail"
 							},
 							"response": []
 						}
@@ -230,14 +318,58 @@
 					"name": "listPatientByBirthDate",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "listPatientByBirthDateValidCase",
 							"id": "cea7b4d0-a27c-44f7-b92b-3758689aa83f",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"year\":1990,\r\n    \"month\":1,\r\n    \"day\":10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByDateOfBirth"
+							},
+							"response": []
+						},
+						{
+							"name": "listPatientByBirthDateInvalidCase",
+							"id": "3dda8c3d-ac4e-4f3f-a8bb-3edaaf2f4cc2",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"year\":1990,\r\n    \"month\":2,\r\n    \"day\":10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByDateOfBirth"
 							},
 							"response": []
 						}
@@ -248,14 +380,58 @@
 					"name": "listPatientByMedicalRecordNumber",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "listPatientByMedicalRecordNumberValidCase",
 							"id": "3f209c4b-41c1-4bc8-a26b-d72cb8c82608",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
 							},
 							"request": {
 								"method": "GET",
-								"header": []
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Id\":\"20241000002\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByMedicalRecordNumber"
+							},
+							"response": []
+						},
+						{
+							"name": "listPatientByMedicalRecordNumberInvalidCase",
+							"id": "b74122f5-b538-4420-9dc7-f3013faa17cc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AdminCookieRui}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"Id\":\"20241000001\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{base_url}}/Patient/listPatientProfilesByMedicalRecordNumber"
 							},
 							"response": []
 						}
@@ -551,6 +727,90 @@
 				}
 			],
 			"id": "e12c6ebd-e6ad-4d5d-943e-e109ff95b8ba"
+		},
+		{
+			"name": "5.1.15",
+			"item": [
+				{
+					"name": "searchStaffByEmail",
+					"item": [
+						{
+							"name": "searchByEmailInvalidCase",
+							"id": "3c0fb15c-ceb9-4dfa-9502-70a0f9ff072d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "searchByEmailValidCase",
+							"id": "b06a8bc0-3926-49ba-b437-c114b34a9359",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "6ebe3b45-76ea-4b65-8a9e-135849868181"
+				},
+				{
+					"name": "searchStaffByName",
+					"item": [
+						{
+							"name": "searchStaffByNameInvalidCase",
+							"id": "dba11e9e-4576-4c2f-8636-76b4fa80f657",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "searchByNameValidCase",
+							"id": "070e328d-7c00-458b-abda-3ed7aa5f08f0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "5cd48993-9036-4326-b125-8ac564c5f305"
+				},
+				{
+					"name": "searchStaffBySpecialization",
+					"item": [
+						{
+							"name": "searchStaffBySpecializationValidCase",
+							"id": "94fdad2d-e63f-4cbc-b815-0e2d34a04263",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					],
+					"id": "0fa11ad1-5e13-4e55-a6b0-74c4547fc5dc"
+				}
+			],
+			"id": "37e0cba5-aec8-4b30-8f8e-0edd57f22a02"
 		}
 	],
 	"event": [
