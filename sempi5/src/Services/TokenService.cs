@@ -50,6 +50,7 @@ public class TokenService
         
         confirmationToken.Use();
         staff.AddUser(user);
+        staff.markAsActive();
         
         await _unitOfWork.CommitAsync();
     }

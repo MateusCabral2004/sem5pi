@@ -28,7 +28,6 @@ public class SystemUserService
         {
             if (!userExists.IsVerified)
             {
-                Console.WriteLine("User already exists, but not verified");
                 userExists.Role = userDTO.role;
             }
             else

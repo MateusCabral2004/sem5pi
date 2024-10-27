@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sempi5.Services;
 
@@ -5,6 +6,7 @@ namespace Sempi5.Controllers;
 
 [Route("[controller]")]
 [ApiController]
+[AllowAnonymous]
 public class ConfirmTokenController : ControllerBase
 {
     private readonly TokenService tokenService;
