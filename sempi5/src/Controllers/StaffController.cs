@@ -107,6 +107,12 @@ namespace Sempi5.Controllers.StaffControllers
                 editStaffDto = JsonSerializer.Deserialize<EditStaffDTO>(encryptedString);
 
                 await _staffService.EditStaffProfile(editStaffDto);
+                
+                _logger.ForContext("CustomLogLevel", "CustomLevel")
+                    .Information($"\nChanges To Staff {editStaffDto.Id} :" +
+                                 $" {editStaffDto.phoneNumber}" +
+                                 $" {editStaffDto.email}" +
+                                 $" {editStaffDto.specialization} \n");
             }
             catch (JsonException ex)
             {
