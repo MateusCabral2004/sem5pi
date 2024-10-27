@@ -989,7 +989,12 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{base_url}}/patient/account/appointment"
 					},
 					"response": []
 				}
