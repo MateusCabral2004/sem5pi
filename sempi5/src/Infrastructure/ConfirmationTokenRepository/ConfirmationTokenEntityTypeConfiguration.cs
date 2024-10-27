@@ -23,6 +23,9 @@ namespace Sempi5.Infrastructure.ConfirmationTokenRepository
             builder.HasIndex(p => p.email)
                 .IsUnique();
 
+            builder.HasIndex(p => p.IdToAssociate)
+                .IsUnique();
+
             builder.Property(p => p.ExpiryDate)
                 .IsRequired();
 

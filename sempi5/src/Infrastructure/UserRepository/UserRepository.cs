@@ -23,8 +23,8 @@ namespace Sempi5.Infrastructure.UserRepository
             {
                 return null;
             }
-
-            var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(new Email(email.ToLower())));
+            Console.WriteLine("Email: " + email);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Email.Equals(new Email(email)));
 
             return user;
         }
