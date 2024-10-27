@@ -29,7 +29,6 @@ public class OperationTypeController : ControllerBase
     [HttpPost("addNewOperationType")]
     public async Task<IActionResult> AddNewOperationType(OperationTypeDTO operationType)
     {
-        Console.WriteLine("Operation type: " + operationType.OperationName.ToString());
         try
         {
             await _operationTypeService.AddNewOperationType(operationType);
@@ -40,7 +39,7 @@ public class OperationTypeController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
 
@@ -55,7 +54,7 @@ public class OperationTypeController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
     
@@ -70,7 +69,7 @@ public class OperationTypeController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
     
@@ -85,7 +84,7 @@ public class OperationTypeController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
     
@@ -101,7 +100,7 @@ public class OperationTypeController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
 
@@ -131,7 +130,7 @@ public class OperationTypeController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
 
