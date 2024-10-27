@@ -8,5 +8,6 @@ namespace Sempi5.Infrastructure.UserAggregate
     {
         public Task<SystemUser> GetByEmail(string email);
         public Task<SystemUser> GetByEmailAndItsActivated(string email);
+        Task RemoveAsync(SystemUser user);
     }
 }

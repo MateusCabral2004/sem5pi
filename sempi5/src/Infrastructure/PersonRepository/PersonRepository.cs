@@ -40,5 +40,10 @@ namespace Sempi5.Infrastructure.PersonRepository
             
             return context.Person.FirstOrDefaultAsync(p => p.ContactInfo._email.Equals(email));
         }
+
+        public async Task RemoveAsync(Person person)
+        { 
+            context.Person.Remove(person);
+        }
     }
 }

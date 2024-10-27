@@ -13,13 +13,31 @@ public class PatientController : ControllerBase
 {
     private readonly PatientService patientService;
     private readonly EmailService emailService;
+    private readonly CheckUserToDeleteService _checkUserToDeleteService;
 
 
-    public PatientController(PatientService patientService, EmailService emailService)
+    public PatientController(PatientService patientService, EmailService emailService,
+        CheckUserToDeleteService checkUserToDeleteService)
     {
         this.patientService = patientService;
         this.emailService = emailService;
+        _checkUserToDeleteService = checkUserToDeleteService;
     }
+
+    [HttpGet("checkUserToDelete")]
+    public async Task<IActionResult> checkUserToDelete()
+    {
+        try
+        {
+            await _checkUserToDeleteService.checkUserToDelete();
+            return Ok("Users deleted");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, "An error occurred while processing your request.");
+        }
+    }
+
 
     public string getEmail()
     {
@@ -67,17 +85,18 @@ public class PatientController : ControllerBase
         {
             return BadRequest("Unauthorized acess(you need to confirm your account)");
         }
-Console.WriteLine("Listando agendamentos");
+
+        Console.WriteLine("Listando agendamentos");
         Console.WriteLine(appointments);
         return Ok(appointments);
     }
-    
+
 
     [HttpGet("account/exclude")]
-   // [Authorize(Roles = "Patient")]
+    // [Authorize(Roles = "Patient")]
     public async Task<IActionResult> excludeAccount()
     {
-      await  patientService.defineDataToExcludeAccount("sandroluis720@gmail.com");
+        await patientService.defineDataToExcludeAccount("sandroluis720@gmail.com");
         Console.WriteLine("Email to delete accout was sent");
 
         return Ok("We have sent email to confirm the exclusion");
@@ -88,7 +107,7 @@ Console.WriteLine("Listando agendamentos");
     public async Task<IActionResult> excludeAccountEmailConfirm(string token)
     {
         Console.WriteLine("Iniciando agendamento para exclusão de conta");
-    
+
         try
         {
             // Chama o serviço para agendar a exclusão da conta
@@ -168,7 +187,7 @@ Console.WriteLine("Listando agendamentos");
 
         await emailService.SendEmailAsync(email, body, subject);
     }
-    
+
     [HttpGet("listPatientProfilesByName")]
     public async Task<IActionResult> ListPatientProfilesByName(NameDTO nameDto)
     {
@@ -225,7 +244,7 @@ Console.WriteLine("Listando agendamentos");
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpPost("deletePatientProfile/{email}")]
     public async Task<IActionResult> DeletePatientProfile(string email)
     {
@@ -239,7 +258,7 @@ Console.WriteLine("Listando agendamentos");
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpPost("editPatientProfile")]
     public async Task<IActionResult> EditPatientProfile(PatientDTO patientDto)
     {
@@ -253,7 +272,7 @@ Console.WriteLine("Listando agendamentos");
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpPost("registerPatientProfile")]
     public async Task<IActionResult> RegisterPatientProfile(PatientDTO patient)
     {

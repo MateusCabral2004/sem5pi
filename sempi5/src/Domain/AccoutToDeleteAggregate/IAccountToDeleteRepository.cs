@@ -7,4 +7,5 @@ namespace Sempi5.Infrastructure.AccoutToDeleteAggregate;
 public interface IAccountToDeleteRepository: IRepository<AccoutToDelete, SystemUserId>
 {
     Task<int> saveUserToDelete(long userId);
+    Task<List<SystemUserId>>checkUserToDelete();
 }

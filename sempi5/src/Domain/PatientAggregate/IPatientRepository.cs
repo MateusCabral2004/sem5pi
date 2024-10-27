@@ -22,6 +22,7 @@ namespace Sempi5.Infrastructure.PatientAggregate
         
         public Task<Patient> GetByPatientId(string patientId);
         
-        public Task<int> deleteExpiredEntitiesAsync(Patient patient);
+        public Task<Patient> getByUserId(long asLong);
+        public Task SaveChangesAsync();
     }
 }

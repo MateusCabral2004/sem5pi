@@ -12,5 +12,6 @@ namespace Sempi5.Infrastructure.PersonAggregate
         public Task<Person?> GetPersonByPhoneNumber(PhoneNumber phoneNumber);
         public Task<Person?> GetPersonByEmail(Email email);
 
+        public Task RemoveAsync(Person person);
     }
 }

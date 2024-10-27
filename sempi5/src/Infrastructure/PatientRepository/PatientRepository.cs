@@ -2,6 +2,7 @@ using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.User;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.PatientAggregate;
 using Sempi5.Infrastructure.Shared;
@@ -157,23 +158,17 @@ namespace Sempi5.Infrastructure.PatientRepository
             await context.SaveChangesAsync();
         }
 
-        public async Task<int> deleteExpiredEntitiesAsync(Patient patient)
+        public async Task<Patient> getByUserId(long asLong)
         {
-            DateTime today = DateTime.UtcNow;
+            return await context.Patients
+                .Include(p=>p.Person)
+                .Include(u=>u.User)
+                .Where(p => p.User != null && p.User.Id.Equals(new SystemUserId(asLong))).FirstOrDefaultAsync();
+        }
 
-            // Busca todos os pacientes que estão agendados para deletar e cujo prazo já passou
-            var patientsToDelete = await context.Patients
-                // .Where(p => p.deleteDate && p.deleteDate <= now)
-                .ToListAsync();
-
-            if (patientsToDelete.Count == 0)
-            {
-                return 0; // Nenhum paciente para deletar
-            }
-
-            // Remove os pacientes
-            context.Patients.RemoveRange(patientsToDelete);
-            return await context.SaveChangesAsync(); // Aplica a remoção no banco de dados
+        public async Task SaveChangesAsync()
+        {
+            await context.SaveChangesAsync();
         }
     }
 }

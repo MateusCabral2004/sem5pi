@@ -27,7 +27,6 @@ namespace Sempi5.Infrastructure.PatientRepository
             builder.HasOne(p => p.Person)
                 .WithOne()
                 .HasForeignKey<Patient>("PersonId")
-                .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(p => p.BirthDate)
