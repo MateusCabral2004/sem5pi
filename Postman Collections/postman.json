@@ -240,7 +240,8 @@
 											"language": "json"
 										}
 									}
-								}
+								},
+								"url": "{{base_url}}/patient/account/update"
 							},
 							"response": []
 						},
@@ -1529,7 +1530,30 @@
 		},
 		{
 			"name": "5.1.10",
-			"item": [],
+			"item": [
+				{
+					"name": "New Request",
+					"id": "cfa9b6ec-06fd-445e-8b2b-1cceb51aa5c9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/Patient/deletePatientProfile/anotherEmail@gmail.com"
+					},
+					"response": []
+				}
+			],
 			"id": "25946838-30b8-4d39-912b-8d0f059ca7bb"
 		},
 		{
@@ -1587,28 +1611,6 @@
 							}
 						},
 						"url": "http://localhost:5001/OperationType/listOperationTypeBySpecialization/Cleaner"
-					},
-					"response": []
-				},
-				{
-					"name": "New Request",
-					"id": "cfa9b6ec-06fd-445e-8b2b-1cceb51aa5c9",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:5001/OperationType/listOperationTypeByStatus/true"
 					},
 					"response": []
 				}
