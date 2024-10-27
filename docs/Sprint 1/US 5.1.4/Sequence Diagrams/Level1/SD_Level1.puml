@@ -1,0 +1,15 @@
+@startuml
+title US 5.1.9-Sequence Diagram Level 1
+
+actor Patient
+participant SurgeryAppointmentSystem
+
+activate Patient
+Patient-> SurgeryAppointmentSystem: edit patient profile
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem --> Patient: patient profile edited
+deactivate SurgeryAppointmentSystem
+
+deactivate Patient
+@enduml

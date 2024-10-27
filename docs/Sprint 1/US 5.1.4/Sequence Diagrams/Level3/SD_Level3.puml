@@ -1,0 +1,64 @@
+@startuml
+
+title US 5.1.9-Sequence Diagram Level 3
+
+actor Patient
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database DataBase
+
+activate Patient
+
+Patient -> Routing: edit patient profile
+
+activate Routing
+
+Routing -> Controller: edit patient profile
+
+activate Controller
+
+Controller -> ApplicationService: edit patient profile
+alt patient contact info email edited
+ApplicationService -> ApplicationService: send email notification to old email
+end
+alt patient contact info phone number edited
+ApplicationService -> ApplicationService: send email notification
+end
+
+activate ApplicationService
+
+ApplicationService -> ApplicationService: edit patient profile
+
+ApplicationService -> Repository: update patient profile
+activate Repository
+
+Repository -> Persistence: update patient profile
+activate Persistence
+
+Persistence -> DataBase:update patient profile
+activate DataBase
+
+DataBase --> Persistence:patient profile updated
+deactivate DataBase
+
+Persistence --> Repository:patient profile updated
+deactivate Persistence
+
+Repository --> ApplicationService: patient profile updated
+
+deactivate Repository
+
+ApplicationService --> Controller: patient profile edited
+
+deactivate ApplicationService
+
+Controller --> Routing: patient profile edited
+
+deactivate Controller
+
+Routing --> Patient: patient profile edited
+
+@enduml

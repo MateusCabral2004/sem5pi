@@ -1,0 +1,39 @@
+@startuml
+title US 5.1.9-Sequence Diagram Level 2
+
+actor Patient
+participant SurgeryAppointmentSystem
+participant Backend
+database DataBase
+
+activate Patient
+
+Patient -> SurgeryAppointmentSystem: edit patient profile
+
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem -> Backend: edit patient profile
+
+activate Backend 
+
+Backend -> Backend:edit patient profile
+alt patient contact info email edited
+Backend -> Backend: send email notification to old email
+end
+
+alt patient contact info phone number edited
+Backend-> Backend: send email notification
+end
+
+Backend -> DataBase: update patient profile
+activate DataBase
+
+DataBase --> Backend: patient profile updated
+deactivate DataBase
+
+Backend --> SurgeryAppointmentSystem: patient profile edited
+deactivate Backend
+
+SurgeryAppointmentSystem --> Patient: patient profile edited
+deactivate SurgeryAppointmentSystem
+@enduml
