@@ -30,24 +30,20 @@ namespace Sempi5.Services
         private readonly IStaffRepository _staffRepository;
         private readonly ISpecializationRepository _specializationRepository;
         private readonly IPersonRepository _personRepository;
-        private readonly IPatientRepository _patientRepository;
-        private readonly EmailService _emailService;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IOperationRequestRepository _operationRequestRepository;
 
-        public StaffService(EmailService emailService, IStaffRepository staffRepository,
+        public StaffService(IStaffRepository staffRepository,
             ISpecializationRepository specializationRepository, IPersonRepository personRepository,
-            IPatientRepository patientRepository, IUnitOfWork unitOfWork, IAppointmentRepository appointmentRepository,
+            IUnitOfWork unitOfWork, IAppointmentRepository appointmentRepository,
             IOperationRequestRepository operationRequestRepository)
         {
             _staffRepository = staffRepository;
             _specializationRepository = specializationRepository;
             _unitOfWork = unitOfWork;
             _specializationRepository = specializationRepository;
-            _patientRepository = patientRepository;
             _personRepository = personRepository;
-            _emailService = emailService;
             _appointmentRepository = appointmentRepository;
             _operationRequestRepository = operationRequestRepository;
         }

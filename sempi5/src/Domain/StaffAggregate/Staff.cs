@@ -70,7 +70,10 @@ namespace Sempi5.Domain.StaffAggregate
             User = user;
         }
         
-     
+        public void markAsActive()
+        {
+            Status = StaffStatusEnum.ACTIVE;
+        }
         
     }
 }
