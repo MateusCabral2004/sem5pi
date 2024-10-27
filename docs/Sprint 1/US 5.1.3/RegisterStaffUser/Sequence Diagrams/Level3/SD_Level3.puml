@@ -1,0 +1,50 @@
+@startuml
+title US 5.1.1 - Register Patient User-\nComponent Level 3
+
+actor Patient
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database Database
+
+activate Patient
+
+Patient -> Routing: create new Patient user request
+    activate Routing
+    
+    Routing -> Controller: forward request to create new Patient user
+    activate Controller
+    
+    Controller -> ApplicationService: create new Patient user
+    activate ApplicationService
+    
+    ApplicationService -> Repository: asks to save Patient user
+    activate Repository
+    
+    Repository -> Persistence: asks to save Patient user
+    activate Persistence
+    
+    Persistence -> Database: saves Patient user
+    activate Database
+    
+    Database --> Persistence: Patient user saved
+    deactivate Database
+    
+    Persistence --> Repository: Patient user saved
+    deactivate Persistence
+    
+    Repository --> ApplicationService: Patient user saved
+    deactivate Repository
+    
+    ApplicationService --> Controller: new Patient user created
+    deactivate ApplicationService
+    
+    Controller --> Routing: new Patient user created
+    deactivate Controller
+    
+    Routing --> Patient: new Patient user created
+    deactivate Routing
+
+@enduml

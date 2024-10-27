@@ -1,0 +1,15 @@
+@startuml
+
+title US 5.1.1-Register Patient User-\nSequence Diagram Level 1
+
+actor Patient
+participant SurgeryAppointmentSystem
+
+activate Patient
+Patient-> SurgeryAppointmentSystem: create new Patient user
+activate SurgeryAppointmentSystem
+
+SurgeryAppointmentSystem --> Patient: new Patient user created
+deactivate SurgeryAppointmentSystem
+
+@enduml
