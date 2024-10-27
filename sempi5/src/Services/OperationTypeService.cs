@@ -54,9 +54,7 @@ public class OperationTypeService
             var specialization = await _specializationRepository.GetBySpecializationName(requiredStaff.Specialization);
             if (specialization != null)
             {
-                Console.WriteLine("Specialization found");
                 requiredStaff.Specialization = specialization;
-                Console.WriteLine("Specialization: " + specialization.specializationName.ToString());
             }
 
             operationType.AddRequiredStaff(requiredStaff);
