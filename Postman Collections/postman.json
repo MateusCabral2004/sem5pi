@@ -148,7 +148,7 @@
 					"response": []
 				},
 				{
-					"name": "ListAppointment_notVerified",
+					"name": "register user",
 					"id": "f55ee4cb-4ede-4790-b8a2-ed043e8118cf",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -167,7 +167,7 @@
 							"formdata": []
 						},
 						"url": {
-							"raw": "{{base_url}}/patient/register?number=987254321",
+							"raw": "{{base_url}}/patient/register?number=987654322",
 							"host": [
 								"{{base_url}}"
 							],
@@ -178,11 +178,33 @@
 							"query": [
 								{
 									"key": "number",
-									"value": "987254321",
-									"type": "text"
+									"value": "987654322"
 								}
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "verifyUser",
+					"id": "e091ed78-e134-448c-a8b0-38432ce2f031",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{SandroCookieUnresgister}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": "{{base_url}}/confirmToken/patient/08dcf6d3-ab6d-49db-8375-12b8beec387e"
 					},
 					"response": []
 				}
