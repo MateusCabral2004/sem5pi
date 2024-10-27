@@ -251,6 +251,18 @@ namespace Sempi5.Services
 
         public async Task<List<SearchedStaffDTO>> ListStaffBySpecialization(SpecializationNameDTO specializationDto)
         {
+            
+            var specializationName = new SpecializationName(specializationDto.specializationName);
+            var specializationToSearch = new Specialization(specializationName);
+            
+            var specialization = await 
+                _specializationRepository.GetBySpecializationName(specializationToSearch);
+            
+            if (specialization == null)
+            {
+                throw new ArgumentException("Specialization not found.");
+            }
+            
             var staffList =
                 await _staffRepository.GetActiveStaffBySpecialization(
                     new SpecializationName(specializationDto.specializationName));
