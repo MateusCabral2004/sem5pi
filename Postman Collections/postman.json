@@ -73,7 +73,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "8eed0dec-6c9d-49fc-89f9-432f508a0786",
+				"id": "8eb48e54-77d1-42f9-9566-2b794092ab82",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -83,7 +83,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "1f1108de-f642-49c9-a2a0-736a5eff6357",
+				"id": "58981ccc-535f-4a73-befc-131f71bf3e2b",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -100,6 +100,11 @@
 		{
 			"key": "AdminCookie",
 			"value": ".AspNetCore.Cookies=CfDJ8C1qEftZwfhChaaurTMpFZ-OE9Bb_KILzHWJP2o-hVUlTXhm_tpYa3qpHHOvWzkXrcz61v8j7ESxZesiJ0FtbUOZLFcq-7L-cDxZD_OIF_jDzkVKG5LWfv4vyQRLwMSBf5WXvDfI8zfoa96YsWbxMQTzLr8ydPwuP9aQAbbSWVHBrmkhSVw_0D1ZYZVtloWmyTM7f-NQMCpWcrOFrmgh2lYeOBDAOd3TpmZZFVq96ZNp0BvDiwgpDhF-6POlMv7486I30CfAcHsObZhVVnGT8w7YR0HT3E3tQgXiUmaxbM2pYEBZbk_ZgdTiNEIvyoEztF2my4Dep_UEfbUCc2vS3vXhzflqHIo0h8lRT2WJ7mYPDSxVPw1fNuwwvwqjTvAcrwRnHEdC1OFfBRCgdzQevuUz54flUegZ4GXVC49j7p5KaTlWV-gXWxPhMCd71E-6v94MXyP1S5JLw6OvDkGW5RGK4MwVPQbzp82gW-EQhlfE1LqJQ0Vw0qImVxiZUmV4yT6vGyU1Bs1s6WcgZMgNcypB4RUNAb0wH-Gq_BzBl2xz_snPgNBN0k939q48ORt70-cwdYFSMgqMxvaeALJnvE-5G1fRpqigcFVcdmYzLYfhQZu6SdYBWaLlFwSy1tEmiSFYMAwNQjUJ5sPZcYCaEBSgo9EjedOVp884s3OfkX-gA6pzqxisHRt2J-GPXXur90LhVnCXmL2tlqfjEaxqU6rqoOqFjQ_SahbMfMcHYikrZ4pYe7SPxTt6CesIQ1tQPxOZ47xnvI5JHsdX4ldwQvrFuBUhFqYBZGbyMfoOcHw49IYMQoAelyTlFNrljR3np_-AFmYjZinTMMDkndNRPXzWCdqdIn_GMnANEiJICCSlY0xYSAKFnsek3U2lDdaSB4mZPN69Nb8JfP1nG9w24hlXCdDT0ykrSN4cMif519hCV4RiOQ5z0SEtQnVzW9uPH_hB7EtnGh2-CRB1zNRLQCdJQsfnelcMFluY-91X_Y_jnZiH-9QKz3hZFc7uvtoh0zopW2hBVlTQzNBz36S1i11S_yOiPb8xCehWnfehbKj7ZIGJSpprGQEnBVXXSGFHvJu76uXEccaIFN09BCkF4TCsfR4Kv6-kF-7uPQPsCU3svozjYCSpoN_sO3gc8avmHnIDU2e6vQG-qfgTyL8_lAO4attr1sFPf3MlW1fEBfAwzjnJdm1SNweSmolHNODeZEMou8zTFPSMO90MvSFERQ9F26PU1DAR9OoxP2WzYbVY5UhCIJmY6Xm1ThJ6MaLbPTIQRW1YfWiV1fUp8qMvcAKZiFzn24vvjjG4RXbWcEcAzJqagduqqsgRjqFLUjRapcIn4lmzKjHA4V0liKnfyjneiLkL3OZ8CpTXFwuN-CqK6Ms7SNnoX-tIE0L2h7_kk7xuGQskXC0t_ipnVNteBJ1Om7zDcu6kUyCAH8-kxoRk"
+		},
+		{
+			"key": "Variavel\n",
+			"value": "",
+			"type": "string"
 		}
 	]
 }
