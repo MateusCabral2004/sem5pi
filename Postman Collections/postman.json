@@ -252,7 +252,7 @@
 					"response": []
 				},
 				{
-					"name": "New Request",
+					"name": "editStaffProfileValidCase",
 					"id": "ee366486-f14c-4fdd-9d2b-902d44d0d789",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
