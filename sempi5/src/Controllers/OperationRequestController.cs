@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.OperationRequestAggregate.DTOs;
 using Sempi5.Services;
@@ -30,16 +31,30 @@ public class OperationRequestController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message+e.StackTrace);
+            return BadRequest(e.Message);
         }
     }
 
-    [HttpPost("updateOperationRequest/deadline{deadline}")]
-    public async Task<IActionResult> UpdateOperationRequestDeadline(OperationRequestDTO operationRequestDto, string doctor)
+    [HttpPut("updateOperationRequestDeadline/operationRequestId/{deadline}")]
+    public async Task<IActionResult> UpdateOperationRequestDeadline(string operationRequestId, string deadline)
     {
         try
         {
-            await _operationRequestService.UpdateOperationRequestDeadline(operationRequestDto, doctor);
+            await _operationRequestService.UpdateOperationRequestDeadline(operationRequestId, deadline, getEmail());
+            return Ok("Operation request updated successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message+ e.StackTrace);
+        }
+    }
+    
+    [HttpPut("updateOperationRequestPriority/{operationRequestId}/{priority}")]
+    public async Task<IActionResult> UpdateOperationRequestPriority(string operationRequestId, string priority)
+    {
+        try
+        {
+            await _operationRequestService.UpdateOperationRequestPriority(operationRequestId, priority,getEmail());
             return Ok("Operation request updated successfully");
         }
         catch (Exception e)
@@ -48,17 +63,9 @@ public class OperationRequestController : ControllerBase
         }
     }
     
-    [HttpPost("updateOperationRequest/{priority}")]
-    public async Task<IActionResult> UpdateOperationRequestPriority(OperationRequestDTO operationRequestDto, string doctor)
+    public string getEmail()
     {
-        try
-        {
-            await _operationRequestService.UpdateOperationRequestPriority(operationRequestDto, doctor);
-            return Ok("Operation request updated successfully");
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        var claimsIdentity = User.Identity as ClaimsIdentity;
+        return claimsIdentity?.FindFirst(ClaimTypes.Email).Value;
     }
 }

@@ -43,6 +43,7 @@ namespace Sempi5.Infrastructure.StaffRepository
 
             return context.StaffMembers.Include(p => p.Person)
                 .Include(p => p.Specialization)
+                .Include(p=>p.User)
                 .FirstOrDefaultAsync(p => p.Id.Equals(id) && p.Status.Equals(StaffStatusEnum.ACTIVE)); //&& p.Status.Equals(StaffStatusEnum.ACTIVE));
         }
         
