@@ -1156,14 +1156,30 @@
 			"name": "US5.1.22",
 			"item": [
 				{
-					"name": "New Request",
+					"name": "DeleteOperationType",
 					"id": "d9344961-077d-4dd2-836b-5d42b5c7bf94",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/OperationType/deleteOperationType/Heart%20Surgery"
 					},
 					"response": []
 				}
