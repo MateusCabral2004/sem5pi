@@ -47,8 +47,6 @@ deactivate Persistence
 Repository --> ApplicationService:requesting doctor
 deactivate Repository
 
-ApplicationService -> ApplicationService: update operation requisition
-
 ApplicationService -> Repository: update operation requisition
 activate Repository
 

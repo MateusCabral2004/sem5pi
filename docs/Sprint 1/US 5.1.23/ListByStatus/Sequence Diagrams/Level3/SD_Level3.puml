@@ -11,6 +11,8 @@ participant Repository
 participant Persistence
 database Database
 
+
+activate Admin
 Admin -> Routing : list/search operation types by status
 activate Routing
 

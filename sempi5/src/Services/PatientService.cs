@@ -29,7 +29,9 @@ public class PatientService
 
 
     public PatientService(IPatientRepository patientRepository, EmailService emailService,
-        IConfirmationTokenRepository confirmationRepository, IAccountToDeleteRepository accountToDeleteRepository,IConfirmationLinkRepository confirmationLinkRepository,  IUnitOfWork unitOfWork,IPersonRepository personRepository)
+        IConfirmationTokenRepository confirmationRepository, IAccountToDeleteRepository accountToDeleteRepository,
+        IConfirmationLinkRepository confirmationLinkRepository, IUnitOfWork unitOfWork,
+        IPersonRepository personRepository)
     {
         _confirmationRepository = confirmationRepository;
         _patientRepository = patientRepository;
@@ -38,8 +40,6 @@ public class PatientService
         _confirmationLinkRepository = confirmationLinkRepository;
         _unitOfWork = unitOfWork;
         _personRepository = personRepository;
-
-
     }
 
     private async Task<ConfirmationToken> RegisterToken(ConfirmationToken confirmationToken)
@@ -226,18 +226,18 @@ public class PatientService
     {
         Console.WriteLine("Iniciando exclusão de conta");
         var confirmationLink = new ConfirmationLink(new Email(email));
-        Console.WriteLine("Email to delete: " + confirmationLink.email+ " "+ confirmationLink.Id+ " "+ confirmationLink.ExpiryDate);
+        Console.WriteLine("Email to delete: " + confirmationLink.email + " " + confirmationLink.Id + " " +
+                          confirmationLink.ExpiryDate);
         var token = await registerLink(confirmationLink);
         await _confirmationLinkRepository.saveChangesAsync();
         await _emailService.SendPatientDeleteConfirmationEmail(email, token.Id.ToString());
     }
-    
+
     public async Task excludeAccountSchedule(string token)
     {
-
         // Obtém o token de confirmação e verifica se ele é válido
         var confirmationToken = await _confirmationLinkRepository.GetByIdAndNotUsed(token);
-    
+
         if (confirmationToken == null)
         {
             throw new InvalidOperationException("Token não encontrado ou já foi utilizado.");
@@ -248,7 +248,7 @@ public class PatientService
         Console.WriteLine("Email para exclusão: " + confirmationToken.email);
 
         var patient = await _patientRepository.GetByEmail(confirmationToken.email?.ToString());
-    
+
         if (patient == null)
         {
             throw new InvalidOperationException("Paciente não encontrado com o email fornecido.");
@@ -266,15 +266,14 @@ public class PatientService
     }
 
 
-
     public async Task<List<SearchedPatientDTO>> ListPatientByName(NameDTO nameDto)
     {
         var patient = await _patientRepository.GetActivePatientsByName(new Name(nameDto.name));
 
-            if (patient == null)
-            {
-                throw new ArgumentException("Patient not found");
-            }
+        if (patient == null)
+        {
+            throw new ArgumentException("Patient not found");
+        }
 
         return buildSearchedPatientDtoList(patient);
     }
@@ -319,7 +318,8 @@ public class PatientService
 
     public async Task<SearchedPatientDTO> ListPatientByMedicalRecordNumber(PatientIdDto patientId)
     {
-        var patient = await _patientRepository.GetActivePatientByMedicalRecordNumber(new MedicalRecordNumber(patientId.Id));
+        var patient =
+            await _patientRepository.GetActivePatientByMedicalRecordNumber(new MedicalRecordNumber(patientId.Id));
 
         if (patient == null)
         {
@@ -338,123 +338,124 @@ public class PatientService
             searchedPatientDtoList.Add(patientToSearchedPatientDto(patient));
         }
 
-            return searchedPatientDtoList;
-        }
-        
-        public async Task DeletePatientProfile(string email)
+        return searchedPatientDtoList;
+    }
+
+    public async Task DeletePatientProfile(string email)
+    {
+        if (email == null)
         {
-            if (email==null)
-            {
-                throw new ArgumentException("The email address can´t be null");
-            }
-            
-            var patient = await _patientRepository.GetActivePatientByEmail(new Email(email));
-            
-            patient.Person = null;
-            patient.EmergencyContact = null;
-            patient.AllergiesAndMedicalConditions = null;
-        
-            await _unitOfWork.CommitAsync();
+            throw new ArgumentException("The email address can´t be null");
         }
-         
-        public async Task EditPatientProfile(PatientDTO editPatientDto)
+
+        var patient = await _patientRepository.GetActivePatientByEmail(new Email(email));
+
+        patient.Person = null;
+        patient.EmergencyContact = null;
+        patient.AllergiesAndMedicalConditions = null;
+
+        await _unitOfWork.CommitAsync();
+    }
+
+    public async Task EditPatientProfile(PatientDTO editPatientDto)
+    {
+        if (editPatientDto.email == null)
         {
-            if (editPatientDto.email == null)
-            {
-                throw new ArgumentException("The email address can´t be null");
-            }
-
-            var patient = await _patientRepository.GetByEmail(editPatientDto.email);
-
-            var originalEmail = patient.Person.ContactInfo._email;
-
-            var originalPhoneNumber = patient.Person.ContactInfo._phoneNumber;
-
-
-            if (editPatientDto.firstName != null)
-            {
-                patient.Person.FirstName = new Name(editPatientDto.firstName);
-            }
-
-            if (editPatientDto.lastName != null)
-            {
-                patient.Person.LastName = new Name(editPatientDto.lastName);
-            }
-
-             // if (editPatientDto.birthDate != null)
-             // {
-             //     var editedBirthDate = "";
-             //     if (DateTime.TryParse(editPatientDto.birthDate, out var data))
-             //     {
-             //         editedBirthDate = data.ToString("yyyy MMMM dd");
-             //     }
-             //     patient.BirthDate = editedBirthDate;
-             // }
-            
-            if (editPatientDto.phoneNumber == -1)
-            {
-                patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber ?? 0);
-            }
-
-            if (editPatientDto.email != null)
-            {
-                patient.Person.ContactInfo._email = new Email(editPatientDto.firstName);
-            }
-            
-            await _patientRepository.AddAsync(patient);
-            await _unitOfWork.CommitAsync();
-
-            if (originalEmail.ToString() != editPatientDto.email)
-            {
-                await _emailService.SendPatientUpdatingEmail_EmailAltered(originalEmail.ToString(), editPatientDto.email);
-            }
-
-            if (originalPhoneNumber.phoneNumber() != editPatientDto.phoneNumber)
-            {
-                await _emailService.SendPatientUpdatingEmail_PhoneNumberAltered(originalEmail.ToString(),
-                    editPatientDto.phoneNumber.ToString());
-            }
+            throw new ArgumentException("The email address can´t be null");
         }
-        
-        private Patient patientDTOToPatient(PatientDTO patientDTO)
+
+        var patient = await _patientRepository.GetByEmail(editPatientDto.email);
+
+        if (patient == null)
         {
-            var phoneNumber = new PhoneNumber(patientDTO.phoneNumber??0);
-            VerifyPhoneNumberAvailability(phoneNumber);
-
-            var email = new Email(patientDTO.email);
-            VerifyEmailAvailability(email);
-            
-            return new Patient(null, new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName),
-                    new ContactInfo(new Email(patientDTO.email),
-                        new PhoneNumber(patientDTO.phoneNumber ?? 0))), DateTime.Parse(patientDTO.birthDate),
-                patientDTO.gender,
-                null,
-                patientDTO.emergencyContact, null);
+            throw new ArgumentException("Patient not found");
         }
 
-        public async Task VerifyPhoneNumberAvailability(PhoneNumber phoneNumber)
+        var originalEmail = patient.Person.ContactInfo._email;
+
+        var originalPhoneNumber = patient.Person.ContactInfo._phoneNumber;
+
+
+        if (editPatientDto.firstName != null)
         {
-            var personByPhoneNumber = await _personRepository.GetPersonByPhoneNumber(phoneNumber);
-
-            if (personByPhoneNumber != null)
-            {
-                throw new ArgumentException("Phone Number already in use");
-            }
+            patient.Person.FirstName = new Name(editPatientDto.firstName);
         }
 
-        public async Task VerifyEmailAvailability(Email email)
+        if (editPatientDto.lastName != null)
         {
-            var personByEmail = await _personRepository.GetPersonByEmail(email);
-            if (personByEmail != null)
-            {
-                throw new ArgumentException("Email already in use");
-            }
+            patient.Person.LastName = new Name(editPatientDto.lastName);
         }
-        public async Task CreatePatientProfile(PatientDTO patientDTO)
-        {
-            var patient = patientDTOToPatient(patientDTO);
-            await _patientRepository.AddAsync(patient);
 
-            await _unitOfWork.CommitAsync();
+        if (editPatientDto.birthDate != null)
+        {
+            patient.BirthDate = DateTime.Parse(editPatientDto.birthDate);
         }
+
+        if (editPatientDto.phoneNumber == -1)
+        {
+            patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber ?? 0);
+        }
+
+        if (editPatientDto.email != null)
+        {
+            patient.Person.ContactInfo._email = new Email(editPatientDto.email);
+        }
+
+        await _patientRepository.AddAsync(patient);
+        await _unitOfWork.CommitAsync();
+
+        if (originalEmail.ToString() != editPatientDto.email)
+        {
+            await _emailService.SendPatientUpdatingEmail_EmailAltered(originalEmail.ToString(), editPatientDto.email);
+        }
+
+        if (originalPhoneNumber.phoneNumber() != editPatientDto.phoneNumber)
+        {
+            await _emailService.SendPatientUpdatingEmail_PhoneNumberAltered(originalEmail.ToString(),
+                editPatientDto.phoneNumber.ToString());
+        }
+    }
+
+    private Patient patientDTOToPatient(PatientDTO patientDTO)
+    {
+        var phoneNumber = new PhoneNumber(patientDTO.phoneNumber ?? 0);
+         VerifyPhoneNumberAvailability(phoneNumber);
+
+        var email = new Email(patientDTO.email);
+        VerifyEmailAvailability(email);
+
+        return new Patient(null, new Person(new Name(patientDTO.firstName), new Name(patientDTO.lastName),
+                new ContactInfo(new Email(patientDTO.email),
+                    new PhoneNumber(patientDTO.phoneNumber ?? 0))), DateTime.Parse(patientDTO.birthDate),
+            patientDTO.gender,
+            null,
+            patientDTO.emergencyContact, null);
+    }
+
+    public async Task VerifyPhoneNumberAvailability(PhoneNumber phoneNumber)
+    {
+        var personByPhoneNumber = await _personRepository.GetPersonByPhoneNumber(phoneNumber);
+
+        if (personByPhoneNumber != null)
+        {
+            throw new ArgumentException("Phone Number already in use");
+        }
+    }
+
+    public async Task VerifyEmailAvailability(Email email)
+    {
+        var personByEmail = await _personRepository.GetPersonByEmail(email);
+        if (personByEmail != null)
+        {
+            throw new ArgumentException("Email already in use");
+        }
+    }
+
+    public async Task CreatePatientProfile(PatientDTO patientDTO)
+    {
+        var patient = patientDTOToPatient(patientDTO);
+        await _patientRepository.AddAsync(patient);
+
+        await _unitOfWork.CommitAsync();
+    }
 }

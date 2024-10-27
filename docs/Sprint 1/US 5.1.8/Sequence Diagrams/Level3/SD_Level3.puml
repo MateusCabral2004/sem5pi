@@ -24,6 +24,43 @@ activate Controller
 Controller -> ApplicationService: create new patient profile
 activate ApplicationService
 
+ApplicationService -> Repository: validate phone number availability
+activate Repository
+
+Repository -> Persistence: validate phone number availability
+activate Persistence
+
+Persistence -> DataBase: get patient by phone number
+activate DataBase
+
+DataBase --> Persistence: no patient found
+deactivate DataBase
+
+Persistence --> Repository: no patient found
+deactivate Persistence
+
+Repository --> ApplicationService: no patient found
+deactivate Repository
+
+
+ApplicationService -> Repository: validate email availability
+activate Repository
+
+Repository -> Persistence: validate email availability
+activate Persistence
+
+Persistence -> DataBase: get patient by email
+activate DataBase
+
+DataBase --> Persistence: no patient found
+deactivate DataBase
+
+Persistence --> Repository: no patient found
+deactivate Persistence
+
+Repository --> ApplicationService: no patient found
+deactivate Repository
+
 ApplicationService -> Repository: create a new patient profile
 activate Repository
 
