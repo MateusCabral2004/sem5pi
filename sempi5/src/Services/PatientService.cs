@@ -269,10 +269,7 @@ public class PatientService
 
     public async Task defineDataToExcludeAccount(string email)
     {
-        Console.WriteLine("Iniciando exclusão de conta");
         var confirmationLink = new ConfirmationLink(new Email(email));
-        Console.WriteLine("Email to delete: " + confirmationLink.email + " " + confirmationLink.Id + " " +
-                          confirmationLink.ExpiryDate);
         var token = await registerLink(confirmationLink);
         await _confirmationLinkRepository.saveChangesAsync();
         await _emailService.SendPatientDeleteConfirmationEmail(email, token.Id.ToString());
@@ -287,10 +284,7 @@ public class PatientService
         {
             throw new InvalidOperationException("Token não encontrado ou já foi utilizado.");
         }
-
-        Console.WriteLine("Token para exclusão: " + token);
-        Console.WriteLine("Token de exclusão no objeto: " + confirmationToken.Id);
-        Console.WriteLine("Email para exclusão: " + confirmationToken.email);
+        
 
         var patient = await _patientRepository.GetByEmail(confirmationToken.email?.ToString());
 
@@ -307,7 +301,6 @@ public class PatientService
         }
 
         await _accountToDeleteRepository.saveUserToDelete(userID);
-        Console.WriteLine("Usuário com ID " + userID + " adicionado à lista de exclusão.");
     }
 
 

@@ -73,7 +73,23 @@ namespace Sempi5.Domain.PatientAggregate
             AppointmentHistory =  new List<string>();
             PatientStatus = PatientStatusEnum.DEACTIVATED;
         }
-
+        public Patient(Person person, DateTime birthDate, string gender, List<string> allergiesAndMedicalConditions, string emergencyContact, List<string> appointmentHistory, PatientStatusEnum patientStatus)
+        {
+            ArgumentNullException.ThrowIfNull(person);
+            ArgumentException.ThrowIfNullOrWhiteSpace(gender);
+            ArgumentException.ThrowIfNullOrWhiteSpace(emergencyContact);
+            ArgumentNullException.ThrowIfNull(allergiesAndMedicalConditions);
+            ArgumentNullException.ThrowIfNull(appointmentHistory);
+            
+            User = null;
+            Person = person;
+            BirthDate = birthDate;
+            Gender = gender;
+            AllergiesAndMedicalConditions = allergiesAndMedicalConditions;
+            EmergencyContact = emergencyContact;
+            AppointmentHistory = appointmentHistory;
+            PatientStatus = patientStatus;
+        }
         
         
         

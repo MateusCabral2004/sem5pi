@@ -1,0 +1,9 @@
+﻿@startuml
+left to right direction
+
+actor "Admin" as user
+usecase "Deactivate staff profile" as goal
+
+user --> goal
+
+@enduml

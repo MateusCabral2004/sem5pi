@@ -1,0 +1,81 @@
+﻿@startuml
+left to right direction
+
+actor "Admin" as adm
+actor "Unregistered User" as unr
+actor "Patient" as pat
+actor "Doctor" as doc
+
+package "Account Management" {
+    usecase "Activate Account" as goal1
+    usecase "Register Staff User" as goal2
+    usecase "Register in Application" as goal3
+    usecase "Update Profile" as goal4
+    usecase "Delete Account" as goal5
+    usecase "Login" as goal6
+}
+
+package "Patient Management" {
+    usecase "Create Patient Profile" as goal8
+    usecase "Edit Patient Profile" as goal9
+    usecase "Delete Patient Profile" as goal10
+    usecase "List Patients by DOB" as goal11
+    usecase "List Patients by Email" as goal12
+    usecase "List Patients by Medical Record" as goal13
+}
+
+package "Staff Management" {
+    usecase "Create Staff Profile" as goal15
+    usecase "Edit Staff Profile" as goal16
+    usecase "Deactivate Staff Profile" as goal17
+    usecase "List Staff by Email" as goal18
+    usecase "List Staff by Name" as goal19
+    usecase "List Staff by Specialization" as goal20
+}
+
+package "Operation Request Management" {
+    usecase "Request Operation" as goal21
+    usecase "Update Operation Request" as goal22
+    usecase "Remove Operation Request" as goal23
+    usecase "List Operation Requests" as goal24
+}
+
+package "Operation Type Management" {
+    usecase "Add New Operation Type" as goal25
+    usecase "Edit Operation Type" as goal26
+    usecase "Remove Operation Type" as goal27
+    usecase "List Operation Types by Name" as goal28
+    usecase "List Operation Types by Specialization" as goal29
+    usecase "List Operation Types by Status" as goal30
+}
+
+unr --> goal1
+unr --> goal6
+pat --> goal5
+pat --> goal4
+pat --> goal3
+adm --> goal2
+adm --> goal8
+adm --> goal9
+adm --> goal10
+adm --> goal11
+adm --> goal12
+adm --> goal13
+adm --> goal15
+adm --> goal16
+adm --> goal17
+adm --> goal18
+adm --> goal19
+adm --> goal20
+doc --> goal21
+doc --> goal22
+doc --> goal23
+doc --> goal24
+adm --> goal25
+adm --> goal26
+adm --> goal27
+adm --> goal28
+adm --> goal29
+adm --> goal30
+
+@enduml

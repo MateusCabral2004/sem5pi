@@ -1,0 +1,9 @@
+﻿@startuml
+left to right direction
+
+actor "Patient" as user
+usecase "Update my profile" as goal
+
+user --> goal
+
+@enduml

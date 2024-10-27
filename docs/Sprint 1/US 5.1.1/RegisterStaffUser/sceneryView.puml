@@ -1,0 +1,9 @@
+﻿@startuml
+left to right direction
+
+actor "Admin" as user
+usecase "Register staff user" as goal
+
+user --> goal
+
+@enduml
