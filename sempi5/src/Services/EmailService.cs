@@ -121,13 +121,13 @@ public class EmailService
     
     public async Task PrepareEditStaffConfirmationEmail(string email, EditStaffDTO editStaffDto)
     {
-
+        
         string serializedDto = JsonSerializer.Serialize(editStaffDto);
             
             var cryptography = new Cryptography();
              var encryptedString = cryptography.EncryptString(serializedDto);
             
-        var link = $"http://localhost:5002/staff/editStaffProfile/{encryptedString}";
+        var link = $"http://localhost:5001/staff/editStaffProfile/{encryptedString}";
             
         var body = $@"
             <p>Please confirm this email by clicking the following link:</p>
