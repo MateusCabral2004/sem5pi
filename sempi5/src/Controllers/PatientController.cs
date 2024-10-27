@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Services;
+using ILogger = Serilog.ILogger;
 
 namespace Sempi5.Controllers;
 
@@ -14,14 +15,14 @@ public class PatientController : ControllerBase
     private readonly PatientService patientService;
     private readonly EmailService emailService;
     private readonly CheckUserToDeleteService _checkUserToDeleteService;
-
-
-    public PatientController(PatientService patientService, EmailService emailService,
-        CheckUserToDeleteService checkUserToDeleteService)
+    private readonly Serilog.ILogger _logger;
+    
+    public PatientController(PatientService patientService, EmailService emailService, CheckUserToDeleteService checkUserToDeleteService, ILogger logger)
     {
         this.patientService = patientService;
         this.emailService = emailService;
         _checkUserToDeleteService = checkUserToDeleteService;
+        _logger = logger;
     }
 
     [HttpGet("checkUserToDelete")]
@@ -264,6 +265,7 @@ public class PatientController : ControllerBase
         try
         {
             await patientService.EditPatientProfile(patientDto);
+           // _logger.
             return Ok("Patient profile edited successfully");
         }
         catch (Exception e)

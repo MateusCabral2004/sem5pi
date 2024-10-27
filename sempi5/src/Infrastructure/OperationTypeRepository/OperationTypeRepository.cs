@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.OperationTypeAggregate;
+using Sempi5.Domain.OperationTypeAggregate.DTOs;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.OperationTypeAggregate;
@@ -27,52 +28,30 @@ public class OperationTypeRepository : BaseRepository<OperationType, OperationTy
 
     public async Task<List<OperationType>> GetOperationTypeListByName(OperationName name)
     {
-        if (name == null)
-        {
-            return null;
-        }
 
         return await context.OperationTypes
-            .Include(o => o.Name)
             .Include(o => o.RequiredStaff)
-            .Include(o => o.SurgeryDuration)
-            .Include(o => o.SetupDuration)
-            .Include(o => o.CleaningDuration)
             .Where(o => o.Name.Equals(name))
             .ToListAsync();
     }
 
     public async Task<List<OperationType>> GetOperationTypeListBySpecialization(SpecializationName specializationName)
     {
-        if (specializationName == null)
-        {
-            return null;
-        }
 
-        return await context.OperationTypes
-            .Include(o=>o.Name)
-            .Include(o=>o.RequiredStaff)
-            .Include(o=>o.SurgeryDuration)
-            .Include(o=>o.SetupDuration)
-            .Include(o=>o.CleaningDuration)
-            .Where(o=>o.RequiredStaff.Exists(r=>r.Specialization.specializationName.Equals(specializationName)))
+        var operationTypes = await context.OperationTypes
+            .Include(o => o.RequiredStaff)
+            .ThenInclude(r => r.Specialization)
             .ToListAsync();
-        
+
+        return operationTypes
+            .Where(o => o.RequiredStaff.Any(r => r.Specialization.specializationName.Equals(specializationName)))
+            .ToList();
     }
 
-    public async Task<List<OperationType>> GetOperationTypeListByStatus(OperationType status)
+    public async Task<List<OperationType>> GetOperationTypeListByStatus(bool status)
     {
-        if (status == null)
-        {
-            return null;
-        }
-
         return await context.OperationTypes
-            .Include(o => o.Name)
             .Include(o => o.RequiredStaff)
-            .Include(o => o.SurgeryDuration)
-            .Include(o => o.SetupDuration)
-            .Include(o => o.CleaningDuration)
             .Where(o => o.stillPerformed.Equals(status))
             .ToListAsync();
     }

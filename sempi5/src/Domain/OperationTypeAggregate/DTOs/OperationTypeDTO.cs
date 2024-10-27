@@ -13,4 +13,5 @@ public class OperationTypeDTO
     public string SurgeryDuration { get; set; }
     
     public string CleaningDuration { get; set; }
+    
 }

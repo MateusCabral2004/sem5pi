@@ -4,7 +4,7 @@ namespace Sempi5.Domain.SpecializationAggregate;
 
 public class SpecializationName : IValueObject
 {
-    public virtual string name { get; }
+    public virtual string name { get; set; }
 
     private SpecializationName() {}
     
@@ -29,6 +29,9 @@ public class SpecializationName : IValueObject
         
         return specializationName.name == name;
     }
+    
+    
+    
     
     
 }

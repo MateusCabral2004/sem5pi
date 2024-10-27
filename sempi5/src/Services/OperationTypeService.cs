@@ -220,7 +220,7 @@ public class OperationTypeService
         return buildSearchedOperationTypeDtoList(operationType);
     }
 
-    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeByStatus(OperationType status)
+    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeByStatus(bool status)
     {
         var operationType = await _operationTypeRepository.GetOperationTypeListByStatus(status);
 
@@ -241,12 +241,16 @@ public class OperationTypeService
         {
             searchedOperationTypeDtoList.Add(operationTypeToSearchedOperationTypeDto(operationType));
         }
-
         return searchedOperationTypeDtoList;
     }
 
     private SearchedOperationTypeDTO operationTypeToSearchedOperationTypeDto(OperationType operationType)
     {
+
+        if (operationType==null)
+        {
+            throw new ArgumentException("Operation type not found");
+        }
         return new SearchedOperationTypeDTO
         {
             id = operationType.Id.AsString(),
