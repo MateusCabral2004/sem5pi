@@ -44,7 +44,20 @@ public class PatientBootstrap
             PatientStatusEnum.DEACTIVATED
         );
         
+        var patient3 = new Patient
+        (new Person(new Name("Chelsea"), new Name("Luis"),
+                new ContactInfo(new Email("sandro@gmail.com"), new PhoneNumber(938536401))),
+            new DateTime(2005, 1, 10),
+            "Man",
+            new List<string> { "Shellfish", "Diabetes" },
+            "911",
+            new List<string> { "03/03/2021 9am-10am", "04/04/2021 10am-11am" },
+            PatientStatusEnum.DEACTIVATED
+        );
+        
         await _patientRepository.AddAsync(patient1);
         await _patientRepository.AddAsync(patient2);
+        await _patientRepository.AddAsync(patient3);
+
     }
 }
