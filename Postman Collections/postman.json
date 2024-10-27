@@ -185,7 +185,7 @@
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "GET",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Cookie",
@@ -195,7 +195,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"phonenUmber\": 964666298\r\n}",
+							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"phoneNumber\": 964666298\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -226,6 +226,34 @@
 				{
 					"name": "editStaffProfileDuplicateEmail",
 					"id": "7380fe5c-1b9f-427e-889b-49d5ca813eb5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieRui}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"email\":\"rpsoares8@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{base_url}}/Staff/editStaffProfile"
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"id": "ee366486-f14c-4fdd-9d2b-902d44d0d789",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
