@@ -88,7 +88,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"OperationName\": \"Example Operation \",\r\n  \"RequiredStaff\": [\r\n    {\r\n      \"NumberOfStaff\": 2,\r\n      \"Specialization\": \"Anesthesiologist\"\r\n    },\r\n    {\r\n      \"NumberOfStaff\": 3,\r\n      \"Specialization\": \"Nurse\"\r\n    }\r\n  ],\r\n  \"SetupDuration\": \"00:15:00\",\r\n  \"SurgeryDuration\": \"01:00:00\",\r\n  \"CleaningDuration\": \"00:30:00\"\r\n}\r\n",
+							"raw": "{\r\n  \"OperationName\": \"Example Operation\",\r\n  \"RequiredStaff\": [\r\n    {\r\n      \"NumberOfStaff\": 2,\r\n      \"Specialization\": \"Anesthesiologist\"\r\n    },\r\n    {\r\n      \"NumberOfStaff\": 3,\r\n      \"Specialization\": \"Nurse\"\r\n    }\r\n  ],\r\n  \"SetupDuration\": \"00:15:00\",\r\n  \"SurgeryDuration\": \"01:00:00\",\r\n  \"CleaningDuration\": \"00:30:00\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
