@@ -170,7 +170,7 @@
 					"name": "ActivateStaffAccount",
 					"item": [
 						{
-							"name": "New Request",
+							"name": "ConfirmToken",
 							"id": "55b99a4f-1ebf-4bca-9729-910a87aa84ef",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
@@ -557,7 +557,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "7dea1979-1f62-4723-b1ba-27eb775a3b5b",
+				"id": "541c4076-278a-4d1a-86a2-5f6739c9fbbc",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -567,7 +567,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "c8bfc405-b58e-41d5-9a5d-df7e6652cd13",
+				"id": "de34f08b-802a-4638-9936-f6cd2d2dc280",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -596,13 +596,8 @@
 			"type": "string"
 		},
 		{
-			"key": "token",
-			"value": "",
-			"type": "default"
-		},
-		{
 			"key": "tokenConfirmStaff",
-			"value": "",
+			"value": "08dcf6aa-0915-448d-8c8b-8993eb632fc7",
 			"type": "default"
 		}
 	]
