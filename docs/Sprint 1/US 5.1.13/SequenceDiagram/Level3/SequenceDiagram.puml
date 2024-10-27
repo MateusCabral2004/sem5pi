@@ -1,38 +1,72 @@
 ﻿@startuml
 actor Admin
-participant SurgeryApointmentSystem
-participant MasterData
-participant BackEnd
-participant Database
+participant Routing
+participant Controller
+participant ApplicationService
+participant Repository
+participant Persistence
+database Database
 
-Admin -> SurgeryApointmentSystem : Create New Staff Profile
-activate SurgeryApointmentSystem
+activate Admin
 
-SurgeryApointmentSystem -> MasterData : Create New Staff Profile
-activate MasterData
+Admin -> Routing : Deactivate A Staff Profile
+activate Routing
 
-MasterData -> BackEnd : Create New Staff Profile
-activate BackEnd
+Routing -> Controller : Forward Request To Deactivate A Staff Profile
+activate Controller
 
-BackEnd -> BackEnd : Creates New Staff Profile
-activate BackEnd
+Controller -> ApplicationService : Deactivate A Staff Profile
+activate ApplicationService
 
-BackEnd -> Database : Insert New Staff Profile
+ApplicationService -> Repository : Requests Staff Profile By Id
+activate Repository
+
+Repository -> Persistence : Requests Staff Profile By Id
+activate Persistence
+
+Persistence -> Database : Select Active Staff Profile By Id
 activate Database
 
-Database --> BackEnd : New Staff Profile Inserted
+Database --> Persistence : Staff Profile Found
 deactivate Database
 
-deactivate BackEnd
+Persistence --> Repository : Staff Profile Found
+deactivate Persistence
 
-BackEnd --> MasterData : New Staff Profile Created
+Repository --> ApplicationService : Staff Profile Found
+deactivate Repository
 
-deactivate BackEnd
+ApplicationService -> ApplicationService : Deactivate Staff Profile
+activate ApplicationService
 
-MasterData --> SurgeryApointmentSystem : Staff Profile Created
-deactivate MasterData
+ApplicationService -> Repository : Update Staff Profile
+activate Repository
 
-SurgeryApointmentSystem --> Admin : New Staff Profile Created
-deactivate SurgeryApointmentSystem
+Repository -> Persistence : Update Staff Profile
+activate Persistence
+
+Persistence -> Database : Update Staff Profile
+activate Database
+
+Database --> Persistence : Staff Profile Updated
+deactivate Database
+
+Persistence --> Repository : Staff Profile Updated
+deactivate Persistence
+
+Repository --> ApplicationService : Staff Profile Updated
+deactivate Repository
+deactivate ApplicationService
+
+ApplicationService --> Controller : Staff Profile Deactivated Successfully
+deactivate ApplicationService
+
+Controller --> Routing : Staff Profile Deactivated Successfully
+deactivate Controller
+
+Routing --> Admin : Staff Profile Deactivated Successfully
+deactivate Routing
+
+deactivate Admin
 
 @enduml
