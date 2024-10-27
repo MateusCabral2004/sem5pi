@@ -239,24 +239,6 @@
 						}
 					],
 					"id": "701f1df5-b759-4c64-8f3d-9998eb79e365"
-				},
-				{
-					"name": "Sem confirmação",
-					"id": "a854fbcc-eed6-4a6a-8236-67e597386e95",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Cookie",
-								"value": "{{SandroCookiePatient}}",
-								"type": "text"
-							}
-						]
-					},
-					"response": []
 				}
 			],
 			"id": "a7529494-2ddc-41e8-9e74-4cc751df956b"
