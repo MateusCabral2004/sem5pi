@@ -63,7 +63,6 @@ public class PatientController : ControllerBase
                 return BadRequest("Número de registro não pode ser vazio ou negativo.");
             }
 
-        Console.WriteLine("Iniciando registro de conta com email: " + getEmail());
         var success = await patientService.RegisterPatientUser(getEmail(), number);
 
             if (success)
@@ -99,7 +98,6 @@ public class PatientController : ControllerBase
     public async Task<IActionResult> excludeAccount()
     {
         await patientService.defineDataToExcludeAccount(getEmail());
-        Console.WriteLine("Email to delete accout was sent");
 
         return Ok("We have sent email to confirm the exclusion");
     }
@@ -108,7 +106,6 @@ public class PatientController : ControllerBase
      [Authorize(Roles = "Patient")]
     public async Task<IActionResult> excludeAccountEmailConfirm(string token)
     {
-        Console.WriteLine("Iniciando agendamento para exclusão de conta");
 
         try
         {
@@ -118,20 +115,17 @@ public class PatientController : ControllerBase
         catch (ArgumentException ex)
         {
             // token inválido
-            Console.WriteLine("Erro de argumento: " + ex.Message);
             return BadRequest("Token inválido: " + ex.Message);
         }
         catch (InvalidOperationException ex)
         {
             // token não encontrado ou usuário não encontrado
-            Console.WriteLine("Erro de operação inválida: " + ex.Message);
             return NotFound("Erro ao excluir a conta: " + ex.Message);
         }
         catch (Exception ex)
         {
             // erro inesperado
-            Console.WriteLine("Erro inesperado: " + ex.Message);
-            return StatusCode(500, "Erro interno do servidor. Tente novamente mais tarde.");
+            return StatusCode(500, "Erro interno do servidor. Tente novamente mais tarde."+ ex.Message);
         }
     }
 
@@ -140,12 +134,11 @@ public class PatientController : ControllerBase
     [Authorize(Roles = "Patient")] 
     public async Task<IActionResult> updateAccount(PatientProfileDto profileDto)
     {
-        Console.WriteLine("Iniciando Update");
         //criar um token para eter no link
         if (profileDto.email != null || profileDto.phoneNumber != null)
         {
             string serializedDto = JsonSerializer.Serialize(profileDto);
-            Console.WriteLine("Serialized DTO: " + serializedDto);
+
             await SendUpdateConfirmationEmail(getEmail(),
                 $"http://localhost:5001/patient/account/update/{serializedDto}", "Update Confirmation");
             return Ok("Email sent to confirm update");
@@ -170,7 +163,6 @@ public class PatientController : ControllerBase
             return BadRequest($"Invalid JSON format: {ex.Message}");
         }
 
-        Console.WriteLine("Iniciado update depois da confirmação de email");
 
         await patientService.updateAccount(profileDto, getEmail());
 
