@@ -79,7 +79,7 @@ namespace Sempi5
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
                     options.LoginPath = "/login/login";
-                    options.AccessDeniedPath = "/login/logout";
+                    options.AccessDeniedPath = "/error/access-denied";
                     options.ExpireTimeSpan = TimeSpan.FromHours(2);
                     options.SlidingExpiration = true;
                 })
@@ -131,6 +131,8 @@ namespace Sempi5
             app.UseAuthentication();
 
             app.UseRouting();
+            
+           // app.UseMiddleware<CustomAuthorizationMiddleware>();
 
             app.UseAuthorization();
 
