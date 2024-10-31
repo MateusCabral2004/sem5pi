@@ -3,23 +3,11 @@ using Sempi5.Domain.Shared;
 using Sempi5.Infrastructure.Shared;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Sempi5.Infrastructure.StaffRepository;
-using Sempi5.Domain.User;
-using Sempi5.Domain.StaffAggregate;
 using Sempi5.Infrastructure.Databases;
-using Microsoft.IdentityModel.Tokens;
 using Sempi5.Bootstrappers;
-using Sempi5.Domain;
-using Sempi5.Domain.AppointmentAggregate;
-using Sempi5.Domain.OperationRequestAggregate;
-using Sempi5.Domain.OperationTypeAggregate;
 using Sempi5.Services;
 using Sempi5.Infrastructure.UserRepository;
 using Sempi5.Infrastructure.PatientRepository;
-using Sempi5.Domain.PatientAggregate;
-using Sempi5.Domain.PersonalData;
-using Sempi5.Domain.RequiredStaffAggregate;
-using Sempi5.Domain.SpecializationAggregate;
-using Sempi5.Domain.SurgeryRoomAggregate;
 using Sempi5.Infrastructure.AccoutToDeleteAggregate;
 using Sempi5.Infrastructure.AccoutToDeleteRepository;
 using Sempi5.Infrastructure.AppointmentAggregate;
@@ -61,6 +49,18 @@ namespace Sempi5
             CreateDataBase(builder);
 
             ConfigureMyServices(builder.Services);
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod()
+                            .AllowCredentials();
+                    });
+            });
 
             builder.Services.AddAuthorization(options =>
             {
@@ -127,13 +127,13 @@ namespace Sempi5
             }
 
             app.UseHttpsRedirection();
+            
+            app.UseCors("AllowSpecificOrigin");
 
             app.UseAuthentication();
 
             app.UseRouting();
             
-           // app.UseMiddleware<CustomAuthorizationMiddleware>();
-
             app.UseAuthorization();
 
             app.MapControllers();
