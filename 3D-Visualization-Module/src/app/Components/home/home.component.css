@@ -1,0 +1,75 @@
+.container {
+  background-color: lightblue;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.login-button {
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.image-section {
+  margin: 20px 0;
+}
+
+.image-section img {
+  max-width: 100%;
+  height: auto;
+}
+
+footer {
+  margin-top: 20px;
+}
+
+.dev-info {
+  display: inline-block; /* Makes the box size to the content */
+  text-align: center;
+  margin-top: 15px; /* Space between the image and the developer info */
+  padding: 15px;
+  background-color: rgba(241, 24, 24, 0.8);
+  /*color: white; */ /* Text color*/
+  border-radius: 8px; /* Rounded corners */
+}
+
+.dev-info h3 {
+  margin-bottom: 10px;
+}
+
+.dev-info ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.dev-info li {
+  margin: 5px 0; /* Space between the list items */
+}
+
+.dev-info p {
+  margin-top: 10px; /* Space between the list and the paragraph */
+}
+
+.dev-info p .team-label {
+  font-weight: bold;
+}
+
+
+
+
+

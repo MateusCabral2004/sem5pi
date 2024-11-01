@@ -45,9 +45,7 @@ namespace Sempi5
             var builder = WebApplication.CreateBuilder(args);
 
             CreateLogginsMechanism(builder);
-
             CreateDataBase(builder);
-
             ConfigureMyServices(builder.Services);
 
             builder.Services.AddCors(options =>
@@ -96,16 +94,16 @@ namespace Sempi5
                         var email = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
                         var repo = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
-                        var user = repo.GetByEmail(email);
-                        if (user.Result == null)
+                        var user = await  repo.GetByEmail(email);
+                        if (user == null)
                         {
                             claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Unregistered"));
                         }
                         else
                         {
-                            if (user.Result.IsVerified)
+                            if (user.IsVerified)
                             {
-                                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Result.Role));
+                                claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, user.Role));
                             }
                             else
                             {
@@ -114,9 +112,15 @@ namespace Sempi5
                         }
                     };
                 });
+            
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.Cookie.SameSite = SameSiteMode.None;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
+
 
             builder.Services.AddControllersWithViews();
-
             builder.Services.AddEndpointsApiExplorer();
 
             var app = builder.Build();
@@ -127,17 +131,12 @@ namespace Sempi5
             }
 
             app.UseHttpsRedirection();
-            
-            app.UseCors("AllowSpecificOrigin");
-
-            app.UseAuthentication();
-
             app.UseRouting();
-            
+            app.UseCors("AllowSpecificOrigin");
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.MapControllers();
-
+            
             try
             {
                 SeedAllData(app.Services);

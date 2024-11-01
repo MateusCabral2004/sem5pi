@@ -10,6 +10,13 @@ namespace Sempi5.Controllers
     [Route("[controller]")]
     public class LoginController : ControllerBase
     {
+
+        private readonly string frontEndUrl;
+
+        public LoginController(IConfiguration configuration)
+        {
+            frontEndUrl = configuration["FrontEnd:Url"];
+        }
         
         [HttpGet("login")]
         public IActionResult Login()
@@ -20,42 +27,29 @@ namespace Sempi5.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> LoginResponse()
+        public IActionResult LoginResponse()
         {
+            Console.WriteLine("Frontend: " + frontEndUrl);
             var claimsIdentity = User.Identity as ClaimsIdentity;
+            var role = claimsIdentity?.FindFirst(ClaimTypes.Role)?.Value;
 
-            var role = claimsIdentity?.FindFirst(ClaimTypes.Role).Value;
-            if (role.Equals("Unregistered"))
+            if (role != null)
             {
-                return Redirect("patient/register");
+                return role.ToLower() switch
+                {
+                    "admin" => Redirect(frontEndUrl + "/admin"),
+                    "patient" => Redirect(frontEndUrl + "/patient"),
+                    _ => Redirect(frontEndUrl + "/staff")
+                };
             }
-            if(role.Equals("Unverified"))
-            {
-                return Ok("Please verify your account using the link sent to your email and then login again");
-            }
-            
-            if (role.Equals("Patient"))
-            {
-                //implement this in patient controller and if user exist show profile else show registration form
-                return Redirect("Patient/Home");
-            }
-
-            if (role.Equals("Admin"))
-            {
-                return Redirect("Admin/Home");
-            }
-
-            //implement this in staff controller
-            return Redirect("Staff/Home");
+            return Redirect(frontEndUrl + "/errorInvalidRole");
         }
 
         [HttpGet("logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            
-            return Redirect("/Login/login");
+            return Ok(new { success = true, message = "Logged out successfully" });
         }
-
     }
 }
