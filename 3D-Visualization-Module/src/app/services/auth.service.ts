@@ -35,4 +35,14 @@ export class AuthService {
       })
     );
   }
+
+  validateUserRole(...expectedRoles: string[]): void {
+    this.getUserRole().subscribe(role => {
+      if (!role || !expectedRoles.includes(role)) {
+        this.router.navigate(['/']);
+      }
+    });
+  }
+
+
 }

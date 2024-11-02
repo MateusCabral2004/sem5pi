@@ -13,7 +13,7 @@ export class AdminMenuComponent {
   menuItems = [
     /* The menus are temporary and will need to be replaced with the actual menu items
        but because they are not yet implemented i created some placeholders */
-    { title: 'Dashboard', icon: 'assets/icons/dashboard.png', link: '/dashboard' },
+    { title: 'Operation Type Management', icon: 'assets/icons/dashboard.png', link: '/admin/operationTypeManagement' },
     { title: 'Users', icon: 'assets/icons/users.png', link: '/users' },
     { title: 'Reports', icon: 'assets/icons/reports.png', link: '/reports' },
     { title: 'Settings', icon: 'assets/icons/settings.png', link: '/settings' },
@@ -26,16 +26,8 @@ export class AdminMenuComponent {
   }
 
   private validateUserRole() {
-    this.auth.getUserRole().subscribe(
-      role => {
-        if (role !== 'Admin') {
-          this.router.navigate(['/']);
-        }
-      },
-      error => {
-        console.error('Error retrieving user role', error);
-      }
-    );
+   const expectedRole = "Admin";
+   this.auth.validateUserRole(expectedRole);
   }
 }
 

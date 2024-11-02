@@ -1,0 +1,14 @@
+<div class="menu-container">
+  <h2 class="menu-title">{{ title }}</h2>
+
+  <!-- Profile Menu Positioned to the Top Right -->
+  <div class="profile-menu-container">
+    <app-profile-menu></app-profile-menu>
+  </div>
+
+  <!-- Use the reusable Menu Component -->
+  <app-menu [menuItems]="menuItems"></app-menu>
+
+  <!-- Content area for child components -->
+  <ng-content></ng-content>
+</div>

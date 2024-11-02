@@ -8,6 +8,8 @@ import {HomeComponent} from './Components/home/home.component';
 import {AdminMenuComponent} from './Components/admin-home/admin-home.component';
 import {MenuBoxComponent} from './Components/menu-box/menu-box.component';
 import {ProfilePictureMenuComponent} from './Components/profile-picture-menu/profile-picture-menu.component';
+import {OperationTypeManagementComponent} from './Components/operation-type-management/operation-type-management.component';
+import {BaseDashboardComponent} from './Components/base-dashboard/base-dashboard.component';
 import {routes} from './app.routes';
 
 @NgModule({
@@ -17,7 +19,9 @@ import {routes} from './app.routes';
     AdminMenuComponent,
     MenuBoxComponent,
     MenuComponent,
-    ProfilePictureMenuComponent
+    ProfilePictureMenuComponent,
+    OperationTypeManagementComponent,
+    BaseDashboardComponent
   ],
   imports: [
     BrowserModule,
