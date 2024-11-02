@@ -35,6 +35,7 @@ namespace Sempi5.Controllers
 
             if (role != null)
             {
+                Console.WriteLine("Role: " + role);
                 return role.ToLower() switch
                 {
                     "admin" => Redirect(frontEndUrl + "/admin"),
@@ -50,6 +51,26 @@ namespace Sempi5.Controllers
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect(frontEndUrl);
+        }
+        
+        [Authorize]
+        [HttpGet("role")]
+        public IActionResult GetRole()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var role = claimsIdentity?.FindFirst(ClaimTypes.Role)?.Value;
+            var email = claimsIdentity?.FindFirst(ClaimTypes.Email)?.Value;
+            Console.WriteLine("Role: " + role);
+            Console.WriteLine("Email: " + email);
+            return Ok(role);
+        }
+        
+        [HttpGet("email")]
+        public IActionResult GetEmail()
+        {
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            var email = claimsIdentity?.FindFirst(ClaimTypes.Email)?.Value;
+            return Ok(email);
         }
     }
 }
