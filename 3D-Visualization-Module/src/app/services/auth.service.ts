@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
-import {catchError, map, Observable, of} from 'rxjs';
+import {catchError, Observable, of} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +35,14 @@ export class AuthService {
       })
     );
   }
+
+  validateUserRole(...expectedRoles: string[]): void {
+    this.getUserRole().subscribe(role => {
+      if (!role || !expectedRoles.includes(role)) {
+        this.router.navigate(['/']);
+      }
+    });
+  }
+
+
 }

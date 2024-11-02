@@ -1,0 +1,31 @@
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  position: relative;
+}
+
+/* Title styling */
+.menu-title {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Profile menu container */
+.profile-menu-container {
+  position: absolute;
+  top: 2vh;
+  right: 2vh;
+}
+
+/* Styling for the menu component */
+app-menu {
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+}

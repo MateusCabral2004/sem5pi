@@ -1,0 +1,16 @@
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+  width: 80vh;
+  max-width: 1000px;
+  justify-content: center;
+  margin-bottom: 40px;
+  padding: 10px;
+}
+
+/* Target the last row when it only has two items */
+.menu-grid > :nth-last-child(2):nth-child(odd),
+.menu-grid > :nth-last-child(1):nth-child(odd) {
+  grid-column: 2 / span 1; /* Center the two items in the last row */
+}

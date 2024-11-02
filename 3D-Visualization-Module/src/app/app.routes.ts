@@ -1,6 +1,9 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './Components/home/home.component';
 import { AdminMenuComponent } from './Components/admin-home/admin-home.component';
+import {
+  OperationTypeManagementComponent
+} from './Components/operation-type-management/operation-type-management.component';
 
 export const routes: Routes = [
   {
@@ -12,5 +15,10 @@ export const routes: Routes = [
     path: 'admin',
     component: AdminMenuComponent,
     title: 'AdminHome',
-  }
+  },
+  {
+    path: 'admin/operationTypeManagement',
+    component: OperationTypeManagementComponent,
+    title: 'OperationTypeManagement',
+  },
 ];

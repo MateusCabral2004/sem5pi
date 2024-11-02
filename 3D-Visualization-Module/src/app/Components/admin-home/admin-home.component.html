@@ -1,17 +1,2 @@
-<div class="menu-container">
-  <h2 class="menu-title">Admin Dashboard</h2>
-
-  <!-- Profile Menu Positioned to the Top Right -->
-  <div class="profile-menu-container">
-    <app-profile-menu></app-profile-menu>
-  </div>
-
-  <div class="menu-grid">
-    <app-menu-box
-      *ngFor="let item of menuItems"
-      [title]="item.title"
-      [icon]="item.icon"
-      [link]="item.link">
-    </app-menu-box>
-  </div>
-</div>
+<app-base-dashboard [title]="'Admin Dashboard'" [menuItems]="menuItems">
+</app-base-dashboard>
