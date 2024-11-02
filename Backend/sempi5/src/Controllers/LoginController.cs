@@ -49,7 +49,7 @@ namespace Sempi5.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Ok(new { success = true, message = "Logged out successfully" });
+            return Redirect(frontEndUrl);
         }
     }
 }
