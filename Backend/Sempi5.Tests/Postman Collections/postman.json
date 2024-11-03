@@ -1795,6 +1795,10 @@
 			"key": "tokenConfirmEmail",
 			"value": "08dcf6d6-a74a-4340-8106-e7c585df7cfb",
 			"type": "string"
+		},
+		{
+			"key": "ruteDoctorCookie",
+			"value": "ruteDoctorCookie"
 		}
 	]
 }
