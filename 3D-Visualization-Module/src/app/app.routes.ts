@@ -4,6 +4,7 @@ import { AdminMenuComponent } from './Components/admin-home/admin-home.component
 import {
   OperationTypeManagementComponent
 } from './Components/operation-type-management/operation-type-management.component';
+import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
 
 export const routes: Routes = [
   {
@@ -21,4 +22,9 @@ export const routes: Routes = [
     component: OperationTypeManagementComponent,
     title: 'OperationTypeManagement',
   },
+  {
+    path: 'admin/staffManagement',
+    component: StaffManagementComponent,
+    title: 'StaffManagement',
+  }
 ];

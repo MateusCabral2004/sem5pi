@@ -17,8 +17,12 @@ public class UsersBootstrap
     {
         var adminEmail = new Email("admsem5projintegra@gmail.com");
         var admin = new SystemUser(adminEmail, "Admin", true);
-
+        
+        var email = new Email("ruipedrosantosoares@gmail.com");
+        var user = new SystemUser(email, "Admin", true);
+        
         await _userRepository.AddAsync(admin);
+        await _userRepository.AddAsync(user);
     }
 
 }

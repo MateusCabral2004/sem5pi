@@ -11,6 +11,7 @@ import {ProfilePictureMenuComponent} from './Components/profile-picture-menu/pro
 import {OperationTypeManagementComponent} from './Components/operation-type-management/operation-type-management.component';
 import {BaseDashboardComponent} from './Components/base-dashboard/base-dashboard.component';
 import {HomeButtonComponent} from './Components/home-button/home-button.component';
+import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
 
 import {routes} from './app.routes';
 
@@ -23,6 +24,7 @@ import {routes} from './app.routes';
     MenuComponent,
     ProfilePictureMenuComponent,
     OperationTypeManagementComponent,
+    StaffManagementComponent,
     BaseDashboardComponent,
     HomeButtonComponent
   ],
