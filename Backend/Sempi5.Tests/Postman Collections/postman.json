@@ -1280,7 +1280,13 @@
 					},
 					"request": {
 						"method": "PUT",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{ruteDoctorCookie}}",
+								"type": "text"
+							}
+						],
 						"url": "http://localhost:5001/OperationRequest/updateOperationRequestDeadline/3/2024-12-12"
 					},
 					"response": []
@@ -1302,9 +1308,8 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{SandroCookieDoctor}}",
-								"type": "text",
-								"disabled": true
+								"value": "{{ruteDoctorCookie}}",
+								"type": "text"
 							}
 						],
 						"url": "{{base_url}}/staff/request/deleteRequest"
@@ -1328,7 +1333,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{SandroCookieDoctor}}",
+								"value": "{{ruteDoctorCookie}}",
 								"type": "text"
 							}
 						],
@@ -1362,7 +1367,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": ".AspNetCore.Cookies=CfDJ8C1qEftZwfhChaaurTMpFZ_sn2hUdNAj67MTWvEPbprQnjkI82zCINFM-wQi_tCJcTmOW-rTiznHwmP2zdvNM7kbX7BKAxLOKrNfvqHuMpjzT1S7zFXMOAsbRShQhHEMuZsj0focqirMo-zQ7YhunOZYNGtZsJlEHORnivdKVGP-WaZ2VyZM0iVJUH2AsAiLGn-JryhD7K7qIgtZJN4v_9EBAvQvOz7LMOMEsAVl9Hzzfvw-gPK16DuNbSAWYifpluyZHTlMJNjj-QnknhpLNs-fb1yq9Knh_10k54zVQNqxOKVdipODkRSjBZ5AWvbxhGAmHiVql3KENgDtzpcjSQDIUeaAIWQyD9Ru3mlHlV-Wi1lBMu2oGJ9FWcrTJsACok_lwNGpSlE6OIYWslFh0tVovGodPfGqru6Ytjc0g2juMg8oYx358xD-X9jGeyzmyh0aPf-bHaSXZHUFvOq2EAbznqgwE4-e8uZ1PQ-QsDlOHEwK5AbMzraKiif4FgcXVeaWbWp4Oh9KABdhSMQm82QKPTIDw-L-HOoqzbjbDovXt9iXxun7dWCSHL6t9W1mjNE6dx6lpUkadxz6IOIZ_E7u44aku-KFOsYgjAhVNhcTati42W6s6Jx956a9SGsjVj-M_H0iI4yrZM2fPIBR3oEqhBgwvUlDXoLmREiURioYtrwxtL_PjFczBoag0FBMg0-2aFECSkh8b5AlBSHMPB8Xh13mIqQ3-Xg7BKbIE6eCLEkDqdnKOmCc1IRG2oKHgw_981at2-evaZOIfI8RhSMTwY4vqaGUzOC-SS_2Rhae2PgLZJpwQWuYDRaDvnQrgs-Q_hHitX20GKO1T-WW7fy1A_X-4xR8wMtfUVugos2Zx3VWARcHAu4zRekM8xqy-zk-iLPdffEG-ITgqT4jMF_jNTMlZj-JBxR7isrrcdKHof1OWXRvI8n8knW4tu44ilXnXJmNn3P4jt5YqQocoJw30l7H2xf0a0N4yqxNFoQ0sy7HmGSBUT38Asrv3ji12ldU1DOrkNb9aEKIeSN6qSH0T6TQw57UlJWjdVdOZG48w1kvuEWghN_xnWG233hK7IIdYqs81OiKYrv8Jr-pPK2trbFog8DK5UkgpBBNP0T_4DU_0XySTUPqf2lodqyib98XleqJv5LeCEtKChiTDtI57uakHYL6YKcCErL62LXgrAv3bdFJjkTHvBwVZcrWvTJkPqchRFX5Fxe-4h3lTmYawt8WFO7buet2gRDNRBwiTyCsNJUM39YraPIx66qsBzIeqHEg65ooopgKofMsSolRlMy999XqAb2wRvETPbp9QLT4QR_wEMQUXaZ6N0mVbJYAUweoxxKxvSuV1oE4U74rrJkB4QConHTtuSmEH9HhWW7C080n7Yt6h9LZboFdgg_lTqvRZ1zHjiIPxyTifCXolBB1hsMCD6sKpbMNEBek",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
@@ -1390,7 +1395,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieMateus}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
@@ -1424,7 +1429,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieMateus}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
@@ -1452,7 +1457,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieMateus}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
