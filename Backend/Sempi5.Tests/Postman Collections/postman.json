@@ -23,7 +23,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieMateus}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -51,7 +51,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieMateus}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -79,7 +79,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieMateus}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -377,6 +377,99 @@
 			"id": "cdca12ec-65a4-49a3-a21c-1ece16c0f0c9"
 		},
 		{
+			"name": "5.1.8",
+			"item": [
+				{
+					"name": "registerPatientProfile",
+					"id": "eef737fd-b1ab-41c5-aa3a-1213a868a9e0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookie}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"Bárbara\",\r\n  \"lastName\": \"Bandeira\",\r\n  \"email\": \"barbarabandeira@gmail.com\",\r\n  \"birthDate\": \"2004-11-04\",\r\n  \"phoneNumber\": 914129219,\r\n  \"gender\": \"Female\",\r\n  \"emergencyContact\": \"Carlos Bandeira\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/Patient/registerPatientProfile"
+					},
+					"response": []
+				}
+			],
+			"id": "f310de49-84cf-4a7c-aaf8-046932d928d2"
+		},
+		{
+			"name": "5.1.9",
+			"item": [
+				{
+					"name": "editPatientProfile",
+					"id": "6e0b9bb5-4d94-4ebc-ae32-eeda27e87a25",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookie}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\":\"Madalena\",\r\n    \"lastName\":\"Sousa\",\r\n    \"birthDate\":\"2009-12-12\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/Patient/editPatientProfile/newUser@gmail.com"
+					},
+					"response": []
+				}
+			],
+			"id": "501eb3f0-e17e-488e-a600-243d688859e9"
+		},
+		{
+			"name": "5.1.10",
+			"item": [
+				{
+					"name": "deletePatient",
+					"id": "5adcdc99-9c90-4dc0-bb24-9bf4c1e3a9eb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookie}}",
+								"type": "text"
+							}
+						],
+						"url": "http://localhost:5001/Patient/deletePatientProfile/anotherEmail@gmail.com"
+					},
+					"response": []
+				}
+			],
+			"id": "25946838-30b8-4d39-912b-8d0f059ca7bb"
+		},
+		{
 			"name": "5.1.11",
 			"item": [
 				{
@@ -393,7 +486,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieRui}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -421,7 +514,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieRui}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -517,7 +610,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieRui}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -644,13 +737,13 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieRui}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\":\"N202400001\"\r\n}",
+							"raw": "{\r\n    \"Id\":\"N202400002\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -672,13 +765,13 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieRui}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\":\"A202400009\"\r\n}",
+							"raw": "{\r\n    \"Id\":\"D202400001\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -706,7 +799,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieRui}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
@@ -734,7 +827,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieRui}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
@@ -762,7 +855,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieRui}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
@@ -790,7 +883,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieRui}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
@@ -824,13 +917,13 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieRui}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"phoneNumber\": 964666299,\r\n    \"email\": \"novoEmail@gmail.com\",\r\n    \"specialization\": \"Dermatology \"\r\n}",
+							"raw": "{\r\n    \"Id\":\"D202400003\",\r\n    \"phoneNumber\": 977654321,\r\n    \"email\": \"novoEmail@gmail.com\",\r\n    \"specialization\": \"Dermatology \"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -869,13 +962,13 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieRui}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\":\"N202400003\",\r\n    \"email\": \"swag4yt@gmail.com\",\r\n    \"phoneNumber\": 964666298,\r\n    \"specialization\": \"Dermatology \"\r\n}",
+							"raw": "{\r\n    \"Id\":\"D202400003\",\r\n    \"email\": \"swag4yt@gmail.com\",\r\n    \"phoneNumber\": 964666298,\r\n    \"specialization\": \"Dermatology \"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -897,13 +990,13 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieRui}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Id\": \"N202400003\",\r\n    \"email\": \"novoEmail@gmail.com\",\r\n    \"phoneNumber\":964777298,\r\n    \"specialization\": \"Dermatology\"\r\n}",
+							"raw": "{\r\n    \"Id\": \"D202400003\",\r\n    \"email\": \"novoEmail@gmail.com\",\r\n    \"phoneNumber\":964777298,\r\n    \"specialization\": \"Dermatology\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -934,7 +1027,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieRui}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -962,7 +1055,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieRui}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -996,7 +1089,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieRui}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -1024,7 +1117,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieRui}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -1058,7 +1151,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieRui}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -1086,7 +1179,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "{{AdminCookieRui}}",
+										"value": "{{AdminCookie}}",
 										"type": "text"
 									}
 								],
@@ -1108,6 +1201,34 @@
 				}
 			],
 			"id": "37e0cba5-aec8-4b30-8f8e-0edd57f22a02"
+		},
+		{
+			"name": "5.1.16",
+			"item": [
+				{
+					"name": "requestOperation",
+					"id": "1a5f00da-aba9-4577-a6ea-297e4138909a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"patientID\": \"20241000001\" ,\r\n    \"doctorID\":\"D202400003\" ,\r\n    \"operationName\":\"Heart transplant\",\r\n    \"operationType\":\"Heart Surgery\",\r\n    \"deadline\": \"2024-10-10\",\r\n    \"priority\": \"HIGH\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:5001/OperationRequest/requestOperation"
+					},
+					"response": []
+				}
+			],
+			"id": "928b06b7-38bc-4aa8-9c9b-6f4b7c376f49"
 		},
 		{
 			"name": "5.1.18",
@@ -1230,40 +1351,6 @@
 				}
 			],
 			"id": "b9c42abb-e54c-4fec-9838-d04c21f3c513"
-		},
-		{
-			"name": "US5.1.22",
-			"item": [
-				{
-					"name": "DeleteOperationType",
-					"id": "d9344961-077d-4dd2-836b-5d42b5c7bf94",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "DELETE",
-						"header": [
-							{
-								"key": "Cookie",
-								"value": "{{AdminCookieMateus}}",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{base_url}}/OperationType/deleteOperationType/Heart%20Surgery%20Simple"
-					},
-					"response": []
-				}
-			],
-			"id": "b83ac0c8-af47-48fa-8fba-5cc9829503f9"
 		},
 		{
 			"name": "US5.1.21",
@@ -1468,113 +1555,38 @@
 			"id": "c0082dbc-50ea-40c0-8806-2cbb01c5dbf3"
 		},
 		{
-			"name": "5.1.8",
+			"name": "US5.1.22",
 			"item": [
 				{
-					"name": "registerPatientProfile",
-					"id": "eef737fd-b1ab-41c5-aa3a-1213a868a9e0",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Cookie",
-								"value": "{Admin",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n  \"firstName\": \"Bárbara\",\r\n  \"lastName\": \"Bandeira\",\r\n  \"email\": \"barbarabandeira@gmail.com\",\r\n  \"birthDate\": \"2004-11-04\",\r\n  \"phoneNumber\": 914129219,\r\n  \"gender\": \"Female\",\r\n  \"emergencyContact\": \"Carlos Bandeira\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:5001/Patient/registerPatientProfile"
-					},
-					"response": []
-				}
-			],
-			"id": "f310de49-84cf-4a7c-aaf8-046932d928d2"
-		},
-		{
-			"name": "5.1.9",
-			"item": [
-				{
-					"name": "editPatientProfile",
-					"id": "6e0b9bb5-4d94-4ebc-ae32-eeda27e87a25",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"firstName\":\"Madalena\",\r\n    \"lastName\":\"Sousa\",\r\n    \"birthDate\":\"2009-12-12\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "http://localhost:5001/Patient/editPatientProfile/newUser@gmail.com"
-					},
-					"response": []
-				}
-			],
-			"id": "501eb3f0-e17e-488e-a600-243d688859e9"
-		},
-		{
-			"name": "5.1.10",
-			"item": [
-				{
-					"name": "deletePatient",
-					"id": "5adcdc99-9c90-4dc0-bb24-9bf4c1e3a9eb",
+					"name": "DeleteOperationType",
+					"id": "d9344961-077d-4dd2-836b-5d42b5c7bf94",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
 						"method": "DELETE",
-						"header": [],
-						"url": "http://localhost:5001/Patient/deletePatientProfile/anotherEmail@gmail.com"
-					},
-					"response": []
-				}
-			],
-			"id": "25946838-30b8-4d39-912b-8d0f059ca7bb"
-		},
-		{
-			"name": "5.1.16",
-			"item": [
-				{
-					"name": "requestOperation",
-					"id": "1a5f00da-aba9-4577-a6ea-297e4138909a",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookieMateus}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"patientID\": \"20241000001\" ,\r\n    \"doctorID\":\"D202400003\" ,\r\n    \"operationName\":\"Heart transplant\",\r\n    \"operationType\":\"Heart Surgery\",\r\n    \"deadline\": \"2024-10-10\",\r\n    \"priority\": \"HIGH\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "http://localhost:5001/OperationRequest/requestOperation"
+						"url": "{{base_url}}/OperationType/deleteOperationType/Heart%20Surgery%20Simple"
 					},
 					"response": []
 				}
 			],
-			"id": "928b06b7-38bc-4aa8-9c9b-6f4b7c376f49"
+			"id": "b83ac0c8-af47-48fa-8fba-5cc9829503f9"
 		},
 		{
 			"name": "5.1.17",
