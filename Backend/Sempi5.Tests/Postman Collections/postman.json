@@ -1631,7 +1631,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "{{AdminCookieMateus}}",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
@@ -1662,7 +1662,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookie}}",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
 							"raw": "{\r\n    \"specializationName\":\"Cleaner\"\r\n}",
@@ -1684,7 +1690,13 @@
 					},
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AdminCookie}}",
+								"type": "text"
+							}
+						],
 						"url": "http://localhost:5001/OperationType/listOperationTypeByStatus/true"
 					},
 					"response": []
@@ -1700,13 +1712,13 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": ".AspNetCore.Cookies=CfDJ8KVrZduF2lRPo7ioB0pDQ48cPLZJkgzoFwA_xkcCUUXTxdGvbs9Gg_aZIHysDCew09SHsQNtkbhs5SRYXCNzDDDmMEdeOsZOJHzu-Fm4OVa3LZ7fAT5RQzNhNwUc4TSt2ND_J_-Bv5_pWvzU-TsC4y2krrkA3sMWEnTsndixw6lzXY8kP-M6SPM66ito9QH4ToRpK-oHfplnfo_PwAU0RO84xg4KlB2fBDyjF1x5Qni8zD89rR_eVa9UMKl9EAzvlP0hraWgJxXJZEtmjQRQuTG79mDHliXD5S_kP1sqyS-A1oy6YBkpbkMrUcADv8zeItsaTDMszvvC8pjShGSw535LDyOlcUgW1VJSKt0bEXjQJVBgwzt3Azj6RZQMT4E18QBCFZ-DByufmPN4Q6L5cMCPFrn2KuX2koD0CRCYIH3qtAJ17uQafb9-XqYxljVacmsOKbeiUEeVLqC3sqVO732EMLotPnBrgMaSUcGVkXz8O4vZQ2cSQV6QewMz8zDeU1jrNwt4S8D5_Ck5OaVDDiss_05fvLTSIcZYKrWQ-IsxwW8eTUXLamAnKlZCdXl1C7q_P4T-gzsBwRc9aRBBoN_UuRBWe_9Sorj92aPemmsd-msl7LE6rquQzvowbTGdRX0vspLcppfX20Z3HswlH_1ZlS5tYSV3tq_P6WD1CtAMvaXu1V4zLQhYIUY1FSESuR-jm2L6KWyrLbqVnFTEoXV56Myaazl26Gm39npSEOLgxC7-_H6jkZyw48awnGVPFoYfzwPrXcKdLlZUjBuul_gdW5aLrm4aqqgasEjilYKraQnnBm0m_qGQug_SS6TWVJjn6zApGpZlfOe0aZekw2QCvEgNzLHg96vWob453IqPgxOzD8cFYhfPoLFknhxMb-3L4FDVWj3PV5byor4Csn0A6i5WyKi5vSgSkv4pB5WA6Ph2F3vkwCJf7XnH1m9nTretXB2sCwj_mH7PWGfMA5Mabjp1FO9cYl1av39-YRVyKLpqQTthCxWIuJWFi9W5vhQZDA0w1WRIM-LFx_Xe-mk8woksuBT4w6LmP7n1K-mCzV5-KXYQtgGrqupEQt_JkqbPzU93yGsUWoLdrL_cFePhOTGDJVAWqfyABJjuGazFm9PYlZVj7CdmBtaKZ8oXKc4rBWMHEH-ZPqhR1FofWOPGXe2hmghwFEp0aGBKKFQeAbNsSc55bQIesjAT57qk8qnY2lvfiXONmDp-4m0h21ml6wFhkh747Ppezoy1WINDbMQU8sUEWl1oA35vkz8f_QZ8EEISgcTjlg2l08kU7vz5YQGwGpd2QJiT-lV-DSEza0zyZJ-grNvxJ1SJSOWY1N0OkYifrvM1DbywwETAaTbu65UXEJUuOCDobYpbt1A7IxcI2gpmN_BdGvALVZtNu4J1UPLXawlnoqqu08TlZsLn_xh9WFLsAb1JbLzJvvlW",
+								"value": "{{AdminCookie}}",
 								"type": "text"
 							}
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"name\":\"Knee Surgery\"\r\n}",
+							"raw": "{\r\n\t\"name\":\"new Knee Surgery\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
