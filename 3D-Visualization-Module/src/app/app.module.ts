@@ -11,9 +11,11 @@ import {ProfilePictureMenuComponent} from './Components/profile-picture-menu/pro
 import {OperationTypeManagementComponent} from './Components/operation-type-management/operation-type-management.component';
 import {BaseDashboardComponent} from './Components/base-dashboard/base-dashboard.component';
 import {HomeButtonComponent} from './Components/home-button/home-button.component';
+import {AddOperationTypeComponent} from './Components/add-operation-type/add-operation-type.component';
 import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
 
 import {routes} from './app.routes';
+import {FormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -26,12 +28,14 @@ import {routes} from './app.routes';
     OperationTypeManagementComponent,
     StaffManagementComponent,
     BaseDashboardComponent,
-    HomeButtonComponent
+    HomeButtonComponent,
+    AddOperationTypeComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule, // Add HttpClientModule here
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    FormsModule
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,81 @@
+<div class="add-op-type">
+  <h2>Add Operation Type</h2>
+
+  <form (ngSubmit)="addOperationType()">
+    <div class="form-group">
+      <label for="operationName">Operation Name</label>
+      <input
+        id="operationName"
+        type="text"
+        [(ngModel)]="operation.OperationName"
+        name="operationName"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="setupDuration">Setup Duration</label>
+      <input
+        id="setupDuration"
+        type="time"
+        [(ngModel)]="operation.SetupDuration"
+        name="setupDuration"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="surgeryDuration">Surgery Duration</label>
+      <input
+        id="surgeryDuration"
+        type="time"
+        [(ngModel)]="operation.SurgeryDuration"
+        name="surgeryDuration"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="cleanupDuration">Cleanup Duration</label>
+      <input
+        id="cleanupDuration"
+        type="time"
+        [(ngModel)]="operation.CleaningDuration"
+        name="cleanupDuration"
+      />
+    </div>
+
+    <h3>Required Staff</h3>
+    <div class="form-group inline-fields">
+      <label for="specialization">Specialization</label>
+      <input
+        id="specialization"
+        type="text"
+        [(ngModel)]="newRequiredStaff.Specialization"
+        name="specialization"
+      />
+
+      <label for="numberOfStaff">Number</label>
+      <input
+        id="numberOfStaff"
+        type="number"
+        [(ngModel)]="newRequiredStaff.NumberOfStaff"
+        name="numberOfStaff"
+      />
+
+      <button type="button" (click)="addRequiredStaff()" [disabled]="!isRequiredStaffValid()">Add</button>
+    </div>
+
+    <div *ngIf="operation.RequiredStaff.length > 0">
+      <h4>Staff Requirements:</h4>
+      <ul>
+        <li *ngFor="let staff of operation.RequiredStaff; let i = index" class="staff-list">
+          {{ staff.Specialization }} - {{ staff.NumberOfStaff }}
+          <button class="remove-btn" type="button" (click)="removeRequiredStaff(i)">Remove</button>
+        </li>
+      </ul>
+    </div>
+
+    <button type="submit" [disabled]="!isOperationTypeValid()">Add Operation Type</button>
+  </form>
+
+  <app-home-button></app-home-button>
+</div>

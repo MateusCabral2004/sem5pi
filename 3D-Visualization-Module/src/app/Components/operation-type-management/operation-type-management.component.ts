@@ -11,7 +11,7 @@ export class OperationTypeManagementComponent {
   private auth: AuthService;
 
   menuItems = [
-    { title: 'Add Operation Type', icon: 'assets/icons/dashboard.png', link: '/add' },
+    { title: 'Add Operation Type', icon: 'assets/icons/dashboard.png', link: '/admin/operationTypeManagement/add' },
   ];
 
   constructor(@Inject(AuthService) auth: AuthService, private router: Router) {
