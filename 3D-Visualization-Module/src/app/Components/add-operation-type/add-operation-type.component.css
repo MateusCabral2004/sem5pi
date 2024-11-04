@@ -26,7 +26,7 @@ label {
 
 input[type="text"],
 input[type="time"] {
-  width: 96%; /* Changed from 90vh to 90% for better responsiveness */
+  width: 96%;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -36,7 +36,7 @@ input[type="time"] {
 }
 
 input[type="number"] {
-  width: 15%; /* Reduced the width of number input */
+  width: 15%;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -45,9 +45,8 @@ input[type="number"] {
   transition: border 0.3s;
 }
 
-/* Make the specialization input bigger */
 #specialization {
-  width: 85%; /* Increased the width of specialization input */
+  width: 85%;
 }
 
 input[type="text"]:focus,
@@ -78,11 +77,11 @@ button:hover {
 }
 
 button:disabled {
-  background-color: #e0e0e0; /* Light gray background */
-  color: #b0b0b0; /* Gray text */
-  border: 1px solid #ccc; /* Light gray border */
-  cursor: not-allowed; /* Change cursor to indicate disabled */
-  opacity: 0.6; /* Slightly transparent to indicate it's disabled */
+  background-color: #e0e0e0;
+  color: #b0b0b0;
+  border: 1px solid #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
 .response-message {

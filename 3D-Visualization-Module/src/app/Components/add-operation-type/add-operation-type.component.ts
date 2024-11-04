@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { OperationTypeService } from '../../services/OperationTypeService/operation-type.service';
 import { OperationType } from '../../Domain/OperationType';
 import { RequiredStaff } from '../../Domain/RequiredStaff';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-op-type',
@@ -10,44 +11,38 @@ import { RequiredStaff } from '../../Domain/RequiredStaff';
 })
 export class AddOperationTypeComponent {
   operation: OperationType = {
-    OperationName: '',
-    RequiredStaff: [],
-    SetupDuration: '',
-    SurgeryDuration: '',
-    CleaningDuration: ''
+    operationName: '',
+    requiredStaff: [],
+    setupDuration: '',
+    surgeryDuration: '',
+    cleaningDuration: ''
   };
 
   newRequiredStaff: RequiredStaff = {
-    Specialization: '',
-    NumberOfStaff: 0
+    specialization: '',
+    numberOfStaff: 0
   };
 
-  backendUrl = 'http://localhost:5001';
-
-  constructor(private http: HttpClient) {}
+  constructor(private operationTypeService: OperationTypeService, private router: Router) {}
 
   addRequiredStaff() {
-    if (this.newRequiredStaff.Specialization && this.newRequiredStaff.NumberOfStaff > 0) {
-      this.operation.RequiredStaff.push({ ...this.newRequiredStaff });
-      this.newRequiredStaff = { Specialization: '', NumberOfStaff: 0 }; // Reset
+    if (this.newRequiredStaff.specialization && this.newRequiredStaff.numberOfStaff > 0) {
+      this.operation.requiredStaff.push({ ...this.newRequiredStaff });
+      this.newRequiredStaff = { specialization: '', numberOfStaff: 0 }; // Reset
     } else {
       alert('Please provide a valid specialization and number of staff.');
     }
   }
 
   removeRequiredStaff(index: number) {
-    this.operation.RequiredStaff.splice(index, 1);
+    this.operation.requiredStaff.splice(index, 1);
   }
 
   addOperationType() {
-    console.log(this.operation);
-    this.http.post(this.backendUrl + '/OperationType/addNewOperationType', this.operation, {
-      withCredentials: true,
-      responseType: 'text'
-    }).subscribe(
+    this.operationTypeService.addOperationType(this.operation).subscribe(
       (response) => {
-        alert('Operation Type added successfully! It works.');
-        this.resetFields();
+        alert('Operation Type added successfully!');
+        this.router.navigate(['/admin/operationTypeManagement']);
         console.log('Success:', response);
       },
       (error) => {
@@ -59,30 +54,30 @@ export class AddOperationTypeComponent {
 
   resetFields() {
     this.operation = {
-      OperationName: '',
-      RequiredStaff: [],
-      SetupDuration: '',
-      SurgeryDuration: '',
-      CleaningDuration: ''
+      operationName: '',
+      requiredStaff: [],
+      setupDuration: '',
+      surgeryDuration: '',
+      cleaningDuration: ''
     };
 
     this.newRequiredStaff = {
-      Specialization: '',
-      NumberOfStaff: 0
+      specialization: '',
+      numberOfStaff: 0
     };
   }
 
   isOperationTypeValid(): boolean {
     return (
-      !!this.operation.OperationName &&
-      this.operation.SetupDuration !== '' &&
-      this.operation.SurgeryDuration !== '' &&
-      this.operation.CleaningDuration !== '' &&
-      this.operation.RequiredStaff.length > 0
+      !!this.operation.operationName &&
+      this.operation.setupDuration !== '' &&
+      this.operation.surgeryDuration !== '' &&
+      this.operation.cleaningDuration !== '' &&
+      this.operation.requiredStaff.length > 0
     );
   }
 
   isRequiredStaffValid(): boolean {
-    return !!this.newRequiredStaff.Specialization && this.newRequiredStaff.NumberOfStaff > 0;
+    return !!this.newRequiredStaff.specialization && this.newRequiredStaff.numberOfStaff > 0;
   }
 }

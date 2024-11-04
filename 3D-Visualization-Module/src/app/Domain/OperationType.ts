@@ -2,10 +2,10 @@
 
 export interface OperationType{
 
-  OperationName: string;
-  RequiredStaff: RequiredStaff[];
-  SetupDuration: string;
-  SurgeryDuration: string;
-  CleaningDuration: string;
+  operationName: string;
+  requiredStaff: RequiredStaff[];
+  setupDuration: string;
+  surgeryDuration: string;
+  cleaningDuration: string;
 
 }

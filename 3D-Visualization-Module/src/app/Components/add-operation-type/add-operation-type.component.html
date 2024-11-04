@@ -7,7 +7,7 @@
       <input
         id="operationName"
         type="text"
-        [(ngModel)]="operation.OperationName"
+        [(ngModel)]="operation.operationName"
         name="operationName"
         required
       />
@@ -18,7 +18,7 @@
       <input
         id="setupDuration"
         type="time"
-        [(ngModel)]="operation.SetupDuration"
+        [(ngModel)]="operation.setupDuration"
         name="setupDuration"
       />
     </div>
@@ -28,7 +28,7 @@
       <input
         id="surgeryDuration"
         type="time"
-        [(ngModel)]="operation.SurgeryDuration"
+        [(ngModel)]="operation.surgeryDuration"
         name="surgeryDuration"
       />
     </div>
@@ -38,7 +38,7 @@
       <input
         id="cleanupDuration"
         type="time"
-        [(ngModel)]="operation.CleaningDuration"
+        [(ngModel)]="operation.cleaningDuration"
         name="cleanupDuration"
       />
     </div>
@@ -49,7 +49,7 @@
       <input
         id="specialization"
         type="text"
-        [(ngModel)]="newRequiredStaff.Specialization"
+        [(ngModel)]="newRequiredStaff.specialization"
         name="specialization"
       />
 
@@ -57,18 +57,18 @@
       <input
         id="numberOfStaff"
         type="number"
-        [(ngModel)]="newRequiredStaff.NumberOfStaff"
+        [(ngModel)]="newRequiredStaff.numberOfStaff"
         name="numberOfStaff"
       />
 
       <button type="button" (click)="addRequiredStaff()" [disabled]="!isRequiredStaffValid()">Add</button>
     </div>
 
-    <div *ngIf="operation.RequiredStaff.length > 0">
+    <div *ngIf="operation.requiredStaff.length > 0">
       <h4>Staff Requirements:</h4>
       <ul>
-        <li *ngFor="let staff of operation.RequiredStaff; let i = index" class="staff-list">
-          {{ staff.Specialization }} - {{ staff.NumberOfStaff }}
+        <li *ngFor="let staff of operation.requiredStaff; let i = index" class="staff-list">
+          {{ staff.specialization }} - {{ staff.numberOfStaff }}
           <button class="remove-btn" type="button" (click)="removeRequiredStaff(i)">Remove</button>
         </li>
       </ul>

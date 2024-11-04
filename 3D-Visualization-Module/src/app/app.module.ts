@@ -33,7 +33,7 @@ import {FormsModule} from '@angular/forms';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule, // Add HttpClientModule here
+    HttpClientModule,
     RouterModule.forRoot(routes),
     FormsModule
   ],

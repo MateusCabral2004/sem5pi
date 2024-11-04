@@ -1,6 +1,6 @@
 ﻿export interface RequiredStaff{
 
-  NumberOfStaff: number;
-  Specialization: string;
+  numberOfStaff: number;
+  specialization: string;
 
 }
