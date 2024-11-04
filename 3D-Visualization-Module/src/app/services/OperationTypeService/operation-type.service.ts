@@ -10,10 +10,11 @@ import { OperationType } from '../../Domain/OperationType';
 export class OperationTypeService {
   private apiUrl = 'http://localhost:5001/operationType';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   listOperationTypes(): Observable<OperationType[]> {
-    return this.http.get<OperationType[]>(`${this.apiUrl}/listOperationType`, { withCredentials: true }).pipe(
+    return this.http.get<OperationType[]>(`${this.apiUrl}/listOperationType`, {withCredentials: true}).pipe(
       tap(data => {
         console.log('Operation types fetched:', data);
       }),
@@ -30,6 +31,21 @@ export class OperationTypeService {
     }).pipe(
       catchError(error => {
         console.error('Error adding operation type:', error);
+        return of('');
+      })
+    );
+  }
+
+  deleteOperationType(operation: OperationType): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/deleteOperationType/${operation.operationName}`, {
+      withCredentials: true,
+      responseType: 'text'
+    }).pipe(
+      tap(response => {
+        console.log('Delete operation response:', response);
+      }),
+      catchError(error => {
+        console.error('Error deleting operation type:', error);
         return of('');
       })
     );

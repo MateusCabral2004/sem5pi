@@ -14,6 +14,10 @@ export class OperationTypeManagementComponent implements OnInit {
   constructor(private operationTypeService: OperationTypeService, private router: Router) {}
 
   ngOnInit() {
+    this.loadOperationTypes();
+  }
+
+  loadOperationTypes() {
     this.operationTypeService.listOperationTypes().subscribe(
       (operationTypes) => {
         this.operationTypes = operationTypes;
@@ -30,8 +34,19 @@ export class OperationTypeManagementComponent implements OnInit {
   }
 
   deleteOperationType(op: OperationType) {
-    alert(`Deleting ${op.operationName}`);
-    // Implement delete logic here
+    const confirmed = confirm(`Are you sure you want to delete ${op.operationName}?`);
+    if (confirmed) {
+      this.operationTypeService.deleteOperationType(op).subscribe(
+        response => {
+          alert(response);
+          this.loadOperationTypes(); // Refresh the list after deletion
+        },
+        error => {
+          console.error('Error deleting Operation Type:', error);
+          alert('Error deleting Operation Type: ' + (error.error || 'An unknown error occurred.'));
+        }
+      );
+    }
   }
 
   editOperationType(op: OperationType) {

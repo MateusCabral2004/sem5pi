@@ -61,6 +61,7 @@ public class OperationTypeRepository : BaseRepository<OperationType, OperationTy
         return await context.OperationTypes
             .Include(o => o.RequiredStaff)
             .ThenInclude(r => r.Specialization)
+            .Where(o => o.stillPerformed)
             .ToListAsync();
     }
 
