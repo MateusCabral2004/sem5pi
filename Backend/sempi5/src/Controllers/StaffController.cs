@@ -4,7 +4,6 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.PatientAggregate;
-using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
@@ -192,6 +191,7 @@ namespace Sempi5.Controllers.StaffControllers
         }
 
         [HttpGet("listStaffProfilesBySpecialization")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListStaffProfilesBySpecialization(SpecializationNameDTO specializationDto)
         {
             try
@@ -202,6 +202,21 @@ namespace Sempi5.Controllers.StaffControllers
             catch (Exception e)
             {
                 return BadRequest(e.Message + e.StackTrace);
+            }
+        }
+        
+        [HttpGet("listAllStaffProfiles")]
+     //   [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ListAllStaffProfiles()
+        {
+            try
+            {
+                var staffProfile = await _staffService.ListAllStaff();
+                return Ok(staffProfile);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 

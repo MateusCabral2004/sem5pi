@@ -276,6 +276,20 @@ namespace Sempi5.Services
 
             return staffDtoList;
         }
+        
+        public async Task<List<SearchedStaffDTO>> ListAllStaff()
+        {
+            var staffList = await _staffRepository.GetAllActiveStaff();
+
+            if (staffList.Count == 0)
+            {
+                throw new ArgumentException("Staffs not found.");
+            }
+
+            var staffDtoList = BuildStaffDtoList(staffList);
+
+            return staffDtoList;
+        }
 
         private SearchedStaffDTO StaffToSearchedStaffDto(Staff staff)
         {
