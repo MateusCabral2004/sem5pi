@@ -1,0 +1,52 @@
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserService } from '../../../services/user.service'; 
+import {Router} from '@angular/router';
+
+
+@Component({
+  selector: 'app-register-patient',
+  templateUrl: './register-patient.component.html',
+  styleUrls: ['./register-patient.component.css']
+})
+export class RegisterPatientComponent {
+  registrationForm: FormGroup;
+
+  constructor(private router: Router,private fb: FormBuilder,private userService: UserService) {
+    this.registrationForm = this.fb.group({
+      phoneNumber: ['', [Validators.required, this.phoneNumberValidator]], // Add custom validator
+    });
+  }
+
+   phoneNumberValidator(control: any) {
+    const phonePattern = /^[0-9]*$/; 
+    if (control.value && !phonePattern.test(control.value)) {
+      return { invalidPhoneNumber: true }; 
+    }
+    return null; // Return null if valid
+  }
+
+  ngOnInit(): void { }
+
+  onSubmit(): void {
+    if (this.registrationForm.valid) {
+      const number = this.registrationForm.value.phoneNumber; 
+      this.userService.registerNumber(number).subscribe(
+        response => {
+          alert('Número registrado com sucesso!');
+          console.log('response', response); 
+          this.router.navigate(['/patient']);
+        },
+        error => {
+          console.error('Erro ao registrar patient:', error); 
+          const errorMessage = error?.error?.message || 'Erro desconhecido';
+          alert('Erro ao registrar patient: ' + errorMessage+number);
+        }
+      );
+    } else {
+      alert('Por favor, insira um número de telefone válido.');
+    }
+  }
+  
+
+}
