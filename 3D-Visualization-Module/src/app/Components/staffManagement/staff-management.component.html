@@ -1,4 +1,37 @@
-<app-home-button></app-home-button>
+<div class="home-button-container"> <!-- Home button container outside of the container -->
+  <app-home-button class="home-button"></app-home-button>
+</div>
 
-<app-base-dashboard [title]="'Staff Management'" [menuItems]="menuItems">
-</app-base-dashboard>
+<div class="profile-container"> <!-- Profile menu container outside of the container -->
+  <app-profile-menu class="profile-menu"></app-profile-menu>
+</div>
+
+<div class="container">
+  <div class="header">
+    <h1>Staff Profiles Management</h1>
+  </div>
+
+  <div class="content">
+    <button class="add-button" (click)="addStaffProfile()">Add Staff Profile</button>
+    <button class="filet-by-name" (click)="toggleNameFilter()">Filter by Name</button>
+
+    <div class="name-filter-container">
+      <input
+        type="text"
+        class="name-filter-input"
+        placeholder="Enter name to filter"
+        [(ngModel)]="filterName"
+      />
+      <button class="apply-filter-button" (click)="applyNameFilter()">Apply Filter</button>
+    </div>
+  <app-staff-profile-list
+    [staffList]="staffList"
+    (deleteStaffProfile)="deleteStaffProfile($event)"
+    (editStaffProfile)="editStaffProfile($event)"
+    ></app-staff-profile-list>
+  </div>
+  <div class="no-profiles-message">
+    <p>No staff profiles found.</p>
+  </div>
+</div>
+

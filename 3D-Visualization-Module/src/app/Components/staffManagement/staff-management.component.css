@@ -1,0 +1,96 @@
+.home-button-container {
+  position: absolute; /* Position the home button container absolutely */
+  top: 10px; /* Adjust the top position */
+  left: 10px; /* Align it to the left */
+  z-index: 10; /* Ensure it is above other elements */
+}
+
+.profile-container {
+  position: absolute; /* Position the profile container absolutely */
+  top: 20px; /* Adjust the top position */
+  right: 20px; /* Align it to the right */
+  z-index: 10; /* Ensure it is above other elements */
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto 0;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative; /* Enable positioning for child elements */
+}
+
+.header {
+  display: flex;
+  justify-content: center; /* Center the header content */
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  color: black; /* Set the title color to black */
+  text-align: center;
+}
+
+.add-button {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 20px;
+  background-color: #2196f3; /* Changed to blue */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.add-button:hover {
+  background-color: #1976d2; /* Darker shade of blue for hover effect */
+}
+
+.no-profiles-message {
+  background-color: #f8d7da; /* Fundo rosa claro */
+  color: #721c24; /* Texto vermelho escuro */
+  border: 1px solid #f5c6cb; /* Borda vermelha clara */
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+.filter-container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem; /* Espaço entre os botões */
+}
+
+/* General button styling to ensure uniformity */
+button {
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+/* Styling for the "Filter by Name" button */
+.filet-by-name {
+  padding: 8px 12px; /* Mesmo padding do botão Delete */
+  background-color: #2196f3; /* Same blue color */
+}
+
+.filet-by-name:hover {
+  background-color: #1976d2; /* Hover effect with darker blue */
+}
+
+/* Styling for the "Apply Filter" button */
+.apply-filter-button {
+  background-color: #2196f3; /* Consistent blue */
+}
+
+.apply-filter-button:hover {
+  background-color: #1976d2; /* Darker blue on hover */
+}

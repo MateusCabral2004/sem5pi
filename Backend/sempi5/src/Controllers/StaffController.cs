@@ -132,7 +132,7 @@ namespace Sempi5.Controllers.StaffControllers
             try
             {
                 await _staffService.DeactivateStaffProfile(staffId);
-                return Ok("Staff deactivated successfully.");
+                return Ok(new { message = "Staff deactivated successfully." });
             }
             catch (Exception e)
             {
@@ -147,6 +147,9 @@ namespace Sempi5.Controllers.StaffControllers
         {
             try
             {
+                
+                //var nameDto = new NameDTO {name = name};
+                
                 var staffProfile = await _staffService.ListStaffByName(nameDto);
                 return Ok(staffProfile);
             }
@@ -206,7 +209,7 @@ namespace Sempi5.Controllers.StaffControllers
         }
         
         [HttpGet("listAllStaffProfiles")]
-     //   [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListAllStaffProfiles()
         {
             try
