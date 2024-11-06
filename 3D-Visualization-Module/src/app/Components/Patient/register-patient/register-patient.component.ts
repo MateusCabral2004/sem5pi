@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { UserService } from '../../../services/user.service'; 
+import { PatientService } from '../../../services/patient.service'; 
 import {Router} from '@angular/router';
 
 
@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 export class RegisterPatientComponent {
   registrationForm: FormGroup;
 
-  constructor(private router: Router,private fb: FormBuilder,private userService: UserService) {
+  constructor(private router: Router,private fb: FormBuilder,private userService: PatientService) {
     this.registrationForm = this.fb.group({
       phoneNumber: ['', [Validators.required, this.phoneNumberValidator]], // Add custom validator
     });

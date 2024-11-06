@@ -5,7 +5,7 @@ import {
   OperationTypeManagementComponent
 } from './Components/operation-type-management/operation-type-management.component';
 import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
-
+import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
 export const routes: Routes = [
   {
     path: '',
@@ -26,5 +26,16 @@ export const routes: Routes = [
     path: 'admin/staffManagement',
     component: StaffManagementComponent,
     title: 'StaffManagement',
+  },
+  {
+    path: 'unregistered',
+    component: RegisterPatientComponent,
+    title: 'registerPatient',
+  },
+  {
+    path: 'patient',
+    component: RegisterPatientComponent,
+    title: 'Patient Manegement',
   }
+
 ];
