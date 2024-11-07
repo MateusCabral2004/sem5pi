@@ -1,5 +1,6 @@
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../services/AuthService/auth.service';
+
 import {Router} from '@angular/router';
 import {StaffService} from '../../services/StaffService/staff.service';
 import {Staff} from './Staff';

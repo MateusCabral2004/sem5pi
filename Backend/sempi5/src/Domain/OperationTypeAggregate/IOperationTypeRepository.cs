@@ -11,5 +11,6 @@ public interface IOperationTypeRepository : IRepository<OperationType, Operation
     public Task<List<OperationType>> GetOperationTypeListByName(OperationName name);
     public Task<List<OperationType>> GetOperationTypeListBySpecialization(SpecializationName specializationName);
     public Task<List<OperationType>> GetOperationTypeListByStatus(bool status);
+    public Task<List<OperationType>> GetAllAsyncWithIncludes();
 
 }

@@ -1,16 +1,28 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {Router} from '@angular/router';
 import {AuthService} from '../../services/AuthService/auth.service';
 import {switchMap} from 'rxjs';
 
 @Component({
-  selector: 'app-home-button',
-  templateUrl: './home-button.component.html',
-  styleUrls: ['./home-button.component.css']
+  selector: 'app-go-back-button',
+  templateUrl: './go-back-button.component.html',
+  styleUrls: ['./go-back-button.component.css']
 })
 
-export class HomeButtonComponent {
+export class GoBackButtonComponent {
+
+  @Input() goBackPath: string = '';
+
   constructor(private router: Router, private auth: AuthService) {
+  }
+
+  goBack() {
+    console.log('Go back path:', this.goBackPath);
+    if(this.goBackPath) {
+      this.router.navigate([this.goBackPath]);
+    }else {
+      this.navigateHome();
+    }
   }
 
   navigateHome() {
