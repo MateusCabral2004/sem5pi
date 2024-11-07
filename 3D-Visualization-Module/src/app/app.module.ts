@@ -13,11 +13,17 @@ import {BaseDashboardComponent} from './Components/base-dashboard/base-dashboard
 import {HomeButtonComponent} from './Components/home-button/home-button.component';
 import {AddOperationTypeComponent} from './Components/add-operation-type/add-operation-type.component';
 import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
+import {DeleteStaffProfileButtonComponent} from './Components/delete-staff-profile-button/delete-staff-profile-button.component';
+import {EditStaffProfileButtonComponent} from './Components/edit-staff-profile-button/edit-staff-profile-button.component';
+import {StaffDetailsComponent} from './Components/staff-details/staff-details.component';
+import {FilterStaffByNameButtonComponent} from './Components/filter-staff-by-name-button/filter-staff-by-name-button.component';
+import {StaffProfileListComponent} from './Components/staff-profile-list/staff-profile-list.component';
+import {FilterStaffButtonComponent} from './Components/filter-staff-button/filter-staff-button.component';
 import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
 import {GoBackButtonComponent} from './Components/go-back-button/go-back-button.component';
-
 import {routes} from './app.routes';
 import {FormsModule} from '@angular/forms';
+import {ConfirmModalComponent} from './Components/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +39,14 @@ import {FormsModule} from '@angular/forms';
     HomeButtonComponent,
     AddOperationTypeComponent,
     EditOperationTypeComponent,
-    GoBackButtonComponent
+    GoBackButtonComponent,
+    DeleteStaffProfileButtonComponent,
+    EditStaffProfileButtonComponent,
+    StaffDetailsComponent,
+    StaffProfileListComponent,
+    FilterStaffByNameButtonComponent,
+    FilterStaffButtonComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,
