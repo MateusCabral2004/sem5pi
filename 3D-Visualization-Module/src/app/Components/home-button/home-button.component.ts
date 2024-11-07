@@ -1,7 +1,6 @@
-// home-button.component.ts
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthService} from '../../services/auth.service';
+import {AuthService} from '../../services/AuthService/auth.service';
 import {switchMap} from 'rxjs';
 
 @Component({
