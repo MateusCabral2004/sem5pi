@@ -13,6 +13,7 @@ import {BaseDashboardComponent} from './Components/base-dashboard/base-dashboard
 import {HomeButtonComponent} from './Components/home-button/home-button.component';
 import {AddOperationTypeComponent} from './Components/add-operation-type/add-operation-type.component';
 import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
+import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
 
 import {routes} from './app.routes';
 import {FormsModule} from '@angular/forms';
@@ -29,7 +30,8 @@ import {FormsModule} from '@angular/forms';
     StaffManagementComponent,
     BaseDashboardComponent,
     HomeButtonComponent,
-    AddOperationTypeComponent
+    AddOperationTypeComponent,
+    EditOperationTypeComponent
   ],
   imports: [
     BrowserModule,

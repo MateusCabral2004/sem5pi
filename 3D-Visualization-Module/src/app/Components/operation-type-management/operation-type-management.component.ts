@@ -51,6 +51,6 @@ export class OperationTypeManagementComponent implements OnInit {
 
   editOperationType(op: OperationType) {
     alert(`Editing ${op.operationName}`);
-    // Implement edit logic here
+    this.router.navigate(['admin/operationTypeManagement/edit'], { state: { operation: op } });
   }
 }

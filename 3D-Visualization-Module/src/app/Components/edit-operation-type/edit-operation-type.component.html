@@ -1,0 +1,84 @@
+<div class="add-op-type">
+  <h2>Edit Operation Type</h2>
+
+  <form (ngSubmit)="saveChanges()">
+    <div class="form-group">
+      <label for="operationName">Operation Name</label>
+      <input
+        id="operationName"
+        type="text"
+        [(ngModel)]="updatedOperation.operationName"
+        name="operationName"
+        required
+        disabled
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="setupDuration">Setup Duration</label>
+      <input
+        id="setupDuration"
+        type="time"
+        [(ngModel)]="updatedOperation.setupDuration"
+        name="setupDuration"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="surgeryDuration">Surgery Duration</label>
+      <input
+        id="surgeryDuration"
+        type="time"
+        [(ngModel)]="updatedOperation.surgeryDuration"
+        name="surgeryDuration"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="cleanupDuration">Cleanup Duration</label>
+      <input
+        id="cleanupDuration"
+        type="time"
+        [(ngModel)]="updatedOperation.cleaningDuration"
+        name="cleanupDuration"
+      />
+    </div>
+
+    <h3>Required Staff</h3>
+    <div class="form-group inline-fields">
+      <label for="specialization">Specialization</label>
+      <input
+        id="specialization"
+        type="text"
+        [(ngModel)]="newSpecialization"
+        name="specialization"
+      />
+
+      <label for="numberOfStaff">Number</label>
+      <input
+        id="numberOfStaff"
+        type="number"
+        [(ngModel)]="newNumberOfStaff"
+        name="numberOfStaff"
+      />
+
+      <button type="button" (click)="addNewStaff()" [disabled]="!newSpecialization || !newNumberOfStaff">
+        Add
+      </button>
+    </div>
+
+    <div *ngIf="updatedOperation.requiredStaff.length > 0">
+      <h4>Staff Requirements:</h4>
+      <ul>
+        <li *ngFor="let staff of updatedOperation.requiredStaff; let i = index" class="staff-list">
+          {{ staff.specialization }} - {{ staff.numberOfStaff }}
+          <button class="remove-btn" type="button" (click)="removeStaff(i)">Remove</button>
+        </li>
+      </ul>
+    </div>
+
+    <button type="submit" [disabled]="!isOperationValid()">Save Changes</button>
+  </form>
+
+  <app-home-button></app-home-button>
+</div>

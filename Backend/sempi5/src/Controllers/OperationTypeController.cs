@@ -191,5 +191,4 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
 }
