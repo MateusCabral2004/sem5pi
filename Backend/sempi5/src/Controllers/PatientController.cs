@@ -261,6 +261,13 @@ public class PatientController : ControllerBase
         try
         {
             await patientService.EditPatientProfile(patientDto, email);
+            _logger.ForContext("CustomLogLevel", "CustomLevel")
+                .Information($"\nChanges To Patient {patientDto.patientId} :" +
+                             $" {patientDto.phoneNumber}" +
+                             $" {patientDto.email}" +
+                             $" {patientDto.firstName}" +
+                             $" {patientDto.lastName}" +
+                             $" {patientDto.birthDate} \n");
             return Ok("Patient profile edited successfully");
         }
         catch (Exception e)

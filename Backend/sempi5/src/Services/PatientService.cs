@@ -402,7 +402,7 @@ public class PatientService
             throw new ArgumentException("The email address can´t be null");
         }
 
-        var patient = await _patientRepository.GetByEmail(email);
+        var patient = await _patientRepository.GetActivePatientByEmail(new Email(email));
 
         if (patient == null)
         {
