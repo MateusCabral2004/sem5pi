@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PatientService } from '../../../services/patient.service'; 
+import { PatientService } from '../../../services/patient.service';
 import {Router} from '@angular/router';
 
 
@@ -19,9 +19,9 @@ export class RegisterPatientComponent {
   }
 
    phoneNumberValidator(control: any) {
-    const phonePattern = /^[0-9]*$/; 
+    const phonePattern = /^[0-9]*$/;
     if (control.value && !phonePattern.test(control.value)) {
-      return { invalidPhoneNumber: true }; 
+      return { invalidPhoneNumber: true };
     }
     return null; // Return null if valid
   }
@@ -30,15 +30,15 @@ export class RegisterPatientComponent {
 
   onSubmit(): void {
     if (this.registrationForm.valid) {
-      const number = this.registrationForm.value.phoneNumber; 
+      const number = this.registrationForm.value.phoneNumber;
       this.userService.registerNumber(number).subscribe(
         response => {
-          alert('Número registrado com sucesso!');
-          console.log('response', response); 
+          alert('Registration was successful! Please verify your account via email.');
+          console.log('response', response);
           this.router.navigate(['/patient']);
         },
         error => {
-          console.error('Erro ao registrar patient:', error); 
+          console.error('Erro ao registrar patient:', error);
           const errorMessage = error?.error?.message || 'Erro desconhecido';
           alert('Erro ao registrar patient: ' + errorMessage+number);
         }
@@ -47,6 +47,6 @@ export class RegisterPatientComponent {
       alert('Por favor, insira um número de telefone válido.');
     }
   }
-  
+
 
 }

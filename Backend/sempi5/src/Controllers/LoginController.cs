@@ -40,7 +40,7 @@ namespace Sempi5.Controllers
                 {
                     "admin" => Redirect(frontEndUrl + "/admin"),
                     "patient" => Redirect(frontEndUrl + "/patient"),
-                    "unregis    tered" => Redirect(frontEndUrl + "/unregistered"),
+                    "unregistered" => Redirect(frontEndUrl + "/unregistered"),
                     _ => Redirect(frontEndUrl + "/staff")
                 };
             }
