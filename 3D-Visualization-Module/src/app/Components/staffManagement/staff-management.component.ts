@@ -1,8 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../../services/auth.service';
 import {Router} from '@angular/router';
 import {StaffService} from '../../services/StaffService/staff.service';
 import {Staff} from './Staff';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-staff-management',
@@ -10,13 +11,14 @@ import {Staff} from './Staff';
   styleUrls: ['./staff-management.component.css']
 })
 export class StaffManagementComponent implements OnInit {
-  staffList: Staff[] = [];
+  public staffList: Staff[] = [];
   private auth: AuthService;
   private staffService: StaffService;
-  showStaffList: boolean = true;
-  showNameFilter: boolean = false;
-  showStaffProfiles: boolean = true;
-  filterName: string = '';
+  private staffId: string = '';
+  public showStaffList: boolean = true;
+  public showNoStaffsFound: boolean = false;
+
+  @ViewChild(ConfirmModalComponent) confirmModal!: ConfirmModalComponent;
 
   constructor(@Inject(AuthService) auth: AuthService, @Inject(StaffService) staffService: StaffService, private router: Router) {
     this.auth = auth;
@@ -33,21 +35,29 @@ export class StaffManagementComponent implements OnInit {
     this.auth.validateUserRole(expectedRole);
   }
 
-  toggleNameFilter() {
-    this.showNameFilter = !this.showNameFilter;
-  }
+  applyNameFilter(filterName: string) {
 
-  applyNameFilter() {
-
-    this.staffService.filterStaffProfilesByName(this.filterName).subscribe(
+    this.staffService.filterStaffProfilesByName(filterName).subscribe(
       (data: Staff[]) => {
-        this.showStaffProfiles = true;
-        console.log('Filtered staff profiles by name', this.filterName);
+        this.showNoStaffsFound = false;
+        this.showStaffList = true;
         this.staffList = data;
       },
       (error) => {
-        this.showStaffProfiles = false;
-        console.error('Error fetching staff profiles', error);
+
+        if (error.status === 404) {
+
+          this.staffList = [];
+          this.showStaffList = false;
+          this.showNoStaffsFound = true;
+          console.log(error);
+
+        } else {
+
+          this.showStaffList = false;
+          console.error('Error fetching staff profiles', error);
+
+        }
       }
     );
   }
@@ -56,20 +66,30 @@ export class StaffManagementComponent implements OnInit {
     this.showStaffList = false;
   }
 
-  public deleteStaffProfile(staffId: string) {
+  public confirmDeleteStaffProfile(staffId: string) {
 
-    const isConfirmed = window.confirm('Are you sure you want to proceed?');
+    this.staffId = staffId;
+    this.confirmModal.open("Are you sure you want to proceed?");
+  }
+
+  public handleDeleteStaffProfileConfirmation(isConfirmed: boolean) {
 
     if (isConfirmed) {
-      this.staffService.deleteStaffProfile(staffId).subscribe(
+      this.staffService.deleteStaffProfile(this.staffId).subscribe(
         response => {
           console.log('Staff profile deactivated:', response);
 
-          this.staffList = this.staffList.filter(staff => staff.id !== staffId);
+          this.staffList = this.staffList.filter(staff => staff.id !== this.staffId);
 
         },
         error => {
-          console.error('Error deactivating staff profile:', error);
+
+          if (error.status === 404) {
+
+            console.log(error);
+          } else {
+            console.error('Error deactivating staff profile:', error);
+          }
         }
       );
     }
@@ -81,7 +101,7 @@ export class StaffManagementComponent implements OnInit {
 
   private fetchStaffProfiles() {
 
-    this.staffService.listStaffProfilesBySpecialization().subscribe(
+    this.staffService.listAllStaffProfiles().subscribe(
       (data: Staff[]) => {
         this.staffList = data;
       },

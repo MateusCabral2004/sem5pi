@@ -12,14 +12,16 @@ import {OperationTypeManagementComponent} from './Components/operation-type-mana
 import {BaseDashboardComponent} from './Components/base-dashboard/base-dashboard.component';
 import {HomeButtonComponent} from './Components/home-button/home-button.component';
 import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
-import {AddStaffProfileComponent} from './Components/addStaffProfile/add-staff-profile.component';
 import {DeleteStaffProfileButtonComponent} from './Components/delete-staff-profile-button/delete-staff-profile-button.component';
 import {EditStaffProfileButtonComponent} from './Components/edit-staff-profile-button/edit-staff-profile-button.component';
 import {StaffDetailsComponent} from './Components/staff-details/staff-details.component';
+import {FilterStaffByNameButtonComponent} from './Components/filter-staff-by-name-button/filter-staff-by-name-button.component';
+import {StaffProfileListComponent} from './Components/staff-profile-list/staff-profile-list.component';
+import {FilterStaffButtonComponent} from './Components/filter-staff-button/filter-staff-button.component';
 
 import {routes} from './app.routes';
 import {FormsModule} from '@angular/forms';
-import {StaffProfileListComponent} from './Components/staff-profile-list/staff-profile-list.component';
+import {ConfirmModalComponent} from './Components/confirm-modal/confirm-modal.component';
 
 
 @NgModule({
@@ -32,13 +34,15 @@ import {StaffProfileListComponent} from './Components/staff-profile-list/staff-p
     ProfilePictureMenuComponent,
     OperationTypeManagementComponent,
     StaffManagementComponent,
-    AddStaffProfileComponent,
     BaseDashboardComponent,
     HomeButtonComponent,
     DeleteStaffProfileButtonComponent,
     EditStaffProfileButtonComponent,
     StaffDetailsComponent,
-    StaffProfileListComponent
+    StaffProfileListComponent,
+    FilterStaffByNameButtonComponent,
+    FilterStaffButtonComponent,
+    ConfirmModalComponent
   ],
   imports: [
     BrowserModule,

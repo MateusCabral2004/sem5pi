@@ -9,6 +9,7 @@ using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
+using Sempi5.Domain.StaffAggregate.StaffExceptions;
 using Sempi5.Infrastructure.AppointmentAggregate;
 using Sempi5.Infrastructure.AppointmentRepository;
 using Sempi5.Infrastructure.OperationRequestAggregate;
@@ -213,7 +214,7 @@ namespace Sempi5.Services
 
             if (staff == null)
             {
-                throw new ArgumentException("Staff not found.");
+                throw new StaffProfileNotFoundException("Staff not found.");
             }
 
             staff.Status = StaffStatusEnum.INACTIVE;
@@ -229,7 +230,7 @@ namespace Sempi5.Services
 
             if (staffList.Count == 0)
             {
-                throw new ArgumentException("Staffs not found.");
+                throw new NoStaffProfilesException("Staffs not found.");
             }
 
             var staffDtoList = BuildStaffDtoList(staffList);

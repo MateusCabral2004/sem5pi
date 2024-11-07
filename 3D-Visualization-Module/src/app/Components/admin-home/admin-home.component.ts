@@ -14,7 +14,7 @@ export class AdminMenuComponent {
     /* The menus are temporary and will need to be replaced with the actual menu items
        but because they are not yet implemented i created some placeholders */
     { title: 'Operation Type Management', icon: 'assets/icons/dashboard.png', link: '/admin/operationTypeManagement' },
-    { title: 'Staff Management', icon: 'assets/icons/users.png', link: '/admin/staffManagement' },
+    { title: 'Staff Management', icon: 'assets/icons/users.png', link: '/admin/staff' },
     { title: 'Reports', icon: 'assets/icons/reports.png', link: '/reports' },
     { title: 'Settings', icon: 'assets/icons/settings.png', link: '/settings' },
     { title: 'Profile', icon: 'assets/icons/profile.png', link: '/profile' }

@@ -14,7 +14,7 @@ export class StaffService {
 
   constructor(private http: HttpClient) {}
 
-  listStaffProfilesBySpecialization(): Observable<Staff[]> {
+  listAllStaffProfiles(): Observable<Staff[]> {
 
     console.log()
 
