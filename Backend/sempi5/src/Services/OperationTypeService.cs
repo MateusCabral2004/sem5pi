@@ -127,7 +127,7 @@ public class OperationTypeService
             throw new ArgumentException("Operation type not found.");
         }
 
-        var requiredStaff = GetRequiredStaffBySpecializationFromOperationType(specializationName,operationType);
+        var requiredStaff = GetRequiredStaffBySpecializationFromOperationType(specializationName, operationType);
         if (requiredStaff == null)
         {
             throw new ArgumentException("Required staff not found.");
@@ -136,8 +136,9 @@ public class OperationTypeService
         operationType.RemoveRequiredStaff(requiredStaff);
         await _unitOfWork.CommitAsync();
     }
-    
-    private RequiredStaff GetRequiredStaffBySpecializationFromOperationType(string specializationName, OperationType operationType)
+
+    private RequiredStaff GetRequiredStaffBySpecializationFromOperationType(string specializationName,
+        OperationType operationType)
     {
         foreach (var requiredStaff in operationType.RequiredStaff)
         {
@@ -146,6 +147,7 @@ public class OperationTypeService
                 return requiredStaff;
             }
         }
+
         return null;
     }
 
@@ -204,9 +206,9 @@ public class OperationTypeService
         return buildSearchedOperationTypeDtoList(operationType);
     }
 
-    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeBySpecialization(SpecializationNameDTO specializationNameDto)
+    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeBySpecialization(
+        SpecializationNameDTO specializationNameDto)
     {
-
         var operationType =
             await _operationTypeRepository.GetOperationTypeListBySpecialization(
                 new SpecializationName(specializationNameDto.specializationName));
@@ -215,6 +217,7 @@ public class OperationTypeService
         {
             throw new ArgumentException("Operation type not found");
         }
+
         return buildSearchedOperationTypeDtoList(operationType);
     }
 
@@ -232,29 +235,71 @@ public class OperationTypeService
 
     private List<SearchedOperationTypeDTO> buildSearchedOperationTypeDtoList(IEnumerable<OperationType> operationTypes)
     {
-
         List<SearchedOperationTypeDTO> searchedOperationTypeDtoList = new List<SearchedOperationTypeDTO>();
 
         foreach (var operationType in operationTypes)
         {
             searchedOperationTypeDtoList.Add(operationTypeToSearchedOperationTypeDto(operationType));
         }
+
         return searchedOperationTypeDtoList;
     }
 
     private SearchedOperationTypeDTO operationTypeToSearchedOperationTypeDto(OperationType operationType)
     {
-
-        if (operationType==null)
+        if (operationType == null)
         {
             throw new ArgumentException("Operation type not found");
         }
+
         return new SearchedOperationTypeDTO
         {
             id = operationType.Id.AsString(),
             name = operationType.Name.ToString(),
             requiredStaff = operationType.RequiredStaff.ToString(),
-            estimatedDuration = (operationType.SetupDuration.Duration() + operationType.CleaningDuration.Duration() +operationType.SurgeryDuration.Duration()).ToString()
+            estimatedDuration = (operationType.SetupDuration.Duration() + operationType.CleaningDuration.Duration() +
+                                 operationType.SurgeryDuration.Duration()).ToString()
+        };
+    }
+
+    public async Task<List<OperationTypeDTO>> ListOperationTypes()
+    {
+        var operationTypes = await _operationTypeRepository.GetAllAsyncWithIncludes();
+        return createListOfOperationTypeDTOs(operationTypes);
+    }
+
+    private List<OperationTypeDTO> createListOfOperationTypeDTOs(List<OperationType> operationTypes)
+    {
+        var operationTypeDTOs = new List<OperationTypeDTO>();
+
+        foreach (var operationType in operationTypes)
+        {
+            operationTypeDTOs.Add(operationTypeToOperationTypeDTO(operationType));
+        }
+
+        return operationTypeDTOs;
+    }
+
+    private OperationTypeDTO operationTypeToOperationTypeDTO(OperationType operationType)
+    {
+        var requiredStaffDTOs = new List<RequiredStaffDTO>();
+        
+        foreach (var requiredStaff in operationType.RequiredStaff)
+        {
+            requiredStaffDTOs.Add(new RequiredStaffDTO
+            {
+                NumberOfStaff = requiredStaff.NumberOfStaff.value,
+                Specialization = requiredStaff.Specialization.specializationName.ToString()
+            });
+        }
+
+        return new OperationTypeDTO
+        {
+            OperationName = operationType.Name.ToString(),
+            SetupDuration = operationType.SetupDuration.ToString(),
+            SurgeryDuration = operationType.SurgeryDuration.ToString(),
+            CleaningDuration = operationType.CleaningDuration.ToString(),
+            RequiredStaff = requiredStaffDTOs
         };
     }
 }

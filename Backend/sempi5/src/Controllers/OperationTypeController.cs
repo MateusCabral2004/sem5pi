@@ -176,5 +176,19 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-
+    
+    [HttpGet("listOperationType")]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ListOperationTypes()
+    {
+        try
+        {
+            var listOperationType = await _operationTypeService.ListOperationTypes();
+            return Ok(listOperationType);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }
