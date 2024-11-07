@@ -15,6 +15,7 @@ import {AddOperationTypeComponent} from './Components/add-operation-type/add-ope
 import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
 import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
 import {GoBackButtonComponent} from './Components/go-back-button/go-back-button.component';
+import {ViewOperationTypeComponent} from './Components/view-operation-type/view-operation-type.component';
 
 import {routes} from './app.routes';
 import {FormsModule} from '@angular/forms';
@@ -33,7 +34,8 @@ import {FormsModule} from '@angular/forms';
     HomeButtonComponent,
     AddOperationTypeComponent,
     EditOperationTypeComponent,
-    GoBackButtonComponent
+    GoBackButtonComponent,
+    ViewOperationTypeComponent
   ],
   imports: [
     BrowserModule,

@@ -102,3 +102,30 @@ h1 {
 .edit-button:hover {
   background-color: #388e3c;
 }
+
+.view-button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
+
+.view-button:active {
+  transform: scale(0.98);
+}
+
+.view-button:disabled {
+  background-color: #e0e0e0;
+  color: #b0b0b0;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+

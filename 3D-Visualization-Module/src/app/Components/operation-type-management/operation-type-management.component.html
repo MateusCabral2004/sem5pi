@@ -1,8 +1,8 @@
-<div class="home-button-container"> <!-- Home button container outside of the container -->
+<div class="home-button-container">
   <app-home-button class="home-button"></app-home-button>
 </div>
 
-<div class="profile-container"> <!-- Profile menu container outside of the container -->
+<div class="profile-container">
   <app-profile-menu class="profile-menu"></app-profile-menu>
 </div>
 
@@ -25,6 +25,7 @@
         <div class="operation-actions">
           <button class="delete-button" (click)="deleteOperationType(op)">Delete</button>
           <button class="edit-button" (click)="editOperationType(op)">Edit</button>
+          <button class="view-button" (click)="viewOperationType(op)">View</button>
         </div>
       </div>
     </div>

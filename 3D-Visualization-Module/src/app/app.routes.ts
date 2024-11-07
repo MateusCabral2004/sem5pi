@@ -5,6 +5,7 @@ import {OperationTypeManagementComponent} from './Components/operation-type-mana
 import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
 import {AddOperationTypeComponent} from './Components/add-operation-type/add-operation-type.component';
 import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
+import {ViewOperationTypeComponent} from './Components/view-operation-type/view-operation-type.component';
 
 export const routes: Routes = [
   {
@@ -20,6 +21,7 @@ export const routes: Routes = [
   {
     path: 'admin/operationTypeManagement',
     component: OperationTypeManagementComponent,
+    runGuardsAndResolvers: 'always',
     title: 'OperationTypeManagement',
   },
   {
@@ -41,5 +43,10 @@ export const routes: Routes = [
     path: 'admin/operationTypeManagement/edit',
     component: EditOperationTypeComponent,
     title: 'EditOperationType',
+  },
+  {
+    path: 'admin/operationTypeManagement/view',
+    component: ViewOperationTypeComponent,
+    title: 'ViewOperationType',
   }
 ];

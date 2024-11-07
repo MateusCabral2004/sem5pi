@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
-import {catchError, tap} from 'rxjs/operators';
+import {Observable, of, tap} from 'rxjs';
+import {catchError} from 'rxjs/operators';
 import {OperationType} from '../../Domain/OperationType';
 import {RequiredStaff} from "../../Domain/RequiredStaff";
 
@@ -16,9 +16,6 @@ export class OperationTypeService {
 
     listOperationTypes(): Observable<OperationType[]> {
         return this.http.get<OperationType[]>(`${this.apiUrl}/listOperationType`, {withCredentials: true}).pipe(
-            tap(data => {
-                console.log('Operation types fetched:', data);
-            }),
             catchError(error => {
                 console.error('Failed to load operation types:', error);
                 return of([]);
@@ -42,9 +39,6 @@ export class OperationTypeService {
             withCredentials: true,
             responseType: 'text'
         }).pipe(
-            tap(response => {
-                console.log('Delete operation response:', response);
-            }),
             catchError(error => {
                 console.error('Error deleting operation type:', error);
                 return of('');
@@ -58,9 +52,6 @@ export class OperationTypeService {
             responseType: 'text',
             headers: { 'Content-Type': 'application/json' }
         }).pipe(
-            tap(response => {
-                console.log('Remove required staff response:', response);
-            }),
             catchError(error => {
                 console.error('Error removing required staff:', error);
                 return of('');
@@ -68,15 +59,11 @@ export class OperationTypeService {
         );
     }
 
-
     addRequiredStaff(operation: OperationType, requiredStaff: RequiredStaff): Observable<string> {
         return this.http.put(`${this.apiUrl}/editOperationType/requiredStaff/add/${encodeURIComponent(operation.operationName)}`, requiredStaff, {
             withCredentials: true,
             responseType: 'text'
         }).pipe(
-            tap(response => {
-                console.log('Add required staff response:', response);
-            }),
             catchError(error => {
                 console.error('Error adding required staff:', error);
                 return of('');
@@ -92,14 +79,14 @@ export class OperationTypeService {
             responseType: 'text',
             headers: { 'Content-Type': 'application/json' }
         }).pipe(
-            tap(response => {
-                console.log('Update duration response:', response);
-            }),
+            tap(() => {
+                console.log('Duration updated');
+            },
             catchError(error => {
                 console.error('Error updating duration:', error);
                 return of('');
             })
-        );
+        ));
     }
 
     updateOperationName(originalName: string, newName: string): Observable<string> {
@@ -108,9 +95,6 @@ export class OperationTypeService {
             responseType: 'text',
             headers: { 'Content-Type': 'application/json' }
         }).pipe(
-            tap(response => {
-                console.log('Update operation name response:', response);
-            }),
             catchError(error => {
                 console.error('Error updating operation name:', error);
                 return of('');

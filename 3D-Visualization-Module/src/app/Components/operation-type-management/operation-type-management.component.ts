@@ -21,7 +21,6 @@ export class OperationTypeManagementComponent implements OnInit {
     this.operationTypeService.listOperationTypes().subscribe(
       (operationTypes) => {
         this.operationTypes = operationTypes;
-        console.log('Fetched operation types:', this.operationTypes);
       },
       (error) => {
         console.error('Failed to load operation types:', error);
@@ -37,9 +36,8 @@ export class OperationTypeManagementComponent implements OnInit {
     const confirmed = confirm(`Are you sure you want to delete ${op.operationName}?`);
     if (confirmed) {
       this.operationTypeService.deleteOperationType(op).subscribe(
-        response => {
-          alert(response);
-          this.loadOperationTypes(); // Refresh the list after deletion
+        () => {
+          this.loadOperationTypes();
         },
         error => {
           console.error('Error deleting Operation Type:', error);
@@ -50,7 +48,11 @@ export class OperationTypeManagementComponent implements OnInit {
   }
 
   editOperationType(op: OperationType) {
-    alert(`Editing ${op.operationName}`);
     this.router.navigate(['admin/operationTypeManagement/edit'], { state: { operation: op } });
   }
+
+  viewOperationType(op: OperationType) {
+    this.router.navigate(['admin/operationTypeManagement/view'], { state: { operation: op } });
+  }
+
 }
