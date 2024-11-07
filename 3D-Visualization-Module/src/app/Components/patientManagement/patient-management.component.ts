@@ -12,7 +12,6 @@ import {Router} from '@angular/router';
 export class PatientManagementComponent{
   private auth: AuthService;
 
-
   menuItems=[
     {title:'Create Patient Profile', icon:'assets/icon/dashboard.png', link:'/add'},
     {title:'Update Patient Profile', icon:'assets/icon/dashboard.png', link:'/update'},
