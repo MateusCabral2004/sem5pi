@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {StaffService} from '../../services/StaffService/staff.service';
 import {Staff} from './Staff';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {EnterFilterNameComponent} from '../enter-filter-name/enter-filter-name.component';
 
 @Component({
   selector: 'app-staff-management',
@@ -18,8 +19,10 @@ export class StaffManagementComponent implements OnInit {
   private staffId: string = '';
   public showStaffList: boolean = true;
   public showNoStaffsFound: boolean = false;
+  public showResetFilterButton: boolean = false;
 
   @ViewChild(ConfirmModalComponent) confirmModal!: ConfirmModalComponent;
+  @ViewChild(EnterFilterNameComponent) enterFilterName!: EnterFilterNameComponent;
 
   constructor(@Inject(AuthService) auth: AuthService, @Inject(StaffService) staffService: StaffService, private router: Router) {
     this.auth = auth;
@@ -43,6 +46,7 @@ export class StaffManagementComponent implements OnInit {
         this.showNoStaffsFound = false;
         this.showStaffList = true;
         this.staffList = data;
+        this.showResetFilterButton = true;
       },
       (error) => {
 
@@ -51,6 +55,7 @@ export class StaffManagementComponent implements OnInit {
           this.staffList = [];
           this.showStaffList = false;
           this.showNoStaffsFound = true;
+          this.showResetFilterButton = true;
           console.log(error);
 
         } else {
@@ -67,10 +72,32 @@ export class StaffManagementComponent implements OnInit {
     this.showStaffList = false;
   }
 
+  public resetFilter() {
+    this.fetchStaffProfiles();
+    this.showNoStaffsFound = false;
+    this.showResetFilterButton = false;
+  }
+
   public confirmDeleteStaffProfile(staffId: string) {
 
     this.staffId = staffId;
     this.confirmModal.open("Are you sure you want to proceed?");
+  }
+
+  public handleSelectedFilter(filter: string) {
+
+    if(filter === 'Name') {
+      this.enterFilterName.open();
+    }
+
+    if(filter === 'Email') {
+      alert('Filter by Email\nThis feature is not yet implemented');
+    }
+
+    if(filter === 'Specialization') {
+      alert('Filter by Specialization\nThis feature is not yet implemented');
+    }
+
   }
 
   public handleDeleteStaffProfileConfirmation(isConfirmed: boolean) {

@@ -1,0 +1,18 @@
+<div class="modal-overlay" (click)="close()" *ngIf="isVisible" >
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <h3>Filter By Name</h3>
+    <div class="modal-form">
+      <label for="name-input">Enter the name:</label>
+      <input
+        type="text"
+        id="name-input"
+        [(ngModel)]="nameInput"
+        placeholder="Type the name here..."
+      />
+    </div>
+    <div class="modal-actions">
+      <button (click)="confirmName()">Confirm</button>
+      <button (click)="close()">Cancel</button>
+    </div>
+  </div>
+</div>
