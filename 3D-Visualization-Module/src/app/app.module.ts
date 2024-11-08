@@ -16,14 +16,17 @@ import {StaffManagementComponent} from './Components/staffManagement/staff-manag
 import {DeleteStaffProfileButtonComponent} from './Components/delete-staff-profile-button/delete-staff-profile-button.component';
 import {EditStaffProfileButtonComponent} from './Components/edit-staff-profile-button/edit-staff-profile-button.component';
 import {StaffDetailsComponent} from './Components/staff-details/staff-details.component';
-import {FilterStaffByNameButtonComponent} from './Components/filter-staff-by-name-button/filter-staff-by-name-button.component';
 import {StaffProfileListComponent} from './Components/staff-profile-list/staff-profile-list.component';
 import {FilterStaffButtonComponent} from './Components/filter-staff-button/filter-staff-button.component';
 import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
 import {GoBackButtonComponent} from './Components/go-back-button/go-back-button.component';
+import {ConfirmModalComponent} from './Components/confirm-modal/confirm-modal.component';
+import {BackgroudCardComponent} from './Components/backgroud-card/backgroud-card.component';
+import {EnterFilterNameComponent} from './Components/enter-filter-name/enter-filter-name.component';
+
 import {routes} from './app.routes';
 import {FormsModule} from '@angular/forms';
-import {ConfirmModalComponent} from './Components/confirm-modal/confirm-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -44,9 +47,10 @@ import {ConfirmModalComponent} from './Components/confirm-modal/confirm-modal.co
     EditStaffProfileButtonComponent,
     StaffDetailsComponent,
     StaffProfileListComponent,
-    FilterStaffByNameButtonComponent,
     FilterStaffButtonComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    BackgroudCardComponent,
+    EnterFilterNameComponent
   ],
   imports: [
     BrowserModule,
