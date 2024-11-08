@@ -10,6 +10,7 @@
         [(ngModel)]="updatedOperation.operationName"
         name="operationName"
         required
+        disabled
       />
     </div>
 
@@ -80,5 +81,4 @@
   </form>
 
   <app-home-button></app-home-button>
-    <app-go-back-button [goBackPath]="'/admin/operationTypeManagement'"></app-go-back-button>
 </div>

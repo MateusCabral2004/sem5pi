@@ -1,9 +1,0 @@
-<div class="modal-overlay" *ngIf="isVisible" (click)="close()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
-    <h3>{{ message }}</h3>
-    <div class="modal-actions">
-      <button (click)="confirm()">Yes</button>
-      <button (click)="cancel()">No</button>
-    </div>
-  </div>
-</div>
