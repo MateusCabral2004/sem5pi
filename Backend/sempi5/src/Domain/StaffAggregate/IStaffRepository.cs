@@ -17,7 +17,5 @@ namespace Sempi5.Infrastructure.StaffAggregate
         public Task<Staff> GetActiveStaffByEmail(Email email);
         
         public Task<List<Staff>> GetActiveStaffBySpecialization(SpecializationName specializationName);
-        
-        public Task<List<Staff>> GetAllActiveStaff();
     }
 }
