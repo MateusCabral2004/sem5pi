@@ -23,7 +23,7 @@ export const routes: Routes = [
     title: 'OperationTypeManagement',
   },
   {
-    path: 'admin/staffManagement',
+    path: 'admin/staff',
     component: StaffManagementComponent,
     title: 'StaffManagement',
   },

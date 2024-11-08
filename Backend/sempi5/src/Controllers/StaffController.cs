@@ -4,10 +4,10 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.PatientAggregate;
-using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
+using Sempi5.Domain.StaffAggregate.StaffExceptions;
 using Sempi5.Services;
 
 namespace Sempi5.Controllers.StaffControllers
@@ -133,7 +133,10 @@ namespace Sempi5.Controllers.StaffControllers
             try
             {
                 await _staffService.DeactivateStaffProfile(staffId);
-                return Ok("Staff deactivated successfully.");
+                return Ok(new { message = "Staff deactivated successfully." });
+            } catch (StaffProfileNotFoundException e)
+            {
+                return NotFound(e.Message);
             }
             catch (Exception e)
             {
@@ -144,12 +147,19 @@ namespace Sempi5.Controllers.StaffControllers
 
         [HttpGet("listStaffProfilesByName")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ListStaffProfileByName(NameDTO nameDto)
+        public async Task<IActionResult> ListStaffProfileByName(string  name)
         {
             try
             {
+                
+                var nameDto = new NameDTO {name = name};
+                
                 var staffProfile = await _staffService.ListStaffByName(nameDto);
                 return Ok(staffProfile);
+                
+            }catch (NoStaffProfilesException e)
+            {
+                return NotFound(e.Message);
             }
             catch (Exception e)
             {
@@ -165,6 +175,10 @@ namespace Sempi5.Controllers.StaffControllers
             {
                 var staffProfiles = await _staffService.ListStaffByEmail(emailDto);
                 return Ok(staffProfiles);
+                
+            }catch (NoStaffProfilesException e)
+            {
+                return BadRequest(e.Message);
             }
             catch (Exception e)
             {
@@ -192,16 +206,40 @@ namespace Sempi5.Controllers.StaffControllers
         }
 
         [HttpGet("listStaffProfilesBySpecialization")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListStaffProfilesBySpecialization(SpecializationNameDTO specializationDto)
         {
             try
             {
                 var staffProfile = await _staffService.ListStaffBySpecialization(specializationDto);
                 return Ok(staffProfile);
+                
+            }catch (NoStaffProfilesException e)
+            {
+                return BadRequest(e.Message);
             }
             catch (Exception e)
             {
-                return BadRequest(e.Message + e.StackTrace);
+                return BadRequest(e.Message);
+            }
+        }
+        
+        [HttpGet("listAllStaffProfiles")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> ListAllStaffProfiles()
+        {
+            try
+            {
+                var staffProfile = await _staffService.ListAllStaff();
+                return Ok(staffProfile);
+            }
+            catch (NoStaffProfilesException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 
