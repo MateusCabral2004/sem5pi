@@ -1,0 +1,21 @@
+<div class="header-container">
+  <div class="filter-container">
+    <label class="filter-label">Filter by</label>
+    <input
+      class="filter-input"
+      type="text"
+      placeholder="Select filter"
+      (click)="toggleFilterOptions()"
+      readonly
+    />
+    <div *ngIf="showOptions" class="filter-options animate-dropdown">
+      <p
+        *ngFor="let filter of filters"
+        (click)="selectFilter(filter)"
+        class="filter-option-item"
+      >
+        {{ filter }}
+      </p>
+    </div>
+  </div>
+</div>
