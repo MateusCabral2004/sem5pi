@@ -28,6 +28,20 @@ export class StaffService {
     return this.http.get<Staff[]>(`${this.apiUrl}/Staff/listStaffProfilesByName`, { withCredentials: true, params });
   }
 
+  filterStaffProfilesByEmail(email: string): Observable<any> {
+
+    const params = new HttpParams().set('email', email);
+
+    return this.http.get<Staff[]>(`${this.apiUrl}/Staff/listStaffProfileByEmail`, { withCredentials: true, params });
+  }
+
+  filterStaffProfilesBySpecialization(specialization: string): Observable<Staff[]> {
+
+    const params = new HttpParams().set('specialization', specialization);
+
+    return this.http.get<Staff[]>(`${this.apiUrl}/Staff/listStaffProfilesBySpecialization`, { withCredentials: true, params });
+  }
+
   deleteStaffProfile(staffId: string): Observable<any> {
 
     const body = { Id: staffId };

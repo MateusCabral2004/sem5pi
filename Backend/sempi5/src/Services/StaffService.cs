@@ -7,6 +7,7 @@ using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
 using Sempi5.Domain.Shared;
 using Sempi5.Domain.SpecializationAggregate;
+using Sempi5.Domain.SpecializationAggregate.SpecializationExceptions;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
 using Sempi5.Domain.StaffAggregate.StaffExceptions;
@@ -214,7 +215,7 @@ namespace Sempi5.Services
 
             if (staff == null)
             {
-                throw new StaffProfileNotFoundException("Staff not found.");
+                throw new StaffProfilesNotFoundException("Staff not found.");
             }
 
             staff.Status = StaffStatusEnum.INACTIVE;
@@ -230,7 +231,7 @@ namespace Sempi5.Services
 
             if (staffList.Count == 0)
             {
-                throw new NoStaffProfilesException("Staffs not found.");
+                throw new StaffProfilesNotFoundException("Staffs not found.");
             }
 
             var staffDtoList = BuildStaffDtoList(staffList);
@@ -244,7 +245,7 @@ namespace Sempi5.Services
 
             if (staff == null)
             {
-                throw new ArgumentException("Staff not found.");
+                throw new StaffProfilesNotFoundException("Staff not found.");
             }
 
             return StaffToSearchedStaffDto(staff);
@@ -261,7 +262,7 @@ namespace Sempi5.Services
             
             if (specialization == null)
             {
-                throw new ArgumentException("Specialization not found.");
+                throw new SpecializationNotFoundException("Specialization not found.");
             }
             
             var staffList =
@@ -270,7 +271,7 @@ namespace Sempi5.Services
 
             if (staffList.Count == 0)
             {
-                throw new ArgumentException("Staffs not found.");
+                throw new StaffProfilesNotFoundException("Staffs not found.");
             }
 
             var staffDtoList = BuildStaffDtoList(staffList);
