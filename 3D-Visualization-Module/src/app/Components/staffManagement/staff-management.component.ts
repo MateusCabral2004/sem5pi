@@ -20,6 +20,15 @@ export class StaffManagementComponent implements OnInit {
   public showStaffList: boolean = true;
   public showNoStaffsFound: boolean = false;
   public showResetFilterButton: boolean = false;
+  public filterByName: boolean = false;
+  public currentFilter: string = '';
+  public showNoSpecializationFound: boolean = false;
+  public showFilterStaffButton: boolean = true;
+  public showInvalidEmailFormat: boolean = false;
+
+  public showEmptyNameError: boolean = false;
+  public showEmptyEmailError: boolean = false;
+  public showEmptySpecializationError: boolean = false;
 
   @ViewChild(ConfirmModalComponent) confirmModal!: ConfirmModalComponent;
   @ViewChild(EnterFilterNameComponent) enterFilterName!: EnterFilterNameComponent;
@@ -39,9 +48,12 @@ export class StaffManagementComponent implements OnInit {
     this.auth.validateUserRole(expectedRole);
   }
 
-  applyNameFilter(filterName: string) {
+  public applyNameFilter(filterName: string) {
 
-    this.staffService.filterStaffProfilesByName(filterName).subscribe(
+    const trimmedFilterName = filterName.trim();
+
+    this.staffService.filterStaffProfilesByName(trimmedFilterName).subscribe(
+
       (data: Staff[]) => {
         this.showNoStaffsFound = false;
         this.showStaffList = true;
@@ -56,12 +68,89 @@ export class StaffManagementComponent implements OnInit {
           this.showStaffList = false;
           this.showNoStaffsFound = true;
           this.showResetFilterButton = true;
-          console.log(error);
 
         } else {
 
+          this.showFilterStaffButton = true;
           this.showStaffList = false;
-          console.error('Error fetching staff profiles', error);
+          this.showEmptyNameError = true;
+        }
+      }
+    );
+  }
+
+  public applyEmailFilter(filterEmail: string) {
+
+    const trimmedFilterEmail = filterEmail.trim();
+
+    this.staffService.filterStaffProfilesByEmail(trimmedFilterEmail).subscribe(
+
+      (data: Staff) => {
+        this.showNoStaffsFound = false;
+        this.showStaffList = true;
+        this.staffList = [];
+        this.staffList.push(data);
+        this.showResetFilterButton = true;
+      },
+      (error) => {
+
+        if (error.status === 404) {
+
+          this.staffList = [];
+          this.showStaffList = false;
+          this.showNoStaffsFound = true;
+          this.showResetFilterButton = true;
+        }
+        else {
+
+          this.showFilterStaffButton = true;
+          this.showStaffList = false;
+          this.showInvalidEmailFormat = true;
+          this.showEmptyEmailError = true;
+
+        }
+      }
+    );
+  }
+
+  public applySpecializationFilter(filterSpecialization: string) {
+
+    const trimmedFilterSpecialization = filterSpecialization.trim();
+
+    this.staffService.filterStaffProfilesBySpecialization(trimmedFilterSpecialization).subscribe(
+      (data: Staff[]) => {
+        this.showNoStaffsFound = false;
+        this.showStaffList = true;
+        this.staffList = data;
+        this.showResetFilterButton = true;
+      },
+      (error) => {
+
+        if (error.status === 404) {
+
+          this.staffList = [];
+          this.showStaffList = false;
+          this.showNoStaffsFound = true;
+          this.showResetFilterButton = true;
+
+        } else if (error.status === 403) {
+
+
+          console.log('Error:', error);
+
+          this.staffList = [];
+          this.showStaffList = false;
+          this.showNoStaffsFound = false;
+          this.showNoSpecializationFound = true;
+          this.showResetFilterButton = true;
+
+        }else {
+
+          console.log('Error2:', error);
+
+          this.showFilterStaffButton = true;
+          this.showStaffList = false;
+          this.showEmptySpecializationError = true;
 
         }
       }
@@ -73,9 +162,13 @@ export class StaffManagementComponent implements OnInit {
   }
 
   public resetFilter() {
+    this.staffList = [];
+    this.showFilterStaffButton = true;
+    this.showStaffList = true;
     this.fetchStaffProfiles();
     this.showNoStaffsFound = false;
     this.showResetFilterButton = false;
+    this.showNoSpecializationFound = false;
   }
 
   public confirmDeleteStaffProfile(staffId: string) {
@@ -84,18 +177,38 @@ export class StaffManagementComponent implements OnInit {
     this.confirmModal.open("Are you sure you want to proceed?");
   }
 
+  public handleFilterSelection(filterValue: string) {
+
+    this.showFilterStaffButton = false;
+    this.showEmptyNameError = false;
+    this.showEmptyEmailError = false;
+    this.showEmptySpecializationError = false;
+    this.showInvalidEmailFormat = false;
+    this.showNoSpecializationFound = false;
+
+
+    if (this.currentFilter === 'name') {
+      this.applyNameFilter(filterValue);
+    } else if (this.currentFilter === 'email') {
+      this.applyEmailFilter(filterValue);
+    } else if (this.currentFilter === 'specialization') {
+      this.applySpecializationFilter(filterValue);
+    }
+  }
+
   public handleSelectedFilter(filter: string) {
 
     if(filter === 'Name') {
-      this.enterFilterName.open();
+      this.filterByName = true;
+      this.enterFilterName.open("name");
     }
 
     if(filter === 'Email') {
-      alert('Filter by Email\nThis feature is not yet implemented');
+      this.enterFilterName.open("email");
     }
 
     if(filter === 'Specialization') {
-      alert('Filter by Specialization\nThis feature is not yet implemented');
+      this.enterFilterName.open("specialization");
     }
 
   }
