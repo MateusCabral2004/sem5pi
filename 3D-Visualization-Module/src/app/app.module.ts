@@ -31,6 +31,7 @@ import {ConfirmModalComponent} from './Components/confirm-modal/confirm-modal.co
 import {BackgroudCardComponent} from './Components/backgroud-card/backgroud-card.component';
 import {EnterFilterNameComponent} from './Components/enter-filter-name/enter-filter-name.component';
 
+import {UpdatePatientAccoutComponent} from './Components/update-patient-accout/update-patient-accout.component';
 import {routes} from './app.routes';
 import {FormsModule} from '@angular/forms';
 
@@ -57,6 +58,7 @@ import {FormsModule} from '@angular/forms';
     StaffProfileListComponent,
     FilterStaffButtonComponent,
     ConfirmModalComponent,
+    UpdatePatientAccoutComponent,
     BackgroudCardComponent,
     EnterFilterNameComponent
   ],

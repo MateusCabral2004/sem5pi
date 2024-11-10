@@ -22,4 +22,13 @@ export class PatientService {
     });
   }
 
+  updateProfile(profileData: any): Observable<any> {
+    return this.http.patch(`${this.apiUrl}/account/update`, JSON.stringify(profileData), {
+        withCredentials: true,
+        responseType: 'arraybuffer',
+        headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+
 }

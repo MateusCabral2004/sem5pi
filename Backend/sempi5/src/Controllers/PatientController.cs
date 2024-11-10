@@ -130,7 +130,7 @@ public class PatientController : ControllerBase
     }
 
 
-    [HttpPost("account/update")]
+    [HttpPatch("account/update")]
     [Authorize(Roles = "Patient")] 
     public async Task<IActionResult> updateAccount(PatientProfileDto profileDto)
     {
