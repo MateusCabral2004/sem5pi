@@ -13,6 +13,13 @@ import {BaseDashboardComponent} from './Components/base-dashboard/base-dashboard
 import {HomeButtonComponent} from './Components/home-button/home-button.component';
 import {AddOperationTypeComponent} from './Components/add-operation-type/add-operation-type.component';
 import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
+
+import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
+
+import {routes} from './app.routes';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+
 import {DeleteStaffProfileButtonComponent} from './Components/delete-staff-profile-button/delete-staff-profile-button.component';
 import {EditStaffProfileButtonComponent} from './Components/edit-staff-profile-button/edit-staff-profile-button.component';
 import {StaffDetailsComponent} from './Components/staff-details/staff-details.component';
@@ -40,7 +47,8 @@ import {FormsModule} from '@angular/forms';
     StaffManagementComponent,
     BaseDashboardComponent,
     HomeButtonComponent,
-    AddOperationTypeComponent,
+    RegisterPatientComponent,
+      AddOperationTypeComponent,
     EditOperationTypeComponent,
     GoBackButtonComponent,
     DeleteStaffProfileButtonComponent,
@@ -54,8 +62,10 @@ import {FormsModule} from '@angular/forms';
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
+    HttpClientModule, // Add HttpClientModule here
     RouterModule.forRoot(routes),
+    CommonModule,
+    ReactiveFormsModule,
     FormsModule
   ],
   bootstrap: [AppComponent]
