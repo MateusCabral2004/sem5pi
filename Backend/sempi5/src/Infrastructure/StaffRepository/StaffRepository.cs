@@ -86,6 +86,15 @@ namespace Sempi5.Infrastructure.StaffRepository
                 && p.Status.Equals(StaffStatusEnum.ACTIVE))
                 .ToListAsync();
         }
+        
+        public async Task<List<Staff>> GetAllActiveStaff()
+        {
+            return await context.StaffMembers
+                .Include(p => p.Person)
+                .Include(p => p.Specialization)
+                .Where(p => p.Status.Equals(StaffStatusEnum.ACTIVE))
+                .ToListAsync();
+        }
 
         public Task<Staff?> GetActiveStaffByEmail(Email email)
         {
