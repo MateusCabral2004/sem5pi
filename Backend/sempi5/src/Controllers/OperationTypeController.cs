@@ -140,8 +140,8 @@ public class OperationTypeController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("listOperationTypeByName")]
-    public async Task<IActionResult> ListOperationTypesByName(OperationNameDTO operationName)
+    [HttpGet("listOperationTypeByName/{operationName}")]
+    public async Task<IActionResult> ListOperationTypesByName(string operationName)
     {
         try
         {
@@ -155,7 +155,7 @@ public class OperationTypeController : ControllerBase
     }
 
     [HttpGet("listOperationTypeBySpecialization/{specializationName}")]
-    public async Task<IActionResult> ListOperationTypesBySpecialization(SpecializationNameDTO specializationName)
+    public async Task<IActionResult> ListOperationTypesBySpecialization(string specializationName)
     {
         try
         {

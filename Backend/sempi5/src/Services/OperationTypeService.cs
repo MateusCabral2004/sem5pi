@@ -193,35 +193,34 @@ public class OperationTypeService
         return operationType;
     }
 
-    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeByName(OperationNameDTO operationNameDto)
+    public async Task<List<OperationTypeDTO>> ListOperationTypeByName(string operationName)
     {
         var operationType =
-            await _operationTypeRepository.GetOperationTypeListByName(new OperationName(operationNameDto.name));
+            await _operationTypeRepository.GetOperationTypeListByName(new OperationName(operationName));
 
         if (operationType == null)
         {
             throw new ArgumentException("Operation type not found");
         }
 
-        return buildSearchedOperationTypeDtoList(operationType);
+        return createListOfOperationTypeDTOs(operationType);
     }
 
-    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeBySpecialization(
-        SpecializationNameDTO specializationNameDto)
+    public async Task<List<OperationTypeDTO>> ListOperationTypeBySpecialization(string specializationName)
     {
         var operationType =
             await _operationTypeRepository.GetOperationTypeListBySpecialization(
-                new SpecializationName(specializationNameDto.specializationName));
+                new SpecializationName(specializationName));
 
         if (operationType == null)
         {
             throw new ArgumentException("Operation type not found");
         }
 
-        return buildSearchedOperationTypeDtoList(operationType);
+        return createListOfOperationTypeDTOs(operationType);
     }
 
-    public async Task<List<SearchedOperationTypeDTO>> ListOperationTypeByStatus(bool status)
+    public async Task<List<OperationTypeDTO>> ListOperationTypeByStatus(bool status)
     {
         var operationType = await _operationTypeRepository.GetOperationTypeListByStatus(status);
 
@@ -230,7 +229,7 @@ public class OperationTypeService
             throw new ArgumentException("Operation type not found");
         }
 
-        return buildSearchedOperationTypeDtoList(operationType);
+        return createListOfOperationTypeDTOs(operationType);
     }
 
     private List<SearchedOperationTypeDTO> buildSearchedOperationTypeDtoList(IEnumerable<OperationType> operationTypes)
