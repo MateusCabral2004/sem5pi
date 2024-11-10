@@ -1,0 +1,48 @@
+<div class="edit-staff">
+  <h2>Edit Staff Profile</h2>
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input
+      id="email"
+      type="text"
+      [(ngModel)]="typedStaffProfile.email"
+      name="email"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="phoneNumber">Phone Number</label>
+    <input
+      id="phoneNumber"
+      type="number"
+      [(ngModel)]="typedStaffProfile.phoneNumber"
+      name="phoneNumber"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="specialization">Specialization</label>
+    <input
+      id="specialization"
+      type="text"
+      [(ngModel)]="typedStaffProfile.specialization"
+      name="specialization"
+    />
+  </div>
+
+  <button type="submit" [disabled]="!isAtLeastOneFieldFilled()" (click)="saveChanges()">Save Changes</button>
+
+  <div *ngIf="showConfirmationPopup || showErrorMessaagePopup" class="blur-background">
+
+  <div *ngIf="showConfirmationPopup" class="confirmation-popup">
+    <p>{{ "A confirmation link was sent to the Staff's Email." }}</p>
+    <button (click)="closeConfirmationPopupAndRedirect()">Ok</button>
+  </div>
+
+  <div *ngIf="showErrorMessaagePopup" class="error-popup">
+    <p>{{ "Error: " + errorMessage }}</p>
+    <button (click)="closeErrorMessagePopup()">Ok</button>
+  </div>
+  </div>
+</div>

@@ -4,6 +4,8 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.PatientAggregate;
+using Sempi5.Domain.PersonalData.Exceptions;
+using Sempi5.Domain.Shared.Exceptions;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.SpecializationAggregate.SpecializationExceptions;
 using Sempi5.Domain.StaffAggregate;
@@ -68,10 +70,11 @@ namespace Sempi5.Controllers.StaffControllers
                 if (editStaffDto.email != null || editStaffDto.phoneNumber > 0)
                 {
                     if (editStaffDto.email != null) await _staffService.VerifyEmailAvailability(editStaffDto.email);
+
                     if (editStaffDto.phoneNumber > 0)
                         await _staffService.VerifyPhoneNumberAvailability(editStaffDto.phoneNumber);
-                    
-                    
+
+
                     await _emailService.PrepareEditStaffConfirmationEmail(staff.Person.ContactInfo._email.ToString(),
                         editStaffDto);
                 }
@@ -84,10 +87,26 @@ namespace Sempi5.Controllers.StaffControllers
                                      $" {editStaffDto.email}" +
                                      $" {editStaffDto.specialization} \n");
 
-                    return Ok("Staff profile edited successfully!");
+                    return Ok(new { message = "Staff profile edited successfully!" });
                 }
 
-                return Ok("A confirmation email was sent.");
+                return Ok(new { message = "A confirmation email was sent." });
+            }
+            catch (InvalidPhoneNumberFormat e)
+            {
+                return StatusCode(600, e.Message);
+            }
+            catch (PhoneNumberAlreadyInUseException e)
+            {
+                return StatusCode(601, e.Message);
+            }
+            catch (InvalidEmailFormatException e)
+            {
+                return StatusCode(602, e.Message);
+            }
+            catch (EmailAlreadyInUseException e)
+            {
+                return StatusCode(603, e.Message);
             }
             catch (Exception e)
             {

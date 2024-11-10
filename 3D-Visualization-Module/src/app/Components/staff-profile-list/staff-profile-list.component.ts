@@ -9,5 +9,5 @@ import {Staff} from '../staffManagement/Staff';
 export class StaffProfileListComponent {
   @Input() staffList: Staff[] = [];
   @Output() deleteStaffProfile = new EventEmitter<string>();
-  @Output() editStaffProfile = new EventEmitter<string>();
+  @Output() editStaffProfile = new EventEmitter<Staff>();
 }

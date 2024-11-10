@@ -236,11 +236,11 @@ export class StaffManagementComponent implements OnInit {
     }
   }
 
-  public editStaffProfile(staffId: string) {
-    alert('Edit staff profile with ID: ' + staffId + '\n' + 'This feature is not yet implemented');
+  public editStaffProfile(staff: Staff) {
+    this.router.navigate(['admin/staff/edit'], { state: { staff: staff } });
   }
 
-  private fetchStaffProfiles() {
+  public fetchStaffProfiles() {
 
     this.staffService.listAllStaffProfiles().subscribe(
       (data: Staff[]) => {
