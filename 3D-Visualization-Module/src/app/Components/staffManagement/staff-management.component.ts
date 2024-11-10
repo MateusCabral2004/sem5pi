@@ -25,10 +25,10 @@ export class StaffManagementComponent implements OnInit {
   public showNoSpecializationFound: boolean = false;
   public showFilterStaffButton: boolean = true;
   public showInvalidEmailFormat: boolean = false;
-
   public showEmptyNameError: boolean = false;
   public showEmptyEmailError: boolean = false;
   public showEmptySpecializationError: boolean = false;
+
 
   @ViewChild(ConfirmModalComponent) confirmModal!: ConfirmModalComponent;
   @ViewChild(EnterFilterNameComponent) enterFilterName!: EnterFilterNameComponent;

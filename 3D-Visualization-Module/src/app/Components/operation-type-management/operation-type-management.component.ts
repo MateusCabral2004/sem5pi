@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { OperationTypeService } from '../../services/OperationTypeService/operation-type.service';
 import { OperationType } from '../../Domain/OperationType';
 import { Router } from '@angular/router';
+import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
+import {EnterFilterNameComponent} from '../enter-filter-name/enter-filter-name.component';
 
 @Component({
   selector: 'app-operation-type-management',
@@ -10,6 +12,13 @@ import { Router } from '@angular/router';
 })
 export class OperationTypeManagementComponent implements OnInit {
   operationTypes: OperationType[] = [];
+  currentFilter: string = '';
+  filterValue: string = '';
+  public showResetFilterButton: boolean = false;
+  operationTypeToBeDeleted: OperationType | null = null;
+
+  @ViewChild(ConfirmModalComponent) confirmModal!: ConfirmModalComponent;
+  @ViewChild(EnterFilterNameComponent) enterFilterName!: EnterFilterNameComponent;
 
   constructor(private operationTypeService: OperationTypeService, private router: Router) {}
 
@@ -18,6 +27,20 @@ export class OperationTypeManagementComponent implements OnInit {
   }
 
   loadOperationTypes() {
+
+    if(this.currentFilter !== "" && this.filterValue !== "") {
+      this.operationTypeService.filterOperationTypes(this.currentFilter,this.filterValue).subscribe(
+        (operationTypes) => {
+          this.operationTypes = operationTypes;
+        },
+        (error) => {
+          console.error('Failed to load operation types:', error);
+        }
+      );
+      this.showResetFilterButton = true;
+      return;
+    }
+
     this.operationTypeService.listOperationTypes().subscribe(
       (operationTypes) => {
         this.operationTypes = operationTypes;
@@ -26,6 +49,7 @@ export class OperationTypeManagementComponent implements OnInit {
         console.error('Failed to load operation types:', error);
       }
     );
+    this.showResetFilterButton = false;
   }
 
   addOperationType() {
@@ -33,18 +57,8 @@ export class OperationTypeManagementComponent implements OnInit {
   }
 
   deleteOperationType(op: OperationType) {
-    const confirmed = confirm(`Are you sure you want to delete ${op.operationName}?`);
-    if (confirmed) {
-      this.operationTypeService.deleteOperationType(op).subscribe(
-        () => {
-          this.loadOperationTypes();
-        },
-        error => {
-          console.error('Error deleting Operation Type:', error);
-          alert('Error deleting Operation Type: ' + (error.error || 'An unknown error occurred.'));
-        }
-      );
-    }
+    this.operationTypeToBeDeleted = op;
+    this.confirmModal.open('Are you sure you want to delete this Operation Type?');
   }
 
   editOperationType(op: OperationType) {
@@ -55,4 +69,34 @@ export class OperationTypeManagementComponent implements OnInit {
     this.router.navigate(['admin/operationTypeManagement/view'], { state: { operation: op } });
   }
 
+  handleSelectedFilter(filter: string) {
+    this.currentFilter = filter;
+    this.enterFilterName.open(filter);
+  }
+
+  handleFilterButtonEvent(filterValue: string) {
+    this.filterValue = filterValue;
+    this.loadOperationTypes();
+  }
+
+  handleDeleteOperationTypeConfirmation(isConfirmed: boolean) {
+    if (isConfirmed && this.operationTypeToBeDeleted !== null) {
+        this.operationTypeService.deleteOperationType(this.operationTypeToBeDeleted).subscribe(
+          () => {
+            this.loadOperationTypes();
+          },
+          error => {
+            console.error('Error deleting Operation Type:', error);
+            alert('Error deleting Operation Type: ' + (error.error || 'An unknown error occurred.'));
+          }
+        );
+      this.operationTypeToBeDeleted = null;
+    }
+  }
+
+  public resetFilter() {
+    this.currentFilter = '';
+    this.filterValue = '';
+    this.loadOperationTypes();
+  }
 }

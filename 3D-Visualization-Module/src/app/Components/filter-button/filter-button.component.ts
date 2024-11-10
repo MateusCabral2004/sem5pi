@@ -1,21 +1,22 @@
-import { Component, ElementRef, EventEmitter, Output, Renderer2 } from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, Output, Renderer2} from '@angular/core';
 
 @Component({
-  selector: 'app-filter-staff-button',
-  templateUrl: './filter-staff-button.component.html',
-  styleUrls: ['./filter-staff-button.component.css']
+  selector: 'app-filter-button',
+  templateUrl: './filter-button.component.html',
+  styleUrls: ['./filter-button.component.css']
 })
-export class FilterStaffButtonComponent {
+export class FilterButtonComponent {
 
+  @Input() filters: string[] = [] //['Name', 'Email', 'Specialization'];
   @Output() filterSelected = new EventEmitter<string>();
   selectedFilter: string = '';
   showOptions = false;
-  filters = ['Name', 'Email', 'Specialization'];
 
   private clickListener: () => void;
 
   constructor(private renderer: Renderer2, private elRef: ElementRef) {
     this.clickListener = this.renderer.listen('document', 'click', this.handleClickOutside.bind(this));
+    console.log('FilterButtonComponent created');
   }
 
   toggleFilterOptions() {

@@ -14,9 +14,11 @@
   <div class="content">
     <button class="add-button" (click)="addStaffProfile()">Add Staff Profile</button>
 
-    <app-filter-staff-button *ngIf="staffList.length > 0 && showFilterStaffButton"
+    <app-filter-button
+      *ngIf="staffList.length > 0 && showFilterStaffButton"
+      [filters]="['Name', 'Email', 'Specialization']"
       (filterSelected)="handleSelectedFilter($event)"
-    ></app-filter-staff-button>
+    ></app-filter-button>
 
     <button class="reset-filter-button" (click)="resetFilter()" *ngIf="showResetFilterButton">Reset Filter</button>
 
@@ -25,7 +27,9 @@
       (deleteStaffProfile)="confirmDeleteStaffProfile($event)"
       (editStaffProfile)="editStaffProfile($event)"
     ></app-staff-profile-list>
+
   </div>
+
   <div class="error-message" *ngIf="staffList.length == 0 && !showNoSpecializationFound">
     <p>There are no staff profiles to list.</p>
   </div>
@@ -51,8 +55,7 @@
 <app-enter-filter-name
   (filterTypeToEmit)="currentFilter = $event"
   (nameToFilter)="handleFilterSelection($event)"
-  >
-></app-enter-filter-name>
+>></app-enter-filter-name>
 
 
 
