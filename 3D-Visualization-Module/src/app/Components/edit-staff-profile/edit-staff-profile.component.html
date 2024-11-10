@@ -33,14 +33,14 @@
 
   <button type="submit" [disabled]="!isAtLeastOneFieldFilled()" (click)="saveChanges()">Save Changes</button>
 
-  <div *ngIf="showConfirmationPopup || showErrorMessaagePopup" class="blur-background">
+  <div *ngIf="showConfirmationPopup || showErrorMessagePopup" class="blur-background">
 
   <div *ngIf="showConfirmationPopup" class="confirmation-popup">
     <p>{{ "A confirmation link was sent to the Staff's Email." }}</p>
     <button (click)="closeConfirmationPopupAndRedirect()">Ok</button>
   </div>
 
-  <div *ngIf="showErrorMessaagePopup" class="error-popup">
+  <div *ngIf="showErrorMessagePopup" class="error-popup">
     <p>{{ "Error: " + errorMessage }}</p>
     <button (click)="closeErrorMessagePopup()">Ok</button>
   </div>

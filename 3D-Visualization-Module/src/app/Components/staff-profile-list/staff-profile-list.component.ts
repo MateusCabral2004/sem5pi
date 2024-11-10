@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Staff} from '../staffManagement/Staff';
+import {Staff} from '../../Domain/Staff';
 
 @Component({
   selector: 'app-staff-profile-list',

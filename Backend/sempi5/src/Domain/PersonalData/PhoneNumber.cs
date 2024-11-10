@@ -20,6 +20,12 @@ namespace Sempi5.Domain.PersonalData
 
         private void ValidatePhoneNumber(int phoneNumber)
         {
+
+            if (phoneNumber < 0)
+            {
+                throw new InvalidPhoneNumberFormat("Phone number cannot be negative.");
+            }
+            
             if (phoneNumber.ToString().Length != 9 || phoneNumber <= 0)
             {
                 throw new InvalidPhoneNumberFormat("Phone number must be 9 digits long.");
