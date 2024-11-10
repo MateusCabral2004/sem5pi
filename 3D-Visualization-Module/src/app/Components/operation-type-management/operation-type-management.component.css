@@ -102,3 +102,66 @@ h1 {
 .edit-button:hover {
   background-color: #388e3c;
 }
+
+.view-button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
+
+.view-button:active {
+  transform: scale(0.98);
+}
+
+.view-button:disabled {
+  background-color: #e0e0e0;
+  color: #b0b0b0;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.reset-filter-button {
+  padding: 8px 12px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px; /* Adiciona espaço abaixo do botão */
+}
+
+.reset-filter-button:hover {
+  background-color: #1976d2;
+}
+
+.filter-buttons-container {
+  display: flex;
+  justify-content: space-between; /* Places buttons on opposite edges */
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px; /* Equal padding on left and right for spacing */
+}
+
+.spacer {
+  width: 85px; /* Match the width of the Reset Filter button */
+}
+
+.no-operations-message {
+  padding: 15px;
+  margin: 20px 0;
+  background-color: #ffdddd; /* Light red background */
+  color: #d8000c; /* Dark red text color */
+  border: 1px solid #d8000c;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+
