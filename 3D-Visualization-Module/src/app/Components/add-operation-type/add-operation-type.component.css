@@ -70,6 +70,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  margin-bottom: 1%;
 }
 
 button:hover {
@@ -79,7 +80,7 @@ button:hover {
 button:disabled {
   background-color: #e0e0e0;
   color: #b0b0b0;
-  border: 1px solid #ccc;
+  border-radius: 5px;
   cursor: not-allowed;
   opacity: 0.6;
 }

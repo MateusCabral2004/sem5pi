@@ -94,13 +94,13 @@ export class EditOperationTypeComponent implements OnInit {
 
     private updateOperationCleaningDuration() {
         if(this.updatedOperation.cleaningDuration !== this.originalOperation.cleaningDuration) {
-            this.operationTypeService.updateDuration(this.originalOperation.operationName,this.updatedOperation.setupDuration,"cleaning").subscribe();
+            this.operationTypeService.updateDuration(this.originalOperation.operationName,this.updatedOperation.cleaningDuration,"cleaning").subscribe();
         }
     }
 
     private updateOperationSurgeryDuration() {
         if(this.updatedOperation.surgeryDuration !== this.originalOperation.surgeryDuration) {
-            this.operationTypeService.updateDuration(this.originalOperation.operationName,this.updatedOperation.setupDuration,"surgery").subscribe();
+            this.operationTypeService.updateDuration(this.originalOperation.operationName,this.updatedOperation.surgeryDuration,"surgery").subscribe();
         }
     }
 
