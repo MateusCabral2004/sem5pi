@@ -6,6 +6,7 @@ import {StaffManagementComponent} from './Components/staffManagement/staff-manag
 import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
 import {AddOperationTypeComponent} from './Components/add-operation-type/add-operation-type.component';
 import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
+import {ListOperationRequestComponent} from './Components/list-operation-request/list-operation-request.component';
 
 export const routes: Routes = [
   {
@@ -47,6 +48,11 @@ export const routes: Routes = [
     path: 'patient',
     component: RegisterPatientComponent,
     title: 'Patient Manegement',
+  },
+  {
+    path: 'doctor',
+    component: ListOperationRequestComponent,
+    title: 'doctor operations list',
   },
    {
     path: 'admin/operationTypeManagement/edit',

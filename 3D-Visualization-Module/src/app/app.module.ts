@@ -32,6 +32,7 @@ import {BackgroudCardComponent} from './Components/backgroud-card/backgroud-card
 import {EnterFilterNameComponent} from './Components/enter-filter-name/enter-filter-name.component';
 
 import {routes} from './app.routes';
+import {ListOperationRequestComponent} from './Components/list-operation-request/list-operation-request.component';
 import {FormsModule} from '@angular/forms';
 
 
@@ -58,6 +59,7 @@ import {FormsModule} from '@angular/forms';
     FilterStaffButtonComponent,
     ConfirmModalComponent,
     BackgroudCardComponent,
+    ListOperationRequestComponent,
     EnterFilterNameComponent
   ],
   imports: [

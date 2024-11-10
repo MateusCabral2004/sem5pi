@@ -215,7 +215,7 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
 
-        [HttpGet("request/deleteRequest")]
+        [HttpDelete("request/deleteRequest")]
        [Authorize(Roles = "Doctor")]
         public async Task<IActionResult> DeleteRequest()
         {
