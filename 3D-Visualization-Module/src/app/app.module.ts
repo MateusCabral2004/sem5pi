@@ -16,9 +16,8 @@ import {StaffManagementComponent} from './Components/staffManagement/staff-manag
 
 import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
 
-import {routes} from './app.routes';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 
 import {DeleteStaffProfileButtonComponent} from './Components/delete-staff-profile-button/delete-staff-profile-button.component';
 import {EditStaffProfileButtonComponent} from './Components/edit-staff-profile-button/edit-staff-profile-button.component';
@@ -33,6 +32,7 @@ import {EnterFilterNameComponent} from './Components/enter-filter-name/enter-fil
 
 import {routes} from './app.routes';
 import {FormsModule} from '@angular/forms';
+import {DeletePatientAccoutComponent} from './Components/delete-patient-accout/delete-patient-accout.component';
 
 
 @NgModule({
@@ -57,6 +57,7 @@ import {FormsModule} from '@angular/forms';
     StaffProfileListComponent,
     FilterStaffButtonComponent,
     ConfirmModalComponent,
+    DeletePatientAccoutComponent,
     BackgroudCardComponent,
     EnterFilterNameComponent
   ],

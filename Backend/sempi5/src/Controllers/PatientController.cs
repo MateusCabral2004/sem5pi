@@ -93,7 +93,7 @@ public class PatientController : ControllerBase
     }
 
 
-    [HttpGet("account/exclude")]
+    [HttpDelete("account/exclude")]
      [Authorize(Roles = "Patient")]
     public async Task<IActionResult> excludeAccount()
     {

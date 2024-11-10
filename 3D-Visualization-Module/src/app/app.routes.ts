@@ -6,6 +6,7 @@ import {StaffManagementComponent} from './Components/staffManagement/staff-manag
 import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
 import {AddOperationTypeComponent} from './Components/add-operation-type/add-operation-type.component';
 import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
+import {DeletePatientAccoutComponent} from './Components/delete-patient-accout/delete-patient-accout.component';
 
 export const routes: Routes = [
   {
@@ -42,6 +43,11 @@ export const routes: Routes = [
     path: 'unregistered',
     component: RegisterPatientComponent,
     title: 'registerPatient',
+  },
+  {
+    path: 'deleteAccount',
+    component: DeletePatientAccoutComponent,
+    title: 'Delete Patient Account',
   },
   {
     path: 'patient',
