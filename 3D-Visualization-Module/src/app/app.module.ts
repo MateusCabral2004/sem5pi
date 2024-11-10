@@ -56,7 +56,7 @@ import {routes} from './app.routes';
     ConfirmModalComponent,
     BackgroudCardComponent,
     EnterFilterNameComponent,
-    ViewOperationTypeComponent
+    ViewOperationTypeComponent,
     EditStaffProfileComponent
   ],
   imports: [
