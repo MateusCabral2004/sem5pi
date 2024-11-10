@@ -2,5 +2,6 @@
   id: string;
   fullName: string;
   email: string;
+  phoneNumber: number;
   specialization: string;
 }
