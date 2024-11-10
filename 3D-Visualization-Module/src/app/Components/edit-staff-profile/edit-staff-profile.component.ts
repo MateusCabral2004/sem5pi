@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Staff} from '../staffManagement/Staff';
+import {Staff} from '../../Domain/Staff';
 import {StaffService} from '../../services/StaffService/staff.service';
 
 
@@ -16,7 +16,7 @@ export class EditStaffProfileComponent implements OnInit {
   public originalStaffProfile!: Staff;
   public showConfirmationPopup: boolean = false;
   public errorMessage: string = '';
-  public showErrorMessaagePopup: boolean = false;
+  public showErrorMessagePopup: boolean = false;
 
   constructor(
     private router: Router,
@@ -81,22 +81,23 @@ export class EditStaffProfileComponent implements OnInit {
         if (error.status === 600) {
 
           this.errorMessage = error.error;
-          this.showErrorMessaagePopup = true;
+          this.showErrorMessagePopup = true;
 
         } else if (error.status === 601) {
 
           this.errorMessage = error.error;
-          this.showErrorMessaagePopup = true;
+          this.showErrorMessagePopup = true;
 
         } else if (error.status === 602) {
 
           this.errorMessage = error.error;
-          this.showErrorMessaagePopup = true;
+          this.showErrorMessagePopup = true;
 
         } else if (error.status === 603) {
 
           this.errorMessage = error.error;
-          this.showErrorMessaagePopup = true;
+          this.showErrorMessagePopup = true;
+
         } else {
 
           console.log('Error updating staff profile:', error);
@@ -129,7 +130,7 @@ export class EditStaffProfileComponent implements OnInit {
   }
 
   public closeErrorMessagePopup(): void {
-    this.showErrorMessaagePopup = false;
+    this.showErrorMessagePopup = false;
   }
 
 }

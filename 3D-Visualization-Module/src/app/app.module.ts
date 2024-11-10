@@ -28,6 +28,7 @@ import {ConfirmModalComponent} from './Components/confirm-modal/confirm-modal.co
 import {BackgroudCardComponent} from './Components/backgroud-card/backgroud-card.component';
 import {EnterFilterNameComponent} from './Components/enter-filter-name/enter-filter-name.component';
 import {EditStaffProfileComponent} from './Components/edit-staff-profile/edit-staff-profile.component';
+import {AddStaffProfileComponent} from './Components/add-staff-profile/add-staff-profile.component';
 
 import {FormsModule} from '@angular/forms';
 import {routes} from './app.routes';
@@ -57,7 +58,8 @@ import {routes} from './app.routes';
     BackgroudCardComponent,
     EnterFilterNameComponent,
     ViewOperationTypeComponent,
-    EditStaffProfileComponent
+    EditStaffProfileComponent,
+    AddStaffProfileComponent
   ],
   imports: [
     BrowserModule,

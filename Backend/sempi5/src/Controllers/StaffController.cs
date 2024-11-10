@@ -50,7 +50,32 @@ namespace Sempi5.Controllers.StaffControllers
             try
             {
                 await _staffService.CreateStaffProfile(staff);
-                return Ok("Staff profile created successfully");
+                return Ok(new { message = "Staff profile created successfully!" });
+            }
+            catch (InvalidPhoneNumberFormat e)
+            {
+                return StatusCode(600, e.Message);
+            }
+            catch (PhoneNumberAlreadyInUseException e)
+            {
+                return StatusCode(601, e.Message);
+            }
+            catch (InvalidEmailFormatException e)
+            {
+                return StatusCode(602, e.Message);
+            }
+            catch (EmailAlreadyInUseException e)
+            {
+                return StatusCode(603, e.Message);
+            }
+            catch(InvalidLicenseNumberFormatException e) 
+            {
+                return StatusCode(604, e.Message);
+            }
+            
+            catch (LicenseNumberAlreadyInUseException e)
+            {
+                return StatusCode(605, e.Message);
             }
             catch (Exception e)
             {

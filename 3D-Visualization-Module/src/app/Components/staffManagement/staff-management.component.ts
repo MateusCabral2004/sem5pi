@@ -3,7 +3,7 @@ import {AuthService} from '../../services/AuthService/auth.service';
 
 import {Router} from '@angular/router';
 import {StaffService} from '../../services/StaffService/staff.service';
-import {Staff} from './Staff';
+import {Staff} from '../../Domain/Staff';
 import {ConfirmModalComponent} from '../confirm-modal/confirm-modal.component';
 import {EnterFilterNameComponent} from '../enter-filter-name/enter-filter-name.component';
 
@@ -158,7 +158,7 @@ export class StaffManagementComponent implements OnInit {
   }
 
   public addStaffProfile() {
-    this.showStaffList = false;
+    this.router.navigate(['admin/staff/add']);
   }
 
   public resetFilter() {

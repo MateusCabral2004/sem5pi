@@ -82,11 +82,10 @@ namespace Sempi5.Services
 
             if (staffByLicenseNumber != null)
             {
-                throw new ArgumentException("License Number already in use.");
+                throw new LicenseNumberAlreadyInUseException("License Number already in use.");
             }
         }
-
-
+        
         private async Task<Specialization> CreateSpecialization(string specializationName)
         {
             var specialiName = new SpecializationName(specializationName);

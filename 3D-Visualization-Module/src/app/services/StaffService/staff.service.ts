@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Staff } from '../../Components/staffManagement/Staff';
-import { StaffIdDTO}  from '../../Components/staffManagement/StaffIdDTO';
+import { Staff } from '../../Domain/Staff';
+import {CreateStaff} from '../../Domain/CreateStaff';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +48,11 @@ export class StaffService {
   public updateStaffProfile(updatedStaffProfile: Staff): Observable<any> {
 
     return this.http.patch(`${this.apiUrl}/Staff/editStaffProfile`, updatedStaffProfile, { withCredentials: true });
+  }
+
+  public createStaffProfile(newStaffProfile: CreateStaff): Observable<any> {
+
+    return this.http.post(`${this.apiUrl}/Staff/createStaffProfile`, newStaffProfile, { withCredentials: true });
   }
 
 }

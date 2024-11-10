@@ -8,6 +8,7 @@ import {AddOperationTypeComponent} from './Components/add-operation-type/add-ope
 import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
 import {ViewOperationTypeComponent} from './Components/view-operation-type/view-operation-type.component';
 import {EditStaffProfileComponent} from './Components/edit-staff-profile/edit-staff-profile.component';
+import {AddStaffProfileComponent} from './Components/add-staff-profile/add-staff-profile.component';
 
 export const routes: Routes = [
   {
@@ -65,5 +66,10 @@ export const routes: Routes = [
     path: 'admin/staff/edit',
     component: EditStaffProfileComponent,
     title: 'EditStaffProfile',
+  },
+  {
+    path: 'admin/staff/add',
+    component: AddStaffProfileComponent,
+    title: 'AddStaffProfile',
   }
 ];
