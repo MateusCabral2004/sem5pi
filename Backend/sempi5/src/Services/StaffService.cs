@@ -5,7 +5,9 @@ using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
+using Sempi5.Domain.PersonalData.Exceptions;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.Shared.Exceptions;
 using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Domain.SpecializationAggregate.SpecializationExceptions;
 using Sempi5.Domain.StaffAggregate;
@@ -127,7 +129,7 @@ namespace Sempi5.Services
 
             if (personByPhoneNumber != null)
             {
-                throw new ArgumentException("Phone Number already in use.");
+                throw new PhoneNumberAlreadyInUseException("Phone Number already in use.");
             }
         }
 
@@ -140,7 +142,7 @@ namespace Sempi5.Services
 
             if (personByEmail != null)
             {
-                throw new ArgumentException("Email already in use.");
+                throw new EmailAlreadyInUseException("Email already in use.");
             }
         }
 
@@ -300,6 +302,7 @@ namespace Sempi5.Services
                 Id = staff.Id.AsString(),
                 FullName = staff.Person.FullName.ToString(),
                 Email = staff.Person.ContactInfo.email().ToString(),
+                PhoneNumber = staff.Person.ContactInfo.phoneNumber().phoneNumber(),
                 Specialization = staff.Specialization.specializationName.ToString()
             };
         }

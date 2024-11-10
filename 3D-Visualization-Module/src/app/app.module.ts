@@ -23,6 +23,7 @@ import {GoBackButtonComponent} from './Components/go-back-button/go-back-button.
 import {ConfirmModalComponent} from './Components/confirm-modal/confirm-modal.component';
 import {BackgroudCardComponent} from './Components/backgroud-card/backgroud-card.component';
 import {EnterFilterNameComponent} from './Components/enter-filter-name/enter-filter-name.component';
+import {EditStaffProfileComponent} from './Components/edit-staff-profile/edit-staff-profile.component';
 
 import {routes} from './app.routes';
 import {FormsModule} from '@angular/forms';
@@ -50,7 +51,8 @@ import {FormsModule} from '@angular/forms';
     FilterStaffButtonComponent,
     ConfirmModalComponent,
     BackgroudCardComponent,
-    EnterFilterNameComponent
+    EnterFilterNameComponent,
+    EditStaffProfileComponent
   ],
   imports: [
     BrowserModule,
