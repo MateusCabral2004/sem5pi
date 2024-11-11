@@ -30,20 +30,8 @@ namespace Sempi5.Controllers.StaffControllers
             _logger = logger;
             _emailService = emailService;
         }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<StaffDTO>>> GetAllStaffMembers()
-        {
-            return Ok();
-        }
-
-        [HttpGet("{email}")]
-        public async Task<ActionResult<StaffDTO>> GetStaffMember(string email)
-        {
-            return Ok();
-        }
-
-        [HttpPost("createStaffProfile")]
+        
+        [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateStaffProfile(StaffDTO staff)
         {
@@ -84,9 +72,9 @@ namespace Sempi5.Controllers.StaffControllers
         }
 
 
-        [HttpPatch("editStaffProfile")]
+        [HttpPatch]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> EditStaffProfile(EditStaffDTO editStaffDto)
+        public async Task<IActionResult> EditStaffProfile([FromBody] EditStaffDTO editStaffDto)
         {
             try
             {
@@ -140,8 +128,8 @@ namespace Sempi5.Controllers.StaffControllers
         }
 
 
-        [HttpGet("editStaffProfile/{jsonString}")]
-        public async Task<IActionResult> EditStaffProfile(string jsonString)
+        [HttpGet("updateContactInfo/{jsonString}")]
+        public async Task<IActionResult> EditStaffProfile( string jsonString)
         {
             EditStaffDTO editStaffDto;
             try
@@ -171,13 +159,16 @@ namespace Sempi5.Controllers.StaffControllers
             return Ok("Staff profile edited successfully!");
         }
 
-        [HttpPatch("deactivateStaffProfile")]
+        [HttpDelete("{staffId}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> DeactivateStaffProfile(StaffIdDTO staffId)
+        public async Task<IActionResult> DeactivateStaffProfile(string staffId)
         {
             try
             {
-                await _staffService.DeactivateStaffProfile(staffId);
+                
+                var staffIdDto = new StaffIdDTO {Id = staffId};
+                
+                await _staffService.DeactivateStaffProfile(staffIdDto);
                 return Ok(new { message = "Staff deactivated successfully." });
             } catch (StaffProfilesNotFoundException e)
             {
@@ -190,7 +181,7 @@ namespace Sempi5.Controllers.StaffControllers
         }
 
 
-        [HttpGet("listStaffProfilesByName")]
+        [HttpGet("by-name/{name}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListStaffProfileByName(string  name)
         {
@@ -212,7 +203,7 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
 
-        [HttpGet("listStaffProfileByEmail")]
+        [HttpGet("by-email/{email}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListStaffProfileByEmail(string email)
         {
@@ -233,7 +224,7 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
         
-        [HttpGet("listStaffProfilesBySpecialization")]
+        [HttpGet("by-specialization/{specialization}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListStaffProfilesBySpecialization(string specialization)
         {
@@ -279,7 +270,7 @@ namespace Sempi5.Controllers.StaffControllers
         }
         
         
-        [HttpGet("listAllStaffProfiles")]
+        [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListAllStaffProfiles()
         {

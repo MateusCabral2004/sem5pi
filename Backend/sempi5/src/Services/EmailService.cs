@@ -127,7 +127,7 @@ public class EmailService
             var cryptography = new Cryptography();
              var encryptedString = cryptography.EncryptString(serializedDto);
             
-        var link = $"http://localhost:5001/staff/editStaffProfile/{encryptedString}";
+        var link = $"http://localhost:5001/staff/updateContactInfo/{encryptedString}";
             
         var body = $@"
             <p>Please confirm this email by clicking the following link:</p>
