@@ -2,36 +2,37 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {HttpClientModule} from '@angular/common/http';
-import {MenuComponent} from './Components/menu/menu.component';
 import {AppComponent} from './app.component';
-import {HomeComponent} from './Components/home/home.component';
-import {AdminMenuComponent} from './Components/admin-home/admin-home.component';
-import {MenuBoxComponent} from './Components/menu-box/menu-box.component';
-import {ProfilePictureMenuComponent} from './Components/profile-picture-menu/profile-picture-menu.component';
-import {OperationTypeManagementComponent} from './Components/operation-type-management/operation-type-management.component';
-import {BaseDashboardComponent} from './Components/base-dashboard/base-dashboard.component';
-import {HomeButtonComponent} from './Components/home-button/home-button.component';
-import {AddOperationTypeComponent} from './Components/add-operation-type/add-operation-type.component';
-import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
-import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import {DeleteStaffProfileButtonComponent} from './Components/delete-staff-profile-button/delete-staff-profile-button.component';
-import {EditStaffProfileButtonComponent} from './Components/edit-staff-profile-button/edit-staff-profile-button.component';
-import {StaffDetailsComponent} from './Components/staff-details/staff-details.component';
-import {StaffProfileListComponent} from './Components/staff-profile-list/staff-profile-list.component';
-import {FilterButtonComponent} from './Components/filter-button/filter-button.component';
-import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
-import {GoBackButtonComponent} from './Components/go-back-button/go-back-button.component';
-import {ViewOperationTypeComponent} from './Components/view-operation-type/view-operation-type.component';
-import {ConfirmModalComponent} from './Components/confirm-modal/confirm-modal.component';
-import {BackgroudCardComponent} from './Components/backgroud-card/backgroud-card.component';
-import {EnterFilterNameComponent} from './Components/enter-filter-name/enter-filter-name.component';
-import {EditStaffProfileComponent} from './Components/edit-staff-profile/edit-staff-profile.component';
-import {AddStaffProfileComponent} from './Components/add-staff-profile/add-staff-profile.component';
-
+import {CommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 import {FormsModule} from '@angular/forms';
 import {routes} from './app.routes';
+
+import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
+import {HomeComponent} from './Components/Dashboards/home/home.component';
+import {AdminMenuComponent} from './Components/Dashboards/admin-home/admin-home.component';
+import {MenuBoxComponent} from './Components/Shared/menu-box/menu-box.component';
+import {MenuComponent} from './Components/Shared/menu/menu.component';
+import {ProfilePictureMenuComponent} from './Components/Shared/profile-picture-menu/profile-picture-menu.component';
+import {OperationTypeManagementComponent} from './Components/OperationTypeManagement/operation-type-management/operation-type-management.component';
+import {StaffManagementComponent} from './Components/StaffManagement/staff-management/staff-management.component';
+import {BaseDashboardComponent} from './Components/Dashboards/base-dashboard/base-dashboard.component';
+import {HomeButtonComponent} from './Components/Shared/home-button/home-button.component';
+import {AddOperationTypeComponent} from './Components/OperationTypeManagement/add-operation-type/add-operation-type.component';
+import {EditOperationTypeComponent} from './Components/OperationTypeManagement/edit-operation-type/edit-operation-type.component';
+import {GoBackButtonComponent} from './Components/Shared/go-back-button/go-back-button.component';
+import {DeleteStaffProfileButtonComponent} from './Components/StaffManagement/delete-staff-profile-button/delete-staff-profile-button.component';
+import {EditStaffProfileButtonComponent} from './Components/StaffManagement/edit-staff-profile-button/edit-staff-profile-button.component';
+import {StaffDetailsComponent} from './Components/StaffManagement/staff-details/staff-details.component';
+import {StaffProfileListComponent} from './Components/StaffManagement/staff-profile-list/staff-profile-list.component';
+import {FilterButtonComponent} from './Components/Shared/filter-button/filter-button.component';
+import {ConfirmModalComponent} from './Components/Shared/confirm-modal/confirm-modal.component';
+import {EnterFilterNameComponent} from './Components/Shared/enter-filter-name/enter-filter-name.component';
+import {ViewOperationTypeComponent} from './Components/OperationTypeManagement/view-operation-type/view-operation-type.component';
+import {EditStaffProfileComponent} from './Components/StaffManagement/edit-staff-profile/edit-staff-profile.component';
+import {AddStaffProfileComponent} from './Components/StaffManagement/add-staff-profile/add-staff-profile.component';
+import {BackgroudCardComponent} from './Components/Shared/backgroud-card/backgroud-card.component';
+
 
 @NgModule({
   declarations: [
@@ -55,11 +56,11 @@ import {routes} from './app.routes';
     StaffProfileListComponent,
     FilterButtonComponent,
     ConfirmModalComponent,
-    BackgroudCardComponent,
     EnterFilterNameComponent,
     ViewOperationTypeComponent,
     EditStaffProfileComponent,
-    AddStaffProfileComponent
+    AddStaffProfileComponent,
+    BackgroudCardComponent
   ],
   imports: [
     BrowserModule,
