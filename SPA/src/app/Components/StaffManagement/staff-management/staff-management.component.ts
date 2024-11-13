@@ -19,11 +19,9 @@ export class StaffManagementComponent implements OnInit {
   public showStaffList: boolean = true;
   public showNoStaffsFound: boolean = false;
   public showResetFilterButton: boolean = false;
-  public filterByName: boolean = false;
   public currentFilter: string = '';
   public showNoSpecializationFound: boolean = false;
   public showFilterStaffButton: boolean = true;
-  public showInvalidEmailFormat: boolean = false;
   public showEmptyNameError: boolean = false;
   public showEmptyEmailError: boolean = false;
   public showEmptySpecializationError: boolean = false;
@@ -70,9 +68,10 @@ export class StaffManagementComponent implements OnInit {
 
         } else {
 
-          this.showFilterStaffButton = true;
           this.showStaffList = false;
           this.showEmptyNameError = true;
+          this.showResetFilterButton = true;
+
         }
       }
     );
@@ -102,10 +101,9 @@ export class StaffManagementComponent implements OnInit {
         }
         else {
 
-          this.showFilterStaffButton = true;
           this.showStaffList = false;
-          this.showInvalidEmailFormat = true;
           this.showEmptyEmailError = true;
+          this.showResetFilterButton = true;
 
         }
       }
@@ -147,9 +145,9 @@ export class StaffManagementComponent implements OnInit {
 
           console.log('Error2:', error);
 
-          this.showFilterStaffButton = true;
           this.showStaffList = false;
           this.showEmptySpecializationError = true;
+          this.showResetFilterButton = true;
 
         }
       }
@@ -164,6 +162,9 @@ export class StaffManagementComponent implements OnInit {
     this.staffList = [];
     this.showFilterStaffButton = true;
     this.showStaffList = true;
+    this.showEmptyEmailError = false;
+    this.showEmptyNameError = false;
+    this.showEmptySpecializationError = false;
     this.fetchStaffProfiles();
     this.showNoStaffsFound = false;
     this.showResetFilterButton = false;
@@ -182,7 +183,6 @@ export class StaffManagementComponent implements OnInit {
     this.showEmptyNameError = false;
     this.showEmptyEmailError = false;
     this.showEmptySpecializationError = false;
-    this.showInvalidEmailFormat = false;
     this.showNoSpecializationFound = false;
 
 
@@ -198,7 +198,6 @@ export class StaffManagementComponent implements OnInit {
   public handleSelectedFilter(filter: string) {
 
     if(filter === 'Name') {
-      this.filterByName = true;
       this.enterFilterName.open("name");
     }
 

@@ -14,45 +14,37 @@ export class StaffService {
 
   public listAllStaffProfiles(): Observable<Staff[]> {
 
-    return this.http.get<Staff[]>(`${this.apiUrl}/Staff/listAllStaffProfiles`, { withCredentials: true });
+    return this.http.get<Staff[]>(`${this.apiUrl}/Staff`, { withCredentials: true });
   }
 
   public filterStaffProfilesByName(name: string): Observable<Staff[]> {
 
-    const params = new HttpParams().set('name', name);
-
-    return this.http.get<Staff[]>(`${this.apiUrl}/Staff/listStaffProfilesByName`, { withCredentials: true, params });
+    return this.http.get<Staff[]>(`${this.apiUrl}/Staff/by-name/${name}`, { withCredentials: true });
   }
 
   public filterStaffProfilesByEmail(email: string): Observable<any> {
 
-    const params = new HttpParams().set('email', email);
-
-    return this.http.get<Staff[]>(`${this.apiUrl}/Staff/listStaffProfileByEmail`, { withCredentials: true, params });
+    return this.http.get<Staff[]>(`${this.apiUrl}/Staff/by-email/${email}`, { withCredentials: true });
   }
 
   public filterStaffProfilesBySpecialization(specialization: string): Observable<Staff[]> {
 
-    const params = new HttpParams().set('specialization', specialization);
-
-    return this.http.get<Staff[]>(`${this.apiUrl}/Staff/listStaffProfilesBySpecialization`, { withCredentials: true, params });
+    return this.http.get<Staff[]>(`${this.apiUrl}/Staff/by-specialization/${specialization}`, { withCredentials: true });
   }
 
   public deleteStaffProfile(staffId: string): Observable<any> {
 
-    const body = { Id: staffId };
-
-    return this.http.patch(`${this.apiUrl}/Staff/deactivateStaffProfile`, body, { withCredentials: true });
+    return this.http.delete(`${this.apiUrl}/Staff/${staffId}`, { withCredentials: true });
   }
 
   public updateStaffProfile(updatedStaffProfile: Staff): Observable<any> {
 
-    return this.http.patch(`${this.apiUrl}/Staff/editStaffProfile`, updatedStaffProfile, { withCredentials: true });
+    return this.http.patch(`${this.apiUrl}/Staff`, updatedStaffProfile, { withCredentials: true });
   }
 
   public createStaffProfile(newStaffProfile: CreateStaff): Observable<any> {
 
-    return this.http.post(`${this.apiUrl}/Staff/createStaffProfile`, newStaffProfile, { withCredentials: true });
+    return this.http.post(`${this.apiUrl}/Staff`, newStaffProfile, { withCredentials: true });
   }
 
 }
