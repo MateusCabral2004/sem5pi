@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Sempi5.Domain.Shared.Exceptions;
 
 namespace Sempi5.Domain.Shared;
 
@@ -23,12 +24,12 @@ public class Email : IValueObject
 
         if (!emailAddress.Contains('@'))
         {
-            throw new ArgumentException("Email address must contain an @ symbol.");
+            throw new InvalidEmailFormatException("Email address must contain an @ symbol.");
         }
 
         if (!Regex.IsMatch(emailAddress, @"^[\w.+-]+@(?<!-)(?!.*\.\.)([a-zA-Z\d]+[-a-zA-Z\d]*[a-zA-Z\d]+)(\.[a-zA-Z]{2,})+$"))
         {
-            throw new ArgumentException("Invalid email format");
+            throw new InvalidEmailFormatException("Invalid email format.");
         }
     }
 

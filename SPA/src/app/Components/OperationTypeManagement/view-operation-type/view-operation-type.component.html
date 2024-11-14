@@ -1,0 +1,39 @@
+<div class="add-op-type">
+  <h2>View Operation Type</h2>
+
+  <div class="form-group">
+    <label>Operation Name</label>
+    <p>{{ operation.operationName }}</p>
+  </div>
+
+  <div class="form-group">
+    <label>Setup Duration</label>
+    <p>{{ operation.setupDuration }}</p>
+  </div>
+
+  <div class="form-group">
+    <label>Surgery Duration</label>
+    <p>{{ operation.surgeryDuration }}</p>
+  </div>
+
+  <div class="form-group">
+    <label>Cleanup Duration</label>
+    <p>{{ operation.cleaningDuration }}</p>
+  </div>
+
+  <h3>Required Staff</h3>
+  <div *ngIf="operation.requiredStaff && operation.requiredStaff.length > 0">
+    <ul>
+      <li *ngFor="let staff of operation.requiredStaff" class="staff-list">
+        {{ staff.specialization }} - {{ staff.numberOfStaff }} staff required
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="!operation.requiredStaff || operation.requiredStaff.length === 0">
+    <p>No required staff listed.</p>
+  </div>
+
+
+  <app-home-button></app-home-button>
+  <app-go-back-button [goBackPath]="'/admin/operationTypeManagement'"></app-go-back-button>
+</div>

@@ -5,8 +5,11 @@ using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
+using Sempi5.Domain.PersonalData.Exceptions;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.Shared.Exceptions;
 using Sempi5.Domain.SpecializationAggregate;
+using Sempi5.Domain.SpecializationAggregate.SpecializationExceptions;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
 using Sempi5.Domain.StaffAggregate.StaffExceptions;
@@ -79,11 +82,10 @@ namespace Sempi5.Services
 
             if (staffByLicenseNumber != null)
             {
-                throw new ArgumentException("License Number already in use.");
+                throw new LicenseNumberAlreadyInUseException("License Number already in use.");
             }
         }
-
-
+        
         private async Task<Specialization> CreateSpecialization(string specializationName)
         {
             var specialiName = new SpecializationName(specializationName);
@@ -126,7 +128,7 @@ namespace Sempi5.Services
 
             if (personByPhoneNumber != null)
             {
-                throw new ArgumentException("Phone Number already in use.");
+                throw new PhoneNumberAlreadyInUseException("Phone Number already in use.");
             }
         }
 
@@ -139,7 +141,7 @@ namespace Sempi5.Services
 
             if (personByEmail != null)
             {
-                throw new ArgumentException("Email already in use.");
+                throw new EmailAlreadyInUseException("Email already in use.");
             }
         }
 
@@ -214,7 +216,7 @@ namespace Sempi5.Services
 
             if (staff == null)
             {
-                throw new StaffProfileNotFoundException("Staff not found.");
+                throw new StaffProfilesNotFoundException("Staff not found.");
             }
 
             staff.Status = StaffStatusEnum.INACTIVE;
@@ -230,7 +232,7 @@ namespace Sempi5.Services
 
             if (staffList.Count == 0)
             {
-                throw new NoStaffProfilesException("Staffs not found.");
+                throw new StaffProfilesNotFoundException("Staffs not found.");
             }
 
             var staffDtoList = BuildStaffDtoList(staffList);
@@ -244,7 +246,7 @@ namespace Sempi5.Services
 
             if (staff == null)
             {
-                throw new ArgumentException("Staff not found.");
+                throw new StaffProfilesNotFoundException("Staff not found.");
             }
 
             return StaffToSearchedStaffDto(staff);
@@ -261,7 +263,7 @@ namespace Sempi5.Services
             
             if (specialization == null)
             {
-                throw new ArgumentException("Specialization not found.");
+                throw new SpecializationNotFoundException("Specialization not found.");
             }
             
             var staffList =
@@ -270,7 +272,7 @@ namespace Sempi5.Services
 
             if (staffList.Count == 0)
             {
-                throw new ArgumentException("Staffs not found.");
+                throw new StaffProfilesNotFoundException("Staffs not found.");
             }
 
             var staffDtoList = BuildStaffDtoList(staffList);
@@ -299,6 +301,7 @@ namespace Sempi5.Services
                 Id = staff.Id.AsString(),
                 FullName = staff.Person.FullName.ToString(),
                 Email = staff.Person.ContactInfo.email().ToString(),
+                PhoneNumber = staff.Person.ContactInfo.phoneNumber().phoneNumber(),
                 Specialization = staff.Specialization.specializationName.ToString()
             };
         }
