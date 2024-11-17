@@ -43,19 +43,19 @@ export class EdgeWallComponent {
         const newWall = this.createWall();
         switch (wall) {
           case 'left':
-            newWall.position.set(-this.wallWidth / 2, 0, 0);
+            newWall.position.set(-this.wallWidth / 2 + this.wallThickness/2,  0, 0);
             newWall.rotation.y = Math.PI / 2;
             break;
           case 'right':
-            newWall.position.set(this.wallWidth / 2, 0, 0);
+            newWall.position.set(this.wallWidth / 2 - this.wallThickness/2, 0, 0);
             newWall.rotation.y = -Math.PI / 2;
             break;
           case 'back':
-            newWall.position.set(0, 0, -this.wallDepth / 2);
+            newWall.position.set(0, 0, -this.wallDepth / 2  + this.wallThickness/2);
             newWall.rotation.y = Math.PI;
             break;
           case 'front':
-            newWall.position.set(0, 0, this.wallDepth / 2);
+            newWall.position.set(0, 0, this.wallDepth / 2  - this.wallThickness/2);
             newWall.rotation.y = 0;
             break;
         }
@@ -76,32 +76,27 @@ export class EdgeWallComponent {
     wall.receiveShadow = true;
     wall.castShadow = false;
 
-    // Create door
     const doorTexture = new THREE.TextureLoader().load(this.doorTexture);
     const door = new THREE.Mesh(new THREE.BoxGeometry(2.5, 2.5, this.wallThickness), new THREE.MeshStandardMaterial({ map: doorTexture, side: THREE.DoubleSide }));
 
-    // Position the door
     door.position.set(0, 0, 0);
 
-    // Set door shadow properties
     door.castShadow = false;
     door.receiveShadow = true;
 
-    // Perform CSG subtraction: subtract door from the wall
     const wallCSG = CSG.fromMesh(wall);
     const doorCSG = CSG.fromMesh(door);
     const resultCSG = wallCSG.subtract(doorCSG);
     const resultMesh = CSG.toMesh(resultCSG, wall.matrix);
 
-    // Apply material and shadow properties to the result mesh
-    resultMesh.material = [wallMaterial, wallMaterial, wallMaterial, wallMaterial, wallMaterial, wallMaterial];
+    const whiteMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
+
+    resultMesh.material = [whiteMaterial, whiteMaterial, whiteMaterial, whiteMaterial, wallMaterial, wallMaterial];
     resultMesh.castShadow = false;
     resultMesh.receiveShadow = true;
 
-    // Add the door as a child of the resultMesh
     resultMesh.add(door);
 
-    // Add the resulting mesh (with door as a child) to the group
     this.edgeWallGroup.add(resultMesh);
 
     return resultMesh;
