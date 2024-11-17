@@ -1,6 +1,5 @@
 ﻿import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RegisterPatientProfileComponent } from './register-patient-profile.component';
-import {AddOperationTypeComponent} from '../add-operation-type/add-operation-type.component';
 
 describe('RegisterPatientProfileComponent', () => {
   let component: RegisterPatientProfileComponent;
@@ -12,7 +11,7 @@ describe('RegisterPatientProfileComponent', () => {
     })
       .compileComponents();
 
-    fixture = TestBed.createComponent(AddOperationTypeComponent);
+    fixture = TestBed.createComponent(RegisterPatientProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   })

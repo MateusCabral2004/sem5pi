@@ -1,0 +1,74 @@
+﻿<div class="register-patient-profile">
+  <h2>Register Patient Profile</h2>
+
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input
+      id="firstName"
+      type="text"
+      [(ngModel)]="newPatientProfile.firstName"
+      name="email"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input
+      id="lastName"
+      type="text"
+      [(ngModel)]="newPatientProfile.lastName"
+      name="email"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="dateOfBirth">Date of Birth</label>
+    <input
+      id="dateOfBirth"
+      type="number"
+      [(ngModel)]="newPatientProfile.dateOfBirth"
+      name="email"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="emailAddress">Email Address</label>
+    <input
+      id="emailAddress"
+      type="text"
+      [(ngModel)]="newPatientProfile.emailAddress"
+      name="email"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="phoneNumber">Phone Number</label>
+    <input
+      id="phoneNumber"
+      type="number"
+      [(ngModel)]="newPatientProfile.phoneNumber"
+      name="email"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="medicalHistory">Medical History</label>
+    <input
+      id="medicalHistory"
+      type="number"
+      [(ngModel)]="newPatientProfile.medicalHistory "
+      name="email"
+    />
+  </div>
+
+  <button type="submit" [disabled]="!areAllFieldsFilled()" (click)="registerPatientProfile()">Save Changes</button>
+
+  <div *ngIf="showErrorMessagePopup" class="blur-background">
+
+    <div *ngIf="showErrorMessagePopup" class="error-popup">
+      <p>{{ "Error: " + errorMessage }}</p>
+      <button (click)="closeErrorMessagePopup()">Ok</button>
+    </div>
+
+  </div>
+</div>

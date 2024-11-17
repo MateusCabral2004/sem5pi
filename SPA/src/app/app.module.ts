@@ -32,6 +32,10 @@ import {ViewOperationTypeComponent} from './Components/OperationTypeManagement/v
 import {EditStaffProfileComponent} from './Components/StaffManagement/edit-staff-profile/edit-staff-profile.component';
 import {AddStaffProfileComponent} from './Components/StaffManagement/add-staff-profile/add-staff-profile.component';
 import {BackgroudCardComponent} from './Components/Shared/backgroud-card/backgroud-card.component';
+import {
+  RegisterPatientProfileComponent
+} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
+
 
 
 @NgModule({
@@ -60,7 +64,8 @@ import {BackgroudCardComponent} from './Components/Shared/backgroud-card/backgro
     ViewOperationTypeComponent,
     EditStaffProfileComponent,
     AddStaffProfileComponent,
-    BackgroudCardComponent
+    BackgroudCardComponent,
+    RegisterPatientProfileComponent
   ],
   imports: [
     BrowserModule,
