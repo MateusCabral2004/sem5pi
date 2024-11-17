@@ -3,26 +3,21 @@ import {HttpClient} from '@angular/common/http';
 import {PatientProfile} from '../../Domain/PatientProfile';
 import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
+import {CreateStaff} from '../../Domain/CreateStaff';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 
 export class PatientProfileService {
-  private apiUrl = 'http://localhost:5001/patientProfile';
+  private apiUrl = 'http://localhost:5001';
 
   constructor(private http: HttpClient) {
   }
 
-  registerPatientProfile(patient: PatientProfile): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/registerPatientProfile`, patient, {
-      withCredentials: true,
-    }).pipe(
-      catchError(error => {
-        console.error('Error registering the patient profile:', error);
-        return of('');
-      })
-    );
+  public registerPatientProfile(newPatientProfile: PatientProfile): Observable<any> {
+
+    return this.http.post(`${this.apiUrl}/Patient`, newPatientProfile, { withCredentials: true });
   }
 
 }

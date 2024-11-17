@@ -1,11 +1,10 @@
 ﻿
-
 export interface PatientProfile{
 
   firstName:string;
   lastName:string;
   dateOfBirth:string;
-  phoneNumber:string;
+  phoneNumber:number;
   emailAddress:string;
   medicalHistory:string;
 }

@@ -8,7 +8,7 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormsModule} from '@angular/forms';
 import {routes} from './app.routes';
 
-import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
+import {RegisterPatientComponent} from './Components/PatientManagement/register-patient/register-patient.component';
 import {HomeComponent} from './Components/Dashboards/home/home.component';
 import {AdminMenuComponent} from './Components/Dashboards/admin-home/admin-home.component';
 import {MenuBoxComponent} from './Components/Shared/menu-box/menu-box.component';
