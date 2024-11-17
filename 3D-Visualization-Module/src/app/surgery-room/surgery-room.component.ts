@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import * as THREE from 'three';
-import {CSG} from 'three-csg-ts';
-import {GLTFLoader} from 'three-stdlib';
+import { CSG } from 'three-csg-ts';
+import { GLTFLoader } from 'three-stdlib';
 
 @Component({
   selector: 'app-surgery-room',
@@ -16,27 +16,25 @@ export class SurgeryRoomComponent {
   public doorTexture: string = 'assets/slidingDoors.jpg';
 
   private wallThickness: number = 0.1;
-  private roomWidth: number = 8;
-  private roomHeight: number = 3;
-  private roomDepth: number = 8;
+  private roomWidth!: number;
+  private roomHeight!: number;
+  private roomDepth!: number;
 
-  private beingUsed: boolean = true;
+  private isOperating: boolean = false;
 
-  constructor() {
-    this.createRoom();
-  }
-
-  public createRoom(): void {
+  public createRoom(isOperating: boolean = false,width: number,height:number): void {
+    this.roomWidth = width;
+    this.roomDepth = width;
+    this.roomHeight = height;
+    this.isOperating = isOperating;
     this.roomGroup = new THREE.Group();
     this.createRoomWalls();
     this.createRoomFloor();
     this.equipRoomWithSurgicalEquipment();
-    if (this.beingUsed) {
+
+    if (this.isOperating) {
       this.startSurgery();
     }
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    this.roomGroup.add(ambientLight);
   }
 
   private createRoomWalls(): void {
@@ -45,8 +43,8 @@ export class SurgeryRoomComponent {
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(1, 1);
 
-    const wallMaterial = new THREE.MeshBasicMaterial({map: texture});
-    const whiteMaterial = new THREE.MeshBasicMaterial({color: 0xffffff});
+    const wallMaterial = new THREE.MeshStandardMaterial({ map: texture, side : THREE.DoubleSide });
+    const whiteMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, side: THREE.DoubleSide });
 
     const frontBackWallGeometry = new THREE.BoxGeometry(this.roomWidth, this.roomHeight, this.wallThickness);
     const sideWallGeometry = new THREE.BoxGeometry(this.wallThickness, this.roomHeight, this.roomDepth);
@@ -54,31 +52,43 @@ export class SurgeryRoomComponent {
 
     const frontWall = new THREE.Mesh(frontBackWallGeometry);
     frontWall.position.set(0, 0, this.roomDepth / 2 - this.wallThickness / 2);
+    frontWall.receiveShadow = true;
+    frontWall.castShadow = false;
     frontWall.updateMatrix();
 
-    const door = new THREE.Mesh(doorGeometry, new THREE.MeshBasicMaterial({map: new THREE.TextureLoader().load(this.doorTexture)}));
+    const doorTexture = new THREE.TextureLoader().load(this.doorTexture);
+    const door = new THREE.Mesh(doorGeometry, new THREE.MeshStandardMaterial({ map: doorTexture, side: THREE.DoubleSide  }));
     door.position.set(0, -0.25, this.roomDepth / 2 - this.wallThickness / 2);
+    door.castShadow = false;
+    door.receiveShadow = true;
     door.updateMatrix();
 
     const frontWallCSG = CSG.fromMesh(frontWall);
     const doorCSG = CSG.fromMesh(door);
     const resultCSG = frontWallCSG.subtract(doorCSG);
     const resultMesh = CSG.toMesh(resultCSG, frontWall.matrix);
-
     resultMesh.material = [wallMaterial, wallMaterial, whiteMaterial, whiteMaterial, wallMaterial, wallMaterial];
+    resultMesh.castShadow = false;
+    resultMesh.receiveShadow = true;
 
     this.roomGroup.add(resultMesh);
 
     const backWall = new THREE.Mesh(frontBackWallGeometry, [wallMaterial, wallMaterial, whiteMaterial, whiteMaterial, wallMaterial, wallMaterial]);
     backWall.position.set(0, 0, -this.roomDepth / 2 + this.wallThickness / 2);
+    backWall.receiveShadow = true;
+    backWall.castShadow = false;
     this.roomGroup.add(backWall);
 
     const leftWall = new THREE.Mesh(sideWallGeometry, [wallMaterial, wallMaterial, whiteMaterial, whiteMaterial, wallMaterial, wallMaterial]);
     leftWall.position.set(-this.roomWidth / 2 + this.wallThickness / 2, 0, 0);
+    leftWall.receiveShadow = true;
+    leftWall.castShadow = false;
     this.roomGroup.add(leftWall);
 
     const rightWall = new THREE.Mesh(sideWallGeometry, [wallMaterial, wallMaterial, whiteMaterial, whiteMaterial, wallMaterial, wallMaterial]);
     rightWall.position.set(this.roomWidth / 2 - this.wallThickness / 2, 0, 0);
+    rightWall.receiveShadow = true;
+    rightWall.castShadow = false;
     this.roomGroup.add(rightWall);
 
     this.roomGroup.add(door);
@@ -90,25 +100,42 @@ export class SurgeryRoomComponent {
     texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(10, 10);
 
-    const floorMaterial = new THREE.MeshBasicMaterial({color: 0xf0f0f0});
+    const floorMaterial = new THREE.MeshStandardMaterial({ color: 0xf0f0f0 });
     const floorGeometry = new THREE.BoxGeometry(this.roomWidth, this.wallThickness, this.roomDepth);
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.position.set(0, -this.roomHeight / 2, 0);
+    floor.receiveShadow = true;
+    floor.castShadow = false;
+    floor.updateMorphTargets();
     this.roomGroup.add(floor);
   }
 
   private equipRoomWithSurgicalEquipment(): void {
     this.createMedicalTable();
+    this.createMedicalLamp();
+  }
+
+  private createMedicalTable(): void {
+    const loader = new GLTFLoader();
+    loader.load('assets/MedicalTable/table.glb', (gltf) => {
+      const medicalTableModel = gltf.scene;
+      medicalTableModel.scale.set(9, 9, 9);
+      medicalTableModel.position.set(-0.0, 0.8, -3.0);
+      medicalTableModel.traverseVisible(function (child) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      });
+
+      this.roomGroup.add(medicalTableModel);
+    }, undefined, (error) => {
+      console.error('Error loading medical table model:', error);
+    });
   }
 
   public startSurgery(): void {
-    this.beingUsed = true;
     this.createPatient();
     this.createOperatingStaff();
-  }
-
-  public endSurgery(): void {
-    this.beingUsed = false;
+    this.createLampLight();
   }
 
   private createPatient(): void {
@@ -117,16 +144,11 @@ export class SurgeryRoomComponent {
       const patientModel = gltf.scene;
       patientModel.scale.set(0.0115, 0.0115, 0.0115);
       patientModel.position.set(0, -0.3, 0.5);
-     // patientModel.rotation.y = Math.PI / 2;
       patientModel.traverseVisible(function (child) {
         child.castShadow = true;
         child.receiveShadow = true;
       });
       this.roomGroup.add(patientModel);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-      directionalLight.position.set(0, 1, 0);
-      patientModel.add(directionalLight);
     }, undefined, (error) => {
       console.error('Error loading patient model:', error);
     });
@@ -149,10 +171,6 @@ export class SurgeryRoomComponent {
         child.receiveShadow = true;
       });
       this.roomGroup.add(doctorModel);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-      directionalLight.position.set(0, 1, 0);
-      doctorModel.add(directionalLight);
     }, undefined, (error) => {
       console.error('Error loading doctor model:', error);
     });
@@ -170,34 +188,43 @@ export class SurgeryRoomComponent {
         child.receiveShadow = true;
       });
       this.roomGroup.add(nurseModel);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-      directionalLight.position.set(0, 1, 0);
-      nurseModel.add(directionalLight);
     }, undefined, (error) => {
       console.error('Error loading nurse model:', error);
     });
   }
 
-  private createMedicalTable(): void {
+  private createMedicalLamp(): void {
     const loader = new GLTFLoader();
-    loader.load('assets/MedicalTable/table.glb', (gltf) => {
-      const medicalTableModel = gltf.scene;
-      medicalTableModel.scale.set(9, 9, 9);
-      medicalTableModel.position.set(-0.0, 0.8, -3.0);
-      medicalTableModel.traverseVisible(function (child) {
+    loader.load('assets/SurgicalLight/floorLight.glb', (gltf) => {
+      const medicalLampModel = gltf.scene;
+      medicalLampModel.scale.set(1.2, 1.2, 1.6);
+      medicalLampModel.rotation.x = -Math.PI / 2;
+      medicalLampModel.position.set(-1.4, -1.35, -0.2);
+      medicalLampModel.traverseVisible(function (child) {
         child.castShadow = true;
         child.receiveShadow = true;
       });
-
-      this.roomGroup.add(medicalTableModel);
-
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-      directionalLight.position.set(0, 1, 0);
-      medicalTableModel.add(directionalLight);
+      this.roomGroup.add(medicalLampModel);
     }, undefined, (error) => {
-      console.error('Error loading medical table model:', error);
+      console.error('Error loading medical lamp model:', error);
     });
+  }
+
+  private createLampLight(): void {
+    const lampLight = new THREE.SpotLight(0xffffff, 40, 3.4, Math.PI/4); // Increased intensity and smaller cone angle
+
+    lampLight.position.set(0, 1.8, 0.5);
+    lampLight.target.position.set(0, 0, 0.5);
+
+    lampLight.castShadow = true;
+    lampLight.shadow.mapSize.width = 2048;
+    lampLight.shadow.mapSize.height = 2048;
+
+    lampLight.shadow.camera.near = 0.1;
+    lampLight.shadow.camera.far = 20;
+
+    this.roomGroup.add(lampLight);
+    this.roomGroup.add(lampLight.target);
   }
 
 }
