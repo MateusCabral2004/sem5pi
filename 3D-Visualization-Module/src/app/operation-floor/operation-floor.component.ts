@@ -178,6 +178,8 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
         roomComponent.stopSurgery();
       }
     });
+
+    roomComponent.initializeAnimation(this.renderer, this.scene, this.camera);
   }
 
   private createCorridor(i: number, j: number): void {
