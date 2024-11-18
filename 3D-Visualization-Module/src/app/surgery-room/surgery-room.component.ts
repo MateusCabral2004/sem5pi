@@ -12,7 +12,7 @@ export class SurgeryRoomComponent {
 
   public roomGroup!: THREE.Group;
   public wallTexture: string = 'assets/wall.jpg';
-  public floorTexture: string = 'assets/wall.jpg';
+  public floorTexture: string = 'assets/roomFloor.jpg';
   public doorTexture: string = 'assets/slidingDoors.jpg';
 
   private wallThickness: number = 0.1;
@@ -20,7 +20,7 @@ export class SurgeryRoomComponent {
   private roomHeight!: number;
   private roomDepth!: number;
 
-  private isOperating: boolean = false;
+  public isOperating: boolean = false;
 
   public createRoom(isOperating: boolean = false,width: number,height:number): void {
     this.roomWidth = width;
@@ -98,9 +98,9 @@ export class SurgeryRoomComponent {
     const texture = new THREE.TextureLoader().load(this.floorTexture);
     texture.wrapS = THREE.RepeatWrapping;
     texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(10, 10);
+    texture.repeat.set(1, 1);
 
-    const floorMaterial = new THREE.MeshStandardMaterial({ color: 0xf0f0f0 });
+    const floorMaterial = new THREE.MeshStandardMaterial({ map: texture });
     const floorGeometry = new THREE.BoxGeometry(this.roomWidth, this.wallThickness, this.roomDepth);
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.position.set(0, -this.roomHeight / 2, 0);
@@ -138,6 +138,42 @@ export class SurgeryRoomComponent {
     this.createLampLight();
   }
 
+  public stopSurgery(): void {
+    this.removePatient();
+    this.removeOperatingStaff();
+    this.removeLampLight();
+  }
+
+  private removePatient(): void {
+    const patient = this.roomGroup.getObjectByName('patient');
+    if (patient) {
+      this.roomGroup.remove(patient);
+      console.log('Patient removed from the room');
+    }
+  }
+
+  private removeOperatingStaff(): void {
+    const doctor = this.roomGroup.getObjectByName('doctor');
+    if (doctor) {
+      this.roomGroup.remove(doctor);
+      console.log('Doctor removed from the room');
+    }
+
+    const nurse = this.roomGroup.getObjectByName('nurse');
+    if (nurse) {
+      this.roomGroup.remove(nurse);
+      console.log('Nurse removed from the room');
+    }
+  }
+
+  private removeLampLight(): void {
+    const lampLight = this.roomGroup.getObjectByName('lampLight');
+    if (lampLight) {
+      this.roomGroup.remove(lampLight);
+      console.log('Lamp light removed from the room');
+    }
+  }
+
   private createPatient(): void {
     const loader = new GLTFLoader();
     loader.load('assets/Patient/patient.glb', (gltf) => {
@@ -148,6 +184,7 @@ export class SurgeryRoomComponent {
         child.castShadow = true;
         child.receiveShadow = true;
       });
+      patientModel.name = 'patient';
       this.roomGroup.add(patientModel);
     }, undefined, (error) => {
       console.error('Error loading patient model:', error);
@@ -170,6 +207,7 @@ export class SurgeryRoomComponent {
         child.castShadow = true;
         child.receiveShadow = true;
       });
+      doctorModel.name = 'doctor';
       this.roomGroup.add(doctorModel);
     }, undefined, (error) => {
       console.error('Error loading doctor model:', error);
@@ -187,6 +225,7 @@ export class SurgeryRoomComponent {
         child.castShadow = true;
         child.receiveShadow = true;
       });
+      nurseModel.name = 'nurse';
       this.roomGroup.add(nurseModel);
     }, undefined, (error) => {
       console.error('Error loading nurse model:', error);
@@ -222,6 +261,9 @@ export class SurgeryRoomComponent {
 
     lampLight.shadow.camera.near = 0.1;
     lampLight.shadow.camera.far = 20;
+
+    lampLight.name = 'lampLight';
+    lampLight.target.name = 'lampLightTarget';
 
     this.roomGroup.add(lampLight);
     this.roomGroup.add(lampLight.target);

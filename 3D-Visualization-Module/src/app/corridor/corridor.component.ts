@@ -20,12 +20,12 @@ export class CorridorComponent {
   }
 
   private createCorridorFloor(): void {
-   // const texture = new THREE.TextureLoader().load(this.floorTexture);
-    //texture.wrapS = THREE.RepeatWrapping;
-    //texture.wrapT = THREE.RepeatWrapping;
-    //texture.repeat.set(1, 1);
+   const texture = new THREE.TextureLoader().load(this.floorTexture);
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set(2, 2);
 
-    const floorMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00, side: THREE.DoubleSide });
+    const floorMaterial = new THREE.MeshStandardMaterial({ map: texture, side: THREE.DoubleSide });
     const floorGeometry = new THREE.BoxGeometry(this.width, this.wallThickness, this.width);
     const floor = new THREE.Mesh(floorGeometry, floorMaterial);
     floor.position.set(0,0,0);

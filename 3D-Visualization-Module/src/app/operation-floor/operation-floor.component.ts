@@ -165,6 +165,19 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
 
     const roomFolder = this.gui.addFolder(`Room ${this.roomNumber}`);
     roomFolder.close();
+
+    let isOperationActive = this.roomNumber % 2 === 0;
+
+    roomFolder.add({
+      operationStatus: isOperationActive
+    }, 'operationStatus').name('Operation Active').onChange((value: boolean) => {
+      isOperationActive = value;
+      if (isOperationActive) {
+        roomComponent.startSurgery();
+      } else {
+        roomComponent.stopSurgery();
+      }
+    });
   }
 
   private createCorridor(i: number, j: number): void {
