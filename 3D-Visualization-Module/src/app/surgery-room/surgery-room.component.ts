@@ -1,7 +1,9 @@
-import { Component, Input } from '@angular/core';
+import {Component, Input, ViewChild} from '@angular/core';
 import * as THREE from 'three';
 import { CSG } from 'three-csg-ts';
 import { GLTFLoader } from 'three-stdlib';
+import * as TWEEN from "three/addons/libs/tween.module.js";
+import {PerspectiveCamera, Scene, WebGLRenderer} from 'three';
 
 @Component({
   selector: 'app-surgery-room',
@@ -13,7 +15,8 @@ export class SurgeryRoomComponent {
   public roomGroup!: THREE.Group;
   public wallTexture: string = 'assets/wall.jpg';
   public floorTexture: string = 'assets/roomFloor.jpg';
-  public doorTexture: string = 'assets/slidingDoors.jpg';
+  public doorFrontTexture: string = 'assets/door_front.png';
+  public doorBackTexture: string = 'assets/door_back.png';
 
   private wallThickness: number = 0.1;
   private roomWidth!: number;
@@ -21,6 +24,14 @@ export class SurgeryRoomComponent {
   private roomDepth!: number;
 
   public isOperating: boolean = false;
+  public isOpenDoor: boolean = false;
+
+  private door!: THREE.Group; // Para controlar a porta
+  private scene!: THREE.Scene; // Cena do Three.js
+  private camera!: THREE.PerspectiveCamera; // Câmera
+  private renderer!: THREE.WebGLRenderer; // Renderizador
+
+  private doorSize = { width: 1.4, height: 2.5, depth: 0.1,  gap: 0.0465 };
 
   public createRoom(isOperating: boolean = false,width: number,height:number): void {
     this.roomWidth = width;
@@ -34,7 +45,92 @@ export class SurgeryRoomComponent {
 
     if (this.isOperating) {
       this.startSurgery();
+      this.createClosedDoor();
+    } else {
+      this.isOpenDoor = true;
+      this.createOpenedDoor();
     }
+  }
+
+  private createClosedDoor(): void {
+    const doorGeometry = new THREE.BoxGeometry(this.doorSize.width, this.doorSize.height, this.doorSize.depth);
+
+    const sideMaterial = new THREE.MeshBasicMaterial({ color: 0xBBBFB9 });
+
+    let doorTexture = new THREE.TextureLoader().load(this.doorFrontTexture);
+    doorTexture.colorSpace = THREE.SRGBColorSpace;
+
+    let frontMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: doorTexture });
+
+    doorTexture = new THREE.TextureLoader().load(this.doorBackTexture);
+    doorTexture.colorSpace = THREE.SRGBColorSpace;
+
+    let backMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: doorTexture });
+
+    let doorMesh = new THREE.Mesh(doorGeometry, [sideMaterial, sideMaterial, sideMaterial, sideMaterial, frontMaterial, backMaterial]);
+    doorMesh.translateX(this.doorSize.width / 2.0);
+    doorMesh.translateY(-this.doorSize.gap);
+
+    doorMesh.castShadow = false;
+    doorMesh.receiveShadow = true;
+    doorMesh.updateMatrix();
+
+    const doorPivot = new THREE.Object3D();
+    doorPivot.position.set(0.7, -0.25, this.roomDepth / 2 - this.wallThickness / 2);
+    doorPivot.scale.set(-1, 1, 1);
+    doorPivot.receiveShadow = true;
+    doorPivot.castShadow = true;
+
+    doorPivot.add(doorMesh);
+    doorPivot.traverseVisible(function (child) {
+      if (child instanceof THREE.Object3D) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    this.roomGroup.add(doorPivot);
+    this.door = doorPivot as THREE.Group;
+  }
+
+  private createOpenedDoor(): void {
+    const doorGeometry = new THREE.BoxGeometry(this.doorSize.width, this.doorSize.height, this.doorSize.depth);
+
+    const sideMaterial = new THREE.MeshBasicMaterial({ color: 0xBBBFB9 });
+
+    let doorTexture = new THREE.TextureLoader().load(this.doorFrontTexture);
+    doorTexture.colorSpace = THREE.SRGBColorSpace;
+
+    let frontMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: doorTexture });
+
+    doorTexture = new THREE.TextureLoader().load(this.doorBackTexture);
+    doorTexture.colorSpace = THREE.SRGBColorSpace;
+
+    let backMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: doorTexture });
+
+    let doorMesh = new THREE.Mesh(doorGeometry, [sideMaterial, sideMaterial, sideMaterial, sideMaterial, frontMaterial, backMaterial]);
+    doorMesh.translateX(this.doorSize.width / 2.0);
+    doorMesh.translateY(-this.doorSize.gap);
+
+    doorMesh.castShadow = false;
+    doorMesh.receiveShadow = true;
+    doorMesh.updateMatrix();
+
+    const doorPivot = new THREE.Object3D();
+    doorPivot.position.set(0.7, -0.25, this.roomDepth / 2 - this.wallThickness / 2);
+    doorPivot.scale.set(-1, 1, 1);
+    doorPivot.receiveShadow = true;
+    doorPivot.castShadow = true;
+
+    doorPivot.add(doorMesh);
+    doorPivot.rotation.y = Math.PI / 2;
+    doorPivot.traverseVisible(function (child) {
+      if (child instanceof THREE.Object3D) {
+        child.castShadow = true;
+        child.receiveShadow = true;
+      }
+    });
+    this.roomGroup.add(doorPivot);
+    this.door = doorPivot as THREE.Group;
   }
 
   private createRoomWalls(): void {
@@ -48,7 +144,7 @@ export class SurgeryRoomComponent {
 
     const frontBackWallGeometry = new THREE.BoxGeometry(this.roomWidth, this.roomHeight, this.wallThickness);
     const sideWallGeometry = new THREE.BoxGeometry(this.wallThickness, this.roomHeight, this.roomDepth);
-    const doorGeometry = new THREE.BoxGeometry(2.5, 2.5, this.wallThickness);
+    const doorGeometry = new THREE.BoxGeometry(this.doorSize.width, this.doorSize.height, this.doorSize.depth);
 
     const frontWall = new THREE.Mesh(frontBackWallGeometry);
     frontWall.position.set(0, 0, this.roomDepth / 2 - this.wallThickness / 2);
@@ -56,15 +152,12 @@ export class SurgeryRoomComponent {
     frontWall.castShadow = false;
     frontWall.updateMatrix();
 
-    const doorTexture = new THREE.TextureLoader().load(this.doorTexture);
-    const door = new THREE.Mesh(doorGeometry, new THREE.MeshStandardMaterial({ map: doorTexture, side: THREE.DoubleSide  }));
-    door.position.set(0, -0.25, this.roomDepth / 2 - this.wallThickness / 2);
-    door.castShadow = false;
-    door.receiveShadow = true;
-    door.updateMatrix();
+    let doorHoleMesh = new THREE.Mesh(doorGeometry);
+    doorHoleMesh.position.set(0, -0.25, this.roomDepth / 2 - this.wallThickness / 2);
+    doorHoleMesh.updateMatrix();
 
     const frontWallCSG = CSG.fromMesh(frontWall);
-    const doorCSG = CSG.fromMesh(door);
+    const doorCSG = CSG.fromMesh(doorHoleMesh);
     const resultCSG = frontWallCSG.subtract(doorCSG);
     const resultMesh = CSG.toMesh(resultCSG, frontWall.matrix);
     resultMesh.material = [wallMaterial, wallMaterial, whiteMaterial, whiteMaterial, wallMaterial, wallMaterial];
@@ -91,8 +184,8 @@ export class SurgeryRoomComponent {
     rightWall.castShadow = false;
     this.roomGroup.add(rightWall);
 
-    this.roomGroup.add(door);
   }
+
 
   private createRoomFloor(): void {
     const texture = new THREE.TextureLoader().load(this.floorTexture);
@@ -136,12 +229,14 @@ export class SurgeryRoomComponent {
     this.createPatient();
     this.createOperatingStaff();
     this.createLampLight();
+    this.closeDoor();
   }
 
   public stopSurgery(): void {
     this.removePatient();
     this.removeOperatingStaff();
     this.removeLampLight();
+    this.openDoor();
   }
 
   private removePatient(): void {
@@ -267,6 +362,44 @@ export class SurgeryRoomComponent {
 
     this.roomGroup.add(lampLight);
     this.roomGroup.add(lampLight.target);
+  }
+
+  public openDoor(): void {
+
+    if (this.door) {
+      if (!this.isOpenDoor) {
+        this.isOpenDoor = true;
+
+        const tween = new TWEEN.Tween(this.door.rotation);
+        tween.to({ y: Math.PI / 2.0 }, 2000 * (1.0 - this.door.rotation.y / (Math.PI / 2.0)));
+        tween.startFromCurrentValues();
+      }
+    }
+  }
+
+  public closeDoor(): void {
+
+    if (this.isOpenDoor) {
+      this.isOpenDoor = false;
+
+      const tween = new TWEEN.Tween(this.door.rotation)
+      tween.to({ y: 0.0 }, 2000 * this.door.rotation.y / (Math.PI / 2.0));
+      tween.startFromCurrentValues();
+    }
+  }
+
+  private animate() {
+    requestAnimationFrame(() => this.animate());
+    TWEEN.update();
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  public initializeAnimation(renderer: WebGLRenderer, scene: Scene, camera: PerspectiveCamera) {
+    this.renderer = renderer;
+    this.scene = scene;
+    this.camera = camera;
+
+    this.animate();
   }
 
 }

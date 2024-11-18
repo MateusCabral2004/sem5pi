@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+﻿import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
 import {CubeComponent} from "./cube/cube.component";
