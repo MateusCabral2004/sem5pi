@@ -4,6 +4,7 @@ import {PatientProfile} from '../../Domain/PatientProfile';
 import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {CreateStaff} from '../../Domain/CreateStaff';
+import {Staff} from '../../Domain/Staff';
 
 @Injectable({
   providedIn: 'root'
@@ -20,4 +21,12 @@ export class PatientProfileService {
     return this.http.post(`${this.apiUrl}/Patient`, newPatientProfile, { withCredentials: true });
   }
 
+  public deletePatientProfile(patientId: string): Observable<any> {
+
+    return this.http.delete(`${this.apiUrl}/Patient/${patientId}`, { withCredentials: true });
+  }
+  public listAllPatientProfiles(): Observable<PatientProfile[]> {
+
+    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient`, { withCredentials: true });
+  }
 }

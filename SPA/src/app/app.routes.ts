@@ -3,12 +3,15 @@ import {HomeComponent} from './Components/Dashboards/home/home.component';
 import {AdminMenuComponent} from './Components/Dashboards/admin-home/admin-home.component';
 import {OperationTypeManagementComponent} from './Components/OperationTypeManagement/operation-type-management/operation-type-management.component';
 import {StaffManagementComponent} from './Components/StaffManagement/staff-management/staff-management.component';
-import {RegisterPatientComponent} from './Components/PatientManagement/register-patient/register-patient.component';
 import {AddOperationTypeComponent} from './Components/OperationTypeManagement/add-operation-type/add-operation-type.component';
 import {EditOperationTypeComponent} from './Components/OperationTypeManagement/edit-operation-type/edit-operation-type.component';
 import {ViewOperationTypeComponent} from './Components/OperationTypeManagement/view-operation-type/view-operation-type.component';
 import {EditStaffProfileComponent} from './Components/StaffManagement/edit-staff-profile/edit-staff-profile.component';
 import {AddStaffProfileComponent} from './Components/StaffManagement/add-staff-profile/add-staff-profile.component';
+import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
+import {
+  RegisterPatientProfileComponent
+} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
 
 export const routes: Routes = [
   {
@@ -31,6 +34,11 @@ export const routes: Routes = [
     path: 'admin/staff',
     component: StaffManagementComponent,
     title: 'StaffManagement',
+  },
+  {
+    path: 'admin/patient',
+    component: RegisterPatientProfileComponent,
+    title: 'PatientProfileManagement',
   },
   {
     path: 'admin/operationTypeManagement/add',
@@ -71,5 +79,11 @@ export const routes: Routes = [
     path: 'admin/staff/add',
     component: AddStaffProfileComponent,
     title: 'AddStaffProfile',
-  }
+  },
+  {
+    path: 'admin/patient/register',
+    component: RegisterPatientProfileComponent,
+    title: 'RegisterPatientProfile',
+  },
+
 ];

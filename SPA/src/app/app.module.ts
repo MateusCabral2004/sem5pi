@@ -8,7 +8,6 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormsModule} from '@angular/forms';
 import {routes} from './app.routes';
 
-import {RegisterPatientComponent} from './Components/PatientManagement/register-patient/register-patient.component';
 import {HomeComponent} from './Components/Dashboards/home/home.component';
 import {AdminMenuComponent} from './Components/Dashboards/admin-home/admin-home.component';
 import {MenuBoxComponent} from './Components/Shared/menu-box/menu-box.component';
@@ -35,6 +34,16 @@ import {BackgroudCardComponent} from './Components/Shared/backgroud-card/backgro
 import {
   RegisterPatientProfileComponent
 } from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
+import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
+import {
+  PatientManagementComponent
+} from './Components/PatientManagement/patientManagement/patient-management.component';
+import {
+  PatientProfileListComponent
+} from './Components/PatientManagement/patient-profile-list/patient-profile-list.component';
+import {
+  PatientProfileDetailsComponent
+} from './Components/PatientManagement/patient-profile-details/patient-profile-details.component';
 
 
 
@@ -65,7 +74,10 @@ import {
     EditStaffProfileComponent,
     AddStaffProfileComponent,
     BackgroudCardComponent,
-    RegisterPatientProfileComponent
+    RegisterPatientProfileComponent,
+    PatientManagementComponent,
+    PatientProfileListComponent,
+    PatientProfileDetailsComponent
   ],
   imports: [
     BrowserModule,
