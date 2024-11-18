@@ -12,6 +12,9 @@ import {RegisterPatientComponent} from './Components/Patient/register-patient/re
 import {
   RegisterPatientProfileComponent
 } from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
+import {
+  PatientManagementComponent
+} from './Components/PatientManagement/patientManagement/patient-management.component';
 
 export const routes: Routes = [
   {
@@ -37,7 +40,7 @@ export const routes: Routes = [
   },
   {
     path: 'admin/patient',
-    component: RegisterPatientProfileComponent,
+    component: PatientManagementComponent,
     title: 'PatientProfileManagement',
   },
   {
