@@ -8,7 +8,6 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {FormsModule} from '@angular/forms';
 import {routes} from './app.routes';
 
-import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
 import {HomeComponent} from './Components/Dashboards/home/home.component';
 import {AdminMenuComponent} from './Components/Dashboards/admin-home/admin-home.component';
 import {MenuBoxComponent} from './Components/Shared/menu-box/menu-box.component';
@@ -34,6 +33,12 @@ import {AddStaffProfileComponent} from './Components/StaffManagement/add-staff-p
 import {BackgroudCardComponent} from './Components/Shared/backgroud-card/backgroud-card.component';
 import {SafeUrlPipe} from './Components/LinkTo3dModule/safeUrlPipe/safe-url.pipe';
 import {Connect3dComponent} from './Components/LinkTo3dModule/connect3d/connect3d.component';
+import {RegisterPatientProfileComponent} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
+import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
+import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
+import {PatientProfileListComponent} from './Components/PatientManagement/patient-profile-list/patient-profile-list.component';
+import {PatientProfileDetailsComponent} from './Components/PatientManagement/patient-profile-details/patient-profile-details.component';
+
 
 
 @NgModule({
@@ -65,6 +70,10 @@ import {Connect3dComponent} from './Components/LinkTo3dModule/connect3d/connect3
     BackgroudCardComponent,
     Connect3dComponent,
     SafeUrlPipe
+    RegisterPatientProfileComponent,
+    PatientManagementComponent,
+    PatientProfileListComponent,
+    PatientProfileDetailsComponent
   ],
   imports: [
     BrowserModule,
