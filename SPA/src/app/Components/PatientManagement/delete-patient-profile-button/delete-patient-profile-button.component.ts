@@ -3,7 +3,7 @@
 @Component({
   selector: 'app-delete-patient-profile-button',
   templateUrl: './delete-patient-profile-button.component.html',
-  styleUrl: './delete-staff-patient-button.component.css'
+  styleUrl: './delete-patient-profile-button.component.css'
 })
 
 export class DeletePatientProfileButtonComponent {

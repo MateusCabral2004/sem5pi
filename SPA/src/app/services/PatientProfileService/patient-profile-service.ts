@@ -29,9 +29,16 @@ export class PatientProfileService {
     );
   }
 
-  public deletePatientProfile(patientId: string): Observable<any> {
-
-    return this.http.delete(`${this.apiUrl}/Patient/${patientId}`, { withCredentials: true });
+  deletePatientProfile(patientProfile: PatientProfile): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/deletePatientProfile/${patientProfile.email}`, {
+      withCredentials: true,
+      responseType: 'text'
+    }).pipe(
+      catchError(error => {
+        console.error('Error deleting patient profile:', error);
+        return of('');
+      })
+    );
   }
   public listAllPatientProfiles(): Observable<PatientsListing[]> {
 

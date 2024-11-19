@@ -1,8 +1,8 @@
-﻿<div class="home-button-container"> <!-- Home button container outside of the container -->
+﻿<div class="home-button-container">
   <app-home-button class="home-button"></app-home-button>
 </div>
 
-<div class="profile-container"> <!-- Profile menu container outside of the container -->
+<div class="profile-container">
   <app-profile-menu class="profile-menu"></app-profile-menu>
 </div>
 
@@ -15,15 +15,17 @@
     <button class="add-button" (click)="registerPatientProfile()">Register Patient Profile</button>
 
     <app-patient-profile-list *ngIf="patientProfilesList.length > 0 && showPatientProfileList"
-                            [patientProfileList]="patientProfilesList"
+                              [patientProfileList]="patientProfilesList"
+                              (deletePatientProfile)="confirmDeletePatientProfile($event)"
     ></app-patient-profile-list>
-
   </div>
+</app-backgroud-card>
+
+<app-confirm-modal (confirmed)="handleDeletePatientProfileConfirmation($event)"></app-confirm-modal>
 
   <div class="error-message" *ngIf="patientProfilesList.length == 0">
     <p>There are no patient profiles to list.</p>
 
   </div>
-</app-backgroud-card>
 
 
