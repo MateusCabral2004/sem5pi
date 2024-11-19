@@ -31,19 +31,13 @@ import {ViewOperationTypeComponent} from './Components/OperationTypeManagement/v
 import {EditStaffProfileComponent} from './Components/StaffManagement/edit-staff-profile/edit-staff-profile.component';
 import {AddStaffProfileComponent} from './Components/StaffManagement/add-staff-profile/add-staff-profile.component';
 import {BackgroudCardComponent} from './Components/Shared/backgroud-card/backgroud-card.component';
-import {
-  RegisterPatientProfileComponent
-} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
+import {SafeUrlPipe} from './Components/LinkTo3dModule/safeUrlPipe/safe-url.pipe';
+import {Connect3dComponent} from './Components/LinkTo3dModule/connect3d/connect3d.component';
+import {RegisterPatientProfileComponent} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
 import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
-import {
-  PatientManagementComponent
-} from './Components/PatientManagement/patientManagement/patient-management.component';
-import {
-  PatientProfileListComponent
-} from './Components/PatientManagement/patient-profile-list/patient-profile-list.component';
-import {
-  PatientProfileDetailsComponent
-} from './Components/PatientManagement/patient-profile-details/patient-profile-details.component';
+import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
+import {PatientProfileListComponent} from './Components/PatientManagement/patient-profile-list/patient-profile-list.component';
+import {PatientProfileDetailsComponent} from './Components/PatientManagement/patient-profile-details/patient-profile-details.component';
 
 
 
@@ -74,6 +68,8 @@ import {
     EditStaffProfileComponent,
     AddStaffProfileComponent,
     BackgroudCardComponent,
+    Connect3dComponent,
+    SafeUrlPipe
     RegisterPatientProfileComponent,
     PatientManagementComponent,
     PatientProfileListComponent,

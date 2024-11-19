@@ -32,9 +32,10 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
   private width: number = json.size.width;
   private height: number = json.size.height;
 
+  private receivedData: boolean[] = [];
+
   constructor(private validateMapService: ValidateMap) {
   }
-
 
   ngOnInit(): void {
     try {
@@ -43,6 +44,23 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
     } catch (error) {
       console.error("An error occurred during initialization:", error);
     }
+    window.addEventListener("message", (event) => {
+      if (event.origin === "http://localhost:4200") {
+        this.receivedData = event.data;
+        if (this.receivedData.length !== this.roomNumber) {
+          console.error("The number of rooms is not equal to the number of received data");
+        }
+        for (let i = 0; i < this.receivedData.length; i++) {
+          if (this.receivedData[i] === true) {
+            this.rooms[i].roomComponent.startSurgery();
+          } else if (this.receivedData[i] === false) {
+            this.rooms[i].roomComponent.stopSurgery();
+          } else {
+            console.error("Invalid data received");
+          }
+        }
+      }
+    }, false);
   }
 
   private initialize(): void {
@@ -123,7 +141,6 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
         if (this.map[i][j] === 2) {
           this.createCorridor(i, j);
         } else if (this.map[i][j] === 3) {
-          console.log("Creating edge wall at", i, j);
           this.createCorridor(i, j);
           this.createEdge(i, j);
         }
@@ -155,7 +172,7 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
     const componentRef = this.floorContainer.createComponent(SurgeryRoomComponent);
     const roomComponent = componentRef.instance;
 
-    roomComponent.createRoom(this.roomNumber % 2 === 0, this.width, this.height);
+    roomComponent.createRoom(false, this.width, this.height);
 
     const roomGroup = roomComponent.roomGroup;
     roomGroup.position.set(i * this.width / 2, 0, j * this.width / 2);
@@ -301,8 +318,8 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
 
   private getCoordsOfMiddleOfTheMap(): { x: number, z: number } {
     return {
-      x: this.width/2 * (this.map.length) / 2 -this.width/2,
-      z: this.width/2 * (this.map[0].length) / 2 -this.width/2
+      x: this.width / 2 * (this.map.length) / 2 - this.width / 2,
+      z: this.width / 2 * (this.map[0].length) / 2 - this.width / 2
     };
   }
 
@@ -311,4 +328,5 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
     this.renderer.render(this.scene, this.camera);
     requestAnimationFrame(this.render);
   };
+
 }

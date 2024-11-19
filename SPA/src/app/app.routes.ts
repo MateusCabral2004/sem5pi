@@ -8,13 +8,10 @@ import {EditOperationTypeComponent} from './Components/OperationTypeManagement/e
 import {ViewOperationTypeComponent} from './Components/OperationTypeManagement/view-operation-type/view-operation-type.component';
 import {EditStaffProfileComponent} from './Components/StaffManagement/edit-staff-profile/edit-staff-profile.component';
 import {AddStaffProfileComponent} from './Components/StaffManagement/add-staff-profile/add-staff-profile.component';
+import {Connect3dComponent} from './Components/LinkTo3dModule/connect3d/connect3d.component';
 import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
-import {
-  RegisterPatientProfileComponent
-} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
-import {
-  PatientManagementComponent
-} from './Components/PatientManagement/patientManagement/patient-management.component';
+import {RegisterPatientProfileComponent} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
+import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
 
 export const routes: Routes = [
   {
@@ -89,9 +86,12 @@ export const routes: Routes = [
     title: 'AddStaffProfile',
   },
   {
+    path: '3d',
+    component: Connect3dComponent,
+    title: '3D',
+  },
     path: 'admin/patient/register',
     component: RegisterPatientProfileComponent,
     title: 'RegisterPatientProfile',
-  },
-
+  }
 ];
