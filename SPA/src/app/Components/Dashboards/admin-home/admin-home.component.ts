@@ -22,14 +22,8 @@ export class AdminMenuComponent {
     {title : 'Patient Management', icon: 'assets/icons/patient.png', link: '/admin/patient'}
   ];
 
-  constructor(@Inject(AuthService) auth: AuthService, private router: Router) {
+  constructor(@Inject(AuthService) auth: AuthService) {
     this.auth = auth;
-    this.validateUserRole();
-  }
-
-  private validateUserRole() {
-   const expectedRole = "Admin";
-   this.auth.validateUserRole(expectedRole);
   }
 }
 
