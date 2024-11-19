@@ -1,4 +1,5 @@
 import { Component, AfterViewInit } from '@angular/core';
+import {SurgeryRoomService} from "../../../services/SurgeryRoomService/surgery-room.service";
 
 @Component({
   selector: 'app-connect3d',
@@ -8,9 +9,22 @@ import { Component, AfterViewInit } from '@angular/core';
 export class Connect3dComponent implements AfterViewInit {
 
   iframeUrl: string = 'http://localhost:4201';
-  arrayData: any[] = [false,true,false,true,false,false];
-
+  arrayData: any[] = [];
   iframeElement!: HTMLIFrameElement;
+
+  constructor(private surgeryRoomService: SurgeryRoomService) {
+  }
+
+  ngOnInit() {
+    this.surgeryRoomService.getSurgeryRooms().subscribe({
+      next: (data) => {
+        this.arrayData = data;
+      },
+      error: (err) => {
+        console.error('Error fetching surgery rooms:', err);
+      }
+    });
+  }
 
   ngAfterViewInit() {
     this.iframeElement = document.getElementById('iframe') as HTMLIFrameElement;

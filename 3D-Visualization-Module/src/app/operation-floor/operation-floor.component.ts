@@ -58,10 +58,25 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
           } else {
             console.error("Invalid data received");
           }
+
+          const folder = this.getFolderByName(`Room ${i + 1}`);
+          if (folder !== null) {
+            folder.destroy();
+          }
         }
       }
     }, false);
   }
+
+  private getFolderByName(name: string): GUI | null {
+    for (const child of this.gui.children) {
+      if (child instanceof GUI && child._title === name) {
+        return child;
+      }
+    }
+    return null;
+  }
+
 
   private initialize(): void {
     this.initScene();
@@ -147,7 +162,6 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
       }
     }
   }
-
 
   private createEdge(i: number, j: number): void {
     const walls = {

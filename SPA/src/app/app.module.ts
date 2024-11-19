@@ -73,7 +73,7 @@ import {PatientProfileDetailsComponent} from './Components/PatientManagement/pat
     RegisterPatientProfileComponent,
     PatientManagementComponent,
     PatientProfileListComponent,
-    PatientProfileDetailsComponent
+    PatientProfileDetailsComponent,
   ],
   imports: [
     BrowserModule,
