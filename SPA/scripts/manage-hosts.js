@@ -5,11 +5,10 @@ const path = require('path');
 const HOSTNAME = 'myapp.local';
 const IP = '10.9.10.8';
 
-// Get the path to the hosts file depending on the OS
 function getHostsPath() {
   return os.platform() === 'win32'
     ? path.join('C:', 'Windows', 'System32', 'drivers', 'etc', 'hosts')
-    : '/etc/hosts'; // Linux and macOS
+    : '/etc/hosts';
 }
 
 function ensureSudo() {
@@ -29,14 +28,12 @@ function addHostEntry(callback) {
       return;
     }
 
-    // Check if the entry already exists
     if (data.includes(entry)) {
       console.log(`Entry already exists: ${entry}`);
       callback();
       return;
     }
 
-    // Prepare the new entry
     const newEntry = `${data.trim()}\n${entry}\n`;
 
     fs.writeFile(hostsFile, newEntry, 'utf8', (err) => {
@@ -60,7 +57,6 @@ function removeHostEntry(callback) {
       return;
     }
 
-    // Remove the target entry
     const updatedData = data
       .split('\n')
       .filter((line) => line.trim() !== entry)
