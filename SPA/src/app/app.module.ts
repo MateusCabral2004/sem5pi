@@ -69,7 +69,7 @@ import {PatientProfileDetailsComponent} from './Components/PatientManagement/pat
     AddStaffProfileComponent,
     BackgroudCardComponent,
     Connect3dComponent,
-    SafeUrlPipe
+    SafeUrlPipe,
     RegisterPatientProfileComponent,
     PatientManagementComponent,
     PatientProfileListComponent,

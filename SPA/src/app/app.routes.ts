@@ -90,6 +90,7 @@ export const routes: Routes = [
     component: Connect3dComponent,
     title: '3D',
   },
+  {
     path: 'admin/patient/register',
     component: RegisterPatientProfileComponent,
     title: 'RegisterPatientProfile',
