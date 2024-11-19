@@ -1,11 +1,10 @@
 ﻿import {PatientProfileService} from '../../../services/PatientProfileService/patient-profile-service';
-import {PatientProfile} from '../../../Domain/PatientProfile';
 import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../../../services/AuthService/auth.service';
 import {ConfirmModalComponent} from '../../Shared/confirm-modal/confirm-modal.component';
 import {Router} from '@angular/router';
 import {EnterFilterNameComponent} from '../../Shared/enter-filter-name/enter-filter-name.component';
-import {Staff} from '../../../Domain/Staff';
+import {PatientsListing} from '../../../Domain/PatientsListing';
 
 
 @Component({
@@ -14,7 +13,7 @@ import {Staff} from '../../../Domain/Staff';
   styleUrls: ['./patient-management.component.css']
 })
 export class PatientManagementComponent implements OnInit {
-  public patientProfilesList: PatientProfile[] = [];
+  public patientProfilesList: PatientsListing[] = [];
   private auth: AuthService;
   private patientProfileService: PatientProfileService;
   private patientId: string = '';
@@ -47,70 +46,69 @@ export class PatientManagementComponent implements OnInit {
     this.auth.validateUserRole(expectedRole);
   }
 
-  public applyNameFilter(filterName: string) {
-
-    const trimmedFilterName = filterName.trim();
-
-    this.patientProfileService.filterPatientProfilesByName(trimmedFilterName).subscribe(
-
-      (data: PatientProfile[]) => {
-        this.showNoPatientProfilesFound = false;
-        this.showPatientProfileList = true;
-        this.patientProfilesList = data;
-        this.showResetFilterButton = true;
-      },
-      (error) => {
-
-        if (error.status === 404) {
-
-          this.patientProfilesList = [];
-          this.showPatientProfileList = false;
-          this.showNoPatientProfilesFound = true;
-          this.showResetFilterButton = true;
-
-        } else {
-
-          this.showPatientProfileList = false;
-          this.showEmptyNameError = true;
-          this.showResetFilterButton = true;
-
-        }
-      }
-    );
-  }
-
-  public applyEmailFilter(filterEmail: string) {
-
-    const trimmedFilterEmail = filterEmail.trim();
-
-    this.patientProfileService.filterPatientProfilesByEmail(trimmedFilterEmail).subscribe(
-
-      (data: PatientProfile) => {
-        this.showNoPatientProfilesFound = false;
-        this.showPatientProfileList = true;
-        this.patientProfilesList = [];
-        this.patientProfilesList.push(data);
-        this.showResetFilterButton = true;
-      },
-      (error) => {
-
-        if (error.status === 404) {
-
-          this.patientProfilesList = [];
-          this.showPatientProfileList = false;
-          this.showNoPatientProfilesFound = true;
-          this.showResetFilterButton = true;
-        }
-        else {
-
-          this.showPatientProfileList = false;
-          this.showEmptyEmailError = true;
-          this.showResetFilterButton = true;
-
-        }
-      }
-    );
-  }
+  // public applyNameFilter(filterName: string) {
+  //
+  //   const trimmedFilterName = filterName.trim();
+  //
+  //   this.patientProfileService.filterPatientProfilesByName(trimmedFilterName).subscribe(
+  //
+  //     (data: PatientProfile[]) => {
+  //       this.showNoPatientProfilesFound = false;
+  //       this.showPatientProfileList = true;
+  //       this.patientProfilesList = data;
+  //       this.showResetFilterButton = true;
+  //     },
+  //     (error) => {
+  //
+  //       if (error.status === 404) {
+  //
+  //         this.patientProfilesList = [];
+  //         this.showPatientProfileList = false;
+  //         this.showNoPatientProfilesFound = true;
+  //         this.showResetFilterButton = true;
+  //
+  //       } else {
+  //
+  //         this.showPatientProfileList = false;
+  //         this.showEmptyNameError = true;
+  //         this.showResetFilterButton = true;
+  //       }
+  //     }
+  //   );
+  // }
+  //
+  // public applyEmailFilter(filterEmail: string) {
+  //
+  //   const trimmedFilterEmail = filterEmail.trim();
+  //
+  //   this.patientProfileService.filterPatientProfilesByEmail(trimmedFilterEmail).subscribe(
+  //
+  //     (data: PatientProfile) => {
+  //       this.showNoPatientProfilesFound = false;
+  //       this.showPatientProfileList = true;
+  //       this.patientProfilesList = [];
+  //       this.patientProfilesList.push(data);
+  //       this.showResetFilterButton = true;
+  //     },
+  //     (error) => {
+  //
+  //       if (error.status === 404) {
+  //
+  //         this.patientProfilesList = [];
+  //         this.showPatientProfileList = false;
+  //         this.showNoPatientProfilesFound = true;
+  //         this.showResetFilterButton = true;
+  //       }
+  //       else {
+  //
+  //         this.showPatientProfileList = false;
+  //         this.showEmptyEmailError = true;
+  //         this.showResetFilterButton = true;
+  //
+  //       }
+  //     }
+  //   );
+  // }
 
 
   public registerPatientProfile() {
@@ -128,20 +126,19 @@ export class PatientManagementComponent implements OnInit {
     this.showResetFilterButton = false;
   }
 
-
-  public handleFilterSelection(filterValue: string) {
-
-    this.showFilterPatientButton = false;
-    this.showEmptyNameError = false;
-    this.showEmptyEmailError = false;
-
-
-    if (this.currentFilter === 'name') {
-      this.applyNameFilter(filterValue);
-    } else if (this.currentFilter === 'email') {
-      this.applyEmailFilter(filterValue);
-    }
-  }
+  // public handleFilterSelection(filterValue: string) {
+  //
+  //   this.showFilterPatientButton = false;
+  //   this.showEmptyNameError = false;
+  //   this.showEmptyEmailError = false;
+  //
+  //
+  //   if (this.currentFilter === 'name') {
+  //     this.applyNameFilter(filterValue);
+  //   } else if (this.currentFilter === 'email') {
+  //     this.applyEmailFilter(filterValue);
+  //   }
+  // }
 
   public handleSelectedFilter(filter: string) {
 
@@ -154,14 +151,13 @@ export class PatientManagementComponent implements OnInit {
     }
   }
   public confirmDeletePatientProfile(patientId: string) {
-
     this.patientId = patientId;
     this.confirmModal.open("Are you sure you want to proceed?");
   }
 
   public fetchPatientProfiles() {
     this.patientProfileService.listAllPatientProfiles().subscribe(
-      (data: PatientProfile[]) => {
+      (data: PatientsListing[]) => {
         this.patientProfilesList = data;
       },
       (error) => {

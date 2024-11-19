@@ -49,6 +49,11 @@ export const routes: Routes = [
     title: 'AddOperationType',
   },
   {
+    path: 'admin/patient/register',
+    component: RegisterPatientProfileComponent,
+    title: 'RegisterPatientProfileComponent',
+  },
+  {
     path: 'admin/staffManagement',
     component: StaffManagementComponent,
     title: 'StaffManagement',

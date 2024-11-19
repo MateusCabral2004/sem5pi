@@ -3,8 +3,9 @@ export interface PatientProfile{
 
   firstName:string;
   lastName:string;
-  dateOfBirth:string;
+  email:string;
+  birthDate:string;
   phoneNumber:number;
-  emailAddress:string;
-  medicalHistory:string;
+  gender:string;
+  emergencyContact:string;
 }

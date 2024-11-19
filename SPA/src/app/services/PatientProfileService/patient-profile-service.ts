@@ -6,6 +6,7 @@ import {catchError, tap} from 'rxjs/operators';
 import {CreateStaff} from '../../Domain/CreateStaff';
 import {Staff} from '../../Domain/Staff';
 import {OperationType} from '../../Domain/OperationType';
+import {PatientsListing} from '../../Domain/PatientsListing';
 
 @Injectable({
   providedIn: 'root'
@@ -17,18 +18,24 @@ export class PatientProfileService {
   constructor(private http: HttpClient) {
   }
 
-  public registerPatientProfile(newPatientProfile: PatientProfile): Observable<any> {
-
-    return this.http.post(`${this.apiUrl}/Patient`, newPatientProfile, { withCredentials: true });
+  registerPatientProfile(patientProfile: PatientProfile): Observable<string> {
+    return this.http.post<string>(`${this.apiUrl}/Patient/registerPatientProfile`, patientProfile, {
+      withCredentials: true,
+    }).pipe(
+      catchError(error => {
+        console.error('Error registering patient profile:', error);
+        return of('');
+      })
+    );
   }
 
   public deletePatientProfile(patientId: string): Observable<any> {
 
     return this.http.delete(`${this.apiUrl}/Patient/${patientId}`, { withCredentials: true });
   }
-  public listAllPatientProfiles(): Observable<PatientProfile[]> {
+  public listAllPatientProfiles(): Observable<PatientsListing[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient`, { withCredentials: true });
   }
 
   public filterPatientProfilesByName(name: string): Observable<PatientProfile[]> {
@@ -55,21 +62,4 @@ export class PatientProfileService {
     return this.http.patch(`${this.apiUrl}/Patient`, editedPatientProfile, { withCredentials: true });
   }
 
-  listPatientProfiles(): Observable<PatientProfile[]> {
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/listPatientProfiles`, {withCredentials: true}).pipe(
-      catchError(error => {
-        console.error('Failed to load patient profiles:', error);
-        return of([]);
-      })
-    );
-  }
-
-  filterPatientProfiles(currentFilter: string, filterValue: string): Observable<PatientProfile[]> {
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/listPatientProfilesBy${currentFilter}/${filterValue}`, {withCredentials: true}).pipe(
-      catchError(error => {
-        console.error('Failed to load patient profiles:', error);
-        return of([]);
-      })
-    );
-  }
 }

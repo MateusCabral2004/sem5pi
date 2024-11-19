@@ -302,8 +302,7 @@ public class PatientService
 
         await _accountToDeleteRepository.saveUserToDelete(userID);
     }
-
-
+    
     public async Task<List<SearchedPatientDTO>> ListPatientByName(NameDTO nameDto)
     {
         var patient = await _patientRepository.GetActivePatientsByName(new Name(nameDto.name));
@@ -490,5 +489,18 @@ public class PatientService
         await _patientRepository.AddAsync(patient);
 
         await _unitOfWork.CommitAsync();
+    }
+    
+    public async Task<List<SearchedPatientDTO>> ListAllPatients()
+    {
+        var patientsList = await _patientRepository.GetAllPatients();
+        if (patientsList.Count == 0)
+        {
+            throw new ArgumentException("Patient profiles not found.");
+        }
+
+        var staffDtoList = buildSearchedPatientDtoList(patientsList);
+
+        return staffDtoList;
     }
 }
