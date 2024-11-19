@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node scripts/manage-hosts.js && ng serve",
+    "clean": "node scripts/manage-hosts.js --clean",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
@@ -20,6 +21,7 @@
     "@angular/router": "^18.2.0",
     "ngx-cookie-service": "^18.0.0",
     "rxjs": "~7.8.0",
+    "sudo-prompt": "^9.2.1",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"
   },
