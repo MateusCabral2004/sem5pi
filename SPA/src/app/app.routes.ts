@@ -9,6 +9,7 @@ import {EditOperationTypeComponent} from './Components/OperationTypeManagement/e
 import {ViewOperationTypeComponent} from './Components/OperationTypeManagement/view-operation-type/view-operation-type.component';
 import {EditStaffProfileComponent} from './Components/StaffManagement/edit-staff-profile/edit-staff-profile.component';
 import {AddStaffProfileComponent} from './Components/StaffManagement/add-staff-profile/add-staff-profile.component';
+import {Connect3dComponent} from './Components/LinkTo3dModule/connect3d/connect3d.component';
 
 export const routes: Routes = [
   {
@@ -71,5 +72,10 @@ export const routes: Routes = [
     path: 'admin/staff/add',
     component: AddStaffProfileComponent,
     title: 'AddStaffProfile',
+  },
+  {
+    path: '3d',
+    component: Connect3dComponent,
+    title: '3D',
   }
 ];

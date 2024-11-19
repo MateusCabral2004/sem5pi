@@ -148,7 +148,6 @@ export class SurgeryRoomComponent {
     const patient = this.roomGroup.getObjectByName('patient');
     if (patient) {
       this.roomGroup.remove(patient);
-      console.log('Patient removed from the room');
     }
   }
 
@@ -156,13 +155,11 @@ export class SurgeryRoomComponent {
     const doctor = this.roomGroup.getObjectByName('doctor');
     if (doctor) {
       this.roomGroup.remove(doctor);
-      console.log('Doctor removed from the room');
     }
 
     const nurse = this.roomGroup.getObjectByName('nurse');
     if (nurse) {
       this.roomGroup.remove(nurse);
-      console.log('Nurse removed from the room');
     }
   }
 
@@ -170,7 +167,6 @@ export class SurgeryRoomComponent {
     const lampLight = this.roomGroup.getObjectByName('lampLight');
     if (lampLight) {
       this.roomGroup.remove(lampLight);
-      console.log('Lamp light removed from the room');
     }
   }
 
