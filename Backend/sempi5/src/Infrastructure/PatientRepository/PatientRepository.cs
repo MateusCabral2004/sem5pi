@@ -170,5 +170,12 @@ namespace Sempi5.Infrastructure.PatientRepository
         {
             await context.SaveChangesAsync();
         }
+        
+        public async Task<List<Patient>> GetAllPatients()
+        {
+            return await context.Patients
+                .Include(p => p.Person)
+                .ToListAsync();
+        }
     }
 }

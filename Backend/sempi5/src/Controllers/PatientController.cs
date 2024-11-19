@@ -3,6 +3,8 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.PatientAggregate;
+using Sempi5.Domain.PatientAggregate.Exceptions;
+using Sempi5.Domain.StaffAggregate.StaffExceptions;
 using Sempi5.Services;
 using ILogger = Serilog.ILogger;
 
@@ -261,6 +263,13 @@ public class PatientController : ControllerBase
         try
         {
             await patientService.EditPatientProfile(patientDto, email);
+            _logger.ForContext("CustomLogLevel", "CustomLevel")
+                .Information($"\nChanges To Patient {patientDto.patientId} :" +
+                             $" {patientDto.phoneNumber}" +
+                             $" {patientDto.email}" +
+                             $" {patientDto.firstName}" +
+                             $" {patientDto.lastName}" +
+                             $" {patientDto.birthDate} \n");
             return Ok("Patient profile edited successfully");
         }
         catch (Exception e)
@@ -277,6 +286,27 @@ public class PatientController : ControllerBase
         {
             await patientService.CreatePatientProfile(patient);
             return Ok("Patient profile created successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ListAllPatientProfiles()
+    {
+        try
+        {
+            var patientProfile = await patientService.ListAllPatients();
+            
+            return Ok(patientProfile);
+        }
+        catch (PatientsProfilesNotFoundException e)
+        {
+            return BadRequest(e.Message);
         }
         catch (Exception e)
         {
