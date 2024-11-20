@@ -9,13 +9,14 @@ using Sempi5.Infrastructure.Shared;
 
 namespace Sempi5.Infrastructure.PatientRepository
 {
-    public class PatientRepository : BaseRepository<Patient,MedicalRecordNumber>, IPatientRepository
+    public class PatientRepository : BaseRepository<Patient, MedicalRecordNumber>, IPatientRepository
     {
-
         private readonly DBContext context;
-        
+
         public PatientRepository(DBContext context) : base(context.Patients)
-        { this.context = context; }
+        {
+            this.context = context;
+        }
 
         public async Task<Patient> GetByEmail(string email)
         {
@@ -33,22 +34,6 @@ namespace Sempi5.Infrastructure.PatientRepository
             return patient;
         }
 
-        public async Task<Patient> GetByPatientEmail(string email)
-        {
-            if (string.IsNullOrEmpty(email))
-            {
-                return null;
-            }
-            
-            var patient = await Task.Run(() => context.Patients
-                .Include(p => p.Person)
-                .AsEnumerable() //Permite que use metodos de c# 
-                .FirstOrDefault(p => p.Person.ContactInfo.email().ToString().ToLower().Equals(email.ToLower())));
-
-            return patient;
-
-        }
-        
 
         public async Task<Patient> GetByPhoneNumber(int phoneNumber)
         {
@@ -57,13 +42,13 @@ namespace Sempi5.Infrastructure.PatientRepository
                 return null;
             }
 
-            var patient = await Task.Run(()=> context.Patients
-                .Include(p => p.Person)  // Inclua a entidade 'Person' se não estiver sendo carregada automaticamente
-                .ThenInclude(p => p.ContactInfo)  // Inclua 'ContactInfo' também
+            var patient = await Task.Run(() => context.Patients
+                .Include(p => p.Person) // Inclua a entidade 'Person' se não estiver sendo carregada automaticamente
+                .ThenInclude(p => p.ContactInfo) // Inclua 'ContactInfo' também
                 .AsEnumerable()
-                .FirstOrDefault(p => p.Person != null 
-                                          && p.Person.ContactInfo != null 
-                                          && p.Person.ContactInfo.phoneNumber().phoneNumber() == phoneNumber));
+                .FirstOrDefault(p => p.Person != null
+                                     && p.Person.ContactInfo != null
+                                     && p.Person.ContactInfo.phoneNumber().phoneNumber() == phoneNumber));
 
             return patient;
         }
@@ -74,18 +59,16 @@ namespace Sempi5.Infrastructure.PatientRepository
             {
                 return null;
             }
-            
-            
-            
-                return context.Patients
+
+
+            return context.Patients
                 .Include(p => p.Person)
-                .FirstOrDefault(p => p.Id.Equals(patientId) 
+                .FirstOrDefault(p => p.Id.Equals(patientId)
                                      && p.PatientStatus == PatientStatusEnum.ACTIVATED);
         }
 
         public async Task<Patient> GetByPatientId(string patientId)
         {
-            
             if (string.IsNullOrEmpty(patientId))
             {
                 return null;
@@ -103,7 +86,6 @@ namespace Sempi5.Infrastructure.PatientRepository
 
         public async Task<List<Patient>> GetActivePatientsByName(Name name)
         {
-            
             if (name == null)
             {
                 return null;
@@ -114,10 +96,9 @@ namespace Sempi5.Infrastructure.PatientRepository
                 .Where(p => p.Person.FullName.Equals(name) && p.PatientStatus == PatientStatusEnum.ACTIVATED)
                 .ToListAsync();
         }
-        
+
         public async Task<Patient> GetActivePatientByEmail(Email email)
         {
-            
             if (email == null)
             {
                 return null;
@@ -126,9 +107,9 @@ namespace Sempi5.Infrastructure.PatientRepository
             return context.Patients
                 .Include(p => p.Person)
                 .FirstOrDefault(p => p.Person.ContactInfo._email.Equals(email)
-                && p.PatientStatus == PatientStatusEnum.ACTIVATED);
+                                     && p.PatientStatus == PatientStatusEnum.ACTIVATED);
         }
-        
+
 
         public async Task<List<Patient>> GetActivePatientsByDateOfBirth(DateTime? dateOfBirth)
         {
@@ -140,13 +121,13 @@ namespace Sempi5.Infrastructure.PatientRepository
             var patients = await context.Patients
                 .Include((p => p.Person))
                 .Where(p => p.BirthDate.Date == dateOfBirth.Value.Date
-                && p.PatientStatus == PatientStatusEnum.ACTIVATED)
+                            && p.PatientStatus == PatientStatusEnum.ACTIVATED)
                 .ToListAsync();
 
             return patients;
         }
 
-        
+
         public async Task SavePatientAsync(Patient patient)
         {
             if (patient == null)
@@ -161,8 +142,8 @@ namespace Sempi5.Infrastructure.PatientRepository
         public async Task<Patient> getByUserId(long asLong)
         {
             return await context.Patients
-                .Include(p=>p.Person)
-                .Include(u=>u.User)
+                .Include(p => p.Person)
+                .Include(u => u.User)
                 .Where(p => p.User != null && p.User.Id.Equals(new SystemUserId(asLong))).FirstOrDefaultAsync();
         }
 
@@ -170,11 +151,12 @@ namespace Sempi5.Infrastructure.PatientRepository
         {
             await context.SaveChangesAsync();
         }
-        
-        public async Task<List<Patient>> GetAllPatients()
+
+        public async Task<List<Patient>> GetAllActivePatients()
         {
             return await context.Patients
                 .Include(p => p.Person)
+                .Where(p=>p.PatientStatus==PatientStatusEnum.ACTIVATED)
                 .ToListAsync();
         }
     }

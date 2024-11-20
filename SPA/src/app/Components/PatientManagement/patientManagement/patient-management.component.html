@@ -14,18 +14,49 @@
   <div class="content">
     <button class="add-button" (click)="registerPatientProfile()">Register Patient Profile</button>
 
+    <app-filter-button
+      *ngIf="patientProfilesList.length > 0 && showFilterPatientButton"
+      [filters]="['Name', 'Email', 'Medical Record Number', 'Birth Date']"
+      (filterSelected)="handleSelectedFilter($event)"
+    ></app-filter-button>
+
+    <button class="reset-filter-button" (click)="resetFilter()" *ngIf="showResetFilterButton">Reset Filter</button>
+
+
     <app-patient-profile-list *ngIf="patientProfilesList.length > 0 && showPatientProfileList"
                               [patientProfileList]="patientProfilesList"
                               (deletePatientProfile)="confirmDeletePatientProfile($event)"
     ></app-patient-profile-list>
   </div>
-</app-backgroud-card>
-
-<app-confirm-modal (confirmed)="handleDeletePatientProfileConfirmation($event)"></app-confirm-modal>
 
   <div class="error-message" *ngIf="patientProfilesList.length == 0">
     <p>There are no patient profiles to list.</p>
-
   </div>
+
+  <div class="error-message" *ngIf="showEmptyEmailError">
+    <p>Invalid Email.</p>
+  </div>
+
+  <div class="error-message" *ngIf="showEmptyMedicalRecordNumberError">
+    <p>Invalid Medical Record Number.</p>
+  </div>
+
+  <div class="error-message" *ngIf="showEmptyDateBirthError">
+    <p>Invalid Birth Date.</p>
+  </div>
+
+  <div class="error-message" *ngIf="showEmptyNameError">
+    <p>Invalid Name.</p>
+  </div>
+
+</app-backgroud-card>
+
+<app-confirm-modal (confirmed)="handleDeletePatientProfileConfirmation($event)"></app-confirm-modal>
+<app-enter-filter-name
+  (filterTypeToEmit)="currentFilter = $event"
+  (nameToFilter)="handleFilterSelection($event)"
+>></app-enter-filter-name>
+
+
 
 

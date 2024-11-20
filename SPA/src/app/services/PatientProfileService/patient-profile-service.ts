@@ -45,28 +45,29 @@ export class PatientProfileService {
     return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient`, { withCredentials: true });
   }
 
-  public filterPatientProfilesByName(name: string): Observable<PatientProfile[]> {
+  public filterPatientProfilesByName(name: string): Observable<PatientsListing[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/by-name/${name}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByName/${name}`, { withCredentials: true });
   }
 
   public filterPatientProfilesByEmail(email: string): Observable<any> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/by-email/${email}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByEmail/${email}`, { withCredentials: true });
   }
 
-  public filterPatientProfilesByBirthDate(birthDate: string): Observable<PatientProfile[]> {
+  public filterPatientProfilesByBirthDate(birthDate: string): Observable<PatientsListing[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/by-birthDate/${birthDate}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByDateOfBirth/${birthDate}`, { withCredentials: true });
   }
-  public filterPatientProfilesByMedicalRecordNumber(medicalRecordNumber: string): Observable<PatientProfile[]> {
+  public filterPatientProfilesByMedicalRecordNumber(medicalRecordNumber: string): Observable<PatientsListing[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/by-birthDate/${medicalRecordNumber}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByMedicalRecordNumber/${medicalRecordNumber}`, { withCredentials: true });
   }
 
   public editPatientProfile(editedPatientProfile: PatientProfile): Observable<any> {
 
     return this.http.patch(`${this.apiUrl}/Patient`, editedPatientProfile, { withCredentials: true });
   }
+
 
 }

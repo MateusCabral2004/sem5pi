@@ -7,6 +7,7 @@ import {EnterFilterNameComponent} from '../../Shared/enter-filter-name/enter-fil
 import {PatientsListing} from '../../../Domain/PatientsListing';
 import {OperationType} from '../../../Domain/OperationType';
 import {PatientProfile} from '../../../Domain/PatientProfile';
+import {Staff} from '../../../Domain/Staff';
 
 
 @Component({
@@ -22,13 +23,13 @@ export class PatientManagementComponent implements OnInit {
   public showPatientProfileList: boolean = true;
   public showNoPatientProfilesFound: boolean = false;
   public showResetFilterButton: boolean = false;
-  public currentFilter: string = '';
   public showFilterPatientButton: boolean = true;
   public showEmptyNameError: boolean = false;
   public showEmptyEmailError: boolean = false;
   public showEmptyDateBirthError: boolean = false;
-  public showEmptyMedicalRecordError: boolean = false;
+  public showEmptyMedicalRecordNumberError: boolean = false;
   patientProfileToDelete: PatientProfile | null = null;
+  currentFilter: string = '';
 
 
   @ViewChild(ConfirmModalComponent) confirmModal!: ConfirmModalComponent;
@@ -50,33 +51,10 @@ export class PatientManagementComponent implements OnInit {
     this.auth.validateUserRole(expectedRole);
   }
 
-
   public registerPatientProfile() {
     this.router.navigate(['admin/patient/register']);
   }
-  public resetFilter() {
-    this.patientProfilesList = [];
-    this.showFilterPatientButton = true;
-    this.showPatientProfileList = true;
-    this.showEmptyEmailError = false;
-    this.showEmptyNameError = false;
-    this.showEmptyDateBirthError = false;
-    this.fetchPatientProfiles();
-    this.showNoPatientProfilesFound = false;
-    this.showResetFilterButton = false;
-  }
 
-
-  public handleSelectedFilter(filter: string) {
-
-    if(filter === 'Name') {
-      this.enterFilterName.open("name");
-    }
-
-    if(filter === 'Email') {
-      this.enterFilterName.open("email");
-    }
-  }
   confirmDeletePatientProfile(patientId: string) {
     this.patientId = patientId;
     this.confirmModal.open("Are you sure you want to proceed?");
@@ -107,5 +85,169 @@ export class PatientManagementComponent implements OnInit {
       }
     );
   }
+  public handleSelectedFilter(filter: string) {
+
+    if (filter === 'Name') {
+      this.enterFilterName.open("name");
+    }
+    if (filter === 'Email') {
+      this.enterFilterName.open("email");
+    }
+    if (filter === 'Medical Record Number') {
+      this.enterFilterName.open("medicalRecordNumber");
+    }
+    if (filter === 'Birth Date') {
+      this.enterFilterName.open("birthDate");
+    }
+  }
+
+  public handleFilterSelection(filterValue: string) {
+
+    this.showFilterPatientButton = false;
+    this.showEmptyNameError = false;
+    this.showEmptyEmailError = false;
+    this.showEmptyMedicalRecordNumberError = false;
+    this.showEmptyDateBirthError=false;
+
+    if (this.currentFilter === 'name') {
+      this.applyNameFilter(filterValue);
+    }
+    if (this.currentFilter === 'email') {
+      this.applyEmailFilter(filterValue);
+    }
+    if (this.currentFilter === 'medicalRecordNumber') {
+      this.applyMedicalRecordNumberFilter(filterValue);
+    }
+    if (this.currentFilter === 'birthDate') {
+      this.applyBirthDateFilter(filterValue);
+    }
+  }
+
+  public resetFilter() {
+    this.patientProfilesList = [];
+    this.showFilterPatientButton = true;
+    this.showPatientProfileList = true;
+    this.showEmptyEmailError = false;
+    this.showEmptyNameError = false;
+    this.showEmptyDateBirthError=false;
+    this.showEmptyMedicalRecordNumberError=false;
+    this.fetchPatientProfiles();
+    this.showNoPatientProfilesFound = false;
+    this.showResetFilterButton = false;
+  }
+
+  public applyNameFilter(filterName: string) {
+
+    const trimmedFilterName = filterName.trim();
+
+    this.patientProfileService.filterPatientProfilesByName(trimmedFilterName).subscribe(
+
+      (data: PatientsListing[]) => {
+        this.showNoPatientProfilesFound = false;
+        this.showPatientProfileList = true;
+        this.patientProfilesList = data;
+        this.showResetFilterButton = true;
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.patientProfilesList = [];
+          this.showPatientProfileList = false;
+          this.showNoPatientProfilesFound = true;
+          this.showResetFilterButton = true;
+
+        }else {
+          this.showPatientProfileList = false;
+          this.showEmptyNameError = true;
+          this.showResetFilterButton = true;
+        }
+      }
+    );
+  }
+
+  public applyEmailFilter(filterEmail: string) {
+
+    const trimmedFilterEmail = filterEmail.trim();
+
+    this.patientProfileService.filterPatientProfilesByEmail(trimmedFilterEmail).subscribe(
+
+      (data: PatientsListing) => {
+        this.showNoPatientProfilesFound = false;
+        this.showPatientProfileList = true;
+        this.patientProfilesList = [];
+        this.patientProfilesList.push(data);
+        this.showResetFilterButton = true;
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.patientProfilesList = [];
+          this.showPatientProfileList = false;
+          this.showNoPatientProfilesFound = true;
+          this.showResetFilterButton = true;
+        }
+        else {
+          this.showPatientProfileList = false;
+          this.showEmptyEmailError = true;
+          this.showResetFilterButton = true;
+        }
+      }
+    );
+  }
+
+  public applyMedicalRecordNumberFilter(filterMRN: string) {
+
+    const trimmedMRN = filterMRN.trim();
+
+    this.patientProfileService.filterPatientProfilesByMedicalRecordNumber(trimmedMRN).subscribe(
+
+      (data: PatientsListing[]) => {
+        this.showNoPatientProfilesFound = false;
+        this.showPatientProfileList = true;
+        this.patientProfilesList = data;
+        this.showResetFilterButton = true;
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.patientProfilesList = [];
+          this.showPatientProfileList = false;
+          this.showNoPatientProfilesFound = true;
+          this.showResetFilterButton = true;
+
+        }else {
+          this.showPatientProfileList = false;
+          this.showEmptyMedicalRecordNumberError = true;
+          this.showResetFilterButton = true;
+        }
+      }
+    );
+  }
+
+
+  public applyBirthDateFilter(filterBirthDate: string) {
+
+    this.patientProfileService.filterPatientProfilesByBirthDate(filterBirthDate).subscribe(
+
+      (data: PatientsListing[]) => {
+        this.showNoPatientProfilesFound = false;
+        this.showPatientProfileList = true;
+        this.patientProfilesList = data;
+        this.showResetFilterButton = true;
+      },
+      (error) => {
+        if (error.status === 404) {
+          this.patientProfilesList = [];
+          this.showPatientProfileList = false;
+          this.showNoPatientProfilesFound = true;
+          this.showResetFilterButton = true;
+
+        }else {
+          this.showPatientProfileList = false;
+          this.showEmptyDateBirthError = true;
+          this.showResetFilterButton = true;
+        }
+      }
+    );
+  }
 
 }
+
+
