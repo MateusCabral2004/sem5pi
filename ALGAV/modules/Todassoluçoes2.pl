@@ -494,10 +494,11 @@ is_available_in_intervalsAnesthesia((Start, End), CommonIntervals,Tipo) :-
 
 set_new_interval([(I1, _), (_, _), (_, F3)], RoomAgenda, Duration, NewIntervals) :-
     % Encontra todos os intervalos válidos na agenda
-    findall((AEnd, Aux), (
+    findall((AEndAux, Aux), (
             member((_, AEnd, _), RoomAgenda), 
             I1 =< AEnd,                      
-            Aux is AEnd + Duration,          
+            Aux is AEnd + 1 + Duration, 
+            AEndAux is AEnd + 1,
             Aux =< F3                        
         ), IntervalsFromEnd),
         
@@ -511,19 +512,18 @@ set_new_interval([(I1, _), (_, _), (_, F3)], RoomAgenda, Duration, NewIntervals)
 
 
 precede([], [], [], []).
-precede([ (I1, F1) | L1 ], [ (I2, F2) | L2 ], [ (I3, F3) | L3 ], Result) :-
-    I1 =< I2,
-    F1 >=I2,
-    I2=<I3,
-    F2>=I3,
-    precede(L1, L2, L3, Rest),
-    Result = [ [(I1, F1), (I2, F2), (I3, F3)] | Rest ],
-    !.
-precede([ _ | L1 ], L2, L3, Result) :-
-    precede(L1, L2, L3, Result).
-precede(L1, [ _ | L2 ], L3, Result) :-
-    precede(L1, L2, L3, Result).
-precede(L1, L2, [ _ | L3 ], Result) :-
-    precede(L1, L2, L3, Result).
-precede([ _ | L1 ], [ _ | L2 ], [ _ | L3 ], Result) :-
-    precede(L1, L2, L3, Result).
+
+% Gera combinações válidas
+precede(L1, L2, L3, Result) :-
+    findall([X, Y, Z], (
+        member(X, L1),  
+        member(Y, L2),  
+        member(Z, L3),  
+        X = (I1, F1),          
+        Y = (I2, F2),           
+        Z = (I3, _),           
+        I1 =< I2,              
+        F1 >= I2,               
+        I2 =< I3,               
+        F2 >= I3                
+       ), Result).
