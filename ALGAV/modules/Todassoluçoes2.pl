@@ -389,8 +389,12 @@ select_sufficient_interval([_ | Rest], Duration, Interval) :-
 
 check_room_availability(Room, Date, (Start, End)) :-
     agenda_operation_room(Room, Date, RoomAgenda),
-     \+ overlaps_with_existing(RoomAgenda, (Start, End)).
-
+findall((AStart, AEnd, _), (
+        member((AStart, AEnd, _), RoomAgenda),
+        Start =< AEnd,
+        End >= AStart
+    ), Conflicts),
+    Conflicts = []. 
 
 overlaps_with_existing([], _).
 overlaps_with_existing([(AStart, AEnd, _) | _], (Start, End)) :-
