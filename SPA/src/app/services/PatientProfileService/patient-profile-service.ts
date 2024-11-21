@@ -2,24 +2,22 @@
 import {HttpClient} from '@angular/common/http';
 import {PatientProfile} from '../../Domain/PatientProfile';
 import {Observable, of} from 'rxjs';
-import {catchError, tap} from 'rxjs/operators';
-import {CreateStaff} from '../../Domain/CreateStaff';
-import {Staff} from '../../Domain/Staff';
-import {OperationType} from '../../Domain/OperationType';
+import {catchError} from 'rxjs/operators';
 import {PatientsListing} from '../../Domain/PatientsListing';
+import json from '../../appsettings.json';
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class PatientProfileService {
-  private apiUrl = 'http://localhost:5001';
+  private apiUrl = json.apiUrl + '/Patient';
 
   constructor(private http: HttpClient) {
   }
 
   registerPatientProfile(patientProfile: PatientProfile): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/Patient/registerPatientProfile`, patientProfile, {
+    return this.http.post<string>(`${this.apiUrl}/registerPatientProfile`, patientProfile, {
       withCredentials: true,
     }).pipe(
       catchError(error => {
@@ -30,7 +28,7 @@ export class PatientProfileService {
   }
 
   deletePatientProfile(email: string): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/Patient/deletePatientProfile/${email}`, {
+    return this.http.delete(`${this.apiUrl}/deletePatientProfile/${email}`, {
       withCredentials: true,
       responseType: 'text'
     }).pipe(
@@ -42,32 +40,30 @@ export class PatientProfileService {
   }
   public listAllPatientProfiles(): Observable<PatientsListing[]> {
 
-    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}`, { withCredentials: true });
   }
 
   public filterPatientProfilesByName(name: string): Observable<PatientsListing[]> {
 
-    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByName/${name}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/listPatientProfilesByName/${name}`, { withCredentials: true });
   }
 
   public filterPatientProfilesByEmail(email: string): Observable<any> {
 
-    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByEmail/${email}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/listPatientProfilesByEmail/${email}`, { withCredentials: true });
   }
 
   public filterPatientProfilesByBirthDate(birthDate: string): Observable<PatientsListing[]> {
 
-    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByDateOfBirth/${birthDate}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/listPatientProfilesByDateOfBirth/${birthDate}`, { withCredentials: true });
   }
   public filterPatientProfilesByMedicalRecordNumber(id: string): Observable<PatientsListing> {
 
-    return this.http.get<PatientsListing>(`${this.apiUrl}/Patient/listPatientProfilesByMedicalRecordNumber/${id}`, { withCredentials: true });
+    return this.http.get<PatientsListing>(`${this.apiUrl}/listPatientProfilesByMedicalRecordNumber/${id}`, { withCredentials: true });
   }
 
   public editPatientProfile(editedPatientProfile: PatientProfile): Observable<any> {
 
-    return this.http.patch(`${this.apiUrl}/Patient`, editedPatientProfile, { withCredentials: true });
+    return this.http.patch(`${this.apiUrl}`, editedPatientProfile, { withCredentials: true });
   }
-
-
 }
