@@ -1,5 +1,6 @@
 import { Component, AfterViewInit } from '@angular/core';
 import {SurgeryRoomService} from "../../../services/SurgeryRoomService/surgery-room.service";
+import json from '../../../appsettings.json';
 
 @Component({
   selector: 'app-connect3d',
@@ -8,7 +9,7 @@ import {SurgeryRoomService} from "../../../services/SurgeryRoomService/surgery-r
 })
 export class Connect3dComponent implements AfterViewInit {
 
-  iframeUrl: string = 'http://localhost:4201';
+  iframeUrl: string = json.threeDConfig.url;
   arrayData: any[] = [];
   iframeElement!: HTMLIFrameElement;
 
