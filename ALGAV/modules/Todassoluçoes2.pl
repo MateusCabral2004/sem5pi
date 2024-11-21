@@ -275,10 +275,12 @@ schedule_surgery(Surgery, Date, Room) :-
     findall(NewInterval, (
     member(SurgeryInterval1, Result_allCombinatios),
      set_new_interval(SurgeryInterval1,RoomAgenda,Duration,NewInterval)), StaffRoomIntervals),
-        format('-------------StaffRoomIntervals-----------: ~w\n', [StaffRoomIntervals]),
+              list_to_set(StaffRoomIntervals, StaffRoomIntervals1),
+              flatten(StaffRoomIntervals1, StaffRoomIntervals2),
+        format('-------------StaffRoomIntervals-----------: ~w\n', [StaffRoomIntervals2]),
 
 
-    findall(SurgeryInterval, (member(SurgeryInterval, StaffRoomIntervals), check_room_availability(Room, Date, SurgeryInterval)), ValidRoomIntervals),
+    findall(SurgeryInterval, (member(SurgeryInterval, StaffRoomIntervals2), check_room_availability(Room, Date, SurgeryInterval)), ValidRoomIntervals),
     format('Intervalos válidos com a sala disponível: ~w\n', [ValidRoomIntervals]),
 
  min_final_minute(ValidRoomIntervals, MinInterval, UpdatedList),
@@ -401,8 +403,8 @@ check_room_availability(Room, Date, (Start, End)) :-
     agenda_operation_room(Room, Date, RoomAgenda),
 findall((AStart, AEnd, _), (
         member((AStart, AEnd, _), RoomAgenda),
-        Start =< AEnd,
-        End >= AStart
+        Start < AEnd,
+        End > AStart
     ), Conflicts),
     Conflicts = []. 
 
