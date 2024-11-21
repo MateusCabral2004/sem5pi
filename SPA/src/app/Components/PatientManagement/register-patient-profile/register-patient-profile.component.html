@@ -46,7 +46,7 @@
     <label for="phoneNumber">Phone Number</label>
     <input
       id="phoneNumber"
-      type="number"
+      type="number" min="100000001" max="999999999" step="1"
       [(ngModel)]="patientProfile.phoneNumber"
       name="phoneNumber"
     />

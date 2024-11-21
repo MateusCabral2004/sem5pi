@@ -29,25 +29,16 @@
     ></app-patient-profile-list>
   </div>
 
-  <div class="error-message" *ngIf="patientProfilesList.length == 0" >
-    <p>There are no patient profiles to list.</p>
+  <div class="error-message" *ngIf="showNoPatientProfilesFound; else invalidFields" >
+    <p>Invalid Input.</p>
   </div>
 
-  <div class="error-message" *ngIf="showEmptyEmailError">
-    <p>Invalid Email.</p>
-  </div>
+  <ng-template #invalidFields>
+    <div class="error-message" *ngIf="showEmptyMedicalRecordNumberError ||showEmptyDateBirthError || showEmptyEmailError || showEmptyNameError">
+      <p>No patient(s) found.</p>
+    </div>
+  </ng-template>
 
-  <div class="error-message" *ngIf="showEmptyMedicalRecordNumberError">
-    <p>Invalid Medical Record Number.</p>
-  </div>
-
-  <div class="error-message" *ngIf="showEmptyDateBirthError">
-    <p>Invalid Birth Date.</p>
-  </div>
-
-  <div class="error-message" *ngIf="showEmptyNameError">
-    <p>Invalid Name.</p>
-  </div>
 
 </app-backgroud-card>
 
