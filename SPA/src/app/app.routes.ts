@@ -8,13 +8,11 @@ import {EditOperationTypeComponent} from './Components/OperationTypeManagement/e
 import {ViewOperationTypeComponent} from './Components/OperationTypeManagement/view-operation-type/view-operation-type.component';
 import {EditStaffProfileComponent} from './Components/StaffManagement/edit-staff-profile/edit-staff-profile.component';
 import {AddStaffProfileComponent} from './Components/StaffManagement/add-staff-profile/add-staff-profile.component';
+import {Connect3dComponent} from './Components/LinkTo3dModule/connect3d/connect3d.component';
 import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
-import {
-  RegisterPatientProfileComponent
-} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
-import {
-  PatientManagementComponent
-} from './Components/PatientManagement/patientManagement/patient-management.component';
+import {RegisterPatientProfileComponent} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
+import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
+import {AuthGuard} from './Guard/auth.guard';
 
 
 export const routes: Routes = [
@@ -26,11 +24,15 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminMenuComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['admin']},
     title: 'AdminHome',
   },
   {
     path: 'admin/operationTypeManagement',
     component: OperationTypeManagementComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['admin']},
     runGuardsAndResolvers: 'always',
     title: 'OperationTypeManagement',
   },
@@ -46,6 +48,8 @@ export const routes: Routes = [
   },
   {
     path: 'admin/operationTypeManagement/add',
+    canActivate: [AuthGuard],
+    data: {roles: ['admin']},
     component: AddOperationTypeComponent,
     title: 'AddOperationType',
   },
@@ -72,11 +76,15 @@ export const routes: Routes = [
    {
     path: 'admin/operationTypeManagement/edit',
     component: EditOperationTypeComponent,
+     canActivate: [AuthGuard],
+     data: {roles: ['admin']},
     title: 'EditOperationType',
   },
   {
     path: 'admin/operationTypeManagement/view',
     component: ViewOperationTypeComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['admin']},
     title: 'ViewOperationType',
   },
   {
@@ -90,10 +98,13 @@ export const routes: Routes = [
     title: 'AddStaffProfile',
   },
   {
+    path: '3d',
+    component: Connect3dComponent,
+    title: '3D',
+  },
+  {
     path: 'admin/patient/register',
     component: RegisterPatientProfileComponent,
     title: 'RegisterPatientProfile',
   }
-
-
 ];
