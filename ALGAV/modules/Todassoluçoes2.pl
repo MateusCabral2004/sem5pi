@@ -8,19 +8,23 @@
 
 
 %another example
-agenda_staff(d001,20241028,[(720,790,m01),(1080,1140,c01)]).
-agenda_staff(d002,20241028,[(850,900,m02),(901,903,m02),(1380,1440,c02)]).
-agenda_staff(d003,20241028,[(720,790,m01),(910,980,m02)]).
-agenda_staff(d004,20241028,[(720,790,m01),(910,980,m02)]).
-agenda_staff(d005,20241028,[(910,980,m02)]).
-agenda_staff(d006,20241028,[(910,980,m02)]).
+agenda_staff(d001,20241028,[]).
+agenda_staff(d002,20241028,[]).
+agenda_staff(d003,20241028,[]).
+agenda_staff(d004,20241028,[]).
+agenda_staff(d005,20241028,[]).
+agenda_staff(d006,20241028,[]).
+agenda_staff(d007,20241028,[]).
+agenda_staff(d008,20241028,[]).
 
 timetable(d001,20241028,(480,1200)).
 timetable(d002,20241028,(720,1440)).
 timetable(d003,20241028,(600,1320)).
 timetable(d004,20241028,(520,1320)).
-timetable(d005,20241028,(520,1320)).
-timetable(d006,20241028,(520,1320)).
+timetable(d005,20241028,(520,1440)).
+timetable(d006,20241028,(520,1440)).
+timetable(d007,20241028,(520,1440)).
+timetable(d008,20241028,(520,1440)).
 
 %another example
 %timetable(d001,20241028,(480,1200)).
@@ -38,6 +42,8 @@ staff(d003, doctor, anesthetist, [so2, so3]).
 staff(d004, doctor, orthopaedist, [so2]).
 staff(d005, doctor, cleaner, [so2]).
 staff(d006, doctor, cleaner, [so2]).
+staff(d007, doctor, anesthetist, [so2, so3]).
+staff(d008, doctor, anesthetist, [so2, so3]).
 
 surgery_duration(so3, 10). % Exemplo: cirurgia so3 dura 120 minutos.
 surgery_duration(so2, 90).  % Exemplo: cirurgia so2 dura 90 minutos.
@@ -47,7 +53,7 @@ surgery_duration(so4, 90).  % Exemplo: cirurgia so2 dura 90 minutos.
 % Requisitos de staff para cirurgias
 
 surgery_staff_requirements(operation_team,so2, [(orthopaedist, 1)]).
-surgery_staff_requirements(anesthetist_team,so3, [(anesthetist, 1)]).
+surgery_staff_requirements(anesthetist_team,so2, [(anesthetist, 1)]).
 surgery_staff_requirements(cleaning_team,so2, [(cleaner, 1)]).
 
 surgery_staff_requirements(operation_team,so3, [(orthopaedist, 1)]).
@@ -58,7 +64,7 @@ surgery_staff_requirements(operation_team,so4, [(orthopaedist, 1)]).
 surgery_staff_requirements(anesthetist_team,so4, [(anesthetist, 1)]).
 surgery_staff_requirements(cleaning_team,so4, [(cleaner, 1)]).
 
-agenda_operation_room(or1,20241028,[(520,579,so100000)]).
+agenda_operation_room(or1,20241028,[(520,579,so100001)]).
 agenda_operation_room(ola,20241028,[]).
 
 
@@ -262,10 +268,14 @@ schedule_surgery(Surgery, Date, Room) :-
 
     
     precede(UniqueResultAnesthesia,UniqueResultsurgery,UniqueResultCleaning,Result_allCombinatios),
-         %  format('---------------Result_allCombinatios-----------: ~w\n', [Result_allCombinatios]),
+         format('---------------Result_allCombinatios-----------: ~w\n', [Result_allCombinatios]),
 
-    findall(NewInterval, (member(SurgeryInterval1, Result_allCombinatios), set_new_interval(SurgeryInterval1,Duration,NewInterval)), StaffRoomIntervals),
-      %  format('-------------StaffRoomIntervals-----------: ~w\n', [StaffRoomIntervals]),
+%alterar set_new interval
+    agenda_operation_room(Room, Date, RoomAgenda),
+    findall(NewInterval, (
+    member(SurgeryInterval1, Result_allCombinatios),
+     set_new_interval(SurgeryInterval1,RoomAgenda,Duration,NewInterval)), StaffRoomIntervals),
+        format('-------------StaffRoomIntervals-----------: ~w\n', [StaffRoomIntervals]),
 
 
     findall(SurgeryInterval, (member(SurgeryInterval, StaffRoomIntervals), check_room_availability(Room, Date, SurgeryInterval)), ValidRoomIntervals),
@@ -396,9 +406,6 @@ findall((AStart, AEnd, _), (
     ), Conflicts),
     Conflicts = []. 
 
-overlaps_with_existing([], _).
-overlaps_with_existing([(AStart, AEnd, _) | _], (Start, End)) :-
-    Start =< AEnd, End >= AStart, !.
 
 
 update_staff_agendas([], _, _, _).
@@ -483,10 +490,15 @@ is_available_in_intervalsAnesthesia((Start, End), CommonIntervals,Tipo) :-
     CStart =< Start+Time_Anesthesia+Time_Surgery,  
     CEnd >= End.      
 
-set_new_interval([(I1, _), (_, _),  (_, F3)],Duration,NewInterval):-
-   Aux is F3-Duration,
-   I1 < Aux,
-   NewInterval=(Aux,F3).
+set_new_interval([(I1, _), (_, _), (_, F3)], RoomAgenda, Duration, NewIntervals) :-
+    % Encontra todos os intervalos válidos na agenda
+    findall((AEnd, Aux), (
+        member((_, AEnd, _), RoomAgenda), % Percorre RoomAgenda
+        I1 =< AEnd,                         % Início é maior ou igual ao limite inferior
+        Aux is AEnd + Duration,             % Calcula o final do intervalo
+        Aux =< F3                             % Garante que não ultrapassa o limite superior
+    ), NewIntervals).                         % Retorna todos os intervalos válidos.
+
 
 precede([], [], [], []).
 precede([ (I1, F1) | L1 ], [ (I2, F2) | L2 ], [ (I3, F3) | L3 ], Result) :-
