@@ -262,10 +262,10 @@ schedule_surgery(Surgery, Date, Room) :-
 
     
     precede(UniqueResultAnesthesia,UniqueResultsurgery,UniqueResultCleaning,Result_allCombinatios),
-           format('---------------Result_allCombinatios-----------: ~w\n', [Result_allCombinatios]),
+         %  format('---------------Result_allCombinatios-----------: ~w\n', [Result_allCombinatios]),
 
     findall(NewInterval, (member(SurgeryInterval1, Result_allCombinatios), set_new_interval(SurgeryInterval1,Duration,NewInterval)), StaffRoomIntervals),
-        format('-------------StaffRoomIntervals-----------: ~w\n', [StaffRoomIntervals]),
+      %  format('-------------StaffRoomIntervals-----------: ~w\n', [StaffRoomIntervals]),
 
 
     findall(SurgeryInterval, (member(SurgeryInterval, StaffRoomIntervals), check_room_availability(Room, Date, SurgeryInterval)), ValidRoomIntervals),
@@ -486,8 +486,10 @@ set_new_interval([(I1, _), (_, _),  (_, F3)],Duration,NewInterval):-
 
 precede([], [], [], []).
 precede([ (I1, F1) | L1 ], [ (I2, F2) | L2 ], [ (I3, F3) | L3 ], Result) :-
-    F1 >= F2,
-    F2 >= I3,
+    I1 =< I2,
+    F1 >=I2,
+    I2=<I3,
+    F2>=I3,
     precede(L1, L2, L3, Rest),
     Result = [ [(I1, F1), (I2, F2), (I3, F3)] | Rest ],
     !.
