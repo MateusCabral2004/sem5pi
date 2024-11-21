@@ -8,6 +8,7 @@ import {PatientsListing} from '../../../Domain/PatientsListing';
 import {OperationType} from '../../../Domain/OperationType';
 import {PatientProfile} from '../../../Domain/PatientProfile';
 import {Staff} from '../../../Domain/Staff';
+import {ConsoleLogger} from '@angular/compiler-cli';
 
 
 @Component({
@@ -28,7 +29,6 @@ export class PatientManagementComponent implements OnInit {
   public showEmptyEmailError: boolean = false;
   public showEmptyDateBirthError: boolean = false;
   public showEmptyMedicalRecordNumberError: boolean = false;
-  patientProfileToDelete: PatientProfile | null = null;
   currentFilter: string = '';
 
 
@@ -60,19 +60,26 @@ export class PatientManagementComponent implements OnInit {
     this.confirmModal.open("Are you sure you want to proceed?");
   }
 
-  handleDeletePatientProfileConfirmation(isConfirmed: boolean) {
-    if (isConfirmed && this.patientProfileToDelete !== null) {
-      this.patientProfileService.deletePatientProfile(this.patientProfileToDelete).subscribe(
-        () => {
-          this.fetchPatientProfiles();
+  public handleDeletePatientProfileConfirmation(isConfirmed: boolean) {
+
+    if (isConfirmed) {
+      this.patientProfileService.deletePatientProfile(this.patientId).subscribe(
+        response => {
+          console.log('Patient profile deactivated:', response);
+
+          this.patientProfilesList = this.patientProfilesList.filter(patient => patient.email !== this.patientId);
         },
         error => {
-          console.error('Error deleting Patient Profile:', error);
-          alert('Error deleting Patient Profile: ' + (error.error || 'An unknown error occurred.'));
+
+          if (error.status === 404) {
+            console.log(error);
+          } else {
+            console.error('Error deactivating patient profile:', error);
+          }
         }
       );
-      this.patientProfileToDelete = null;
     }
+
   }
 
   public fetchPatientProfiles() {
@@ -85,6 +92,7 @@ export class PatientManagementComponent implements OnInit {
       }
     );
   }
+
   public handleSelectedFilter(filter: string) {
 
     if (filter === 'Name') {
@@ -94,7 +102,7 @@ export class PatientManagementComponent implements OnInit {
       this.enterFilterName.open("email");
     }
     if (filter === 'Medical Record Number') {
-      this.enterFilterName.open("medicalRecordNumber");
+      this.enterFilterName.open("id");
     }
     if (filter === 'Birth Date') {
       this.enterFilterName.open("birthDate");
@@ -107,7 +115,7 @@ export class PatientManagementComponent implements OnInit {
     this.showEmptyNameError = false;
     this.showEmptyEmailError = false;
     this.showEmptyMedicalRecordNumberError = false;
-    this.showEmptyDateBirthError=false;
+    this.showEmptyDateBirthError = false;
 
     if (this.currentFilter === 'name') {
       this.applyNameFilter(filterValue);
@@ -115,7 +123,7 @@ export class PatientManagementComponent implements OnInit {
     if (this.currentFilter === 'email') {
       this.applyEmailFilter(filterValue);
     }
-    if (this.currentFilter === 'medicalRecordNumber') {
+    if (this.currentFilter === 'id') {
       this.applyMedicalRecordNumberFilter(filterValue);
     }
     if (this.currentFilter === 'birthDate') {
@@ -129,8 +137,8 @@ export class PatientManagementComponent implements OnInit {
     this.showPatientProfileList = true;
     this.showEmptyEmailError = false;
     this.showEmptyNameError = false;
-    this.showEmptyDateBirthError=false;
-    this.showEmptyMedicalRecordNumberError=false;
+    this.showEmptyDateBirthError = false;
+    this.showEmptyMedicalRecordNumberError = false;
     this.fetchPatientProfiles();
     this.showNoPatientProfilesFound = false;
     this.showResetFilterButton = false;
@@ -141,7 +149,6 @@ export class PatientManagementComponent implements OnInit {
     const trimmedFilterName = filterName.trim();
 
     this.patientProfileService.filterPatientProfilesByName(trimmedFilterName).subscribe(
-
       (data: PatientsListing[]) => {
         this.showNoPatientProfilesFound = false;
         this.showPatientProfileList = true;
@@ -152,13 +159,14 @@ export class PatientManagementComponent implements OnInit {
         if (error.status === 404) {
           this.patientProfilesList = [];
           this.showPatientProfileList = false;
+          this.showResetFilterButton = true;
           this.showNoPatientProfilesFound = true;
-          this.showResetFilterButton = true;
 
-        }else {
+        } else {
           this.showPatientProfileList = false;
-          this.showEmptyNameError = true;
           this.showResetFilterButton = true;
+          this.showEmptyNameError = true;
+
         }
       }
     );
@@ -169,7 +177,6 @@ export class PatientManagementComponent implements OnInit {
     const trimmedFilterEmail = filterEmail.trim();
 
     this.patientProfileService.filterPatientProfilesByEmail(trimmedFilterEmail).subscribe(
-
       (data: PatientsListing) => {
         this.showNoPatientProfilesFound = false;
         this.showPatientProfileList = true;
@@ -183,8 +190,7 @@ export class PatientManagementComponent implements OnInit {
           this.showPatientProfileList = false;
           this.showNoPatientProfilesFound = true;
           this.showResetFilterButton = true;
-        }
-        else {
+        } else {
           this.showPatientProfileList = false;
           this.showEmptyEmailError = true;
           this.showResetFilterButton = true;
@@ -198,12 +204,12 @@ export class PatientManagementComponent implements OnInit {
     const trimmedMRN = filterMRN.trim();
 
     this.patientProfileService.filterPatientProfilesByMedicalRecordNumber(trimmedMRN).subscribe(
-
-      (data: PatientsListing[]) => {
-        this.showNoPatientProfilesFound = false;
-        this.showPatientProfileList = true;
-        this.patientProfilesList = data;
-        this.showResetFilterButton = true;
+      (data: PatientsListing) => {
+       this.showNoPatientProfilesFound = false;
+        this.patientProfilesList = [];
+        this.patientProfilesList.push(data);
+       this.showPatientProfileList = true;
+       this.showResetFilterButton = true;
       },
       (error) => {
         if (error.status === 404) {
@@ -212,7 +218,7 @@ export class PatientManagementComponent implements OnInit {
           this.showNoPatientProfilesFound = true;
           this.showResetFilterButton = true;
 
-        }else {
+        } else {
           this.showPatientProfileList = false;
           this.showEmptyMedicalRecordNumberError = true;
           this.showResetFilterButton = true;
@@ -221,11 +227,11 @@ export class PatientManagementComponent implements OnInit {
     );
   }
 
-
   public applyBirthDateFilter(filterBirthDate: string) {
 
-    this.patientProfileService.filterPatientProfilesByBirthDate(filterBirthDate).subscribe(
+    const trimmedBirthDate = filterBirthDate.trim();
 
+    this.patientProfileService.filterPatientProfilesByBirthDate(trimmedBirthDate).subscribe(
       (data: PatientsListing[]) => {
         this.showNoPatientProfilesFound = false;
         this.showPatientProfileList = true;
@@ -239,7 +245,7 @@ export class PatientManagementComponent implements OnInit {
           this.showNoPatientProfilesFound = true;
           this.showResetFilterButton = true;
 
-        }else {
+        } else {
           this.showPatientProfileList = false;
           this.showEmptyDateBirthError = true;
           this.showResetFilterButton = true;

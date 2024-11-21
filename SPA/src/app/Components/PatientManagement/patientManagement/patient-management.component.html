@@ -29,7 +29,7 @@
     ></app-patient-profile-list>
   </div>
 
-  <div class="error-message" *ngIf="patientProfilesList.length == 0">
+  <div class="error-message" *ngIf="patientProfilesList.length == 0" >
     <p>There are no patient profiles to list.</p>
   </div>
 
@@ -52,6 +52,7 @@
 </app-backgroud-card>
 
 <app-confirm-modal (confirmed)="handleDeletePatientProfileConfirmation($event)"></app-confirm-modal>
+
 <app-enter-filter-name
   (filterTypeToEmit)="currentFilter = $event"
   (nameToFilter)="handleFilterSelection($event)"

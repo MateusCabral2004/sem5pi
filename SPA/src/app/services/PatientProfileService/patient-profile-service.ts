@@ -29,8 +29,8 @@ export class PatientProfileService {
     );
   }
 
-  deletePatientProfile(patientProfile: PatientProfile): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/deletePatientProfile/${patientProfile.email}`, {
+  deletePatientProfile(email: string): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/Patient/deletePatientProfile/${email}`, {
       withCredentials: true,
       responseType: 'text'
     }).pipe(
@@ -59,9 +59,9 @@ export class PatientProfileService {
 
     return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByDateOfBirth/${birthDate}`, { withCredentials: true });
   }
-  public filterPatientProfilesByMedicalRecordNumber(medicalRecordNumber: string): Observable<PatientsListing[]> {
+  public filterPatientProfilesByMedicalRecordNumber(id: string): Observable<PatientsListing> {
 
-    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByMedicalRecordNumber/${medicalRecordNumber}`, { withCredentials: true });
+    return this.http.get<PatientsListing>(`${this.apiUrl}/Patient/listPatientProfilesByMedicalRecordNumber/${id}`, { withCredentials: true });
   }
 
   public editPatientProfile(editedPatientProfile: PatientProfile): Observable<any> {

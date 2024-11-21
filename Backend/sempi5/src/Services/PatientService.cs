@@ -385,11 +385,10 @@ public class PatientService
             throw new ArgumentException("The email address can´t be null");
         }
 
-        var patient = await _patientRepository.GetByEmail(email);
+        var patient = await _patientRepository.GetActivePatientByEmail(new Email(email));
 
         patient.PatientStatus = PatientStatusEnum.DEACTIVATED;        
         
-        await _patientRepository.SavePatientAsync(patient);
         await _unitOfWork.CommitAsync();
     }
 
@@ -485,6 +484,8 @@ public class PatientService
         await VerifyEmailAvailability(email);
         
         var patient = patientDTOToPatient(patientDTO);
+
+        patient.PatientStatus = PatientStatusEnum.ACTIVATED;
         await _patientRepository.AddAsync(patient);
 
         await _unitOfWork.CommitAsync();

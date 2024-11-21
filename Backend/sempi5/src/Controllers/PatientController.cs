@@ -216,14 +216,14 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpGet("listPatientProfilesByMedicalRecordNumber/{medicalRecordNumber}")]
+    [HttpGet("listPatientProfilesByMedicalRecordNumber/{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ListPatientProfilesByMedicalRecordNumber(
-        string medicalRecordNumber)
+        string Id)
     {
         try
         {
-            var medicalRecordNumberDto = new PatientIdDto { Id = medicalRecordNumber };
+            var medicalRecordNumberDto = new PatientIdDto { Id = Id };
             var patientProfiles = await patientService.ListPatientByMedicalRecordNumber(medicalRecordNumberDto);
             return Ok(patientProfiles);
         }
@@ -239,7 +239,7 @@ public class PatientController : ControllerBase
     {
         try
         {
-            string[] parts = birthDate.Split('/');
+            string[] parts = birthDate.Split('-');
             int year = int.Parse(parts[0]);
             int month = int.Parse(parts[1]);
             int day = int.Parse(parts[2]);
@@ -263,7 +263,7 @@ public class PatientController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message + e.StackTrace );
+            return BadRequest(e.Message );
         }
     }
 
