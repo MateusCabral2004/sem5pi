@@ -7,27 +7,37 @@
 :-dynamic assignment_surgery/2.
 
 
-
 %another example
 agenda_staff(d001,20241028,[(720,790,m01),(1080,1140,c01)]).
-agenda_staff(d002,20241028,[(850,900,m02),(901,960,m02),(1380,1440,c02)]).
+agenda_staff(d002,20241028,[(850,900,m02),(901,903,m02),(1380,1440,c02)]).
 agenda_staff(d003,20241028,[(720,790,m01),(910,980,m02)]).
+agenda_staff(d004,20241028,[(720,790,m01),(910,980,m02)]).
+agenda_staff(d005,20241028,[(910,980,m02)]).
+agenda_staff(d006,20241028,[(910,980,m02)]).
 
 timetable(d001,20241028,(480,1200)).
 timetable(d002,20241028,(720,1440)).
 timetable(d003,20241028,(600,1320)).
+timetable(d004,20241028,(520,1320)).
+timetable(d005,20241028,(520,1320)).
+timetable(d006,20241028,(520,1320)).
 
 %another example
 %timetable(d001,20241028,(480,1200)).
 %timetable(d002,20241028,(500,1440)).
 %timetable(d003,20241028,(520,1320)).
+%timetable(d004,20241028,(520,1320)).
+%timetable(d005,20241028,(520,1320)).
+%timetable(d006,20241028,(520,1320)).
+
 
 
 staff(d001,doctor,orthopaedist,[so2,so3,so4]).
 staff(d002,doctor,orthopaedist,[so2,so3,so4]).
 staff(d003, doctor, anesthetist, [so2, so3]).
 staff(d004, doctor, orthopaedist, [so2]).
-
+staff(d005, doctor, cleaner, [so2]).
+staff(d006, doctor, cleaner, [so2]).
 
 surgery_duration(so3, 10). % Exemplo: cirurgia so3 dura 120 minutos.
 surgery_duration(so2, 90).  % Exemplo: cirurgia so2 dura 90 minutos.
@@ -36,15 +46,19 @@ surgery_duration(so4, 90).  % Exemplo: cirurgia so2 dura 90 minutos.
 
 % Requisitos de staff para cirurgias
 
-surgery_staff_requirements(operation_team,so3, [(orthopaedist, 2)]).  
-surgery_staff_requirements(anesthetist_team,so3, [ (anesthetist, 1)]).
-surgery_staff_requirements(cleaning_team,so3, [(cleaner, 2)]).
+surgery_staff_requirements(operation_team,so2, [(orthopaedist, 1)]).
+surgery_staff_requirements(anesthetist_team,so3, [(anesthetist, 1)]).
+surgery_staff_requirements(cleaning_team,so2, [(cleaner, 1)]).
 
-surgery_staff_requirements(operation_team,so4, [(orthopaedist, 2)]).
+surgery_staff_requirements(operation_team,so3, [(orthopaedist, 1)]).
+surgery_staff_requirements(anesthetist_team,so3, [(anesthetist, 1)]).
+surgery_staff_requirements(cleaning_team,so3, [(cleaner, 1)]).
+
+surgery_staff_requirements(operation_team,so4, [(orthopaedist, 1)]).
 surgery_staff_requirements(anesthetist_team,so4, [(anesthetist, 1)]).
-surgery_staff_requirements(cleaning_team,so4, [(cleaner, 2)]).
+surgery_staff_requirements(cleaning_team,so4, [(cleaner, 1)]).
 
-agenda_operation_room(or1,20241028,[(520,579,so100000),(1000,1059,so099999)]).
+agenda_operation_room(or1,20241028,[(520,579,so100000)]).
 agenda_operation_room(ola,20241028,[]).
 
 
@@ -247,36 +261,65 @@ schedule_surgery(Surgery, Date, Room) :-
         format('Intervalos suficientes encontrados para a equipa de limpeza: ~w\n', [UniqueResultCleaning]),
 
     
-    %procede(UniqueResultsurgery,UniqueResultAnesthesia,UniqueResultCleaning,Result_allCombinatios).
-    %pegar no tempo total da cirugiae subtrair ao menor valor final guardar o inicionicial e final para agendar.
+    precede(UniqueResultAnesthesia,UniqueResultsurgery,UniqueResultCleaning,Result_allCombinatios),
+           format('---------------Result_allCombinatios-----------: ~w\n', [Result_allCombinatios]),
+
+    findall(NewInterval, (member(SurgeryInterval1, Result_allCombinatios), set_new_interval(SurgeryInterval1,Duration,NewInterval)), StaffRoomIntervals),
+        format('-------------StaffRoomIntervals-----------: ~w\n', [StaffRoomIntervals]),
 
 
-
-    % Verificar disponibilidade da sala
-    findall(SurgeryInterval, (member(SurgeryInterval, AllSurgeryInterval), check_room_availability(Room, Date, SurgeryInterval)), ValidRoomIntervals),
+    findall(SurgeryInterval, (member(SurgeryInterval, StaffRoomIntervals), check_room_availability(Room, Date, SurgeryInterval)), ValidRoomIntervals),
     format('Intervalos válidos com a sala disponível: ~w\n', [ValidRoomIntervals]),
 
     % Obter o intervalo mais tardio
-    min_final_minute(AllSurgeryInterval, MinInterval),
+    min_final_minute(StaffRoomIntervals, MinInterval),
     format('Menor hora final selecionado: ~w\n', [MinInterval]),
 
     % Encontrar as equipes com o intervalo final mais cedo
-    find_staff_with_min_interval(StaffList, Date, MinInterval, StaffWithMinInterval),
-    format('Equipes com o intervalo ~w disponível: ~w\n', [MinInterval, StaffWithMinInterval]),
+    find_staff_with_min_interval(StaffList, Date, MinInterval, StaffWithMinInterval,Tipo),
+    format('Equipes com o intervalo ~w disponível cirugia: ~w\n', [MinInterval, StaffWithMinInterval]),
+
+ % Encontrar as equipes com o intervalo final mais cedo
+    find_staff_with_min_intervalAnesthesia(Staff_AnesthesiaList, Date, MinInterval, StaffWithMinInterval_AnesthesiaList,Tipo),
+    format('Equipes com o intervalo ~w disponível anesthesia: ~w\n', [MinInterval, StaffWithMinInterval_AnesthesiaList]),
+
+ % Encontrar as equipes com o intervalo final mais cedo
+    find_staff_with_min_intervalClenaing(Staff_CleaningList, Date, MinInterval, StaffWithMinInterval_CleaningLis,Tipo),
+    format('Equipes com o intervalo ~w disponível cleaning: ~w\n', [MinInterval, StaffWithMinInterval_CleaningLis]),
 
     % Se houver equipes disponíveis, selecionar uma e atualizar as agendas
     
          [SelectedTeam | _] = StaffWithMinInterval,  % Seleciona a primeira equipe disponível
          format('Equipe selecionada: ~w\n', [SelectedTeam]),
+         
+         [SelectedTeamAnesthesia | _] = StaffWithMinInterval_AnesthesiaList,  % Seleciona a primeira equipe disponível
+         format('Equipe selecionada: ~w\n', [SelectedTeamAnesthesia]),
+                  
+         [SelectedTeamCleaning | _] = StaffWithMinInterval_CleaningLis,  % Seleciona a primeira equipe disponível
+         format('Equipe selecionada: ~w\n', [SelectedTeamCleaning]),
  
  
         % Adicionar a atribuição da cirurgia
         add_assignment_surgery(Surgery, Room),
         format('Cirurgia ~w atribuída à sala ~w.\n', [Surgery, Room]),
+        
+          (Start, End)=MinInterval,
+            AdjustedStartSurgery is Start + Time_Anesthesia,  
+            AdjustedEndSurgery is End - Time_Cleaning,        
+            AdjustedStartAnesthesia is Start,  
+            AdjustedEndAnesthesia is End - Time_Cleaning,        
+            AdjustedStartCleaning is Start + Time_Anesthesia + Time_Surgery,  
+            AdjustedEndCleaning is End,        
  
          % Atualizar a agenda da equipe
-         update_staff_agendas(SelectedTeam, Date, MinInterval, Surgery),   
+         update_staff_agendas(SelectedTeam, Date, (AdjustedStartSurgery, AdjustedEndSurgery), Surgery),   
          format('Agenda da equipe ~w atualizada para a cirurgia ~w.\n', [SelectedTeam, Surgery]),
+         
+         update_staff_agendas(SelectedTeamAnesthesia, Date, (AdjustedStartAnesthesia,AdjustedEndAnesthesia), Surgery),   
+         format('Agenda da equipe ~w atualizada para a cirurgia ~w.\n', [SelectedTeamAnesthesia, Surgery]),
+                  
+         update_staff_agendas(SelectedTeamCleaning, Date, (AdjustedStartCleaning, AdjustedEndCleaning), Surgery),   
+         format('Agenda da equipe ~w atualizada para a cirurgia ~w.\n', [SelectedTeamCleaning, Surgery]),
  
          % Atualizar a agenda da sala
          update_room_agenda(Room, Date, MinInterval, Surgery),
@@ -294,7 +337,7 @@ get_staff_for_surgery([(Type, Quantity) | RestRequirements], AllStaffLists) :-
              member(RestStaff, RestStaffLists),   % ...combine com as possibilidades do resto.
              append(Selected, RestStaff, AppendedList)), 
             AllStaffLists). % Produz todas as combinações possíveis.
-           % AllStaffLists\=[].
+           %TODO AllStaffLists\=[].
 
 combination(0, _, []). 
 combination(N, [H|T], [H|R]) :- 
@@ -342,7 +385,7 @@ update_staff_agendas([ID | Rest], Date, (Start, End), Surgery) :-
 
 %Melhorar
 %Surgery- tem de ser o id da cirrugia, ou seja tenho de cria uma nova cirurgia
-update_room_agenda(Room, Date, (Start, End), Surgery) :-
+    update_room_agenda(Room, Date, (Start, End), Surgery) :-
     agenda_operation_room(Room, Date, CurrentAgenda),
 
     append(CurrentAgenda, [(Start, End, Surgery)], UpdatedAgenda),
@@ -366,17 +409,51 @@ min_final_minute(AllCommonIntervals, MinInterval) :-
     MinInterval = (_, MinMinute). % Encontra o intervalo com o minuto final igual a MinMinute
 
 % Encontra a equipe que tem o intervalo comum igual ao min_interval
-find_staff_with_min_interval(StaffList, Date, MinInterval, StaffWithMinInterval) :-
+find_staff_with_min_interval(StaffList, Date, MinInterval, StaffWithMinInterval,Tipo) :-
     findall(Team, (
         member(Team, StaffList),
         intersect_all_agendas(Team, Date, CommonIntervals),
-        member(MinInterval, CommonIntervals)  % Verifica se MinInterval está na lista de CommonIntervals da equipe
+        is_available_in_intervals(MinInterval, CommonIntervals,Tipo)  % Verifica se MinInterval está na lista de CommonIntervals da equipe
     ), StaffWithMinInterval).
+ find_staff_with_min_intervalClenaing(StaffList, Date, MinInterval, StaffWithMinInterval,Tipo) :-
+     findall(Team, (
+         member(Team, StaffList),
+         intersect_all_agendas(Team, Date, CommonIntervals),
+         is_available_in_intervalsClenaing(MinInterval, CommonIntervals,Tipo)  % Verifica se MinInterval está na lista de CommonIntervals da equipe
+     ), StaffWithMinInterval).
+find_staff_with_min_intervalAnesthesia(StaffList, Date, MinInterval, StaffWithMinInterval,Tipo) :-
+    findall(Team, (
+        member(Team, StaffList),
+        intersect_all_agendas(Team, Date, CommonIntervals),
+        is_available_in_intervalsAnesthesia(MinInterval, CommonIntervals,Tipo)  % Verifica se MinInterval está na lista de CommonIntervals da equipe
+    ), StaffWithMinInterval).
+
+% Verifica se MinInterval está disponível em CommonIntervals
+is_available_in_intervals((Start, End), CommonIntervals,Tipo) :-
+    surgery(Tipo,Time_Anesthesia,_,Time_Cleaning),
+    member((CStart, CEnd), CommonIntervals),  % Itera sobre CommonIntervals
+    CStart =< Start + Time_Anesthesia,  % O início do intervalo comum deve ser menor ou igual ao início de MinInterval
+    CEnd >= End - Time_Cleaning.      % O fim do intervalo comum deve ser maior ou igual ao fim de MinInterval
+
+is_available_in_intervalsClenaing((Start, End), CommonIntervals,Tipo) :-
+    surgery(Tipo,_,_,Time_Cleaning),
+    member((CStart, CEnd), CommonIntervals),  
+    CStart =< Start,  
+    CEnd >= End-Time_Cleaning.     
+
+is_available_in_intervalsAnesthesia((Start, End), CommonIntervals,Tipo) :-
+    surgery(Tipo,Time_Anesthesia,Time_Surgery,_),
+    member((CStart, CEnd), CommonIntervals),
+    CStart =< Start+Time_Anesthesia+Time_Surgery,  
+    CEnd >= End.      
+
+set_new_interval([(I1, F1), (I2, F2),  (I3, F3)],Duration,NewInterval):-
+   Aux is F3-Duration,
+   I1 < Aux,
+   NewInterval=(Aux,F3).
 
 precede([], [], [], []).
 precede([ (I1, F1) | L1 ], [ (I2, F2) | L2 ], [ (I3, F3) | L3 ], Result) :-
-    I1 < I2+1,
-    I2 < I3+1,
     F1 >= F2,
     F2 >= I3,
     precede(L1, L2, L3, Rest),
@@ -388,22 +465,21 @@ precede(L1, [ _ | L2 ], L3, Result) :-
     precede(L1, L2, L3, Result).
 precede(L1, L2, [ _ | L3 ], Result) :-
     precede(L1, L2, L3, Result).
-    
-    
-% Predicado para obter os intervalos livres de uma sala em uma data específica
-intervalos_livres(Room, Date, FreeIntervals) :-
-    % Acessa os intervalos ocupados da sala na data fornecida
-    agenda_operation_room(Room, Date, OccupiedIntervals),
-    % Ordena os intervalos ocupados para garantir que estão em ordem cronológica
-    sort(OccupiedIntervals, SortedIntervals),
-    % Chama o predicado para calcular os intervalos livres
-    find_free_intervals(SortedIntervals, FreeIntervals).
+precede([ _ | L1 ], [ _ | L2 ], [ _ | L3 ], Result) :-
+    precede(L1, L2, L3, Result).
 
-% Caso em que não há intervalos ocupados, a sala está livre o dia inteiro
-find_free_intervals([], [(0, 1440)]).  % O intervalo é (0, 1440), ou seja, o dia inteiro (em minutos)
+    
+find_team(SpecializationTeam, Team) :-
+        op_requirements(SpecializationTeam, Classes),
+        findall(ID, (member(Class, Classes), staff(ID, _, Class, _)), Team),
+        Team \= [].
 
-% Encontrar os intervalos livres entre os intervalos ocupados
-find_free_intervals([(Start, End) | Rest], FreeIntervals) :-
-    find_free_intervals(Rest, RestFreeIntervals),
-    (Start > 0 -> FreeIntervals = [(0, Start) | RestFreeIntervals] ; FreeIntervals = RestFreeIntervals),
-    (RestFreeIntervals = [(NextStart, _)] -> (End < 1440 -> FreeIntervals = [(End, 1440)]) ; true).
+        
+get_teams_for_surgery( StaffList, [AnesthetistTeam, OperationTeam, CleaningTeam]) :-
+    find_team(operation,OperationTeam ),
+    find_team(anesthetist, AnesthetistTeam),
+     find_team(cleaning, CleaningTeam).
+    
+op_requirements(operation,[orthopaedist]).
+op_requirements(anesthetist,[anesthetist]).
+op_requirements(cleaning,[cleaning]).
