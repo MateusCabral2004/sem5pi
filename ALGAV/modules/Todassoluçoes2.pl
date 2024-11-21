@@ -275,8 +275,8 @@ schedule_surgery(Surgery, Date, Room) :-
     findall(NewInterval, (
     member(SurgeryInterval1, Result_allCombinatios),
      set_new_interval(SurgeryInterval1,RoomAgenda,Duration,NewInterval)), StaffRoomIntervals),
-              list_to_set(StaffRoomIntervals, StaffRoomIntervals1),
-              flatten(StaffRoomIntervals1, StaffRoomIntervals2),
+              flatten(StaffRoomIntervals, StaffRoomIntervals1),
+              list_to_set(StaffRoomIntervals1, StaffRoomIntervals2),
         format('-------------StaffRoomIntervals-----------: ~w\n', [StaffRoomIntervals2]),
 
 
@@ -495,11 +495,19 @@ is_available_in_intervalsAnesthesia((Start, End), CommonIntervals,Tipo) :-
 set_new_interval([(I1, _), (_, _), (_, F3)], RoomAgenda, Duration, NewIntervals) :-
     % Encontra todos os intervalos válidos na agenda
     findall((AEnd, Aux), (
-        member((_, AEnd, _), RoomAgenda), % Percorre RoomAgenda
-        I1 =< AEnd,                         % Início é maior ou igual ao limite inferior
-        Aux is AEnd + Duration,             % Calcula o final do intervalo
-        Aux =< F3                             % Garante que não ultrapassa o limite superior
-    ), NewIntervals).                         % Retorna todos os intervalos válidos.
+            member((_, AEnd, _), RoomAgenda), 
+            I1 =< AEnd,                      
+            Aux is AEnd + Duration,          
+            Aux =< F3                        
+        ), IntervalsFromEnd),
+        
+    findall((I1, Aux), (
+                 member((AStart, _, _), RoomAgenda), 
+                 I1 =< AStart,                         
+                 Aux is I1 + Duration,             
+                 Aux =< F3                            
+             ), IntervalsFromStart) ,                         
+    append(IntervalsFromEnd, IntervalsFromStart, NewIntervals).
 
 
 precede([], [], [], []).
