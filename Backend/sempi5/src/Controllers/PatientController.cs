@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PatientAggregate.Exceptions;
+using Sempi5.Domain.Shared;
 using Sempi5.Domain.StaffAggregate.StaffExceptions;
 using Sempi5.Services;
 using ILogger = Serilog.ILogger;
@@ -182,13 +183,15 @@ public class PatientController : ControllerBase
         await emailService.SendEmailAsync(email, body, subject);
     }
 
-    [HttpGet("listPatientProfilesByName")]
+    [HttpGet("listPatientProfilesByName/{name}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ListPatientProfilesByName(NameDTO nameDto)
+    public async Task<IActionResult> ListPatientProfilesByName(string name)
     {
         try
         {
+            var nameDto = new NameDTO { name=name};
             var patientProfile = await patientService.ListPatientByName(nameDto);
+            
             return Ok(patientProfile);
         }
         catch (Exception e)
@@ -197,12 +200,13 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpGet("listPatientProfilesByEmail")]
+    [HttpGet("listPatientProfilesByEmail/{email}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ListPatientProfilesByEmail(EmailDTO emailDto)
+    public async Task<IActionResult> ListPatientProfilesByEmail(string  email)
     {
         try
         {
+            var emailDto = new EmailDTO { email = email };
             var patientProfiles = await patientService.ListPatientByEmail(emailDto);
             return Ok(patientProfiles);
         }
@@ -212,14 +216,15 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpGet("listPatientProfilesByMedicalRecordNumber")]
+    [HttpGet("listPatientProfilesByMedicalRecordNumber/{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ListPatientProfilesByMedicalRecordNumber(
-        PatientIdDto patientId)
+        string Id)
     {
         try
         {
-            var patientProfiles = await patientService.ListPatientByMedicalRecordNumber(patientId);
+            var medicalRecordNumberDto = new PatientIdDto { Id = Id };
+            var patientProfiles = await patientService.ListPatientByMedicalRecordNumber(medicalRecordNumberDto);
             return Ok(patientProfiles);
         }
         catch (Exception e)
@@ -228,12 +233,17 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpGet("listPatientProfilesByDateOfBirth")]
+    [HttpGet("listPatientProfilesByDateOfBirth/{birthDate}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ListPatientProfilesByDateOfBirth(DateDTO dateDto)
+    public async Task<IActionResult> ListPatientProfilesByDateOfBirth(string birthDate)
     {
         try
         {
+            string[] parts = birthDate.Split('-');
+            int year = int.Parse(parts[0]);
+            int month = int.Parse(parts[1]);
+            int day = int.Parse(parts[2]);
+            var dateDto = new DateDTO { year=year, month=month, day= day};
             var patientProfiles = await patientService.ListPatientByDateOfBirth(dateDto);
             return Ok(patientProfiles);
         }
@@ -296,11 +306,11 @@ public class PatientController : ControllerBase
     
     [HttpGet]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ListAllPatientProfiles()
+    public async Task<IActionResult> ListAllActivePatientProfiles()
     {
         try
         {
-            var patientProfile = await patientService.ListAllPatients();
+            var patientProfile = await patientService.ListAllActivePatients();
             
             return Ok(patientProfile);
         }

@@ -10,7 +10,7 @@ import {PatientsListing} from '../../../Domain/PatientsListing';
 export class PatientProfileListComponent {
   @Input() patientProfileList: PatientsListing[] = [];
   @Output() deletePatientProfile = new EventEmitter<string>();
-  @Output() editPatientProfile = new EventEmitter<PatientsListing>();
+  @Output() editPatientProfile = new EventEmitter<string>();
 
   ngOnInit(){
     console.log(this.patientProfileList);

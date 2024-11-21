@@ -1,5 +1,10 @@
 ﻿<div class="patient-profile-list">
   <div *ngFor="let patient of patientProfileList" class="patient-profile-item">
     <app-patient-profile-details [patient]="patient"></app-patient-profile-details>
+    <div class="patient-profile-actions">
+      <app-delete-patient-profile-button
+        (delete)="deletePatientProfile.emit(patient.email)"
+      ></app-delete-patient-profile-button>
+    </div>
   </div>
 </div>

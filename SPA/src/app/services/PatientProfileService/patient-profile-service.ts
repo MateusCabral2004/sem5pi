@@ -29,37 +29,45 @@ export class PatientProfileService {
     );
   }
 
-  public deletePatientProfile(patientId: string): Observable<any> {
-
-    return this.http.delete(`${this.apiUrl}/Patient/${patientId}`, { withCredentials: true });
+  deletePatientProfile(email: string): Observable<string> {
+    return this.http.delete(`${this.apiUrl}/Patient/deletePatientProfile/${email}`, {
+      withCredentials: true,
+      responseType: 'text'
+    }).pipe(
+      catchError(error => {
+        console.error('Error deleting patient profile:', error);
+        return of('');
+      })
+    );
   }
   public listAllPatientProfiles(): Observable<PatientsListing[]> {
 
     return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient`, { withCredentials: true });
   }
 
-  public filterPatientProfilesByName(name: string): Observable<PatientProfile[]> {
+  public filterPatientProfilesByName(name: string): Observable<PatientsListing[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/by-name/${name}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByName/${name}`, { withCredentials: true });
   }
 
   public filterPatientProfilesByEmail(email: string): Observable<any> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/by-email/${email}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByEmail/${email}`, { withCredentials: true });
   }
 
-  public filterPatientProfilesByBirthDate(birthDate: string): Observable<PatientProfile[]> {
+  public filterPatientProfilesByBirthDate(birthDate: string): Observable<PatientsListing[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/by-birthDate/${birthDate}`, { withCredentials: true });
+    return this.http.get<PatientsListing[]>(`${this.apiUrl}/Patient/listPatientProfilesByDateOfBirth/${birthDate}`, { withCredentials: true });
   }
-  public filterPatientProfilesByMedicalRecordNumber(medicalRecordNumber: string): Observable<PatientProfile[]> {
+  public filterPatientProfilesByMedicalRecordNumber(id: string): Observable<PatientsListing> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/by-birthDate/${medicalRecordNumber}`, { withCredentials: true });
+    return this.http.get<PatientsListing>(`${this.apiUrl}/Patient/listPatientProfilesByMedicalRecordNumber/${id}`, { withCredentials: true });
   }
 
   public editPatientProfile(editedPatientProfile: PatientProfile): Observable<any> {
 
     return this.http.patch(`${this.apiUrl}/Patient`, editedPatientProfile, { withCredentials: true });
   }
+
 
 }

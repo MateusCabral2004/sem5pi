@@ -14,6 +14,7 @@ import {RegisterPatientProfileComponent} from './Components/PatientManagement/re
 import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
 import {AuthGuard} from './Guard/auth.guard';
 
+
 export const routes: Routes = [
   {
     path: '',

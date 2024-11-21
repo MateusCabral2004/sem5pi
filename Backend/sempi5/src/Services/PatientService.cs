@@ -387,10 +387,8 @@ public class PatientService
 
         var patient = await _patientRepository.GetActivePatientByEmail(new Email(email));
 
-        patient.Person = null;
-        patient.EmergencyContact = null;
-        patient.AllergiesAndMedicalConditions = null;
-
+        patient.PatientStatus = PatientStatusEnum.DEACTIVATED;        
+        
         await _unitOfWork.CommitAsync();
     }
 
@@ -486,14 +484,16 @@ public class PatientService
         await VerifyEmailAvailability(email);
         
         var patient = patientDTOToPatient(patientDTO);
+
+        patient.PatientStatus = PatientStatusEnum.ACTIVATED;
         await _patientRepository.AddAsync(patient);
 
         await _unitOfWork.CommitAsync();
     }
     
-    public async Task<List<SearchedPatientDTO>> ListAllPatients()
+    public async Task<List<SearchedPatientDTO>> ListAllActivePatients()
     {
-        var patientsList = await _patientRepository.GetAllPatients();
+        var patientsList = await _patientRepository.GetAllActivePatients();
         if (patientsList.Count == 0)
         {
             throw new ArgumentException("Patient profiles not found.");

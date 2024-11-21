@@ -35,9 +35,18 @@ import {SafeUrlPipe} from './Components/LinkTo3dModule/safeUrlPipe/safe-url.pipe
 import {Connect3dComponent} from './Components/LinkTo3dModule/connect3d/connect3d.component';
 import {RegisterPatientProfileComponent} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
 import {RegisterPatientComponent} from './Components/Patient/register-patient/register-patient.component';
-import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
-import {PatientProfileListComponent} from './Components/PatientManagement/patient-profile-list/patient-profile-list.component';
-import {PatientProfileDetailsComponent} from './Components/PatientManagement/patient-profile-details/patient-profile-details.component';
+import {
+  PatientManagementComponent
+} from './Components/PatientManagement/patientManagement/patient-management.component';
+import {
+  PatientProfileListComponent
+} from './Components/PatientManagement/patient-profile-list/patient-profile-list.component';
+import {
+  PatientProfileDetailsComponent
+} from './Components/PatientManagement/patient-profile-details/patient-profile-details.component';
+import {
+  DeletePatientProfileButtonComponent
+} from './Components/PatientManagement/delete-patient-profile-button/delete-patient-profile-button.component';
 
 
 
@@ -74,6 +83,7 @@ import {PatientProfileDetailsComponent} from './Components/PatientManagement/pat
     PatientManagementComponent,
     PatientProfileListComponent,
     PatientProfileDetailsComponent,
+    DeletePatientProfileButtonComponent
   ],
   imports: [
     BrowserModule,
