@@ -7,7 +7,8 @@ import {PatientProfileService} from '../../../services/PatientProfileService/pat
 @Component({
   selector: 'app-register-patient-profile',
   templateUrl: './register-patient-profile.component.html',
-  styleUrls: ['./register-patient-profile.component.css']
+  styleUrls: ['./register-patient-profile.component.css'],
+  standalone: false
 })
 
 export class RegisterPatientProfileComponent {

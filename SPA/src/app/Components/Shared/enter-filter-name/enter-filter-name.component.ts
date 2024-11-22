@@ -3,7 +3,8 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 @Component({
   selector: 'app-enter-filter-name',
   templateUrl: './enter-filter-name.component.html',
-  styleUrl: './enter-filter-name.component.css'
+  styleUrl: './enter-filter-name.component.css',
+  standalone: false
 })
 export class EnterFilterNameComponent {
 

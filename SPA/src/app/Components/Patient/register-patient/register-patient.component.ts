@@ -5,9 +5,10 @@ import {Router} from '@angular/router';
 
 
 @Component({
-  selector: 'app-register-patient',
-  templateUrl: './register-patient.component.html',
-  styleUrls: ['./register-patient.component.css']
+    selector: 'app-register-patient',
+    templateUrl: './register-patient.component.html',
+    styleUrls: ['./register-patient.component.css'],
+    standalone: false
 })
 export class RegisterPatientComponent {
   registrationForm: FormGroup;
