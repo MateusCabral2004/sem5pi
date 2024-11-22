@@ -43,6 +43,9 @@ public class OperationRequestController : ControllerBase
         try
         {
             await _operationRequestService.UpdateOperationRequestDeadline(operationRequestId, deadline, getEmail());
+            _logger.ForContext("CustomLogLevel", "CustomLevel")
+                .Information($"Update To Operation Request {operationRequestId}"+
+                             $"Deadline:{deadline}");
             return Ok("Operation request updated successfully");
         }
         catch (Exception e)
@@ -57,6 +60,9 @@ public class OperationRequestController : ControllerBase
         try
         {
             await _operationRequestService.UpdateOperationRequestPriority(operationRequestId, priority,getEmail());
+            _logger.ForContext("CustomLogLevel", "CustomLevel")
+                .Information($"Update To Operation Request {operationRequestId}"+
+                             $"Priority:{priority}");
             return Ok("Operation request updated successfully");
         }
         catch (Exception e)

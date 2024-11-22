@@ -1,0 +1,13 @@
+<div class="title-container">
+  <h1>3D Visualization Module</h1>
+  <app-home-button></app-home-button>
+</div>
+<div class="iframe-wrapper">
+  <iframe
+    #iframe
+    [src]="iframeUrl | safeUrl"
+    id="iframe"
+    allowfullscreen>
+  </iframe>
+</div>
+
