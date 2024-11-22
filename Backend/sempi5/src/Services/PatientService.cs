@@ -504,8 +504,8 @@ public class PatientService
             throw new ArgumentException("Patient profiles not found.");
         }
 
-        var staffDtoList = buildSearchedPatientDtoList(patientsList);
+        var patientDtoList = buildSearchedPatientDtoList(patientsList);
 
-        return staffDtoList;
+        return patientDtoList;
     }
 }
