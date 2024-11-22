@@ -22,7 +22,6 @@
   </form>
 </div>
 
-
 <div class="results">
   <h3>Search Results</h3>
   <table *ngIf="searchResults.length > 0">
@@ -31,7 +30,7 @@
       <th>Patient Name</th>
       <th>Operation Type</th>
       <th>Priority</th>
-      <th>Status</th>
+      <th *ngIf="hasStatusColumn()">Status</th>
       <th>Actions</th>
     </tr>
     </thead>
@@ -40,7 +39,7 @@
       <td>{{ result.patientName }}</td>
       <td>{{ result.operationType }}</td>
       <td>{{ result.priority }}</td>
-      <td>{{ result.status || 'N/A' }}</td>
+      <td *ngIf="hasStatusColumn()">{{ result.status }}</td>
       <td>
         <button (click)="deleteRequest(i)">Delete</button>
       </td>
@@ -50,4 +49,3 @@
 
   <p *ngIf="searchResults.length === 0">No results found.</p>
 </div>
-

@@ -9,10 +9,10 @@ import {OperationRequestService} from '../../../services/OperationRequestService
 })
 export class ListOperationRequestComponent  {
   searchFilters = {
-    patientName: '',
-    operationType: '',
-    priority: '',
-    status: ''
+    patientName: null,
+    operationType: null,
+    priority: null,
+    status: null
   };
 
   searchResults: any[] = [];
@@ -50,6 +50,8 @@ export class ListOperationRequestComponent  {
       console.log('Delete action cancelled.');
     }
   }
-
+  hasStatusColumn(): boolean {
+    return this.searchResults.some(result => result.status);
+  }
 
 }
