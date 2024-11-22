@@ -3,6 +3,7 @@
 beforeEach(() => {
   cy.setCookie('.AspNetCore.Cookies', json.Cookies.Admin);
   cy.visit('/admin/operationTypeManagement');
+  cy.reload();
   cy.wait(1000);
 });
 
@@ -22,6 +23,27 @@ describe("Operation Type Management", () => {
       cy.get(".operation-list .operation-item")
         .should("have.length", operationTypesCount);
     });
+  });
+
+  it("View Operation Type Details", () => {
+    cy.get(".operation-list .operation-item:first").within(() => {
+      cy.get(".operation-details p:first-of-type")
+        .invoke("text")
+        .then((text) => {
+          const operationName = text.trim().replace(/^Name:\s*/, '');
+          cy.wrap(operationName).as("operationName");
+          cy.get(".view-button").click();
+        });
+    });
+
+    cy.get('.form-group label:contains("Operation Name")').siblings('p')
+      .invoke('text')
+      .then((operationName) => {
+        cy.log("Operation Name:", operationName.trim());
+
+        cy.get("@operationName").should("eq", operationName.trim());
+      });
+
   });
 
   it("Deletes an Operation Type", () => {
@@ -65,6 +87,7 @@ describe("Operation Type Management", () => {
       cy.get("[type='submit']").click();
 
       cy.wait(1000);
+      cy.visit('/admin/operationTypeManagement');
       cy.reload();
 
       cy.log(initialSize + "");
@@ -111,23 +134,18 @@ describe("Operation Type Management", () => {
 
   describe("Edit Operation Durations", () => {
     const editDuration = (durationSelector: string, validationIndex: number) => {
-      // Generate a dynamic duration in HH:mm format based on the current time
       const newDuration = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
 
-      // Click edit on the first operation item
       cy.get(".operation-list .operation-item:first").within(() => {
         cy.get(".edit-button").click();
       });
 
-      // Edit the duration
       cy.get(durationSelector).clear().type(newDuration);
       cy.get("[type='submit']").click();
 
-      // Wait for UI update and reload the page
       cy.wait(500);
       cy.reload();
 
-      // Validate the updated duration
       cy.get(".operation-list .operation-item:first").within(() => {
         cy.get(`.operation-details p:nth-of-type(${validationIndex})`)
           .invoke("text")
@@ -145,6 +163,106 @@ describe("Operation Type Management", () => {
 
     it("Edits Cleanup Duration", () => {
       editDuration("#cleanupDuration", 4);
+    });
+  });
+
+
+  describe("Edit Required Staff", () => {
+    it("Add required staff", () => {
+      const specialization = "test doctor " + new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      const numberOfStaff = 5;
+
+      cy.get(".operation-list .operation-item:first").within(() => {
+        cy.get(".operation-details p:first-of-type");
+
+        cy.get(".edit-button").click();
+      });
+
+      cy.get("#specialization").type(specialization);
+      cy.get("#numberOfStaff").clear().type(numberOfStaff.toString());
+      cy.get(".inline-fields > button").click();
+      cy.get("[type='submit']").click();
+
+      cy.wait(1000);
+      cy.reload();
+
+      cy.get(".operation-list .operation-item:first").within(() => {
+        cy.get(".operation-details p:first-of-type");
+
+        cy.get(".view-button").click();
+      });
+
+      cy.get("ul").last().then(($lastitem) => {
+        cy.wrap($lastitem).should("contain", specialization);
+        cy.wrap($lastitem).should("contain", numberOfStaff);
+      });
+    });
+
+    it("Remove required staff", () => {
+
+      cy.get(".operation-list .operation-item:first").within(() => {
+        cy.get(".operation-details p:first-of-type");
+
+        cy.get(".edit-button").click();
+      });
+
+      cy.get("ul li:last-child").then(($lastitem) => {
+        cy.wrap($lastitem.text().trim()).as("lastItemText");
+        cy.wrap($lastitem).find(".remove-btn").click();
+      });
+
+      cy.get('[type="submit"]').click();
+
+      cy.log(`Captured last item's text: @lastItemText`);
+
+      cy.wait(1000);
+      cy.reload();
+
+      cy.get(".operation-list .operation-item:first").within(() => {
+        cy.get(".operation-details p:first-of-type");
+        cy.get(".view-button").click();
+      });
+
+      cy.get("@lastItemText").then((lastItemText) => {
+        cy.get("ul").should("not.contain", lastItemText);
+      });
+    });
+  });
+
+  describe("Filter Operation Types", () => {
+    it("Filter by Name", () => {
+
+      const name = 'Heart Surgery';
+      cy.get('.filter-input').click();
+      cy.get('.filter-options > :nth-child(1)').click();
+      cy.get('#name-input').type(name);
+      cy.get('.modal-actions > :nth-child(1)').click();
+      cy.get('.operation-list .operation-item').should('have.length', 1);
+
+    });
+
+    it("Filter by Specialization", () => {
+      const name = 'Cleaner';
+      cy.get('.filter-input').click();
+      cy.get('.filter-options > :nth-child(2)').click();
+      cy.get('#name-input').type(name);
+      cy.get('.modal-actions > :nth-child(1)').click();
+
+      cy.get('.operation-list .operation-item').should('have.length.at.least', 1);
+    });
+
+    it("Filter by Number of Staff", () => {
+      cy.get('.filter-input').click();
+      cy.get('.filter-options > :nth-child(3)').click();
+      cy.get('#name-input').type('false');
+      cy.get('.modal-actions > :nth-child(1)').click();
+
+      cy.get('.operation-list .operation-item').should('have.length.at.least', 1);
+
     });
   });
 });
