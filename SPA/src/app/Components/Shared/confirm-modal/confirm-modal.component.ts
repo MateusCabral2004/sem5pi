@@ -3,7 +3,8 @@ import {Component, EventEmitter, Output} from '@angular/core';
 @Component({
   selector: 'app-confirm-modal',
   templateUrl: './confirm-modal.component.html',
-  styleUrl: './confirm-modal.component.css'
+  styleUrl: './confirm-modal.component.css',
+  standalone: false
 })
 export class ConfirmModalComponent {
   isVisible: boolean = false;

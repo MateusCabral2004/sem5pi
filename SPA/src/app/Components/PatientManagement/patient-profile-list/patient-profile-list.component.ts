@@ -5,7 +5,8 @@ import {PatientsListing} from '../../../Domain/PatientsListing';
 @Component({
   selector: 'app-patient-profile-list',
   templateUrl: './patient-profile-list.component.html',
-  styleUrl: './patient-profile-list.component.css'
+  styleUrl: './patient-profile-list.component.css',
+  standalone: false
 })
 export class PatientProfileListComponent {
   @Input() patientProfileList: PatientsListing[] = [];

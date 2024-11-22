@@ -7,7 +7,8 @@ import {RequiredStaff} from '../../../Domain/RequiredStaff';
 @Component({
     selector: 'app-edit-op-type',
     templateUrl: './edit-operation-type.component.html',
-    styleUrls: ['./edit-operation-type.component.css']
+    styleUrls: ['./edit-operation-type.component.css'],
+  standalone: false
 })
 export class EditOperationTypeComponent implements OnInit {
     updatedOperation!: OperationType;
