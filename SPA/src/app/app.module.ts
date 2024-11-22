@@ -54,6 +54,18 @@ import {
   EditPatientProfileComponent
 } from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
 import {DoctorMenuComponent} from './Components/Dashboards/doctor-home/doctor-home.component';
+import {
+  AddOperationRequestComponent
+} from './Components/OperationRequestManagement/add-operation-request/add-operation-request.component';
+import {
+  OperationRequestManagementComponent
+} from './Components/OperationRequestManagement/operation-request-management/operation-request-management.component';
+import {
+  OperationRequestDetailsComponent
+} from './Components/OperationRequestManagement/operation-request-details/operation-request-details.component';
+import {
+  OperationRequestListComponent
+} from './Components/OperationRequestManagement/operation-request-list/operation-request-list.component';
 
 
 
@@ -93,7 +105,11 @@ import {DoctorMenuComponent} from './Components/Dashboards/doctor-home/doctor-ho
     DeletePatientProfileButtonComponent,
     EditPatientProfileButtonComponent,
     EditPatientProfileComponent,
-    DoctorMenuComponent
+    DoctorMenuComponent,
+    AddOperationRequestComponent,
+    OperationRequestManagementComponent,
+    OperationRequestDetailsComponent,
+    OperationRequestListComponent
   ],
   imports: [
     BrowserModule,
