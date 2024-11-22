@@ -6,7 +6,8 @@ import {PatientProfile} from '../../../Domain/PatientProfile';
 @Component({
   selector: 'app-edit-patient-profile',
   templateUrl: './edit-patient-profile.component.html',
-  styleUrl: './edit-patient-profile.component.css'
+  styleUrl: './edit-patient-profile.component.css',
+  standalone: false
 })
 export class EditPatientProfileComponent implements OnInit {
 

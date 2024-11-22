@@ -9,7 +9,8 @@ import {AuthService} from '../../../services/AuthService/auth.service';
 @Component({
   selector: 'app-operation-request-management',
   templateUrl: './operation-request-management.component.html',
-  styleUrls: ['./operation-request-management.component.css']
+  styleUrls: ['./operation-request-management.component.css'],
+  standalone: false
 })
 
 export class OperationRequestManagementComponent implements OnInit {

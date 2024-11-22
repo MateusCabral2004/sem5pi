@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {PatientProfile} from '../../Domain/PatientProfile';
 import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
+import json from '../../appsettings.json';
 
 
 
@@ -63,12 +64,11 @@ export class PatientProfileService {
   }
   public filterPatientProfilesByMedicalRecordNumber(id: string): Observable<PatientProfile> {
 
-    return this.http.get<PatientProfile>(`${this.apiUrl}/Patient/listPatientProfilesByMedicalRecordNumber/${id}`, { withCredentials: true });
-
+    return this.http.get<PatientProfile>(`${this.apiUrl}/Patient/listPatientProfilesByMedicalRecordNumber/${id}`, {withCredentials: true});
+  }
 
   public editPatientProfile(editedPatientProfile: PatientProfile, email:string): Observable<any> {
 
     return this.http.put(`${this.apiUrl}/Patient/editPatientProfile/${email}`, editedPatientProfile, { withCredentials: true });
-
   }
 }

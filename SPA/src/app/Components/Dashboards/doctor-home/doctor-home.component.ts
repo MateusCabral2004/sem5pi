@@ -4,7 +4,8 @@ import {AuthService} from '../../../services/AuthService/auth.service';
 @Component({
   selector: 'app-doctor-home',
   templateUrl: './doctor-home.component.html',
-  styleUrls: ['./doctor-home.component.css']
+  styleUrls: ['./doctor-home.component.css'],
+  standalone: false
 })
 export class DoctorMenuComponent {
   private auth: AuthService;

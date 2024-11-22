@@ -6,7 +6,8 @@ import {OperationRequestService} from '../../../services/OperationRequestService
 @Component({
   selector: 'app-add-operation-request',
   templateUrl: './add-operation-request.component.html',
-  styleUrls: ['./add-operation-request.component.css']
+  styleUrls: ['./add-operation-request.component.css'],
+  standalone: false
 })
 export class AddOperationRequestComponent {
   operationRequest: OperationRequest = {

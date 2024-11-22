@@ -3,7 +3,8 @@
 @Component({
   selector: 'app-edit-patient-profile-button',
   templateUrl: './edit-patient-profile-button.component.html',
-  styleUrl: './edit-patient-profile-button.component.css'
+  styleUrl: './edit-patient-profile-button.component.css',
+  standalone: false
 })
 export class EditPatientProfileButtonComponent {
   @Input() patientId!: string;
