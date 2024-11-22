@@ -14,6 +14,10 @@ import {RegisterPatientProfileComponent} from './Components/PatientManagement/re
 import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
 import {AuthGuard} from './Guard/auth.guard';
 import {
+
+  ListOperationRequestComponent
+} from './Components/OperationRequest/list-operation-request/list-operation-request.component';
+import {
   DeletePatientAccoutComponent
 } from './Components/Patient/delete-patient-accout1/delete-patient-accout.component';
 import {
@@ -108,6 +112,12 @@ export const routes: Routes = [
     path: 'patient',
     component: RegisterPatientComponent,
     title: 'Patient Manegement',
+  },
+  {
+
+    path: 'doctor',
+    component: ListOperationRequestComponent,
+    title: 'doctor operations list',
   },
   {
     path: 'deleteAccount',
