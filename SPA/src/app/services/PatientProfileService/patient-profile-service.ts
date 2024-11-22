@@ -63,7 +63,7 @@ export class PatientProfileService {
 
   public editPatientProfile(editedPatientProfile: PatientProfile, email:string): Observable<any> {
 
-    return this.http.patch(`${this.apiUrl}/Patient/editPatientProfile/${email}`, editedPatientProfile, { withCredentials: true });
+    return this.http.put(`${this.apiUrl}/Patient/editPatientProfile/${email}`, editedPatientProfile, { withCredentials: true });
   }
 
 

@@ -88,6 +88,7 @@ export class EditPatientProfileComponent implements OnInit {
     if (this.checkForChangesInPhoneNumber()) {
       isAtLeastOneFieldFilled = true;
       this.updatedPatientProfile.phoneNumber = this.typedPatientProfile.phoneNumber;
+
     }
 
     if (this.checkForChangesInFirstName()) {
@@ -95,17 +96,21 @@ export class EditPatientProfileComponent implements OnInit {
       this.updatedPatientProfile.firstName = this.typedPatientProfile.firstName.trim();
     }
 
+
     if (this.checkForChangesInLastName()) {
       isAtLeastOneFieldFilled = true;
       this.updatedPatientProfile.lastName = this.typedPatientProfile.lastName.trim();
+
     }
 
     if (this.checkForChangesInBirthDate()) {
       isAtLeastOneFieldFilled = true;
       this.updatedPatientProfile.birthDate = this.typedPatientProfile.birthDate.trim();
     }
+
     return isAtLeastOneFieldFilled;
   }
+
 
   public saveChanges() {
     this.patientProfileService.editPatientProfile(this.updatedPatientProfile, this.originalPatientProfile.email).subscribe(

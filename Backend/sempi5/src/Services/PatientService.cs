@@ -430,7 +430,7 @@ public class PatientService
             patient.BirthDate = DateTime.Parse(editPatientDto.birthDate);
         }
 
-        if (editPatientDto.phoneNumber == -1)
+        if (editPatientDto.phoneNumber != null)
         {
             patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber ?? 0);
         }
