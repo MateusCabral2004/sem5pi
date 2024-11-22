@@ -10,4 +10,7 @@ public interface IOperationRequestRepository : IRepository<OperationRequest, Ope
     Task<OperationRequest?> GetByDoctorId(string doctorId);
     Task UpdateAsync(OperationRequest request);
     public Task<OperationRequest> GetOperationRequestById(string id);
+
+    public Task<List<OperationRequest>> GetDoctorsOperationsRequests(string doctorId);
+
 }

@@ -66,6 +66,8 @@ public class OperationTypeRepository : BaseRepository<OperationType, OperationTy
             .Where(o => o.stillPerformed)
             .ToListAsync();
     }
+    
+    
 
     
     

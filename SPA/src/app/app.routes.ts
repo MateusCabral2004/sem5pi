@@ -16,6 +16,17 @@ import {AuthGuard} from './Guard/auth.guard';
 import {
   DeletePatientAccoutComponent
 } from './Components/Patient/delete-patient-accout1/delete-patient-accout.component';
+import {
+  EditPatientProfileComponent
+} from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
+import {DoctorMenuComponent} from './Components/Dashboards/doctor-home/doctor-home.component';
+import {
+  OperationRequestManagementComponent
+} from './Components/OperationRequestManagement/operation-request-management/operation-request-management.component';
+import {
+  AddOperationRequestComponent
+} from './Components/OperationRequestManagement/add-operation-request/add-operation-request.component';
+
 
 
 export const routes: Routes = [
@@ -32,12 +43,27 @@ export const routes: Routes = [
     title: 'AdminHome',
   },
   {
+    path: 'doctor',
+    component: DoctorMenuComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['doctor']},
+    title: 'DoctorHome',
+  },
+  {
     path: 'admin/operationTypeManagement',
     component: OperationTypeManagementComponent,
     canActivate: [AuthGuard],
     data: {roles: ['admin']},
     runGuardsAndResolvers: 'always',
     title: 'OperationTypeManagement',
+  },
+  {
+    path: 'doctor/operationRequestManagement',
+    component: OperationRequestManagementComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['doctor']},
+    runGuardsAndResolvers: 'always',
+    title: 'OperationRequestManagement',
   },
   {
     path: 'admin/staff',
@@ -55,6 +81,13 @@ export const routes: Routes = [
     data: {roles: ['admin']},
     component: AddOperationTypeComponent,
     title: 'AddOperationType',
+  },
+  {
+    path: 'doctor/operationRequestManagement/add',
+    canActivate: [AuthGuard],
+    data: {roles: ['doctor']},
+    component: AddOperationRequestComponent,
+    title: 'AddOperationRequest',
   },
   {
     path: 'admin/patient/register',
@@ -114,5 +147,10 @@ export const routes: Routes = [
     path: 'admin/patient/register',
     component: RegisterPatientProfileComponent,
     title: 'RegisterPatientProfile',
+  },
+  {
+    path: 'admin/patient/edit',
+    component: EditPatientProfileComponent,
+    title: 'EditPatientProfileComponent',
   }
 ];
