@@ -1,5 +1,5 @@
 ﻿import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {PatientsListing} from '../../../Domain/PatientsListing';
+import {PatientProfile} from '../../../Domain/PatientProfile';
 
 
 @Component({
@@ -8,11 +8,8 @@ import {PatientsListing} from '../../../Domain/PatientsListing';
   styleUrl: './patient-profile-list.component.css'
 })
 export class PatientProfileListComponent {
-  @Input() patientProfileList: PatientsListing[] = [];
+  @Input() patientProfileList: PatientProfile[] = [];
   @Output() deletePatientProfile = new EventEmitter<string>();
-  @Output() editPatientProfile = new EventEmitter<string>();
+  @Output() editPatientProfile = new EventEmitter<PatientProfile>();
 
-  ngOnInit(){
-    console.log(this.patientProfileList);
-  }
 }

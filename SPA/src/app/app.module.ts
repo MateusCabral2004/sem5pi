@@ -50,6 +50,9 @@ import {
 import {
   EditPatientProfileButtonComponent
 } from './Components/PatientManagement/edit-patient-profile-button/edit-patient-profile-button.component';
+import {
+  EditPatientProfileComponent
+} from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
 
 
 
@@ -87,7 +90,8 @@ import {
     PatientProfileListComponent,
     PatientProfileDetailsComponent,
     DeletePatientProfileButtonComponent,
-    EditPatientProfileButtonComponent
+    EditPatientProfileButtonComponent,
+    EditPatientProfileComponent
   ],
   imports: [
     BrowserModule,

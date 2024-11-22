@@ -322,7 +322,12 @@ public class PatientService
             Id = patient.Id.AsString(),
             FullName = patient.Person.FullName.ToString(),
             Email = patient.Person.ContactInfo.email().ToString(),
-            BirthDate = patient.BirthDate.ToString("MM/dd/yyyy")
+            BirthDate = patient.BirthDate.ToString("MM/dd/yyyy"),
+            PhoneNumber = patient.Person.ContactInfo._phoneNumber.phoneNumber(),
+            FirstName=patient.Person.FirstName.ToString(),
+            LastName = patient.Person.LastName.ToString(),
+            Gender=patient.Gender,
+            EmergencyContact = patient.EmergencyContact
         };
     }
 

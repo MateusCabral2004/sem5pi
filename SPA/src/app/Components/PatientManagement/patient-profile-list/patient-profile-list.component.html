@@ -5,6 +5,9 @@
       <app-delete-patient-profile-button
         (delete)="deletePatientProfile.emit(patient.email)"
       ></app-delete-patient-profile-button>
+      <app-edit-patient-profile-button
+        (edit)="editPatientProfile.emit(patient)"
+      ></app-edit-patient-profile-button>
     </div>
   </div>
 </div>
