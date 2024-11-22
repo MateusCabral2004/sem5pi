@@ -47,12 +47,14 @@ import {
 import {
   DeletePatientProfileButtonComponent
 } from './Components/PatientManagement/delete-patient-profile-button/delete-patient-profile-button.component';
+import {UpdatePatientAccoutComponent} from "./Components/Patient/update-patient-accout/update-patient-accout.component";
 import {
   EditPatientProfileButtonComponent
 } from './Components/PatientManagement/edit-patient-profile-button/edit-patient-profile-button.component';
 import {
   EditPatientProfileComponent
 } from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
+
 
 
 
@@ -90,8 +92,10 @@ import {
     PatientProfileListComponent,
     PatientProfileDetailsComponent,
     DeletePatientProfileButtonComponent,
+    UpdatePatientAccoutComponent,
     EditPatientProfileButtonComponent,
     EditPatientProfileComponent
+
   ],
   imports: [
     BrowserModule,

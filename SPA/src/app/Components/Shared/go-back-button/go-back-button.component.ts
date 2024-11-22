@@ -6,7 +6,8 @@ import {switchMap} from 'rxjs';
 @Component({
   selector: 'app-go-back-button',
   templateUrl: './go-back-button.component.html',
-  styleUrls: ['./go-back-button.component.css']
+  styleUrls: ['./go-back-button.component.css'],
+  standalone: false
 })
 
 export class GoBackButtonComponent {

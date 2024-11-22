@@ -8,7 +8,8 @@ import {EnterFilterNameComponent} from '../../Shared/enter-filter-name/enter-fil
 @Component({
   selector: 'app-operation-type-management',
   templateUrl: './operation-type-management.component.html',
-  styleUrls: ['./operation-type-management.component.css']
+  styleUrls: ['./operation-type-management.component.css'],
+  standalone: false
 })
 export class OperationTypeManagementComponent implements OnInit {
   operationTypes: OperationType[] = [];

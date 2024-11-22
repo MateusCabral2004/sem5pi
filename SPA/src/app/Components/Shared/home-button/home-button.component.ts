@@ -6,7 +6,8 @@ import {switchMap} from 'rxjs';
 @Component({
   selector: 'app-home-button',
   templateUrl: './home-button.component.html',
-  styleUrls: ['./home-button.component.css']
+  styleUrls: ['./home-button.component.css'],
+  standalone: false
 })
 
 export class HomeButtonComponent {
