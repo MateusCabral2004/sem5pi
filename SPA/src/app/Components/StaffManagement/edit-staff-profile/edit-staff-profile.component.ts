@@ -7,7 +7,8 @@ import {StaffService} from '../../../services/StaffService/staff.service';
 @Component({
   selector: 'app-edit-staff-profile',
   templateUrl: './edit-staff-profile.component.html',
-  styleUrl: './edit-staff-profile.component.css'
+  styleUrl: './edit-staff-profile.component.css',
+  standalone: false
 })
 export class EditStaffProfileComponent implements OnInit {
 

@@ -14,6 +14,9 @@ import {RegisterPatientProfileComponent} from './Components/PatientManagement/re
 import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
 import {AuthGuard} from './Guard/auth.guard';
 import {
+  DeletePatientAccoutComponent
+} from './Components/Patient/delete-patient-accout1/delete-patient-accout.component';
+import {
   EditPatientProfileComponent
 } from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
 import {DoctorMenuComponent} from './Components/Dashboards/doctor-home/doctor-home.component';
@@ -23,6 +26,7 @@ import {
 import {
   AddOperationRequestComponent
 } from './Components/OperationRequestManagement/add-operation-request/add-operation-request.component';
+
 
 
 export const routes: Routes = [
@@ -104,6 +108,11 @@ export const routes: Routes = [
     path: 'patient',
     component: RegisterPatientComponent,
     title: 'Patient Manegement',
+  },
+  {
+    path: 'deleteAccount',
+    component: DeletePatientAccoutComponent,
+    title: 'Delete Patient Account',
   },
    {
     path: 'admin/operationTypeManagement/edit',

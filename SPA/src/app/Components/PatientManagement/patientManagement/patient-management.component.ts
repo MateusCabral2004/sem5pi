@@ -11,7 +11,8 @@ import {PatientProfile} from '../../../Domain/PatientProfile';
 @Component({
   selector: 'app-patient-management',
   templateUrl: './patient-management.component.html',
-  styleUrls: ['./patient-management.component.css']
+  styleUrls: ['./patient-management.component.css'],
+  standalone: false
 })
 export class PatientManagementComponent implements OnInit {
   public patientProfilesList: PatientProfile[] = [];

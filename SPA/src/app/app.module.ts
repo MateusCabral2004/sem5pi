@@ -48,6 +48,9 @@ import {
   DeletePatientProfileButtonComponent
 } from './Components/PatientManagement/delete-patient-profile-button/delete-patient-profile-button.component';
 import {
+  DeletePatientAccoutComponent
+} from './Components/Patient/delete-patient-accout1/delete-patient-accout.component';
+import {
   EditPatientProfileButtonComponent
 } from './Components/PatientManagement/edit-patient-profile-button/edit-patient-profile-button.component';
 import {
@@ -66,6 +69,7 @@ import {
 import {
   OperationRequestListComponent
 } from './Components/OperationRequestManagement/operation-request-list/operation-request-list.component';
+
 
 
 
@@ -103,6 +107,9 @@ import {
     PatientProfileListComponent,
     PatientProfileDetailsComponent,
     DeletePatientProfileButtonComponent,
+
+    DeletePatientAccoutComponent,
+
     EditPatientProfileButtonComponent,
     EditPatientProfileComponent,
     DoctorMenuComponent,
@@ -110,6 +117,7 @@ import {
     OperationRequestManagementComponent,
     OperationRequestDetailsComponent,
     OperationRequestListComponent
+
   ],
   imports: [
     BrowserModule,

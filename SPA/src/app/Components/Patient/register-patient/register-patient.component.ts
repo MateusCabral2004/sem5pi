@@ -1,13 +1,14 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PatientService } from '../../../services/patient.service';
+import { PatientService } from '../../../services/PatientService/patient.service';
 import {Router} from '@angular/router';
 
 
 @Component({
-  selector: 'app-register-patient',
-  templateUrl: './register-patient.component.html',
-  styleUrls: ['./register-patient.component.css']
+    selector: 'app-register-patient',
+    templateUrl: './register-patient.component.html',
+    styleUrls: ['./register-patient.component.css'],
+    standalone: false
 })
 export class RegisterPatientComponent {
   registrationForm: FormGroup;
