@@ -47,6 +47,7 @@ import {
 import {
   DeletePatientProfileButtonComponent
 } from './Components/PatientManagement/delete-patient-profile-button/delete-patient-profile-button.component';
+import {UpdatePatientAccoutComponent} from "./Components/Patient/update-patient-accout/update-patient-accout.component";
 
 
 
@@ -83,7 +84,8 @@ import {
     PatientManagementComponent,
     PatientProfileListComponent,
     PatientProfileDetailsComponent,
-    DeletePatientProfileButtonComponent
+    DeletePatientProfileButtonComponent,
+    UpdatePatientAccoutComponent
   ],
   imports: [
     BrowserModule,
