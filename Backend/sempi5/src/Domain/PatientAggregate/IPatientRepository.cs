@@ -24,5 +24,7 @@ namespace Sempi5.Infrastructure.PatientAggregate
         
         public Task<Patient> getByUserId(long asLong);
         public Task SaveChangesAsync();
+
+        public Task<List<Patient>> GetAllActivePatients();
     }
 }

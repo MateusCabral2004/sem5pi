@@ -1,0 +1,55 @@
+<div class="home-button-container">
+  <app-home-button class="home-button"></app-home-button>
+</div>
+
+<div class="profile-container">
+  <app-profile-menu class="profile-menu"></app-profile-menu>
+</div>
+
+<div class="container">
+  <div class="header">
+    <h1>Operation Type Management</h1>
+  </div>
+
+  <div class="content">
+    <button class="add-button" (click)="addOperationType()">Add Operation Type</button>
+
+    <div class="filter-buttons-container">
+      <button class="reset-filter-button" (click)="resetFilter()" *ngIf="showResetFilterButton">Reset Filter</button>
+
+      <div class="spacer" *ngIf="!showResetFilterButton"></div>
+
+      <app-filter-button
+        [filters]="['Name', 'Specialization', 'Status']"
+        (filterSelected)="handleSelectedFilter($event)"
+      ></app-filter-button>
+    </div>
+
+    <div class="operation-list">
+      <div *ngIf="operationTypes.length === 0" class="no-operations-message">
+        No operations found
+      </div>
+
+      <div *ngFor="let op of operationTypes" class="operation-item">
+        <div class="operation-details">
+          <p><strong>Name:</strong> {{ op.operationName }}</p>
+          <p><strong>Setup Duration:</strong> {{ op.setupDuration }}</p>
+          <p><strong>Surgery Duration:</strong> {{ op.surgeryDuration }}</p>
+          <p><strong>Cleaning Duration:</strong> {{ op.cleaningDuration }}</p>
+        </div>
+        <div class="operation-actions">
+          <button class="delete-button" (click)="deleteOperationType(op)">Delete</button>
+          <button class="edit-button" (click)="editOperationType(op)">Edit</button>
+          <button class="view-button" (click)="viewOperationType(op)">View</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-confirm-modal (confirmed)="handleDeleteOperationTypeConfirmation($event)"></app-confirm-modal>
+
+<app-enter-filter-name
+  (filterTypeToEmit)="currentFilter = $event"
+  (nameToFilter)="handleFilterButtonEvent($event)"
+>></app-enter-filter-name>
