@@ -13,6 +13,9 @@ import {RegisterPatientComponent} from './Components/Patient/register-patient/re
 import {RegisterPatientProfileComponent} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
 import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
 import {AuthGuard} from './Guard/auth.guard';
+import {
+  DeletePatientAccoutComponent
+} from './Components/Patient/delete-patient-accout1/delete-patient-accout.component';
 
 
 export const routes: Routes = [
@@ -72,6 +75,11 @@ export const routes: Routes = [
     path: 'patient',
     component: RegisterPatientComponent,
     title: 'Patient Manegement',
+  },
+  {
+    path: 'deleteAccount',
+    component: DeletePatientAccoutComponent,
+    title: 'Delete Patient Account',
   },
    {
     path: 'admin/operationTypeManagement/edit',
