@@ -4,11 +4,8 @@ import {AuthService} from '../../../services/AuthService/auth.service';
 import {ConfirmModalComponent} from '../../Shared/confirm-modal/confirm-modal.component';
 import {Router} from '@angular/router';
 import {EnterFilterNameComponent} from '../../Shared/enter-filter-name/enter-filter-name.component';
-import {PatientsListing} from '../../../Domain/PatientsListing';
-import {OperationType} from '../../../Domain/OperationType';
 import {PatientProfile} from '../../../Domain/PatientProfile';
-import {Staff} from '../../../Domain/Staff';
-import {ConsoleLogger} from '@angular/compiler-cli';
+
 
 
 @Component({
@@ -18,7 +15,7 @@ import {ConsoleLogger} from '@angular/compiler-cli';
   standalone: false
 })
 export class PatientManagementComponent implements OnInit {
-  public patientProfilesList: PatientsListing[] = [];
+  public patientProfilesList: PatientProfile[] = [];
   private auth: AuthService;
   private patientProfileService: PatientProfileService;
   private patientId: string = '';
@@ -85,8 +82,9 @@ export class PatientManagementComponent implements OnInit {
 
   public fetchPatientProfiles() {
     this.patientProfileService.listAllPatientProfiles().subscribe(
-      (data: PatientsListing[]) => {
+      (data: PatientProfile[]) => {
         this.patientProfilesList = data;
+        console.log(this.patientProfilesList);
       },
       (error) => {
         console.error('Error fetching patient profiles', error);
@@ -150,7 +148,9 @@ export class PatientManagementComponent implements OnInit {
     const trimmedFilterName = filterName.trim();
 
     this.patientProfileService.filterPatientProfilesByName(trimmedFilterName).subscribe(
-      (data: PatientsListing[]) => {
+      (data: PatientProfile[]) => {
+
+
         this.showNoPatientProfilesFound = false;
         this.showPatientProfileList = true;
         this.patientProfilesList = data;
@@ -178,7 +178,7 @@ export class PatientManagementComponent implements OnInit {
     const trimmedFilterEmail = filterEmail.trim();
 
     this.patientProfileService.filterPatientProfilesByEmail(trimmedFilterEmail).subscribe(
-      (data: PatientsListing) => {
+      (data: PatientProfile) => {
         this.showNoPatientProfilesFound = false;
         this.showPatientProfileList = true;
         this.patientProfilesList = [];
@@ -205,7 +205,7 @@ export class PatientManagementComponent implements OnInit {
     const trimmedMRN = filterMRN.trim();
 
     this.patientProfileService.filterPatientProfilesByMedicalRecordNumber(trimmedMRN).subscribe(
-      (data: PatientsListing) => {
+      (data: PatientProfile) => {
        this.showNoPatientProfilesFound = false;
         this.patientProfilesList = [];
         this.patientProfilesList.push(data);
@@ -233,7 +233,7 @@ export class PatientManagementComponent implements OnInit {
     const trimmedBirthDate = filterBirthDate.trim();
 
     this.patientProfileService.filterPatientProfilesByBirthDate(trimmedBirthDate).subscribe(
-      (data: PatientsListing[]) => {
+      (data: PatientProfile[]) => {
         this.showNoPatientProfilesFound = false;
         this.showPatientProfileList = true;
         this.patientProfilesList = data;
@@ -253,6 +253,10 @@ export class PatientManagementComponent implements OnInit {
         }
       }
     );
+  }
+
+  public editPatientProfile(patient: PatientProfile) {
+    this.router.navigate(['admin/patient/edit'], { state: { patient: patient } });
   }
 
 }

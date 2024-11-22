@@ -13,7 +13,13 @@ import {RegisterPatientComponent} from './Components/Patient/register-patient/re
 import {RegisterPatientProfileComponent} from './Components/PatientManagement/register-patient-profile/register-patient-profile.component';
 import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
 import {AuthGuard} from './Guard/auth.guard';
+
 import {UpdatePatientAccoutComponent} from "./Components/Patient/update-patient-accout/update-patient-accout.component";
+
+import {
+  EditPatientProfileComponent
+} from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
+
 
 
 export const routes: Routes = [
@@ -112,5 +118,10 @@ export const routes: Routes = [
     path: 'admin/patient/register',
     component: RegisterPatientProfileComponent,
     title: 'RegisterPatientProfile',
+  },
+  {
+    path: 'admin/patient/edit',
+    component: EditPatientProfileComponent,
+    title: 'EditPatientProfileComponent',
   }
 ];
