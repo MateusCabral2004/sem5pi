@@ -1,6 +1,5 @@
 ﻿import {Component, Input} from '@angular/core';
 import {PatientProfile} from '../../../Domain/PatientProfile';
-import {PatientsListing} from '../../../Domain/PatientsListing';
 
 @Component({
   selector: 'app-patient-profile-details',
@@ -9,5 +8,5 @@ import {PatientsListing} from '../../../Domain/PatientsListing';
   standalone: false
 })
 export class PatientProfileDetailsComponent {
-  @Input() patient!: PatientsListing;
+  @Input() patient!: PatientProfile;
 }

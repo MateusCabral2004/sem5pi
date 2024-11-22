@@ -107,4 +107,16 @@ public class OperationRequestRepository : BaseRepository<OperationRequest, Opera
             await context.SaveChangesAsync();
         }
     }
+
+    public async Task<List<OperationRequest>> GetDoctorsOperationsRequests(string doctorId)
+    {
+        return await context.OperationRequests
+            .Include(o => o.OperationType.Name)
+            .Include(o => o.Patient.Person.FullName)
+            .Include(o => o.DeadLineDate)
+            .Include(o => o.PriorityEnum)
+            .Where(o => o.Doctor.Id.Equals(doctorId))
+            .ToListAsync();
+    }
+    
 }

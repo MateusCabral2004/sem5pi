@@ -26,6 +26,8 @@
     <app-patient-profile-list *ngIf="patientProfilesList.length > 0 && showPatientProfileList"
                               [patientProfileList]="patientProfilesList"
                               (deletePatientProfile)="confirmDeletePatientProfile($event)"
+                              (editPatientProfile)="editPatientProfile($event)"
+
     ></app-patient-profile-list>
   </div>
 
