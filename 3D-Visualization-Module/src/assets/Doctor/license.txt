@@ -1,0 +1,11 @@
+Model Information:
+* title:	Sausage Doctor
+* source:	https://sketchfab.com/3d-models/sausage-doctor-1c99ffcf36ee4acca2afc57d945f28b5
+* author:	Helyx Silveira (https://sketchfab.com/helyxsilveira)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Sausage Doctor" (https://sketchfab.com/3d-models/sausage-doctor-1c99ffcf36ee4acca2afc57d945f28b5) by Helyx Silveira (https://sketchfab.com/helyxsilveira) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

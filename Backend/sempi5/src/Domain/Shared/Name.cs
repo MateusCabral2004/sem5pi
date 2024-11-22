@@ -16,6 +16,7 @@ public class Name : IValueObject
     {
         if (string.IsNullOrEmpty(name))
         {
+            Console.WriteLine("ERRO");
             throw new ArgumentException("Name cannot be null or empty.");
         }
     }
@@ -32,6 +33,6 @@ public class Name : IValueObject
             return false;
         }
         
-        return name._name == _name;
+        return name._name.ToLower().Equals(_name.ToLower());
     }
 }

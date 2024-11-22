@@ -302,8 +302,7 @@ public class PatientService
 
         await _accountToDeleteRepository.saveUserToDelete(userID);
     }
-
-
+    
     public async Task<List<SearchedPatientDTO>> ListPatientByName(NameDTO nameDto)
     {
         var patient = await _patientRepository.GetActivePatientsByName(new Name(nameDto.name));
@@ -388,10 +387,8 @@ public class PatientService
 
         var patient = await _patientRepository.GetActivePatientByEmail(new Email(email));
 
-        patient.Person = null;
-        patient.EmergencyContact = null;
-        patient.AllergiesAndMedicalConditions = null;
-
+        patient.PatientStatus = PatientStatusEnum.DEACTIVATED;        
+        
         await _unitOfWork.CommitAsync();
     }
 
@@ -402,7 +399,7 @@ public class PatientService
             throw new ArgumentException("The email address can´t be null");
         }
 
-        var patient = await _patientRepository.GetByEmail(email);
+        var patient = await _patientRepository.GetActivePatientByEmail(new Email(email));
 
         if (patient == null)
         {
@@ -487,8 +484,23 @@ public class PatientService
         await VerifyEmailAvailability(email);
         
         var patient = patientDTOToPatient(patientDTO);
+
+        patient.PatientStatus = PatientStatusEnum.ACTIVATED;
         await _patientRepository.AddAsync(patient);
 
         await _unitOfWork.CommitAsync();
+    }
+    
+    public async Task<List<SearchedPatientDTO>> ListAllActivePatients()
+    {
+        var patientsList = await _patientRepository.GetAllActivePatients();
+        if (patientsList.Count == 0)
+        {
+            throw new ArgumentException("Patient profiles not found.");
+        }
+
+        var staffDtoList = buildSearchedPatientDtoList(patientsList);
+
+        return staffDtoList;
     }
 }
