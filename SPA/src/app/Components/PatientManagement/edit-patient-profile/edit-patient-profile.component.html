@@ -59,15 +59,15 @@
 
   <div *ngIf="showConfirmationPopup || showErrorMessagePopup" class="blur-background">
 
-    <div *ngIf="showConfirmationPopup" class="confirmation-popup">
+  <div *ngIf="showConfirmationPopup" class="confirmation-popup">
       <p>{{ "A confirmation link was sent to the Patient's Email." }}</p>
       <button (click)="closeConfirmationPopupAndRedirect()">Ok</button>
-    </div>
+  </div>
 
-    <div *ngIf="showErrorMessagePopup" class="error-popup">
+  <div *ngIf="showErrorMessagePopup" class="error-popup">
       <p>{{ "Error: " + errorMessage }}</p>
       <button (click)="closeErrorMessagePopup()">Ok</button>
-    </div>
+  </div>
   </div>
 
   <app-home-button></app-home-button>
