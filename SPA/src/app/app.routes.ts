@@ -16,6 +16,7 @@ import {AuthGuard} from './Guard/auth.guard';
 import {
   EditPatientProfileComponent
 } from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
+import {DoctorMenuComponent} from './Components/Dashboards/doctor-home/doctor-home.component';
 
 
 export const routes: Routes = [
@@ -30,6 +31,13 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: ['admin']},
     title: 'AdminHome',
+  },
+  {
+    path: 'doctor',
+    component: DoctorMenuComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['doctor']},
+    title: 'DoctorHome',
   },
   {
     path: 'admin/operationTypeManagement',
