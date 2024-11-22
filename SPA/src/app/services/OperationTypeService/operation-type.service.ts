@@ -4,12 +4,13 @@ import {Observable, of, tap} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {OperationType} from '../../Domain/OperationType';
 import {RequiredStaff} from "../../Domain/RequiredStaff";
+import json from "../../appsettings.json"
 
 @Injectable({
   providedIn: 'root',
 })
 export class OperationTypeService {
-  private apiUrl = 'http://localhost:5001/operationType';
+  private apiUrl = json.apiUrl + '/operationType';
 
   constructor(private http: HttpClient) {
   }
@@ -26,7 +27,7 @@ export class OperationTypeService {
   }
 
   deleteOperationType(operation: OperationType): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/deleteOperationType/${operation.operationName}`, {
+    return this.http.delete(`${this.apiUrl}/deleteOperationType/${encodeURIComponent(operation.operationName)}`, {
       withCredentials: true,
       responseType: 'text'
     }).pipe(

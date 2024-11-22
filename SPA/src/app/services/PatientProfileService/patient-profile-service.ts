@@ -5,18 +5,19 @@ import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 
 
+
 @Injectable({
   providedIn: 'root'
 })
 
 export class PatientProfileService {
-  private apiUrl = 'http://localhost:5001';
+  private apiUrl = json.apiUrl + '/Patient';
 
   constructor(private http: HttpClient) {
   }
 
   registerPatientProfile(patientProfile: PatientProfile): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/Patient/registerPatientProfile`, patientProfile, {
+    return this.http.post<string>(`${this.apiUrl}/registerPatientProfile`, patientProfile, {
       withCredentials: true,
     }).pipe(
       catchError(error => {
@@ -27,7 +28,7 @@ export class PatientProfileService {
   }
 
   deletePatientProfile(email: string): Observable<string> {
-    return this.http.delete(`${this.apiUrl}/Patient/deletePatientProfile/${email}`, {
+    return this.http.delete(`${this.apiUrl}/deletePatientProfile/${email}`, {
       withCredentials: true,
       responseType: 'text'
     }).pipe(
@@ -40,31 +41,34 @@ export class PatientProfileService {
   public listAllPatientProfiles(): Observable<PatientProfile[]> {
 
     return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/`, { withCredentials: true });
+
   }
 
   public filterPatientProfilesByName(name: string): Observable<PatientProfile[]> {
 
     return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/listPatientProfilesByName/${name}`, { withCredentials: true });
+
   }
 
   public filterPatientProfilesByEmail(email: string): Observable<any> {
 
     return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/listPatientProfilesByEmail/${email}`, { withCredentials: true });
+
   }
 
   public filterPatientProfilesByBirthDate(birthDate: string): Observable<PatientProfile[]> {
 
     return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/listPatientProfilesByDateOfBirth/${birthDate}`, { withCredentials: true });
+
   }
   public filterPatientProfilesByMedicalRecordNumber(id: string): Observable<PatientProfile> {
 
     return this.http.get<PatientProfile>(`${this.apiUrl}/Patient/listPatientProfilesByMedicalRecordNumber/${id}`, { withCredentials: true });
-  }
+
 
   public editPatientProfile(editedPatientProfile: PatientProfile, email:string): Observable<any> {
 
     return this.http.put(`${this.apiUrl}/Patient/editPatientProfile/${email}`, editedPatientProfile, { withCredentials: true });
+
   }
-
-
 }

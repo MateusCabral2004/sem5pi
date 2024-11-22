@@ -2,30 +2,27 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Router} from '@angular/router';
 import {catchError, Observable, of} from 'rxjs';
+import json from '../../appsettings.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:5001';
+  private apiUrl = json.apiUrl + '/Login';
 
   constructor(private http: HttpClient, private router: Router) {
   }
 
   login(): void {
-    window.location.href = `${this.apiUrl}/Login/login`;
+    window.location.href = `${this.apiUrl}/login`;
   }
 
   logout(): void {
-    window.location.href = `${this.apiUrl}/Login/logout`;
-  }
-
-  isAuthenticated(): void {
-    //implement this method in the backend
+    window.location.href = `${this.apiUrl}/logout`;
   }
 
   getUserRole(): Observable<string | null> {
-    return this.http.get(this.apiUrl + '/Login/role', {
+    return this.http.get(this.apiUrl + '/role', {
       withCredentials: true,
       responseType: 'text'
     }).pipe(
@@ -43,6 +40,5 @@ export class AuthService {
       }
     });
   }
-
 
 }

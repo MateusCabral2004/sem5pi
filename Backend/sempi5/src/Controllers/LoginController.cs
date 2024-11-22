@@ -10,14 +10,13 @@ namespace Sempi5.Controllers
     [Route("[controller]")]
     public class LoginController : ControllerBase
     {
-
         private readonly string frontEndUrl;
 
         public LoginController(IConfiguration configuration)
         {
             frontEndUrl = configuration["FrontEnd:Url"];
         }
-        
+
         [HttpGet("login")]
         public IActionResult Login()
         {
@@ -44,6 +43,7 @@ namespace Sempi5.Controllers
                     _ => Redirect(frontEndUrl + "/staff")
                 };
             }
+
             return Redirect(frontEndUrl + "/errorInvalidRole");
         }
 
@@ -53,19 +53,23 @@ namespace Sempi5.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return Redirect(frontEndUrl);
         }
-        
+
         [Authorize]
         [HttpGet("role")]
         public IActionResult GetRole()
         {
             var claimsIdentity = User.Identity as ClaimsIdentity;
             var role = claimsIdentity?.FindFirst(ClaimTypes.Role)?.Value;
-            var email = claimsIdentity?.FindFirst(ClaimTypes.Email)?.Value;
-            Console.WriteLine("Role: " + role);
-            Console.WriteLine("Email: " + email);
+
+            if (string.IsNullOrEmpty(role))
+            {
+                return NotFound("Role not found.");
+            }
+
             return Ok(role);
         }
-        
+
+
         [HttpGet("email")]
         public IActionResult GetEmail()
         {
