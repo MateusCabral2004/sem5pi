@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PatientAggregate.Exceptions;
 using Sempi5.Domain.Shared;
@@ -96,13 +97,13 @@ public class PatientController : ControllerBase
     }
 
 
-    [HttpGet("account/exclude")]
+    [HttpDelete("account/exclude")]
      [Authorize(Roles = "Patient")]
     public async Task<IActionResult> excludeAccount()
     {
         await patientService.defineDataToExcludeAccount(getEmail());
 
-        return Ok("We have sent email to confirm the exclusion");
+        return Ok(new { message = "We have sent an email to confirm the exclusion." });
     }
 
     [HttpGet("account/exclude/confirm/{token}")]

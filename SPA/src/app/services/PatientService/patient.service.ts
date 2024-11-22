@@ -8,9 +8,23 @@ import {PatientProfile} from '../../Components/Patient/class/PatientProfile';
   providedIn: 'root'
 })
 export class PatientService {
-  private apiUrl = json.apiUrl + '/patient';
+
+  private apiUrl =  json.apiUrl + '/patient';
 
   constructor(private http: HttpClient) {
+  }
+  deleteAccount(): Observable<any> {
+    const url = `${this.apiUrl}/account/exclude`;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.delete(url, {
+      withCredentials: true,
+      responseType: 'json',
+      headers: headers
+    });
   }
 
   registerNumber(number: number): Observable<any> {
@@ -23,6 +37,7 @@ export class PatientService {
       params: {number: number}
     });
   }
+
 
   updateProfile(profileData: {
     firstName: null;
@@ -41,6 +56,4 @@ export class PatientService {
       }
     );
   }
-
-
 }

@@ -119,5 +119,16 @@ public class OperationRequestService
         
     }
 
+    public async Task<List<OperationRequest>> ListDoctorsOperationRequests(string doctorId)
+    {
+        var list = await _operationRequestRepository.GetDoctorsOperationsRequests(doctorId);
+        if (list.Count == 0)
+        {
+            throw new ArgumentException("Operation requests not found.");
+        }
+        
+        return list;
+    }
+
    
 }

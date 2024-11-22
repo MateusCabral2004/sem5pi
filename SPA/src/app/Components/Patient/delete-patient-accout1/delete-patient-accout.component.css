@@ -1,0 +1,59 @@
+/* General Styling */
+.delete-account-container {
+  background-color: #f8f9fa; /* Light gray background */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 20px;
+  max-width: 400px;
+  margin: 50px auto;
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h2 {
+  color: #dc3545; /* Red color for heading */
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+p {
+  font-size: 16px;
+  color: #495057; /* Darker text color */
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #dc3545; /* Red background for delete button */
+  color: white;
+  font-size: 18px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Hover effect for button */
+button:hover {
+  background-color: #c82333; /* Darker red when hovered */
+}
+
+/* Optional: Add some spacing between the heading and text */
+.delete-account-container h2,
+.delete-account-container p {
+  margin-bottom: 15px;
+}
+
+/* Optional: Responsive for smaller screens */
+@media (max-width: 480px) {
+  .delete-account-container {
+    padding: 15px;
+    margin: 20px;
+  }
+  h2 {
+    font-size: 20px;
+  }
+  p {
+    font-size: 14px;
+  }
+}

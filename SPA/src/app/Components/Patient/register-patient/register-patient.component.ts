@@ -9,6 +9,7 @@ import {PatientService} from '../../../services/PatientService/patient.service';
   templateUrl: './register-patient.component.html',
   styleUrls: ['./register-patient.component.css'],
   standalone: false
+
 })
 export class RegisterPatientComponent {
   registrationForm: FormGroup;
