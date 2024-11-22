@@ -12,8 +12,10 @@ import {PatientProfileService} from '../../../services/PatientProfileService/pat
 
 export class RegisterPatientProfileComponent {
   patientProfile: PatientProfile = {
+    id:'',
     firstName: '',
     lastName: '',
+    fullName:'',
     email: '',
     birthDate: '',
     phoneNumber: 0,
@@ -27,8 +29,10 @@ export class RegisterPatientProfileComponent {
 
   resetFields() {
     this.patientProfile = {
+      id:'',
       firstName: '',
       lastName: '',
+      fullName:'',
       email: '',
       birthDate: '',
       phoneNumber: 0,
