@@ -1,12 +1,13 @@
 import { defineConfig } from 'cypress'
 
 export default defineConfig({
-  
+
   e2e: {
-    'baseUrl': 'http://localhost:4200'
+    'baseUrl': 'http://localhost:4200',
+    //experimentalRunAllSpecs: true,
   },
-  
-  
+
+
   component: {
     devServer: {
       framework: 'angular',
@@ -14,5 +15,5 @@ export default defineConfig({
     },
     specPattern: '**/*.cy.ts'
   }
-  
+
 })

@@ -64,6 +64,8 @@ public class OperationTypeController : ControllerBase
     {
         try
         {
+            Console.WriteLine(oldOperationName);
+            Console.WriteLine(newOperationName);
             await _operationTypeService.EditOperationTypeName(oldOperationName, newOperationName);
             return Ok("Operation type edited successfully");
         }
