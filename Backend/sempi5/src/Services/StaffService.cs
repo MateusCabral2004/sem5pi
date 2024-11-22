@@ -302,11 +302,14 @@ namespace Sempi5.Services
             };
         }
 
-        public async Task<bool> DeleteRequestAsync(string doctorEmail)
+        public async Task<bool> DeleteRequestAsync(string doctorEmail, string id)
         {
             var staff = await _staffRepository.GetByEmail(doctorEmail);
             var doctorId = staff.Id.AsString();
-            var operationRequest = await _operationRequestRepository.GetByDoctorId(doctorId);
+            var operationRequest = await _operationRequestRepository.GetOperationRequestById(id);
+           // var operationRequest = await _operationRequestRepository.GetByDoctorId(doctorId);
+
+
             if (operationRequest == null)
             {
                 throw new InvalidOperationException("No operation request found for this doctor.");
@@ -317,18 +320,22 @@ namespace Sempi5.Services
             {
                 var appointment =
                     await _appointmentRepository.getAppointmentByOperationRequestID(operationRequest.Id.AsLong());
-                if (appointment == null)
-                    throw new UnauthorizedAccessException("No operation request found for this doctor.");
+                if (appointment != null)
+                {
+                    if (appointment.Status.Equals(StatusEnum.SCHEDULED) ||
+                        appointment.Status.Equals(StatusEnum.COMNPLETED) ||
+                        appointment.Status.Equals(StatusEnum.CANCELED))
+                        throw new InvalidOperationException("Cannot delete a scheduled operation.");
 
-                if (appointment.Status.Equals(StatusEnum.SCHEDULED) ||
-                    appointment.Status.Equals(StatusEnum.COMNPLETED) ||
-                    appointment.Status.Equals(StatusEnum.CANCELED))
-                    throw new InvalidOperationException("Cannot delete a scheduled operation.");
+                    appointment.Status = StatusEnum.CANCELED;
 
-                appointment.Status = StatusEnum.CANCELED;
+                    await _appointmentRepository.updataAppointment(appointment);
+                    await _operationRequestRepository.RemoveAsync(appointment.OperationRequest);
+                    await _appointmentRepository.SaveChangesAsync();
+                    return true;
+                }
 
-                await _appointmentRepository.updataAppointment(appointment);
-                await _operationRequestRepository.RemoveAsync(appointment.OperationRequest);
+                await _operationRequestRepository.RemoveAsync(operationRequest);
                 await _appointmentRepository.SaveChangesAsync();
             }
 

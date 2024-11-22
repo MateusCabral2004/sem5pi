@@ -248,14 +248,14 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
 
-        [HttpDelete("request/deleteRequest")]
+        [HttpDelete("request/deleteRequest/{requestId}")]
         [Authorize(Roles = "Doctor")]
-        public async Task<IActionResult> DeleteRequest()
+        public async Task<IActionResult> DeleteRequest(string requestId)
         {
             try
             {
-                await _staffService.DeleteRequestAsync(getEmail());
-                return Ok("Operation request deleted successfully");
+                await _staffService.DeleteRequestAsync(getEmail(), requestId);
+                return Ok(new {message="Operation request deleted successfully"});
             }
             catch (UnauthorizedAccessException ex)
             {

@@ -32,14 +32,15 @@ export class ListOperationRequestComponent  {
     });
   }
   deleteRequest(index: number): void {
-    const requestToDelete = this.searchResults[index];
+    const requestToDeleteId = this.searchResults[index].id.value;
+
 
     const confirmDelete = window.confirm('Are you sure you want to delete this operation requisition?');
 
     if (confirmDelete) {
-      this.requisitionService.deleteOperationRequest(requestToDelete.id).subscribe({
+      this.requisitionService.deleteOperationRequest(requestToDeleteId).subscribe({
         next: () => {
-          this.searchResults.splice(index, 1);  // Remove a requisição da lista
+          this.searchResults.splice(index, 1);
           console.log('Request deleted successfully.');
         },
         error: (err) => {

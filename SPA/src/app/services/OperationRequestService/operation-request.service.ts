@@ -26,10 +26,10 @@ export class OperationRequestService {
   }
 
   deleteOperationRequest(operationId: string): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/operations/requests/${operationId}`, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    });
+    console.log('Deleting operation request:', operationId);
+    return this.http.delete(`${this.apiUrl}/request/deleteRequest/${operationId}`, {
+      withCredentials: true
+      }
+    );
   }
 }
