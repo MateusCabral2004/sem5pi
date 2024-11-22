@@ -5,7 +5,6 @@
   templateUrl: './delete-patient-profile-button.component.html',
   styleUrl: './delete-patient-profile-button.component.css',
   standalone: false
-
 })
 
 export class DeletePatientProfileButtonComponent {
