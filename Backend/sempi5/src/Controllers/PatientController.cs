@@ -144,12 +144,14 @@ public class PatientController : ControllerBase
 
             await SendUpdateConfirmationEmail(getEmail(),
                 $"http://localhost:5001/patient/account/update/{serializedDto}", "Update Confirmation");
-            return Ok("Email sent to confirm update");
+            return Ok(new { message = "Email sent to confirm update." });
+
         }
 
         //adicionar um novo parametro que é o email do usuario logado
         await patientService.updateAccount(profileDto, getEmail());
-        return Ok("Account updated");
+        return Ok(new { message = "Account updated." });
+
     }
 
     [HttpGet("account/update/{jsonString}")]
@@ -168,8 +170,8 @@ public class PatientController : ControllerBase
 
 
         await patientService.updateAccount(profileDto, getEmail());
+        return Ok(new { message = "Account updated" });
 
-        return Ok("Account updated");
     }
 
     private async Task SendUpdateConfirmationEmail(string email, string link, string subject)
