@@ -1,7 +1,6 @@
 ﻿export interface PatientsListing{
-
-  id: string;
-  fullName:string;
-  email: string;
-  birthDate:string;
+  Id: string;
+  FullName: string;
+  Email:string;
+  BirthDate:string;
 }

@@ -1,13 +1,14 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, Observable, of} from 'rxjs';
+import json from '../../appsettings.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SurgeryRoomService {
 
-  private apiUrl = 'http://localhost:5001/surgeryRoom';
+  private apiUrl = json.apiUrl + '/surgeryRoom';
 
   constructor(private http: HttpClient) {
   }
