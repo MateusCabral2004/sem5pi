@@ -19,9 +19,9 @@ export class DeletePatientAccoutComponent {
   deleteAccount() :void{
     if (confirm("Are you sure you want to delete your account? This action is permanent.")) {
       this.patientService.deleteAccount().subscribe(
-          response => {
-            alert(response);
-          },
+        (response: any) => {
+          alert(response.message);
+        },
           error => {
             alert("Erro ao excluir conta: " + error.error.message);
           }
