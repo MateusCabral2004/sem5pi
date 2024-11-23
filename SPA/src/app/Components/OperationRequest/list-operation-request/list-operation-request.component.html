@@ -1,6 +1,10 @@
 <!-- requisition-search.component.html -->
 <div class="search-form">
   <app-home-button></app-home-button>
+
+  <div class="content">
+    <button class="add-button" (click)="addOperationRequest()">Add Operation Request</button>
+
   <h2>Search Operation Requisitions</h2>
   <form (ngSubmit)="onSearch()">
     <div>
@@ -43,6 +47,9 @@
       <td *ngIf="hasStatusColumn()">{{ result.status }}</td>
       <td>
         <button (click)="deleteRequest(i)">Delete</button>
+      </td>
+      <td>
+        <button (click)="editRequest($event)"> Edit</button>
       </td>
     </tr>
     </tbody>

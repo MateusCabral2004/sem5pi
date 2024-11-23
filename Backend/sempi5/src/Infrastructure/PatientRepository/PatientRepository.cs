@@ -159,5 +159,13 @@ namespace Sempi5.Infrastructure.PatientRepository
                 .Where(p=>p.PatientStatus==PatientStatusEnum.ACTIVATED)
                 .ToListAsync();
         }
+        
+        public async Task<List<Patient>> GetAllActivePatientsNames()
+        {
+            return await context.Patients
+                .Include(p => p.Person.FullName)
+                .Where(p=>p.PatientStatus==PatientStatusEnum.ACTIVATED)
+                .ToListAsync();
+        }
     }
 }

@@ -83,20 +83,6 @@ public class OperationRequestController : ControllerBase
         return claimsIdentity?.FindFirst(ClaimTypes.Email).Value;
     }
     
-    [HttpGet]
-    [Authorize(Roles = "Doctor")]
-    public async Task<IActionResult> ListDoctorsOperationRequests(string doctorId)
-    {
-        try
-        {
-            var operationRequests = await _operationRequestService.ListDoctorsOperationRequests(doctorId);
-            
-            return Ok(operationRequests);
-        }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
-    }
+    
 
 }

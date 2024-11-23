@@ -48,6 +48,7 @@ public class OperationRequestService
 
     public async Task<OperationRequest> OperationRequestDtoToObject(OperationRequestDTO operationRequestDto)
     {
+        
         var patient = await _patientRepository.GetByPatientId(operationRequestDto.patientID);
         var doctor = await _staffRepository.GetActiveStaffById(new StaffId(operationRequestDto.doctorId));
         var operationType = await _operationTypeRepository.GetOperationTypeByName(new OperationName(operationRequestDto.operationType));

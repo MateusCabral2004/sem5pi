@@ -48,11 +48,26 @@ export class OperationRequestService {
         return of('');
       })
     );
-  } //corrigir
+  }
 
+  public editOperationRequestDeadline(operation: OperationRequest, deadline:string, operationRequestId: string): Observable<any> {
 
-  listOperationRequests(): Observable<OperationRequest[]> {
-    return this.http.get<OperationRequest[]>(`${this.apiUrl}`, {withCredentials: true});
+    return this.http.put(`${this.apiUrl}/OperationRequest/updateOperationRequestDeadline/${operationRequestId}/${deadline}}`, operation, { withCredentials: true });
+  }
+
+  public editOperationRequestPriority(operation: OperationRequest, priority:string, operationRequestId: string): Observable<any> {
+
+    return this.http.put(`${this.apiUrl}/OperationRequest/updateOperationRequestDeadline/${operationRequestId}/${priority}}`, operation, { withCredentials: true });
+  }
+
+  public listAllPatientProfilesNames(): Observable<PatientProfile[]> {
+
+    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient`, { withCredentials: true });
+  }
+
+  public listDoctorsOperationRequests(): Observable<OperationRequest[]> {
+
+    return this.http.get<OperationRequest[]>(`${this.apiUrl}/OperationRequest`, { withCredentials: true });
   }
 
 }
