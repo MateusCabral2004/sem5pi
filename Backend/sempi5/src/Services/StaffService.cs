@@ -358,13 +358,15 @@ namespace Sempi5.Services
 
 
         public async Task<List<OperationRequest>> SearchRequestsAsync(string patientName, string type, string priority,
-            string status)
+            string status,string doctorEmail)
         {
             try
             {
+                string doctorId = (await _staffRepository.GetByEmail(doctorEmail)).Id.AsString();
                 List<OperationRequest> operationRequests = new List<OperationRequest>();
                 List<OperationRequest> operationRequests_status = new List<OperationRequest>();
-                operationRequests = await _operationRequestRepository.SearchAsync(patientName, type, priority);
+                operationRequests = await _operationRequestRepository.SearchAsyncWithDoctocId(patientName, type, priority,doctorId);
+                
                 if (status != null)
                 {
                     for (int i = 0; i < operationRequests.Count; i++)

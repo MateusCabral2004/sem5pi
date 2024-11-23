@@ -301,7 +301,7 @@ namespace Sempi5.Controllers.StaffControllers
             try
             {
                 var requests = await _staffService.SearchRequestsAsync(seachFilterDto.patientName, seachFilterDto.type,
-                    seachFilterDto.priority, seachFilterDto.status);
+                    seachFilterDto.priority, seachFilterDto.status,getEmail());
 
                 if (seachFilterDto.status != null)
                 {
