@@ -39,19 +39,26 @@ export class AddOperationTypeComponent {
     this.operation.requiredStaff.splice(index, 1);
   }
 
-  addOperationType() {
-    this.operationTypeService.addOperationType(this.operation).subscribe(
-      (response) => {
-        alert('Operation Type added successfully!');
-        this.router.navigate(['/admin/operationTypeManagement']);
-        console.log('Success:', response);
-      },
-      (error) => {
-        console.error('Error:', error);
-        alert('Error adding Operation Type: ' + (error.error || 'An unknown error occurred.'));
-      }
-    );
+  async addOperationType() {
+    try {
+      const observable = await this.operationTypeService.addOperationType(this.operation);
+      observable.subscribe(
+        (response: any) => {
+          alert('Operation Type added successfully!');
+          this.router.navigate(['/admin/operationTypeManagement']);
+          console.log('Success:', response);
+        },
+        (error: { error: any; }) => {
+          console.error('Error:', error);
+          alert('Error adding Operation Type: ' + (error.error || 'An unknown error occurred.'));
+        }
+      );
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred: ' + (error || 'Unknown error'));
+    }
   }
+
 
   resetFields() {
     this.operation = {
