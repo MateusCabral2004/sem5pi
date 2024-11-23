@@ -33,6 +33,7 @@ import {
 import {
   AddOperationRequestComponent
 } from './Components/OperationRequestManagement/add-operation-request/add-operation-request.component';
+import {PatientHomeComponent} from './Components/Dashboards/patient-home/patient-home.component';
 
 
 
@@ -114,7 +115,7 @@ export const routes: Routes = [
   },
   {
     path: 'patient',
-    component: RegisterPatientComponent,
+    component: PatientHomeComponent,//dashboard
     title: 'Patient Manegement',
   },
   {
@@ -123,15 +124,21 @@ export const routes: Routes = [
     title: 'Update Patient Account',
   },
   {
-    path: 'doctor',
-    component: ListOperationRequestComponent,
-    title: 'doctor operations list',
-  },
-  {
-    path: 'deleteAccount',
+    path: 'patient/deleteAccount',
     component: DeletePatientAccoutComponent,
     title: 'Delete Patient Account',
   },
+  {
+    path: 'doctor',
+    component: DoctorMenuComponent,
+    title: 'doctor operations list',
+  },
+  {
+    path: 'doctor/operationRequests',
+    component: ListOperationRequestComponent,
+    title: 'doctor operations list',
+  },
+
    {
     path: 'admin/operationTypeManagement/edit',
     component: EditOperationTypeComponent,

@@ -73,6 +73,7 @@ import {
 import {
   OperationRequestListComponent
 } from './Components/OperationRequestManagement/operation-request-list/operation-request-list.component';
+import { PatientHomeComponent } from './Components/Dashboards/patient-home/patient-home.component';
 
 
 
@@ -123,7 +124,8 @@ import {
     AddOperationRequestComponent,
     OperationRequestManagementComponent,
     OperationRequestDetailsComponent,
-    OperationRequestListComponent
+    OperationRequestListComponent,
+    PatientHomeComponent
 
   ],
   imports: [

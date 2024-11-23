@@ -24,7 +24,9 @@ export class HomeButtonComponent {
             return this.router.navigate(['/patient']);
           case 'Staff':
             return this.router.navigate(['/staff']);
-            case 'Unregistered':
+          case 'Doctor':
+            return this.router.navigate(['/doctor']);
+          case 'Unregistered':
             return this.router.navigate(['/unregistered']);
           default:
             return this.router.navigate(['/']);
