@@ -14,7 +14,7 @@ export class DoctorMenuComponent {
     /* The menus are temporary and will need to be replaced with the actual menu items
        but because they are not yet implemented I created some placeholders */
     { title: 'Operation Request Management', icon: 'assets/icons/operationRequest.png', link: '/doctor/operationRequests' },
-
+    { title: '3D',icon: 'assets/icons/3d.png', link: '/3d' }
   ];
 
   constructor(@Inject(AuthService) auth: AuthService) {
