@@ -11,6 +11,7 @@ import {PatientProfile} from '../../../Domain/PatientProfile';
   standalone: false
 })
 
+
 export class AddOperationRequestComponent implements OnInit{
     patients: PatientProfile[]=[];
     operationTypes: OperationRequest[]=[];
