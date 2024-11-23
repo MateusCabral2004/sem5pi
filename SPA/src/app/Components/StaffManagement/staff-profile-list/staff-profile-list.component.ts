@@ -4,7 +4,8 @@ import {Staff} from '../../../Domain/Staff';
 @Component({
   selector: 'app-staff-profile-list',
   templateUrl: './staff-profile-list.component.html',
-  styleUrl: './staff-profile-list.component.css'
+  styleUrl: './staff-profile-list.component.css',
+  standalone: false
 })
 export class StaffProfileListComponent {
   @Input() staffList: Staff[] = [];

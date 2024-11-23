@@ -1,4 +1,4 @@
-.add-patient {
+﻿.edit-patient-profile {
   max-width: 600px;
   margin: 30px auto;
   padding: 20px;
@@ -36,6 +36,16 @@ input[type="text"]{
 
 input[type="number"] {
   width: 15%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s;
+}
+
+input[type="date"]{
+  width: 96%;
   padding: 10px;
   margin-top: 5px;
   border: 1px solid #ccc;
@@ -85,6 +95,52 @@ button[type="submit"]:disabled {
   height: 100%;
   backdrop-filter: blur(1px); /* Aplica o efeito de desfoque */
   z-index: 999; /* Certifique-se de que está atrás do pop-up */
+}
+
+/* Estilo do pop-up de confirmação */
+.confirmation-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 400px;
+  padding: 30px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  text-align: center;
+  border: 1px solid #e0e0e0;
+}
+
+.confirmation-popup p {
+  font-size: 18px; /* Aumenta o tamanho da fonte */
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.confirmation-popup button {
+  padding: 12px 24px;
+  font-size: 16px; /* Aumenta o tamanho do texto do botão */
+  font-weight: bold;
+  color: #ffffff;
+  background-color: #28a745;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-popup button:hover {
+  background-color: #218838;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.confirmation-popup button:active {
+  background-color: #1e7e34;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(1px);
 }
 
 .error-popup {

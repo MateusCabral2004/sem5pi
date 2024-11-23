@@ -5,7 +5,8 @@ import json from '../../../appsettings.json';
 @Component({
   selector: 'app-connect3d',
   templateUrl: './connect3d.component.html',
-  styleUrls: ['./connect3d.component.css']
+  styleUrls: ['./connect3d.component.css'],
+  standalone: false
 })
 export class Connect3dComponent implements AfterViewInit {
 

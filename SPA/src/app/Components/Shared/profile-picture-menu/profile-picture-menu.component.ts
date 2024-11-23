@@ -4,7 +4,8 @@ import {AuthService} from '../../../services/AuthService/auth.service';
 @Component({
   selector: 'app-profile-menu',
   templateUrl: './profile-picture-menu.component.html',
-  styleUrls: ['./profile-picture-menu.component.css']
+  styleUrls: ['./profile-picture-menu.component.css'],
+  standalone: false
 })
 export class ProfilePictureMenuComponent {
   auth = inject(AuthService);

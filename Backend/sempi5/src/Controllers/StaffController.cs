@@ -30,7 +30,7 @@ namespace Sempi5.Controllers.StaffControllers
             _logger = logger;
             _emailService = emailService;
         }
-        
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateStaffProfile(StaffDTO staff)
@@ -56,11 +56,11 @@ namespace Sempi5.Controllers.StaffControllers
             {
                 return StatusCode(603, e.Message);
             }
-            catch(InvalidLicenseNumberFormatException e) 
+            catch (InvalidLicenseNumberFormatException e)
             {
                 return StatusCode(604, e.Message);
             }
-            
+
             catch (LicenseNumberAlreadyInUseException e)
             {
                 return StatusCode(605, e.Message);
@@ -129,7 +129,7 @@ namespace Sempi5.Controllers.StaffControllers
 
 
         [HttpGet("updateContactInfo/{jsonString}")]
-        public async Task<IActionResult> EditStaffProfile( string jsonString)
+        public async Task<IActionResult> EditStaffProfile(string jsonString)
         {
             EditStaffDTO editStaffDto;
             try
@@ -140,7 +140,7 @@ namespace Sempi5.Controllers.StaffControllers
                 editStaffDto = JsonSerializer.Deserialize<EditStaffDTO>(encryptedString);
 
                 await _staffService.EditStaffProfile(editStaffDto);
-                
+
                 _logger.ForContext("CustomLogLevel", "CustomLevel")
                     .Information($"\nChanges To Staff {editStaffDto.Id} :" +
                                  $" {editStaffDto.phoneNumber}" +
@@ -165,12 +165,12 @@ namespace Sempi5.Controllers.StaffControllers
         {
             try
             {
-                
-                var staffIdDto = new StaffIdDTO {Id = staffId};
-                
+                var staffIdDto = new StaffIdDTO { Id = staffId };
+
                 await _staffService.DeactivateStaffProfile(staffIdDto);
                 return Ok(new { message = "Staff deactivated successfully." });
-            } catch (StaffProfilesNotFoundException e)
+            }
+            catch (StaffProfilesNotFoundException e)
             {
                 return NotFound(e.Message);
             }
@@ -183,17 +183,16 @@ namespace Sempi5.Controllers.StaffControllers
 
         [HttpGet("by-name/{name}")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> ListStaffProfileByName(string  name)
+        public async Task<IActionResult> ListStaffProfileByName(string name)
         {
             try
             {
-                
-                var nameDto = new NameDTO {name = name};
-                
+                var nameDto = new NameDTO { name = name };
+
                 var staffProfile = await _staffService.ListStaffByName(nameDto);
                 return Ok(staffProfile);
-                
-            }catch (StaffProfilesNotFoundException e)
+            }
+            catch (StaffProfilesNotFoundException e)
             {
                 return NotFound(e.Message);
             }
@@ -209,12 +208,12 @@ namespace Sempi5.Controllers.StaffControllers
         {
             try
             {
-                var emailDto = new EmailDTO { email = email};
-                
+                var emailDto = new EmailDTO { email = email };
+
                 var staffProfiles = await _staffService.ListStaffByEmail(emailDto);
                 return Ok(staffProfiles);
-                
-            }catch (StaffProfilesNotFoundException e)
+            }
+            catch (StaffProfilesNotFoundException e)
             {
                 return NotFound(e.Message);
             }
@@ -223,7 +222,7 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(e.Message);
             }
         }
-        
+
         [HttpGet("by-specialization/{specialization}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListStaffProfilesBySpecialization(string specialization)
@@ -234,7 +233,6 @@ namespace Sempi5.Controllers.StaffControllers
 
                 var staffProfile = await _staffService.ListStaffBySpecialization(specializationDto);
                 return Ok(staffProfile);
-
             }
             catch (SpecializationNotFoundException e)
             {
@@ -250,14 +248,14 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
 
-        [HttpGet("request/deleteRequest")]
-       [Authorize(Roles = "Doctor")]
-        public async Task<IActionResult> DeleteRequest()
+        [HttpDelete("request/deleteRequest/{requestId}")]
+        [Authorize(Roles = "Doctor")]
+        public async Task<IActionResult> DeleteRequest(string requestId)
         {
             try
             {
-                 await _staffService.DeleteRequestAsync(getEmail());
-                return Ok("Operation request deleted successfully");
+                await _staffService.DeleteRequestAsync(getEmail(), requestId);
+                return Ok(new {message="Operation request deleted successfully"});
             }
             catch (UnauthorizedAccessException ex)
             {
@@ -268,8 +266,8 @@ namespace Sempi5.Controllers.StaffControllers
                 return BadRequest(ex.Message);
             }
         }
-        
-        
+
+
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ListAllStaffProfiles()
@@ -289,15 +287,21 @@ namespace Sempi5.Controllers.StaffControllers
             }
         }
 
-
-        [HttpGet("search/requests")]
+        [HttpGet("search/requests/{patientName?}/{operationType?}/{priority?}/{status?}")]
         [Authorize(Roles = "Doctor")]
-        public async Task<IActionResult> SearchRequests(SeachFilterDto seachFilterDto)
+        public async Task<IActionResult> SearchRequests(string patientName,string operationType,string priority,string status)
         {
+            SeachFilterDto seachFilterDto = new SeachFilterDto
+            {
+                patientName = patientName.ToLower() == "null" ? null : patientName,
+                type = operationType.ToLower() == "null" ? null : operationType,
+                priority = priority.ToLower() == "null" ? null : priority,
+                status = status.ToLower() == "null" ? null : status,
+            };
             try
             {
                 var requests = await _staffService.SearchRequestsAsync(seachFilterDto.patientName, seachFilterDto.type,
-                    seachFilterDto.priority, seachFilterDto.status);
+                    seachFilterDto.priority, seachFilterDto.status,getEmail());
 
                 if (seachFilterDto.status != null)
                 {
@@ -308,13 +312,15 @@ namespace Sempi5.Controllers.StaffControllers
                         var operationRequest = requests[i];
                         tableData.Add(new
                         {
+                            ID= operationRequest.Id,
                             PatientName = operationRequest.Patient.Person?.FullName.ToString(),
                             OperationType = operationRequest.OperationType.Name.ToString(),
                             Priority = operationRequest.PriorityEnum.ToString(),
                             Status = seachFilterDto.status
                         });
                     }
-                    return Ok(tableData);
+
+                    return Ok( tableData );
                 }
                 else
                 {
@@ -325,13 +331,14 @@ namespace Sempi5.Controllers.StaffControllers
                         var operationRequest = requests[i];
                         tableData.Add(new
                         {
+                            ID= operationRequest.Id,
                             PatientName = operationRequest.Patient.Person?.FullName.ToString(),
                             OperationType = operationRequest.OperationType.Name.ToString(),
                             Priority = operationRequest.PriorityEnum.ToString(),
                         });
-                    }
-                    
-                    return Ok(tableData);
+                    }                    
+                    return Ok( tableData );
+
                 }
             }
             catch (Exception e)
