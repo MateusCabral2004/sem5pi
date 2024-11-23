@@ -54,7 +54,7 @@ public class StaffBootstrap
             doctorTest,
             new LicenseNumber(129),
             new Person(new Name("Rute"), new Name("Maia"),
-                new ContactInfo(new Email("test@test.com"), new PhoneNumber(966652994))),
+                new ContactInfo(new Email("rutemaia2004@gmail.com"), new PhoneNumber(966652994))),
             specialization1,
             StaffStatusEnum.ACTIVE);
 

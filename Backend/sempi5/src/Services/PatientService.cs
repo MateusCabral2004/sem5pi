@@ -508,4 +508,18 @@ public class PatientService
 
         return patientDtoList;
     }
+    
+    
+    public async Task<List<SearchedPatientDTO>> ListAllActivePatientsNames()
+    {
+        var patientsList = await _patientRepository.GetAllActivePatientsNames();
+        if (patientsList.Count == 0)
+        {
+            throw new ArgumentException("Patient profiles not found.");
+        }
+
+        var patientDtoList = buildSearchedPatientDtoList(patientsList);
+
+        return patientDtoList;
+    }
 }

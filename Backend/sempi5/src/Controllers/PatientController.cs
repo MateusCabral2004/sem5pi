@@ -325,4 +325,25 @@ public class PatientController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    
+    
+    [HttpGet]
+    [Authorize(Roles = "Doctor")]
+    public async Task<IActionResult> ListAllActivePatientProfilesNames()
+    {
+        try
+        {
+            var patientProfile = await patientService.ListAllActivePatientsNames();
+
+            return Ok(patientProfile);
+        }
+        catch (PatientsProfilesNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
 }

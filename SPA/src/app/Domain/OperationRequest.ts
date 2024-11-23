@@ -1,7 +1,7 @@
 ﻿
 export interface OperationRequest{
 
-  patientId:string;
+  patient:string;
   doctorId:string;
   operationType:string;
   deadline:string;
