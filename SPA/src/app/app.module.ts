@@ -74,6 +74,7 @@ import {
   OperationRequestListComponent
 } from './Components/OperationRequestManagement/operation-request-list/operation-request-list.component';
 import { PatientHomeComponent } from './Components/Dashboards/patient-home/patient-home.component';
+import { CheckUserToDeleteComponent } from './Components/Patient/check-user-to-delete/check-user-to-delete.component';
 
 
 
@@ -125,7 +126,8 @@ import { PatientHomeComponent } from './Components/Dashboards/patient-home/patie
     OperationRequestManagementComponent,
     OperationRequestDetailsComponent,
     OperationRequestListComponent,
-    PatientHomeComponent
+    PatientHomeComponent,
+    CheckUserToDeleteComponent
 
   ],
   imports: [

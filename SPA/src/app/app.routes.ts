@@ -34,6 +34,7 @@ import {
   AddOperationRequestComponent
 } from './Components/OperationRequestManagement/add-operation-request/add-operation-request.component';
 import {PatientHomeComponent} from './Components/Dashboards/patient-home/patient-home.component';
+import {CheckUserToDeleteComponent} from './Components/Patient/check-user-to-delete/check-user-to-delete.component';
 
 
 
@@ -122,6 +123,11 @@ export const routes: Routes = [
     path: 'patient/updateAccount',
     component: UpdatePatientAccoutComponent,
     title: 'Update Patient Account',
+  },
+  {
+    path: 'patient/checkUserToDelete',
+    component: CheckUserToDeleteComponent,
+    title: 'Pendent Users To Delete',
   },
   {
     path: 'patient/deleteAccount',

@@ -38,6 +38,15 @@ export class PatientService {
     });
   }
 
+  checkUsersToDelete(): Observable<any> {
+    const url = `${this.apiUrl}/checkUserToDelete`;
+
+    return this.http.get(url, {
+      withCredentials: true,
+      responseType: 'json'
+    });
+  }
+
 
   updateProfile(profileData: {
     firstName: null;

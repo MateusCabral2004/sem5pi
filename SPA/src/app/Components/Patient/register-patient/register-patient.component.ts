@@ -37,7 +37,7 @@ export class RegisterPatientComponent {
         response => {
           alert('Registration was successful! Please verify your account via email.');
           console.log('response', response);
-          this.router.navigate(['/patient']);
+          window.location.href = 'http://localhost:5001/login/logout';
         },
         error => {
           console.error('Erro ao registrar patient:', error);
