@@ -27,14 +27,11 @@ import {
   EditPatientProfileComponent
 } from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
 import {DoctorMenuComponent} from './Components/Dashboards/doctor-home/doctor-home.component';
-import {
-  OperationRequestManagementComponent
-} from './Components/OperationRequestManagement/operation-request-management/operation-request-management.component';
-import {
-  AddOperationRequestComponent
-} from './Components/OperationRequestManagement/add-operation-request/add-operation-request.component';
 import {PatientHomeComponent} from './Components/Dashboards/patient-home/patient-home.component';
 import {CheckUserToDeleteComponent} from './Components/Patient/check-user-to-delete/check-user-to-delete.component';
+import {
+  AddOperationRequestComponent
+} from './Components/OperationRequest/add-operation-request/add-operation-request.component';
 
 
 
@@ -68,14 +65,6 @@ export const routes: Routes = [
     title: 'OperationTypeManagement',
   },
   {
-    path: 'doctor/operationRequestManagement',
-    component: OperationRequestManagementComponent,
-    canActivate: [AuthGuard],
-    data: {roles: ['doctor']},
-    runGuardsAndResolvers: 'always',
-    title: 'OperationRequestManagement',
-  },
-  {
     path: 'admin/staff',
     component: StaffManagementComponent,
     title: 'StaffManagement',
@@ -91,13 +80,6 @@ export const routes: Routes = [
     data: {roles: ['admin']},
     component: AddOperationTypeComponent,
     title: 'AddOperationType',
-  },
-  {
-    path: 'doctor/operationRequestManagement/add',
-    canActivate: [AuthGuard],
-    data: {roles: ['doctor']},
-    component: AddOperationRequestComponent,
-    title: 'AddOperationRequest',
   },
   {
     path: 'admin/patient/register',
@@ -183,5 +165,15 @@ export const routes: Routes = [
     path: 'admin/patient/edit',
     component: EditPatientProfileComponent,
     title: 'EditPatientProfileComponent',
+  },
+  {
+    path: 'doctor/operationRequest/edit',
+    component: EditPatientProfileComponent,
+    title: 'EditOperationRequestComponent',
+  },
+  {
+    path: 'doctor/operationRequest/add',
+    component: AddOperationRequestComponent,
+    title: 'AddOperationRequestComponent',
   }
 ];

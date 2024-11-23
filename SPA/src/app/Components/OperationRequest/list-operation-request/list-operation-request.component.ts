@@ -1,5 +1,8 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {OperationRequestService} from '../../../services/OperationRequestService/operation-request.service';
+import {OperationRequest} from '../../../Domain/OperationRequest';
+import {Router} from '@angular/router';
+import {PatientProfile} from '../../../Domain/PatientProfile';
 
 @Component({
   selector: 'app-list-operation-request',
@@ -8,6 +11,7 @@ import {OperationRequestService} from '../../../services/OperationRequestService
   standalone: false
 })
 export class ListOperationRequestComponent  {
+
   searchFilters = {
     patientName: null,
     operationType: null,
@@ -18,7 +22,7 @@ export class ListOperationRequestComponent  {
   searchResults: any[] = [];
 
 
-  constructor(private requisitionService: OperationRequestService) {}
+  constructor(private requisitionService: OperationRequestService, private router: Router) {}
 
   onSearch(): void {
     this.requisitionService.searchRequests(this.searchFilters).subscribe({
@@ -51,8 +55,16 @@ export class ListOperationRequestComponent  {
       console.log('Delete action cancelled.');
     }
   }
+
+  public editRequest(operation: MouseEvent){
+    this.router.navigate(['doctor/operationRequest/edit'], { state: { operation: operation } });
+  }
   hasStatusColumn(): boolean {
     return this.searchResults.some(result => result.status);
+  }
+
+  public addOperationRequest() {
+    this.router.navigate(['doctor/operationRequest/add']);
   }
 
 }

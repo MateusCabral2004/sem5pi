@@ -61,20 +61,14 @@ import {
   EditPatientProfileComponent
 } from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
 import {DoctorMenuComponent} from './Components/Dashboards/doctor-home/doctor-home.component';
-import {
-  AddOperationRequestComponent
-} from './Components/OperationRequestManagement/add-operation-request/add-operation-request.component';
-import {
-  OperationRequestManagementComponent
-} from './Components/OperationRequestManagement/operation-request-management/operation-request-management.component';
-import {
-  OperationRequestDetailsComponent
-} from './Components/OperationRequestManagement/operation-request-details/operation-request-details.component';
-import {
-  OperationRequestListComponent
-} from './Components/OperationRequestManagement/operation-request-list/operation-request-list.component';
 import { PatientHomeComponent } from './Components/Dashboards/patient-home/patient-home.component';
 import { CheckUserToDeleteComponent } from './Components/Patient/check-user-to-delete/check-user-to-delete.component';
+import {
+  EditOperationRequestComponent
+} from './Components/OperationRequest/edit-operation-request/edit-operation-request.component';
+import {
+  AddOperationRequestComponent
+} from './Components/OperationRequest/add-operation-request/add-operation-request.component';
 
 
 
@@ -122,12 +116,10 @@ import { CheckUserToDeleteComponent } from './Components/Patient/check-user-to-d
     EditPatientProfileButtonComponent,
     EditPatientProfileComponent,
     DoctorMenuComponent,
-    AddOperationRequestComponent,
-    OperationRequestManagementComponent,
-    OperationRequestDetailsComponent,
-    OperationRequestListComponent,
     PatientHomeComponent,
-    CheckUserToDeleteComponent
+    CheckUserToDeleteComponent,
+    EditOperationRequestComponent,
+    AddOperationRequestComponent
 
   ],
   imports: [
