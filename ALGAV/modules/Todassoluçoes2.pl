@@ -7,43 +7,47 @@
 :-dynamic assignment_surgery/2.
 
 
-%another example
-agenda_staff(d001,20241028,[]).
-agenda_staff(d002,20241028,[]).
-agenda_staff(d003,20241028,[]).
+
+
+agenda_staff(d001,20241028,[(720,790,m01),(1080,1140,c01)]).
+agenda_staff(d002,20241028,[(815,900,m02),(901,960,m03),(1380,1440,c02)]).
+agenda_staff(d003,20241028,[(720,790,m01),(910,980,m02)]).
 agenda_staff(d004,20241028,[]).
-agenda_staff(d005,20241028,[]).
-agenda_staff(d006,20241028,[]).
-agenda_staff(d007,20241028,[]).
-agenda_staff(d008,20241028,[]).
+agenda_staff(n001,20241028,[]).
+agenda_staff(n002,20241028,[]).
+agenda_staff(n003,20241028,[]).
+agenda_staff(a001,20241028,[(652, 690,a01)]).
 
 timetable(d001,20241028,(480,1200)).
-timetable(d002,20241028,(720,1440)).
-timetable(d003,20241028,(600,1320)).
-timetable(d004,20241028,(520,1320)).
-timetable(d005,20241028,(520,1440)).
-timetable(d006,20241028,(520,1440)).
-timetable(d007,20241028,(520,1440)).
-timetable(d008,20241028,(520,1440)).
-
-%another example
-%timetable(d001,20241028,(480,1200)).
-%timetable(d002,20241028,(500,1440)).
-%timetable(d003,20241028,(520,1320)).
-%timetable(d004,20241028,(520,1320)).
-%timetable(d005,20241028,(520,1320)).
-%timetable(d006,20241028,(520,1320)).
-
-
+timetable(d002,20241028,(500,1440)).
+timetable(d003,20241028,(520,1320)).
+timetable(d004,20241028,(480,1220)).
+timetable(n001,20241028,(480,1320)).
+timetable(n002,20241028,(480,1120)).
+timetable(n003,20241028,(480,1120)).
+timetable(a001,20241028,(480,1020)).
 
 staff(d001,doctor,orthopaedist,[so2,so3,so4]).
 staff(d002,doctor,orthopaedist,[so2,so3,so4]).
-staff(d003, doctor, anesthetist, [so2, so3]).
-staff(d004, doctor, orthopaedist, [so2]).
-staff(d005, doctor, cleaner, [so2]).
-staff(d006, doctor, cleaner, [so2]).
-staff(d007, doctor, anesthetist, [so2, so3]).
-staff(d008, doctor, anesthetist, [so2, so3]).
+staff(d003,doctor,orthopaedist,[so2,so3,so4]).
+staff(d004,doctor,anesthetist,[so2,so3,so4]).
+staff(n001,nurse, orthopaedist,[so2,so3,so4]).
+staff(n002,nurse, orthopaedist,[so2,so3,so4]).
+staff(n003,nurse, anesthetist,[so2,so3,so4]).
+staff(a001,assistant, cleaner,[so2,so3,so4]).
+
+%surgery(SurgeryType,TAnesthesia,TSurgery,TCleaning).
+surgery(so2,15,20,15).
+surgery(so3,15,30,15).
+surgery(so4,15,40,15).
+
+surgery_id(so100001,so2).
+surgery_id(so100002,so3).
+surgery_id(so100003,so4).
+surgery_id(so100004,so4).
+
+
+
 
 surgery_duration(so3, 10). % Exemplo: cirurgia so3 dura 120 minutos.
 surgery_duration(so2, 90).  % Exemplo: cirurgia so2 dura 90 minutos.
@@ -52,35 +56,19 @@ surgery_duration(so4, 90).  % Exemplo: cirurgia so2 dura 90 minutos.
 
 % Requisitos de staff para cirurgias
 
-surgery_staff_requirements(operation_team,so2, [(orthopaedist, 1)]).
-surgery_staff_requirements(anesthetist_team,so2, [(anesthetist, 1)]).
+surgery_staff_requirements(operation_team,so2, [(orthopaedist, 4)]).
+surgery_staff_requirements(anesthetist_team,so2, [(anesthetist, 2)]).
 surgery_staff_requirements(cleaning_team,so2, [(cleaner, 1)]).
 
-surgery_staff_requirements(operation_team,so3, [(orthopaedist, 1)]).
-surgery_staff_requirements(anesthetist_team,so3, [(anesthetist, 1)]).
+surgery_staff_requirements(operation_team,so3, [(orthopaedist, 4)]).
+surgery_staff_requirements(anesthetist_team,so3, [(anesthetist, 2)]).
 surgery_staff_requirements(cleaning_team,so3, [(cleaner, 1)]).
 
-surgery_staff_requirements(operation_team,so4, [(orthopaedist, 1)]).
-surgery_staff_requirements(anesthetist_team,so4, [(anesthetist, 1)]).
+surgery_staff_requirements(operation_team,so4, [(orthopaedist, 3)]).
+surgery_staff_requirements(anesthetist_team,so4, [(anesthetist, 2)]).
 surgery_staff_requirements(cleaning_team,so4, [(cleaner, 1)]).
 
-agenda_operation_room(or1,20241028,[(520,579,so100001)]).
-agenda_operation_room(ola,20241028,[]).
-
-
-surgery(so2,45,60,45).
-surgery(so3,45,90,45).
-surgery(so4,45,75,45).
-
-surgery_id(so100001,so2).
-surgery_id(so100002,so3).
-surgery_id(so100003,so4).
-surgery_id(so100004,so2).
-surgery_id(so100005,so4).
-
-assignment_surgery(so100001,d001).
-
-
+agenda_operation_room(or1,20241028,[(520,579,so100000)]).
 
 
 
@@ -268,7 +256,8 @@ schedule_surgery(Surgery, Date, Room) :-
 
     
     precede(UniqueResultAnesthesia,UniqueResultsurgery,UniqueResultCleaning,Result_allCombinatios),
-         format('---------------Result_allCombinatios-----------: ~w\n', [Result_allCombinatios]),
+                 list_to_set(Result_allCombinatios, Result_allCombinatios1),
+         format('---------------Result_allCombinatios-----------: ~w\n', [Result_allCombinatios1]),
 
 %alterar set_new interval
     agenda_operation_room(Room, Date, RoomAgenda),
@@ -297,10 +286,10 @@ assign_surgery2(Room, Date, Surgery, Time_Anesthesia, Time_Cleaning, Time_Surger
     -> true
     ;
         format('Falha na atribuição. Tentando novamente...\n'),
-        min_final_minute(ValidRoomIntervals, MinInterval, UpdatedList),
-        format('Menor hora final selecionado: ~w\n', [MinInterval]),
+        min_final_minute(ValidRoomIntervals, MinInterval1, UpdatedList),
+        format('Menor hora final selecionado: ~w\n', [MinInterval1]),
         format('Salas válidas restantes: ~w\n', [UpdatedList]),
-        assign_surgery2(Room, Date, Surgery, Time_Anesthesia, Time_Cleaning, Time_Surgery, Tipo,MinInterval,Staff_AnesthesiaList,UpdatedList,Staff_CleaningList,StaffList)   
+        assign_surgery2(Room, Date, Surgery, Time_Anesthesia, Time_Cleaning, Time_Surgery, Tipo,MinInterval1,Staff_AnesthesiaList,UpdatedList,Staff_CleaningList,StaffList)   
 ).
 
 assign_surgery(Room, Date, Surgery, Time_Anesthesia, Time_Cleaning, Time_Surgery, Tipo,MinInterval,Staff_AnesthesiaList,Staff_CleaningList,StaffList) :-    
@@ -444,10 +433,16 @@ min_final_minute(AllCommonIntervals, MinInterval,NewList_Unique) :-
     findall((Start, End), member((Start, End), Flattened), Intervals), 
     findall(End, member((_, End), Intervals), EndMinutes), 
     min_list(EndMinutes, MinMinute), % menor minuto final
-    member(MinInterval, Intervals), 
-    MinInterval = (_, MinMinute), % Encontra o intervalo com o minuto final igual a MinMinute
-    list_to_set(AllCommonIntervals, NewList),
-    select(MinInterval, NewList, NewList_Unique).
+    member(MinInterval1, Intervals), 
+    MinInterval1 = (_, MinMinute), % Encontra o intervalo com o minuto final igual a MinMinute
+        format('AQUIIII~w\n', [ MinInterval1]),
+        format('AllCommonIntervals~w\n', [ AllCommonIntervals]),
+    
+    select(MinInterval1, AllCommonIntervals, NewList_Unique),
+        select(MinInterval, AllCommonIntervals, NewList_Unique),
+   
+            format('NewList_Unique~w\n', [ NewList_Unique]).
+    
     
    
 
@@ -501,14 +496,22 @@ set_new_interval([(I1, _), (_, _), (_, F3)], RoomAgenda, Duration, NewIntervals)
             AEndAux is AEnd + 1,
             Aux =< F3                        
         ), IntervalsFromEnd),
-        
+        findall((I1, Aux), (
+                    member((_, AEnd, _), RoomAgenda), 
+                    I1 > AEnd,                      
+                    Aux is I1 + Duration, 
+                    Aux =< F3                        
+                ), IntervalsFromEnd2),
+   
     findall((I1, Aux), (
                  member((AStart, _, _), RoomAgenda), 
                  I1 =< AStart,                         
                  Aux is I1 + Duration,             
                  Aux =< F3                            
-             ), IntervalsFromStart) ,                         
-    append(IntervalsFromEnd, IntervalsFromStart, NewIntervals).
+             ), IntervalsFromStart) ,                        
+      append(IntervalsFromEnd, IntervalsFromEnd2, NewIntervals0),
+
+    append(NewIntervals0, IntervalsFromStart, NewIntervals).
 
 
 precede([], [], [], []).
