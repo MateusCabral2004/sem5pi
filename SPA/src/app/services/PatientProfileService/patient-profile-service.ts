@@ -41,34 +41,34 @@ export class PatientProfileService {
   }
   public listAllPatientProfiles(): Observable<PatientProfile[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/`, { withCredentials: true });
+    return this.http.get<PatientProfile[]>(`${this.apiUrl}/`, { withCredentials: true });
 
   }
 
   public filterPatientProfilesByName(name: string): Observable<PatientProfile[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/listPatientProfilesByName/${name}`, { withCredentials: true });
+    return this.http.get<PatientProfile[]>(`${this.apiUrl}/listPatientProfilesByName/${name}`, { withCredentials: true });
 
   }
 
   public filterPatientProfilesByEmail(email: string): Observable<any> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/listPatientProfilesByEmail/${email}`, { withCredentials: true });
+    return this.http.get<PatientProfile[]>(`${this.apiUrl}/listPatientProfilesByEmail/${email}`, { withCredentials: true });
 
   }
 
   public filterPatientProfilesByBirthDate(birthDate: string): Observable<PatientProfile[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/Patient/listPatientProfilesByDateOfBirth/${birthDate}`, { withCredentials: true });
+    return this.http.get<PatientProfile[]>(`${this.apiUrl}/listPatientProfilesByDateOfBirth/${birthDate}`, { withCredentials: true });
 
   }
   public filterPatientProfilesByMedicalRecordNumber(id: string): Observable<PatientProfile> {
 
-    return this.http.get<PatientProfile>(`${this.apiUrl}/Patient/listPatientProfilesByMedicalRecordNumber/${id}`, {withCredentials: true});
+    return this.http.get<PatientProfile>(`${this.apiUrl}/listPatientProfilesByMedicalRecordNumber/${id}`, {withCredentials: true});
   }
 
   public editPatientProfile(editedPatientProfile: PatientProfile, email:string): Observable<any> {
 
-    return this.http.put(`${this.apiUrl}/Patient/editPatientProfile/${email}`, editedPatientProfile, { withCredentials: true });
+    return this.http.put(`${this.apiUrl}/editPatientProfile/${email}`, editedPatientProfile, { withCredentials: true });
   }
 }

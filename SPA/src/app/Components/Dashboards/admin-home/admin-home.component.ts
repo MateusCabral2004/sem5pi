@@ -16,12 +16,9 @@ export class AdminMenuComponent {
        but because they are not yet implemented I created some placeholders */
     { title: 'Operation Type Management', icon: 'assets/icons/dashboard.png', link: '/admin/operationTypeManagement' },
     { title: 'Staff Management', icon: 'assets/icons/users.png', link: '/admin/staff' },
-    { title: 'Reports', icon: 'assets/icons/reports.png', link: '/reports' },
-    { title: 'Settings', icon: 'assets/icons/settings.png', link: '/settings' },
-    { title: 'Profile', icon: 'assets/icons/profile.png', link: '/profile' },
-    { title: '3D',icon: 'assets/icons/3d.png', link: '/3d' },
     {title : 'Patient Management', icon: 'assets/icons/patient.png', link: '/admin/patient'},
-    {title : 'Delete Pendent Users', icon: 'assets/icons/patient.png', link: '/patient/checkUserToDelete'}
+    {title : 'Delete Pendent Users', icon: 'assets/icons/patient.png', link: '/patient/checkUserToDelete'},
+    { title: '3D',icon: 'assets/icons/3d.png', link: '/3d' }
 
   ];
 
