@@ -5,8 +5,6 @@ import {Observable, of} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import json from '../../appsettings.json';
 
-
-
 @Injectable({
   providedIn: 'root'
 })

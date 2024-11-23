@@ -4,8 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {OperationRequest} from '../../Domain/OperationRequest';
 import {Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
-import {PatientProfile} from '../../Domain/PatientProfile';
-import {Staff} from '../../Domain/Staff';
+import json from '../../appsettings.json';
 
 
 @Injectable({
@@ -13,11 +12,11 @@ import {Staff} from '../../Domain/Staff';
 })
 export class OperationRequestService {
 
-  private apiUrl1 = 'http://localhost:5001/staff';
+  private apiUrl1 = json.apiUrl + '/staff';
+  private apiUrl = json.apiUrl + '/operationRequest';
 
   constructor(private http: HttpClient) {}
 
-  // Método para buscar as requisições de operação
   searchRequests(filters: any): Observable<any> {
     const { patientName, operationType, priority, status } = filters;
     const normalizedFilters = {
@@ -40,10 +39,8 @@ export class OperationRequestService {
     );
   }
 
-  private apiUrl = 'http://localhost:5001';
-
   addOperationRequest(operation: OperationRequest): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/OperationRequest/registerOperationRequest`, operation, {
+    return this.http.post<string>(`${this.apiUrl}/registerOperationRequest`, operation, {
       withCredentials: true,
     }).pipe(
       catchError(error => {
@@ -55,7 +52,7 @@ export class OperationRequestService {
 
 
   listOperationRequests(): Observable<OperationRequest[]> {
-    return this.http.get<OperationRequest[]>(`${this.apiUrl}/OperationRequest`, {withCredentials: true});
+    return this.http.get<OperationRequest[]>(`${this.apiUrl}`, {withCredentials: true});
   }
 
 }

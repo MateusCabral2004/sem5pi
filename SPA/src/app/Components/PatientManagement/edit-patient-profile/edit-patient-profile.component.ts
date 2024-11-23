@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {PatientProfileService} from '../../../services/PatientProfileService/patient-profile-service';
+import {PatientService} from '../../../services/PatientService/patient.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PatientProfile} from '../../../Domain/PatientProfile';
+import {PatientProfileService} from '../../../services/PatientProfileService/patient-profile-service';
 
 @Component({
   selector: 'app-edit-patient-profile',
