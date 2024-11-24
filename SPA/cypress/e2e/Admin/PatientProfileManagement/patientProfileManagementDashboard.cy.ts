@@ -1,13 +1,14 @@
 ﻿import json from '../../../globalVariables.json';
 
-beforeEach(() => {
-  cy.setCookie('.AspNetCore.Cookies', json.Cookies.Admin);
-  cy.visit('/admin/patient');
-  cy.reload();
-  cy.wait(1000);
-});
-
 describe("Patient Profile Management", ()=>{
+
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.setCookie('.AspNetCore.Cookies', json.Cookies.Admin);
+    cy.visit('/admin/patient');
+    cy.reload();
+    cy.wait(1000);
+  });
 
     it("Visits the Patient Profile Management Component", () => {
     cy.contains("h1", "Patient Profiles Management");
