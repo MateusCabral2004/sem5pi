@@ -55,24 +55,21 @@ export class SurgeryRoomComponent {
   private createClosedDoor(): void {
     const doorGeometry = new THREE.BoxGeometry(this.doorSize.width, this.doorSize.height, this.doorSize.depth);
 
-    const sideMaterial = new THREE.MeshBasicMaterial({ color: 0xBBBFB9 });
+    const sideMaterial = new THREE.MeshStandardMaterial({ color: 0xBBBFB9 });
 
     let doorTexture = new THREE.TextureLoader().load(this.doorFrontTexture);
     doorTexture.colorSpace = THREE.SRGBColorSpace;
 
-    let frontMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: doorTexture });
+    let frontMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: doorTexture });
 
     doorTexture = new THREE.TextureLoader().load(this.doorBackTexture);
     doorTexture.colorSpace = THREE.SRGBColorSpace;
 
-    let backMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: doorTexture });
+    let backMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: doorTexture });
 
     let doorMesh = new THREE.Mesh(doorGeometry, [sideMaterial, sideMaterial, sideMaterial, sideMaterial, frontMaterial, backMaterial]);
     doorMesh.translateX(this.doorSize.width / 2.0);
     doorMesh.translateY(-this.doorSize.gap);
-
-    doorMesh.castShadow = false;
-    doorMesh.receiveShadow = true;
     doorMesh.updateMatrix();
 
     const doorPivot = new THREE.Object3D();
@@ -95,24 +92,21 @@ export class SurgeryRoomComponent {
   private createOpenedDoor(): void {
     const doorGeometry = new THREE.BoxGeometry(this.doorSize.width, this.doorSize.height, this.doorSize.depth);
 
-    const sideMaterial = new THREE.MeshBasicMaterial({ color: 0xBBBFB9 });
+    const sideMaterial = new THREE.MeshStandardMaterial({ color: 0xBBBFB9 });
 
     let doorTexture = new THREE.TextureLoader().load(this.doorFrontTexture);
     doorTexture.colorSpace = THREE.SRGBColorSpace;
 
-    let frontMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: doorTexture });
+    let frontMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: doorTexture });
 
     doorTexture = new THREE.TextureLoader().load(this.doorBackTexture);
     doorTexture.colorSpace = THREE.SRGBColorSpace;
 
-    let backMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, map: doorTexture });
+    let backMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff, map: doorTexture });
 
     let doorMesh = new THREE.Mesh(doorGeometry, [sideMaterial, sideMaterial, sideMaterial, sideMaterial, frontMaterial, backMaterial]);
     doorMesh.translateX(this.doorSize.width / 2.0);
     doorMesh.translateY(-this.doorSize.gap);
-
-    doorMesh.castShadow = false;
-    doorMesh.receiveShadow = true;
     doorMesh.updateMatrix();
 
     const doorPivot = new THREE.Object3D();
