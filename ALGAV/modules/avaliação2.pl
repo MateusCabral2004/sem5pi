@@ -229,9 +229,10 @@ search_pending_surgeries(Date, Room) :-
        format('Melhor solução encontrada: ~w\n', [BestSolution]),
        
         statistics(runtime, [End|_]),
+        findall(X, (member((_, _, X), BestSolution), schedule_surgery(X, Date, Room, Solucoes1)), _),
 
-                format('Tempo de execução end: ~w ms\n', [End]),
-            format('Tempo de execução start: ~w ms\n', [Start]).
+        format('Tempo de execução end: ~w ms\n', [End]),
+        format('Tempo de execução start: ~w ms\n', [Start]).
 
      
 % Caso base: quando a lista de cirurgias está vazia.
