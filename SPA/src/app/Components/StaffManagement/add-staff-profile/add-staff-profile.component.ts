@@ -91,8 +91,6 @@ export class AddStaffProfileComponent implements OnInit {
 
         } else if (error.status === 604) {
 
-          console.log('Error creating staff profileSSSSSSSSSS:', error);
-
           this.errorMessage = error.error;
           this.showErrorMessagePopup = true;
 
