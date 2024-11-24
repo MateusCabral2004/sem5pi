@@ -47,8 +47,8 @@ export class AddOperationRequestComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.loadPatients();
-    this.loadOperationTypes();
+   // this.loadPatients();
+   // this.loadOperationTypes();
   }
 
   loadPatients(): void {

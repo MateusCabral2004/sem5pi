@@ -39,7 +39,7 @@ export class OperationRequestService {
   }
 
   addOperationRequest(operation: OperationRequest): Observable<string> {
-    return this.http.post<string>(`${this.apiUrl}/registerOperationRequest`, operation, {
+    return this.http.post<string>(`${this.apiUrl}/requestOperation`, operation, {
       withCredentials: true,
     }).pipe(
       catchError(error => {
