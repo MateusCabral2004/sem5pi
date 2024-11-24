@@ -159,9 +159,9 @@ namespace Sempi5
                 var staffRepository = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
                 var patentRepository = scope.ServiceProvider.GetRequiredService<IPatientRepository>();
                 var operationTypeRepository = scope.ServiceProvider.GetRequiredService<IOperationTypeRepository>();
-                var operationRequestRepository =
-                    scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
-
+                var operationRequestRepository = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
+                var surgeryRoomRepository = scope.ServiceProvider.GetRequiredService<ISurgeryRoomRepository>();
+                
                 new UsersBootstrap(userRepository).SeedAdminUser().Wait();
                 unitOfWork.CommitAsync().Wait();
 
@@ -180,6 +180,10 @@ namespace Sempi5
                 
                 var operationTypeBootstrap = new OperationTypeBootstrap(operationTypeRepository);
                 operationTypeBootstrap.SeedOperationTypes().Wait();
+                unitOfWork.CommitAsync().Wait();
+                
+                var surgeryRoomBootstrap = new SurgeryRoomBootstrap(surgeryRoomRepository);
+                surgeryRoomBootstrap.SeedSurgeryRooms().Wait();
                 unitOfWork.CommitAsync().Wait();
             }
         }
@@ -251,6 +255,7 @@ namespace Sempi5
             services.AddTransient<OperationTypeService>();
             services.AddTransient<OperationRequestService>();
             services.AddTransient<SystemUserService>();
+            services.AddTransient<SurgeryRoomService>();
 
             services.AddSingleton(Log.Logger);
         }

@@ -1,0 +1,55 @@
+﻿<div class="add-operation-request">
+  <h2>Add Operation Request</h2>
+
+  <form (ngSubmit)="addOperationRequest()">
+    <div class="form-group">
+      <label for="patient">Patient</label>
+      <input
+        id="patient"
+        type="text"
+        [(ngModel)]="operation.patient"
+        name="patient"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="operationType">Operation Type</label>
+      <input
+        id="operationType"
+        type="text"
+        [(ngModel)]="operation.operationType"
+        name="operationType"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="deadline">Deadline</label>
+      <input
+        id="deadline"
+        type="date"
+        [(ngModel)]="operation.deadline"
+        name="deadline"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="priority">Priority</label>
+      <select
+        id="priority"
+        [(ngModel)]="operation.priority"
+        name="priority"
+        class="form-control"
+      >
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+
+
+    <button type="submit" [disabled]="!isOperationRequestValid()">Add Operation Request</button>
+  </form>
+
+  <app-home-button></app-home-button>
+  <app-go-back-button [goBackPath]="'/doctor/operationRequests'"></app-go-back-button>
+</div>

@@ -5,10 +5,14 @@ using Sempi5.Domain.Encrypt;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.PatientAggregate;
 using Sempi5.Domain.PersonalData;
+using Sempi5.Domain.PersonalData.Exceptions;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.Shared.Exceptions;
 using Sempi5.Domain.SpecializationAggregate;
+using Sempi5.Domain.SpecializationAggregate.SpecializationExceptions;
 using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.StaffAggregate.DTOs;
+using Sempi5.Domain.StaffAggregate.StaffExceptions;
 using Sempi5.Infrastructure.AppointmentAggregate;
 using Sempi5.Infrastructure.AppointmentRepository;
 using Sempi5.Infrastructure.OperationRequestAggregate;
@@ -78,10 +82,9 @@ namespace Sempi5.Services
 
             if (staffByLicenseNumber != null)
             {
-                throw new ArgumentException("License Number already in use.");
+                throw new LicenseNumberAlreadyInUseException("License Number already in use.");
             }
         }
-
 
         private async Task<Specialization> CreateSpecialization(string specializationName)
         {
@@ -102,15 +105,14 @@ namespace Sempi5.Services
         private async Task<Person> CreatePerson(string firstName, string lastName, string emailString,
             int phoneNumberInt)
         {
-            
             await VerifyPhoneNumberAvailability(phoneNumberInt);
-            
+
             var phoneNumber = new PhoneNumber(phoneNumberInt);
-            
+
             await VerifyEmailAvailability(emailString);
 
             var email = new Email(emailString);
-            
+
             var contactInfo = new ContactInfo(email, phoneNumber);
             var person = new Person(new Name(firstName), new Name(lastName), contactInfo);
 
@@ -120,25 +122,24 @@ namespace Sempi5.Services
         public async Task VerifyPhoneNumberAvailability(int phoneNumber)
         {
             var phone = new PhoneNumber(phoneNumber);
-            
+
             var personByPhoneNumber = await _personRepository.GetPersonByPhoneNumber(phone);
 
             if (personByPhoneNumber != null)
             {
-                throw new ArgumentException("Phone Number already in use.");
+                throw new PhoneNumberAlreadyInUseException("Phone Number already in use.");
             }
         }
 
         public async Task VerifyEmailAvailability(string email)
         {
-
             var emailAdd = new Email(email);
-            
+
             var personByEmail = await _personRepository.GetPersonByEmail(emailAdd);
 
             if (personByEmail != null)
             {
-                throw new ArgumentException("Email already in use.");
+                throw new EmailAlreadyInUseException("Email already in use.");
             }
         }
 
@@ -169,18 +170,17 @@ namespace Sempi5.Services
                 await VerifyEmailAvailability(editStaffDto.email);
 
                 var email = new Email(editStaffDto.email);
-                
+
                 staff.Person.ContactInfo._email = email;
             }
 
 
             if (editStaffDto.phoneNumber > 0)
             {
-
                 await VerifyPhoneNumberAvailability(editStaffDto.phoneNumber);
 
                 var phoneNumber = new PhoneNumber(editStaffDto.phoneNumber);
-                
+
                 staff.Person.ContactInfo._phoneNumber = phoneNumber;
             }
 
@@ -213,13 +213,13 @@ namespace Sempi5.Services
 
             if (staff == null)
             {
-                throw new ArgumentException("Staff not found.");
+                throw new StaffProfilesNotFoundException("Staff not found.");
             }
 
             staff.Status = StaffStatusEnum.INACTIVE;
             staff.Person = null;
             staff.LicenseNumber = null;
-            
+
             await _unitOfWork.CommitAsync();
         }
 
@@ -229,7 +229,7 @@ namespace Sempi5.Services
 
             if (staffList.Count == 0)
             {
-                throw new ArgumentException("Staffs not found.");
+                throw new StaffProfilesNotFoundException("Staffs not found.");
             }
 
             var staffDtoList = BuildStaffDtoList(staffList);
@@ -243,7 +243,7 @@ namespace Sempi5.Services
 
             if (staff == null)
             {
-                throw new ArgumentException("Staff not found.");
+                throw new StaffProfilesNotFoundException("Staff not found.");
             }
 
             return StaffToSearchedStaffDto(staff);
@@ -251,21 +251,34 @@ namespace Sempi5.Services
 
         public async Task<List<SearchedStaffDTO>> ListStaffBySpecialization(SpecializationNameDTO specializationDto)
         {
-            
             var specializationName = new SpecializationName(specializationDto.specializationName);
             var specializationToSearch = new Specialization(specializationName);
-            
-            var specialization = await 
+
+            var specialization = await
                 _specializationRepository.GetBySpecializationName(specializationToSearch);
-            
+
             if (specialization == null)
             {
-                throw new ArgumentException("Specialization not found.");
+                throw new SpecializationNotFoundException("Specialization not found.");
             }
-            
+
             var staffList =
                 await _staffRepository.GetActiveStaffBySpecialization(
                     new SpecializationName(specializationDto.specializationName));
+
+            if (staffList.Count == 0)
+            {
+                throw new StaffProfilesNotFoundException("Staffs not found.");
+            }
+
+            var staffDtoList = BuildStaffDtoList(staffList);
+
+            return staffDtoList;
+        }
+
+        public async Task<List<SearchedStaffDTO>> ListAllStaff()
+        {
+            var staffList = await _staffRepository.GetAllActiveStaff();
 
             if (staffList.Count == 0)
             {
@@ -284,15 +297,19 @@ namespace Sempi5.Services
                 Id = staff.Id.AsString(),
                 FullName = staff.Person.FullName.ToString(),
                 Email = staff.Person.ContactInfo.email().ToString(),
+                PhoneNumber = staff.Person.ContactInfo.phoneNumber().phoneNumber(),
                 Specialization = staff.Specialization.specializationName.ToString()
             };
         }
 
-        public async Task<bool> DeleteRequestAsync(string doctorEmail)
+        public async Task<bool> DeleteRequestAsync(string doctorEmail, string id)
         {
             var staff = await _staffRepository.GetByEmail(doctorEmail);
             var doctorId = staff.Id.AsString();
-            var operationRequest = await _operationRequestRepository.GetByDoctorId(doctorId);
+            var operationRequest = await _operationRequestRepository.GetOperationRequestById(id);
+           // var operationRequest = await _operationRequestRepository.GetByDoctorId(doctorId);
+
+
             if (operationRequest == null)
             {
                 throw new InvalidOperationException("No operation request found for this doctor.");
@@ -303,18 +320,22 @@ namespace Sempi5.Services
             {
                 var appointment =
                     await _appointmentRepository.getAppointmentByOperationRequestID(operationRequest.Id.AsLong());
-                if (appointment == null)
-                    throw new UnauthorizedAccessException("No operation request found for this doctor.");
+                if (appointment != null)
+                {
+                    if (appointment.Status.Equals(StatusEnum.SCHEDULED) ||
+                        appointment.Status.Equals(StatusEnum.COMNPLETED) ||
+                        appointment.Status.Equals(StatusEnum.CANCELED))
+                        throw new InvalidOperationException("Cannot delete a scheduled operation.");
 
-                if (appointment.Status.Equals(StatusEnum.SCHEDULED) ||
-                    appointment.Status.Equals(StatusEnum.COMNPLETED) ||
-                    appointment.Status.Equals(StatusEnum.CANCELED))
-                    throw new InvalidOperationException("Cannot delete a scheduled operation.");
+                    appointment.Status = StatusEnum.CANCELED;
 
-                appointment.Status = StatusEnum.CANCELED;
+                    await _appointmentRepository.updataAppointment(appointment);
+                    await _operationRequestRepository.RemoveAsync(appointment.OperationRequest);
+                    await _appointmentRepository.SaveChangesAsync();
+                    return true;
+                }
 
-                await _appointmentRepository.updataAppointment(appointment);
-                await _operationRequestRepository.RemoveAsync(appointment.OperationRequest);
+                await _operationRequestRepository.RemoveAsync(operationRequest);
                 await _appointmentRepository.SaveChangesAsync();
             }
 
@@ -336,37 +357,46 @@ namespace Sempi5.Services
         }
 
 
-       public async Task<List<OperationRequest>> SearchRequestsAsync(string patientName, string type, string priority, string status)
-{
-    try
-    {
-        List<OperationRequest> operationRequests = new List<OperationRequest>();
-        List<OperationRequest> operationRequests_status = new List<OperationRequest>();
-        operationRequests = await _operationRequestRepository.SearchAsync(patientName, type, priority);
-        if (status != null)
+        public async Task<List<OperationRequest>> SearchRequestsAsync(string patientName, string type, string priority,
+            string status,string doctorEmail)
         {
-            for (int i = 0; i < operationRequests.Count; i++)
+            try
             {
-                var operationRequest = operationRequests[i];
-                var appointment = await _appointmentRepository.getAppointmentByOperationRequestID(operationRequest.Id.AsLong());
-                if (appointment.Status.ToString().ToLower().Equals(status.ToLower()))
+                string doctorId = (await _staffRepository.GetByEmail(doctorEmail)).Id.AsString();
+                List<OperationRequest> operationRequests = new List<OperationRequest>();
+                List<OperationRequest> operationRequests_status = new List<OperationRequest>();
+                operationRequests = await _operationRequestRepository.SearchAsyncWithDoctocId(patientName, type, priority,doctorId);
+                
+                if (status != null)
                 {
-                    operationRequests_status.Add(appointment.OperationRequest);
+                    for (int i = 0; i < operationRequests.Count; i++)
+                    {
+                        var operationRequest = operationRequests[i];
+                        var appointment =
+                            await _appointmentRepository.getAppointmentByOperationRequestID(
+                                operationRequest.Id.AsLong());
+                        if (appointment != null)
+                        {
+                            if (appointment.Status.ToString().ToLower().Equals(status.ToLower()))
+                            {
+                                operationRequests_status.Add(appointment.OperationRequest);
+                            }
+                        }
+                    }
                 }
+                else
+                {
+                    operationRequests_status = operationRequests;
+                }
+
+                return operationRequests_status;
+            }
+            catch (Exception e)
+            {
+                // Log the exception or handle it as needed
+                throw new ApplicationException($"An error occurred while searching for operation requests: {e.Message}",
+                    e);
             }
         }
-        else
-        {
-            operationRequests_status = operationRequests;
-        }
-
-        return operationRequests_status;
-    }
-    catch (Exception e)
-    {
-        // Log the exception or handle it as needed
-        throw new ApplicationException($"An error occurred while searching for operation requests: {e.Message}", e);
-    }
-}
     }
 }

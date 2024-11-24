@@ -2,7 +2,11 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Sempi5.Domain.PatientAggregate;
+using Sempi5.Domain.PatientAggregate.Exceptions;
+using Sempi5.Domain.Shared;
+using Sempi5.Domain.StaffAggregate.StaffExceptions;
 using Sempi5.Services;
 using ILogger = Serilog.ILogger;
 
@@ -15,7 +19,7 @@ public class PatientController : ControllerBase
     private readonly PatientService patientService;
     private readonly EmailService emailService;
     private readonly Serilog.ILogger _logger;
-    
+
     public PatientController(PatientService patientService, EmailService emailService, ILogger logger)
     {
         this.patientService = patientService;
@@ -29,30 +33,30 @@ public class PatientController : ControllerBase
         try
         {
             await patientService.checkUserToDelete();
-            return Ok("Users deleted");
+            return Ok(new {message="Pendent Users were deleted"});
         }
         catch (Exception ex)
         {
-            return BadRequest( "An error occurred while processing your request. "+ ex.Message);
+            return BadRequest("An error occurred while processing your request. " + ex.Message);
         }
     }
 
 
-    public string getEmail()
+    private string getEmail()
     {
         var claimsIdentity = User.Identity as ClaimsIdentity;
         return claimsIdentity?.FindFirst(ClaimTypes.Email).Value;
     }
 
     [HttpGet("register")]
-    [Authorize(Roles = "Unregistered")] 
+    [Authorize(Roles = "Unregistered")]
     public IActionResult Register()
     {
         return Ok("Por favor, forneça o seu número.");
     }
 
     [HttpPost("register")]
-    [Authorize(Roles = "Unregistered")] 
+    [Authorize(Roles = "Unregistered")]
     //TODO - Use email from the cookies (claim principal)
     public async Task<IActionResult> RegisterNumber(int number)
     {
@@ -63,17 +67,19 @@ public class PatientController : ControllerBase
                 return BadRequest("Número de registro não pode ser vazio ou negativo.");
             }
 
-        var success = await patientService.RegisterPatientUser(getEmail(), number);
+            var success = await patientService.RegisterPatientUser(getEmail(), number);
 
             if (success)
             {
-                return Ok($"Número de registro {number} registrado com sucesso para o email: {getEmail()}.");
+                return Ok(new
+                    { messge = $"Número de registro {number} registrado com sucesso para o email: {getEmail()}." });
             }
             else
             {
                 return BadRequest("Erro ao registrar número.");
             }
-        }   catch (Exception e)
+        }
+        catch (Exception e)
         {
             return BadRequest(e.Message);
         }
@@ -89,24 +95,24 @@ public class PatientController : ControllerBase
         {
             return BadRequest("Unauthorized acess(you need to confirm your account)");
         }
+
         return Ok(appointments);
     }
 
 
-    [HttpGet("account/exclude")]
-     [Authorize(Roles = "Patient")]
+    [HttpDelete("account/exclude")]
+    [Authorize(Roles = "Patient")]
     public async Task<IActionResult> excludeAccount()
     {
         await patientService.defineDataToExcludeAccount(getEmail());
 
-        return Ok("We have sent email to confirm the exclusion");
+        return Ok(new { message = "We have sent an email to confirm the exclusion." });
     }
 
     [HttpGet("account/exclude/confirm/{token}")]
-     [Authorize(Roles = "Patient")]
+    [Authorize(Roles = "Patient")]
     public async Task<IActionResult> excludeAccountEmailConfirm(string token)
     {
-
         try
         {
             await patientService.excludeAccountSchedule(token);
@@ -125,13 +131,13 @@ public class PatientController : ControllerBase
         catch (Exception ex)
         {
             // erro inesperado
-            return StatusCode(500, "Erro interno do servidor. Tente novamente mais tarde."+ ex.Message);
+            return StatusCode(500, "Erro interno do servidor. Tente novamente mais tarde." + ex.Message);
         }
     }
 
 
-    [HttpPost("account/update")]
-    [Authorize(Roles = "Patient")] 
+    [HttpPatch("account/update")]
+    [Authorize(Roles = "Patient")]
     public async Task<IActionResult> updateAccount(PatientProfileDto profileDto)
     {
         //criar um token para eter no link
@@ -141,12 +147,12 @@ public class PatientController : ControllerBase
 
             await SendUpdateConfirmationEmail(getEmail(),
                 $"http://localhost:5001/patient/account/update/{serializedDto}", "Update Confirmation");
-            return Ok("Email sent to confirm update");
+            return Ok(new { message = "Email sent to confirm update." });
         }
 
         //adicionar um novo parametro que é o email do usuario logado
         await patientService.updateAccount(profileDto, getEmail());
-        return Ok("Account updated");
+        return Ok(new { message = "Account updated." });
     }
 
     [HttpGet("account/update/{jsonString}")]
@@ -165,8 +171,7 @@ public class PatientController : ControllerBase
 
 
         await patientService.updateAccount(profileDto, getEmail());
-
-        return Ok("Account updated");
+        return Ok(new { message = "Account updated" });
     }
 
     private async Task SendUpdateConfirmationEmail(string email, string link, string subject)
@@ -180,13 +185,15 @@ public class PatientController : ControllerBase
         await emailService.SendEmailAsync(email, body, subject);
     }
 
-    [HttpGet("listPatientProfilesByName")]
+    [HttpGet("listPatientProfilesByName/{name}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ListPatientProfilesByName(NameDTO nameDto)
+    public async Task<IActionResult> ListPatientProfilesByName(string name)
     {
         try
         {
+            var nameDto = new NameDTO { name = name };
             var patientProfile = await patientService.ListPatientByName(nameDto);
+
             return Ok(patientProfile);
         }
         catch (Exception e)
@@ -195,12 +202,13 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpGet("listPatientProfilesByEmail")]
+    [HttpGet("listPatientProfilesByEmail/{email}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ListPatientProfilesByEmail(EmailDTO emailDto)
+    public async Task<IActionResult> ListPatientProfilesByEmail(string email)
     {
         try
         {
+            var emailDto = new EmailDTO { email = email };
             var patientProfiles = await patientService.ListPatientByEmail(emailDto);
             return Ok(patientProfiles);
         }
@@ -210,14 +218,15 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpGet("listPatientProfilesByMedicalRecordNumber")]
+    [HttpGet("listPatientProfilesByMedicalRecordNumber/{id}")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ListPatientProfilesByMedicalRecordNumber(
-        PatientIdDto patientId)
+        string Id)
     {
         try
         {
-            var patientProfiles = await patientService.ListPatientByMedicalRecordNumber(patientId);
+            var medicalRecordNumberDto = new PatientIdDto { Id = Id };
+            var patientProfiles = await patientService.ListPatientByMedicalRecordNumber(medicalRecordNumberDto);
             return Ok(patientProfiles);
         }
         catch (Exception e)
@@ -226,12 +235,17 @@ public class PatientController : ControllerBase
         }
     }
 
-    [HttpGet("listPatientProfilesByDateOfBirth")]
+    [HttpGet("listPatientProfilesByDateOfBirth/{birthDate}")]
     [Authorize(Roles = "Admin")]
-    public async Task<IActionResult> ListPatientProfilesByDateOfBirth(DateDTO dateDto)
+    public async Task<IActionResult> ListPatientProfilesByDateOfBirth(string birthDate)
     {
         try
         {
+            string[] parts = birthDate.Split('-');
+            int year = int.Parse(parts[0]);
+            int month = int.Parse(parts[1]);
+            int day = int.Parse(parts[2]);
+            var dateDto = new DateDTO { year = year, month = month, day = day };
             var patientProfiles = await patientService.ListPatientByDateOfBirth(dateDto);
             return Ok(patientProfiles);
         }
@@ -251,7 +265,7 @@ public class PatientController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message );
+            return BadRequest(e.Message);
         }
     }
 
@@ -272,10 +286,10 @@ public class PatientController : ControllerBase
         }
         catch (Exception e)
         {
-            return BadRequest(e.Message+ e.StackTrace);
+            return BadRequest(e.Message + e.StackTrace);
         }
     }
-    
+
 
     [HttpPost("registerPatientProfile")]
     public async Task<IActionResult> RegisterPatientProfile(PatientDTO patient)
@@ -284,6 +298,48 @@ public class PatientController : ControllerBase
         {
             await patientService.CreatePatientProfile(patient);
             return Ok("Patient profile created successfully");
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+
+
+    [HttpGet]
+    [Authorize(Roles = "Admin")]
+    public async Task<IActionResult> ListAllActivePatientProfiles()
+    {
+        try
+        {
+            var patientProfile = await patientService.ListAllActivePatients();
+
+            return Ok(patientProfile);
+        }
+        catch (PatientsProfilesNotFoundException e)
+        {
+            return BadRequest(e.Message);
+        }
+        catch (Exception e)
+        {
+            return BadRequest(e.Message);
+        }
+    }
+    
+    
+    [HttpGet("listAllActivePatientProfilesNames")]
+    [Authorize(Roles = "Doctor")]
+    public async Task<IActionResult> ListAllActivePatientProfilesNames()
+    {
+        try
+        {
+            var patientProfile = await patientService.ListAllActivePatientsNames();
+
+            return Ok(patientProfile);
+        }
+        catch (PatientsProfilesNotFoundException e)
+        {
+            return BadRequest(e.Message);
         }
         catch (Exception e)
         {

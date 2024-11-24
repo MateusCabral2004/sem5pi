@@ -1,0 +1,167 @@
+.home-button-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}
+
+.profile-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto 0;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  color: black;
+  text-align: center;
+}
+
+.add-button {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.add-button:hover {
+  background-color: #1976d2;
+}
+
+.operation-list {
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.operation-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin-bottom: 10px;
+  background-color: #e0f7fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 5px;
+}
+
+.operation-details p {
+  margin: 5px 0;
+  color: black;
+}
+
+.operation-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.delete-button {
+  padding: 8px 12px;
+  background-color: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-button {
+  padding: 8px 12px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background-color: #c62828;
+}
+
+.edit-button:hover {
+  background-color: #388e3c;
+}
+
+.view-button {
+  padding: 10px 20px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.view-button:hover {
+  background-color: #0056b3;
+}
+
+.view-button:active {
+  transform: scale(0.98);
+}
+
+.view-button:disabled {
+  background-color: #e0e0e0;
+  color: #b0b0b0;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.reset-filter-button {
+  padding: 8px 12px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px; /* Adiciona espaço abaixo do botão */
+}
+
+.reset-filter-button:hover {
+  background-color: #1976d2;
+}
+
+.filter-buttons-container {
+  display: flex;
+  justify-content: space-between; /* Places buttons on opposite edges */
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 10px; /* Equal padding on left and right for spacing */
+}
+
+.spacer {
+  width: 85px; /* Match the width of the Reset Filter button */
+}
+
+.no-operations-message {
+  padding: 15px;
+  margin: 20px 0;
+  background-color: #ffdddd; /* Light red background */
+  color: #d8000c; /* Dark red text color */
+  border: 1px solid #d8000c;
+  border-radius: 5px;
+  text-align: center;
+  font-weight: bold;
+}
+

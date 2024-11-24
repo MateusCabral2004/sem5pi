@@ -1,4 +1,5 @@
 ﻿using Sempi5.Domain.Shared;
+using Sempi5.Domain.StaffAggregate.StaffExceptions;
 
 namespace Sempi5.Domain.StaffAggregate;
 
@@ -18,7 +19,7 @@ public class LicenseNumber :IValueObject
     {
         if (licenseNumber <= 0)
         {
-            throw new ArgumentException("License number cannot be negative or equals to 0.");
+            throw new InvalidLicenseNumberFormatException("License number cannot be negative or equals to 0.");
         }
         
     }

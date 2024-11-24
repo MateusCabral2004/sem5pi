@@ -57,13 +57,15 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
     [Authorize(Roles = "Admin")]
     [HttpPut("editOperationType/name/{oldOperationName}")]
     public async Task<IActionResult> EditOperationType(string oldOperationName, [FromBody] string newOperationName)
     {
         try
         {
+            Console.WriteLine(oldOperationName);
+            Console.WriteLine(newOperationName);
             await _operationTypeService.EditOperationTypeName(oldOperationName, newOperationName);
             return Ok("Operation type edited successfully");
         }
@@ -72,10 +74,11 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
     [Authorize(Roles = "Admin")]
     [HttpPut("editOperationType/requiredStaff/add/{operationTypeName}")]
-    public async Task<IActionResult> AddRequiredStaffToOperationType(RequiredStaffDTO requiredStaffDto,string operationTypeName)
+    public async Task<IActionResult> AddRequiredStaffToOperationType(RequiredStaffDTO requiredStaffDto,
+        string operationTypeName)
     {
         try
         {
@@ -87,7 +90,7 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
     [Authorize(Roles = "Admin")]
     [HttpPut("editOperationType/requiredStaff/remove/{operationTypeName}")]
     public async Task<IActionResult> RemoveRequiredStaffFromOperationType(string operationTypeName,
@@ -109,6 +112,10 @@ public class OperationTypeController : ControllerBase
     public async Task<IActionResult> EditOperationTypeDuration(string durationType, string operationTypeName,
         [FromBody] string newDuration)
     {
+        Console.WriteLine(durationType);
+        Console.WriteLine(operationTypeName);
+        Console.WriteLine(newDuration);
+        
         try
         {
             switch (durationType)
@@ -135,8 +142,8 @@ public class OperationTypeController : ControllerBase
     }
 
     [Authorize(Roles = "Admin")]
-    [HttpGet("listOperationTypeByName")]
-    public async Task<IActionResult> ListOperationTypesByName(OperationNameDTO operationName)
+    [HttpGet("listOperationTypeByName/{operationName}")]
+    public async Task<IActionResult> ListOperationTypesByName(string operationName)
     {
         try
         {
@@ -148,13 +155,14 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpGet("listOperationTypeBySpecialization/{specializationName}")]
-    public async Task<IActionResult> ListOperationTypesBySpecialization(SpecializationNameDTO specializationName)
+    public async Task<IActionResult> ListOperationTypesBySpecialization(string specializationName)
     {
         try
         {
-           var listOperationTypeBySpecialization= await _operationTypeService.ListOperationTypeBySpecialization(specializationName);
+            var listOperationTypeBySpecialization =
+                await _operationTypeService.ListOperationTypeBySpecialization(specializationName);
             return Ok(listOperationTypeBySpecialization);
         }
         catch (Exception e)
@@ -162,7 +170,7 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpGet("listOperationTypeByStatus/{status}")]
     public async Task<IActionResult> ListOperationTypesByStatus(bool status)
     {
@@ -176,7 +184,7 @@ public class OperationTypeController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpGet("listOperationType")]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> ListOperationTypes()

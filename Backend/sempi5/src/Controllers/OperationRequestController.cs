@@ -1,7 +1,10 @@
-﻿using System.Security.Claims;
+﻿using System.Linq.Expressions;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 using Sempi5.Domain.OperationRequestAggregate.DTOs;
+using Sempi5.Domain.SpecializationAggregate;
 using Sempi5.Services;
 using ILogger = Serilog.ILogger;
 
@@ -12,11 +15,14 @@ namespace Sempi5.Controllers;
 public class OperationRequestController : ControllerBase
 {
     private readonly OperationRequestService _operationRequestService;
+    private readonly StaffService _staffService;
     private readonly Serilog.ILogger _logger;
 
-    public OperationRequestController(OperationRequestService operationRequestService, ILogger logger)
+    public OperationRequestController(OperationRequestService operationRequestService, StaffService staffService,
+        ILogger logger)
     {
         _operationRequestService = operationRequestService;
+        _staffService = staffService;
         _logger = logger;
     }
 
@@ -44,7 +50,7 @@ public class OperationRequestController : ControllerBase
         {
             await _operationRequestService.UpdateOperationRequestDeadline(operationRequestId, deadline, getEmail());
             _logger.ForContext("CustomLogLevel", "CustomLevel")
-                .Information($"Update To Operation Request {operationRequestId}"+
+                .Information($"Update To Operation Request {operationRequestId}" +
                              $"Deadline:{deadline}");
             return Ok("Operation request updated successfully");
         }
@@ -53,15 +59,15 @@ public class OperationRequestController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
     [HttpPut("updateOperationRequestPriority/{operationRequestId}/{priority}")]
     public async Task<IActionResult> UpdateOperationRequestPriority(string operationRequestId, string priority)
     {
         try
         {
-            await _operationRequestService.UpdateOperationRequestPriority(operationRequestId, priority,getEmail());
+            await _operationRequestService.UpdateOperationRequestPriority(operationRequestId, priority, getEmail());
             _logger.ForContext("CustomLogLevel", "CustomLevel")
-                .Information($"Update To Operation Request {operationRequestId}"+
+                .Information($"Update To Operation Request {operationRequestId}" +
                              $"Priority:{priority}");
             return Ok("Operation request updated successfully");
         }
@@ -70,10 +76,13 @@ public class OperationRequestController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
     public string getEmail()
     {
         var claimsIdentity = User.Identity as ClaimsIdentity;
         return claimsIdentity?.FindFirst(ClaimTypes.Email).Value;
     }
+    
+    
+
 }

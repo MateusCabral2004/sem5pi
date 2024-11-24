@@ -21,6 +21,7 @@ public class UsersBootstrap
         var email = new Email("ruipedrosantosoares@gmail.com");
         var user = new SystemUser(email, "Admin", true);
         
+        
         await _userRepository.AddAsync(admin);
         await _userRepository.AddAsync(user);
     }

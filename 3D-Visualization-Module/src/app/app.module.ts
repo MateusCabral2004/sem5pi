@@ -1,44 +1,27 @@
 ﻿import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule} from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
-import {MenuComponent} from './Components/menu/menu.component';
-import {AppComponent} from './app.component';
-import {HomeComponent} from './Components/home/home.component';
-import {AdminMenuComponent} from './Components/admin-home/admin-home.component';
-import {MenuBoxComponent} from './Components/menu-box/menu-box.component';
-import {ProfilePictureMenuComponent} from './Components/profile-picture-menu/profile-picture-menu.component';
-import {OperationTypeManagementComponent} from './Components/operation-type-management/operation-type-management.component';
-import {BaseDashboardComponent} from './Components/base-dashboard/base-dashboard.component';
-import {HomeButtonComponent} from './Components/home-button/home-button.component';
-import {AddOperationTypeComponent} from './Components/add-operation-type/add-operation-type.component';
-import {StaffManagementComponent} from './Components/staffManagement/staff-management.component';
-import {EditOperationTypeComponent} from './Components/edit-operation-type/edit-operation-type.component';
-
 import {routes} from './app.routes';
-import {FormsModule} from '@angular/forms';
+import {AppComponent} from "./app.component";
+import {SurgeryRoomComponent} from "./surgery-room/surgery-room.component";
+import {OperationFloorComponent} from "./operation-floor/operation-floor.component";
+import {ValidateMap} from './validateMap/validateMap';
+import {CorridorComponent} from './corridor/corridor.component';
+import {EdgeWallComponent} from './edge-wall/edge-wall.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-    AdminMenuComponent,
-    MenuBoxComponent,
-    MenuComponent,
-    ProfilePictureMenuComponent,
-    OperationTypeManagementComponent,
-    StaffManagementComponent,
-    BaseDashboardComponent,
-    HomeButtonComponent,
-    AddOperationTypeComponent,
-    EditOperationTypeComponent
+    SurgeryRoomComponent,
+    OperationFloorComponent,
+    CorridorComponent,
+    EdgeWallComponent
   ],
   imports: [
     BrowserModule,
-    HttpClientModule,
     RouterModule.forRoot(routes),
-    FormsModule
   ],
+  providers: [ValidateMap],
   bootstrap: [AppComponent]
 })
 export class AppModule {

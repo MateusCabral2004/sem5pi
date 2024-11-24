@@ -1,0 +1,35 @@
+﻿<div class="add-operation-request">
+  <h2>Edit Operation Request</h2>
+
+  <form (ngSubmit)="saveChanges()">
+    <div class="form-group">
+      <label for="deadline">Operation Name</label>
+      <input
+        id="deadline"
+        type="text"
+        [(ngModel)]="updatedOperationRequest.deadline"
+        name="deadline"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="priority">Priority</label>
+      <select
+        id="priority"
+        [(ngModel)]="updatedOperationRequest.priority"
+        name="priority"
+        class="form-control"
+      >
+        <option value="low">Low</option>
+        <option value="medium">Medium</option>
+        <option value="high">High</option>
+      </select>
+    </div>
+
+    <button type="submit" [disabled]="!isOperationValid()">Save Changes</button>
+  </form>
+
+  <app-home-button></app-home-button>
+  <app-go-back-button [goBackPath]="'/doctor/operationRequestManagement'"></app-go-back-button>
+</div>
