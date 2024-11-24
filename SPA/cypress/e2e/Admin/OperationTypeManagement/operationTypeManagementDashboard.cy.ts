@@ -1,13 +1,15 @@
 ﻿import json from '../../../globalVariables.json';
 
-beforeEach(() => {
-  cy.setCookie('.AspNetCore.Cookies', json.Cookies.Admin);
-  cy.visit('/admin/operationTypeManagement');
-  cy.reload();
-  cy.wait(1000);
-});
-
 describe("Operation Type Management", () => {
+
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.setCookie('.AspNetCore.Cookies', json.Cookies.Admin);
+    cy.reload();
+    cy.wait(1000);
+    cy.visit('/admin/operationTypeManagement');
+  });
 
   it("Visits the Operation Type Management Component", () => {
     cy.contains("h1", "Operation Type Management");

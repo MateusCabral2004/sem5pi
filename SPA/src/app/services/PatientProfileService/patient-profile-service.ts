@@ -39,7 +39,7 @@ export class PatientProfileService {
   }
   public listAllPatientProfiles(): Observable<PatientProfile[]> {
 
-    return this.http.get<PatientProfile[]>(`${this.apiUrl}/`, { withCredentials: true });
+    return this.http.get<PatientProfile[]>(`${this.apiUrl}`, { withCredentials: true });
 
   }
 

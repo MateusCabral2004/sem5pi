@@ -13,15 +13,15 @@ export class UpdatePatientAccoutComponent  {
 
   constructor(private fb: FormBuilder, private patientService: PatientService) {
     this.profileForm = this.fb.group({
-      email: ['sandroluis720@gmail.com', [Validators.email]],
-      phoneNumber: ['938536401', [Validators.pattern(/^\+?\d{1,3}[-\s]?\(?\d{1,4}\)?[-\s]?\d{3}[-\s]?\d{4}$/)]],
-      firstName: ['cocielo'],
-      lastName: ['updateLuis'],
-      birthDate: ['1985-10-12'],
-      gender: ['Male'],
-      allergiesAndMedicalConditions: ['Penicillin, Asthma'],
-      emergencyContact: ['Jane Doe - 987654321'],
-      appointmentHistory: ['2023-05-15, 2024-03-12']
+      email: [, [Validators.email]],
+      phoneNumber: [,[Validators.pattern(/^\+?\d{1,3}[-\s]?\(?\d{1,4}\)?[-\s]?\d{3}[-\s]?\d{4}$/)]],
+      firstName: [],
+      lastName: [],
+      birthDate: [],
+      gender: [],
+      allergiesAndMedicalConditions: [],
+      emergencyContact: [],
+      appointmentHistory: []
     });
   }
 
