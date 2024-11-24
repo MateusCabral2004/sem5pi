@@ -27,9 +27,13 @@ public class StaffBootstrap
         var doctorUserRui2 = new SystemUser(new Email("swag4yt@gmail.com"), "Doctor", true);
         var nurseUserRui2 = new SystemUser(new Email("rui.soares13749@aesps.pt"), "Nurse", true);
         var sandroUserDoctor = new SystemUser(new Email("carmoluis28@gmail.com"), "Doctor", true);
+        var ruteUserDoctor = new SystemUser(new Email("rutemaia2004@gmail.com"), "Doctor", true);
 
+        
         var specialization1 = new Specialization(new SpecializationName("Cardiology"));
         var specialization2 = new Specialization(new SpecializationName("Surgeon"));
+        var specialization3 = new Specialization(new SpecializationName("Neurologist"));
+
         
 
         var nurse = new Staff
@@ -96,6 +100,7 @@ public class StaffBootstrap
             specialization2,
             StaffStatusEnum.ACTIVE
         );
+  
         
         await _staffRepository.AddAsync(doctorSandro);
         await _staffRepository.AddAsync(nurse);
@@ -104,7 +109,7 @@ public class StaffBootstrap
         await _staffRepository.AddAsync(nurseRui);
         await _staffRepository.AddAsync(nurseRui2);
         await _staffRepository.AddAsync(doctorRui2);
-        
+
     }
 
     public async Task SeedStaffProfiles()
