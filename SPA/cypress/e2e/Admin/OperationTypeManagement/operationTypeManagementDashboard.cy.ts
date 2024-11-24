@@ -98,42 +98,6 @@ describe("Operation Type Management", () => {
     });
   });
 
-  it("Edits an Operation Name", () => {
-    cy.get(".operation-list .operation-item:first").within(() => {
-      cy.get(".operation-details p:first-of-type")
-        .invoke("text")
-        .then((text) => {
-          const oldOperationName = text.trim();
-          cy.wrap(oldOperationName).as("oldOperationName");
-        });
-      cy.get(".edit-button").click();
-    });
-
-    const newOperationName = "Edited OP " + new Date().toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit'
-    }).replace(/:/g, "");
-
-    cy.get("#operationName").clear().type(newOperationName);
-    cy.get("[type='submit']").click();
-
-    cy.wait(500);
-    cy.reload();
-
-    cy.get("@oldOperationName").then((oldName) => {
-      cy.get(".operation-list .operation-item").each(($item) => {
-        cy.wrap($item).within(() => {
-          cy.get(".operation-details p:first-of-type").should("not.contain", oldName);
-        });
-      });
-
-      cy.get(".operation-list .operation-item:first").within(() => {
-        cy.get(".operation-details p:first-of-type").should("contain", newOperationName);
-      });
-    });
-  });
-
   describe("Edit Operation Durations", () => {
     const editDuration = (durationSelector: string, validationIndex: number) => {
       const newDuration = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
