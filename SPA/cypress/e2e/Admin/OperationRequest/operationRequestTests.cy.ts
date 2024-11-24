@@ -23,7 +23,7 @@ describe('Operation Request Tests', () => {
   });
 
   it('Checks the number of Operation Requests displayed with operation type', () => {
-    cy.get('#operationType').type('Surgery');
+    cy.get('#operationType').type('Brain Surgery');
     cy.get('form button[type="submit"]').click();
     cy.get('.results table tbody tr').should('have.lengthOf.at.least', 1);
   });
@@ -46,12 +46,15 @@ describe('Operation Request Tests', () => {
     cy.get('.results table tbody tr').then(($rows) => {
       const initialRowCount = $rows.length;
       if (initialRowCount > 0) {
-        cy.get('.results table tbody tr:last-child td:last-child button').click();
+        // Selects the Delete button in the last row
+        cy.get('.results table tbody tr:last-child td button')
+            .contains('Delete')
+            .click();
+
         cy.get('.results table tbody tr').should('have.length', initialRowCount - 1);
       } else {
         cy.log('No rows to delete');
       }
     });
   });
-
 });
