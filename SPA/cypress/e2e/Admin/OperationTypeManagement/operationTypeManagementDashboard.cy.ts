@@ -166,7 +166,6 @@ describe("Operation Type Management", () => {
     });
   });
 
-
   describe("Edit Required Staff", () => {
     it("Add required staff", () => {
       const specialization = "test doctor " + new Date().toLocaleTimeString([], {

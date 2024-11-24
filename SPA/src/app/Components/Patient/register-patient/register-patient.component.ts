@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { PatientService } from '../../../services/patient.service';
 import {Router} from '@angular/router';
+import {PatientService} from '../../../services/PatientService/patient.service';
 
 
 @Component({
   selector: 'app-register-patient',
   templateUrl: './register-patient.component.html',
-  styleUrls: ['./register-patient.component.css']
+  styleUrls: ['./register-patient.component.css'],
+  standalone: false
+
 })
 export class RegisterPatientComponent {
   registrationForm: FormGroup;
@@ -35,7 +37,7 @@ export class RegisterPatientComponent {
         response => {
           alert('Registration was successful! Please verify your account via email.');
           console.log('response', response);
-          this.router.navigate(['/patient']);
+          window.location.href = 'http://localhost:5001/login/logout';
         },
         error => {
           console.error('Erro ao registrar patient:', error);
