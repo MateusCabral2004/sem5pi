@@ -12,11 +12,11 @@
 agenda_staff(d001,20241028,[(720,790,m01),(1080,1140,c01)]).
 agenda_staff(d002,20241028,[(815,900,m02),(901,960,m03),(1380,1440,c02)]).
 agenda_staff(d003,20241028,[(720,790,m01),(910,980,m02)]).
-agenda_staff(d004,20241028,[]).
 agenda_staff(n001,20241028,[]).
 agenda_staff(n002,20241028,[]).
-agenda_staff(n003,20241028,[]).
 agenda_staff(a001,20241028,[(652, 690,a01)]).
+agenda_staff(d004,20241028,[]).
+agenda_staff(n003,20241028,[]).
 
 timetable(d001,20241028,(480,1200)).
 timetable(d002,20241028,(500,1440)).
@@ -45,6 +45,14 @@ surgery_id(so100001,so2).
 surgery_id(so100002,so3).
 surgery_id(so100003,so4).
 surgery_id(so100004,so4).
+surgery_id(so100005,so4).
+surgery_id(so100006,so4).
+surgery_id(so100007,so4).
+surgery_id(so100008,so4).
+surgery_id(so100009,so4).
+surgery_id(so100010,so4).
+surgery_id(so100011,so4).
+
 
 
 
@@ -218,13 +226,13 @@ schedule_surgery(Surgery, Date, Room) :-
 
     % Obter a lista de staff para a cirurgia
     get_staff_for_surgery(Requirements, StaffList),
-        format('Equipes disponíveis para a cirurgia ~w: ~w\n', [Surgery, StaffList]),
+      %  format('Equipes disponíveis para a cirurgia ~w: ~w\n', [Surgery, StaffList]),
     
     get_staff_for_surgery(Requirements2, Staff_AnesthesiaList),
         format('Equipes disponíveis para a anestesia ~w: ~w\n', [Surgery, Staff_AnesthesiaList]),
     
     get_staff_for_surgery(Requirements3, Staff_CleaningList),
-        format('Equipes disponíveis para a limpeza ~w: ~w\n', [Surgery, Staff_CleaningList]),
+     %   format('Equipes disponíveis para a limpeza ~w: ~w\n', [Surgery, Staff_CleaningList]),
 
     
 
@@ -232,17 +240,17 @@ schedule_surgery(Surgery, Date, Room) :-
     findall(CommonIntervals, (member(Team, StaffList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals),
        % format('Intervalos comuns encontrados para equipa de operação: ~w\n', [AllCommonIntervals]),
     
-    findall(CommonIntervals, (member(Team, StaffList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals_Anesthesia),
+    findall(CommonIntervals, (member(Team,Staff_AnesthesiaList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals_Anesthesia),
         %format('Intervalos comuns encontrados para  equipa de anestesia: ~w\n', [AllCommonIntervals_Anesthesia]),
         
-    findall(CommonIntervals, (member(Team, StaffList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals_Cleaning),
-        %format('Intervalos comuns encontrados para a equipa de limpeza: ~w\n', [AllCommonIntervals_Cleaning]),
+    findall(CommonIntervals, (member(Team, Staff_CleaningList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals_Cleaning),
+ %       %format('Intervalos comuns encontrados para a equipa de limpeza: ~w\n', [AllCommonIntervals_Cleaning]),
 
     % Verificar se há intervalos suficientes para realizar a cirurgia
     findall(SurgeryInterval, (member(CommonIntervals, AllCommonIntervals), select_sufficient_interval(CommonIntervals, Time_Surgery, SurgeryInterval)), AllSurgeryInterval),
         flatten(AllSurgeryInterval, Result_surgery),
               list_to_set(Result_surgery, UniqueResultsurgery),
-         format('Intervalos suficientes encontrados para  equipa de operação: ~w\n', [UniqueResultsurgery]),
+        % format('Intervalos suficientes encontrados para  equipa de operação: ~w\n', [UniqueResultsurgery]),
    
     findall(SurgeryInterval, (member(CommonIntervals, AllCommonIntervals_Anesthesia), select_sufficient_interval(CommonIntervals, Time_Anesthesia, SurgeryInterval)), AllSurgeryInterval_Anesthesia),
         flatten(AllSurgeryInterval_Anesthesia, Result_Anesthesia),
@@ -252,7 +260,7 @@ schedule_surgery(Surgery, Date, Room) :-
     findall(SurgeryInterval, (member(CommonIntervals, AllCommonIntervals_Cleaning), select_sufficient_interval(CommonIntervals, Time_Cleaning, SurgeryInterval)), AllSurgeryInterval_Cleaning),
        flatten(AllSurgeryInterval_Cleaning, Result_Cleaning),
              list_to_set(Result_Cleaning, UniqueResultCleaning),
-        format('Intervalos suficientes encontrados para a equipa de limpeza: ~w\n', [UniqueResultCleaning]),
+%        format('Intervalos suficientes encontrados para a equipa de limpeza: ~w\n', [UniqueResultCleaning]),
 
     
     precede(UniqueResultAnesthesia,UniqueResultsurgery,UniqueResultCleaning,Result_allCombinatios),
@@ -262,7 +270,7 @@ schedule_surgery(Surgery, Date, Room) :-
 %alterar set_new interval
     agenda_operation_room(Room, Date, RoomAgenda),
     findall(NewInterval, (
-    member(SurgeryInterval1, Result_allCombinatios),
+    member(SurgeryInterval1, Result_allCombinatios1),
      set_new_interval(SurgeryInterval1,RoomAgenda,Duration,NewInterval)), StaffRoomIntervals),
               flatten(StaffRoomIntervals, StaffRoomIntervals1),
               list_to_set(StaffRoomIntervals1, StaffRoomIntervals2),
@@ -270,11 +278,11 @@ schedule_surgery(Surgery, Date, Room) :-
 
 
     findall(SurgeryInterval, (member(SurgeryInterval, StaffRoomIntervals2), check_room_availability(Room, Date, SurgeryInterval)), ValidRoomIntervals),
-    format('Intervalos válidos com a sala disponível: ~w\n', [ValidRoomIntervals]),
+   % format('Intervalos válidos com a sala disponível: ~w\n', [ValidRoomIntervals]),
 
  min_final_minute(ValidRoomIntervals, MinInterval, UpdatedList),
     format('Menor hora final selecionado: ~w\n', [MinInterval]),
-    format('Salas válidas restantes: ~w\n', [UpdatedList]),
+   % format('Salas válidas restantes: ~w\n', [UpdatedList]),
 
 assign_surgery2(Room, Date, Surgery, Time_Anesthesia, Time_Cleaning, Time_Surgery, Tipo,MinInterval,Staff_AnesthesiaList,ValidRoomIntervals,Staff_CleaningList,StaffList).
 
@@ -489,25 +497,34 @@ is_available_in_intervalsAnesthesia((Start, End), CommonIntervals,Tipo) :-
 
 set_new_interval([(I1, _), (_, _), (_, F3)], RoomAgenda, Duration, NewIntervals) :-
     % Encontra todos os intervalos válidos na agenda
-    findall((AEndAux, Aux), (
-            member((_, AEnd, _), RoomAgenda), 
-            I1 =< AEnd,                      
-            Aux is AEnd + 1 + Duration, 
-            AEndAux is AEnd + 1,
-            Aux =< F3                        
-        ), IntervalsFromEnd),
-        findall((I1, Aux), (
+    findall((AEndAuxIncrement, AuxIncrement), (
+        member((_, AEnd, _), RoomAgenda), 
+        I1 =< AEnd,                      
+        Aux is AEnd + 1 + Duration, 
+        AEndAux is AEnd + 1,
+        Aux =< F3,
+        between(0, 266, Step),            
+        AEndAuxIncrement is AEndAux + Step, 
+        AuxIncrement is Aux + Step        
+    ), IntervalsFromEnd),
+        findall((AEndAuxIncrement, AuxIncrement), (
                     member((_, AEnd, _), RoomAgenda), 
                     I1 > AEnd,                      
                     Aux is I1 + Duration, 
-                    Aux =< F3                        
+                    Aux =< F3       ,
+                    between(0, 266, Step),            
+                    AEndAuxIncrement is I1 + Step, 
+                    AuxIncrement is Aux + Step                         
                 ), IntervalsFromEnd2),
    
-    findall((I1, Aux), (
+    findall((AEndAuxIncrement, AuxIncrement), (
                  member((AStart, _, _), RoomAgenda), 
                  I1 =< AStart,                         
                  Aux is I1 + Duration,             
-                 Aux =< F3                            
+                 Aux =< F3,        
+                 between(1, 266, Step),            
+                 AEndAuxIncrement is I1 + Step, 
+                 AuxIncrement is Aux + Step                            
              ), IntervalsFromStart) ,                        
       append(IntervalsFromEnd, IntervalsFromEnd2, NewIntervals0),
 
