@@ -1,10 +1,10 @@
-﻿import {OperationType} from './OperationType';
-
+﻿
 export interface OperationRequest{
 
-  patientId:string;
+  patient:string;
   doctorId:string;
-  operationType:OperationType[];
+  operationType:string;
   deadline:string;
   priority:string;
+
 }

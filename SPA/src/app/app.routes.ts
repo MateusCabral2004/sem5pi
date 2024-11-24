@@ -14,6 +14,27 @@ import {RegisterPatientProfileComponent} from './Components/PatientManagement/re
 import {PatientManagementComponent} from './Components/PatientManagement/patientManagement/patient-management.component';
 import {AuthGuard} from './Guard/auth.guard';
 
+import {UpdatePatientAccoutComponent} from "./Components/Patient/update-patient-accout/update-patient-accout.component";
+
+import {
+
+  ListOperationRequestComponent
+} from './Components/OperationRequest/list-operation-request/list-operation-request.component';
+import {
+  DeletePatientAccoutComponent
+} from './Components/Patient/delete-patient-accout1/delete-patient-accout.component';
+import {
+  EditPatientProfileComponent
+} from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
+import {DoctorMenuComponent} from './Components/Dashboards/doctor-home/doctor-home.component';
+import {PatientHomeComponent} from './Components/Dashboards/patient-home/patient-home.component';
+import {CheckUserToDeleteComponent} from './Components/Patient/check-user-to-delete/check-user-to-delete.component';
+import {
+  AddOperationRequestComponent
+} from './Components/OperationRequest/add-operation-request/add-operation-request.component';
+
+
+
 
 export const routes: Routes = [
   {
@@ -27,6 +48,13 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: {roles: ['admin']},
     title: 'AdminHome',
+  },
+  {
+    path: 'doctor',
+    component: DoctorMenuComponent,
+    canActivate: [AuthGuard],
+    data: {roles: ['doctor']},
+    title: 'DoctorHome',
   },
   {
     path: 'admin/operationTypeManagement',
@@ -70,9 +98,35 @@ export const routes: Routes = [
   },
   {
     path: 'patient',
-    component: RegisterPatientComponent,
+    component: PatientHomeComponent,//dashboard
     title: 'Patient Manegement',
   },
+  {
+    path: 'patient/updateAccount',
+    component: UpdatePatientAccoutComponent,
+    title: 'Update Patient Account',
+  },
+  {
+    path: 'patient/checkUserToDelete',
+    component: CheckUserToDeleteComponent,
+    title: 'Pendent Users To Delete',
+  },
+  {
+    path: 'patient/deleteAccount',
+    component: DeletePatientAccoutComponent,
+    title: 'Delete Patient Account',
+  },
+  {
+    path: 'doctor',
+    component: DoctorMenuComponent,
+    title: 'doctor operations list',
+  },
+  {
+    path: 'doctor/operationRequests',
+    component: ListOperationRequestComponent,
+    title: 'doctor operations list',
+  },
+
    {
     path: 'admin/operationTypeManagement/edit',
     component: EditOperationTypeComponent,
@@ -106,5 +160,20 @@ export const routes: Routes = [
     path: 'admin/patient/register',
     component: RegisterPatientProfileComponent,
     title: 'RegisterPatientProfile',
+  },
+  {
+    path: 'admin/patient/edit',
+    component: EditPatientProfileComponent,
+    title: 'EditPatientProfileComponent',
+  },
+  {
+    path: 'doctor/operationRequest/edit',
+    component: EditPatientProfileComponent,
+    title: 'EditOperationRequestComponent',
+  },
+  {
+    path: 'doctor/operationRequest/add',
+    component: AddOperationRequestComponent,
+    title: 'AddOperationRequestComponent',
   }
 ];

@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-add-op-type',
   templateUrl: './add-operation-type.component.html',
-  styleUrls: ['./add-operation-type.component.css']
+  styleUrls: ['./add-operation-type.component.css'],
+  standalone: false
 })
 export class AddOperationTypeComponent {
   operation: OperationType = {

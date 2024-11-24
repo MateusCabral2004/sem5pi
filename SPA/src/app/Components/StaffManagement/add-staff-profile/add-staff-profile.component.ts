@@ -7,7 +7,8 @@ import {CreateStaff} from '../../../Domain/CreateStaff';
 @Component({
   selector: 'app-add-staff-profile',
   templateUrl: './add-staff-profile.component.html',
-  styleUrl: './add-staff-profile.component.css'
+  styleUrl: './add-staff-profile.component.css',
+  standalone: false
 })
 export class AddStaffProfileComponent implements OnInit {
 

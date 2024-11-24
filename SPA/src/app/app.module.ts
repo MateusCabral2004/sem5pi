@@ -47,6 +47,30 @@ import {
 import {
   DeletePatientProfileButtonComponent
 } from './Components/PatientManagement/delete-patient-profile-button/delete-patient-profile-button.component';
+import {UpdatePatientAccoutComponent} from "./Components/Patient/update-patient-accout/update-patient-accout.component";
+import {
+  ListOperationRequestComponent
+} from "./Components/OperationRequest/list-operation-request/list-operation-request.component";
+import {
+  DeletePatientAccoutComponent
+} from './Components/Patient/delete-patient-accout1/delete-patient-accout.component';
+import {
+  EditPatientProfileButtonComponent
+} from './Components/PatientManagement/edit-patient-profile-button/edit-patient-profile-button.component';
+import {
+  EditPatientProfileComponent
+} from './Components/PatientManagement/edit-patient-profile/edit-patient-profile.component';
+import {DoctorMenuComponent} from './Components/Dashboards/doctor-home/doctor-home.component';
+import { PatientHomeComponent } from './Components/Dashboards/patient-home/patient-home.component';
+import { CheckUserToDeleteComponent } from './Components/Patient/check-user-to-delete/check-user-to-delete.component';
+import {
+  EditOperationRequestComponent
+} from './Components/OperationRequest/edit-operation-request/edit-operation-request.component';
+import {
+  AddOperationRequestComponent
+} from './Components/OperationRequest/add-operation-request/add-operation-request.component';
+
+
 
 
 
@@ -83,7 +107,20 @@ import {
     PatientManagementComponent,
     PatientProfileListComponent,
     PatientProfileDetailsComponent,
-    DeletePatientProfileButtonComponent
+    DeletePatientProfileButtonComponent,
+    UpdatePatientAccoutComponent,
+    EditPatientProfileButtonComponent,
+    EditPatientProfileComponent,
+    ListOperationRequestComponent,
+    DeletePatientAccoutComponent,
+    EditPatientProfileButtonComponent,
+    EditPatientProfileComponent,
+    DoctorMenuComponent,
+    PatientHomeComponent,
+    CheckUserToDeleteComponent,
+    EditOperationRequestComponent,
+    AddOperationRequestComponent
+
   ],
   imports: [
     BrowserModule,

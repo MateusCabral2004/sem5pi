@@ -7,13 +7,16 @@ import {PatientProfileService} from '../../../services/PatientProfileService/pat
 @Component({
   selector: 'app-register-patient-profile',
   templateUrl: './register-patient-profile.component.html',
-  styleUrls: ['./register-patient-profile.component.css']
+  styleUrls: ['./register-patient-profile.component.css'],
+  standalone: false
 })
 
 export class RegisterPatientProfileComponent {
   patientProfile: PatientProfile = {
+    id:'',
     firstName: '',
     lastName: '',
+    fullName:'',
     email: '',
     birthDate: '',
     phoneNumber: 0,
@@ -27,8 +30,10 @@ export class RegisterPatientProfileComponent {
 
   resetFields() {
     this.patientProfile = {
+      id:'',
       firstName: '',
       lastName: '',
+      fullName:'',
       email: '',
       birthDate: '',
       phoneNumber: 0,

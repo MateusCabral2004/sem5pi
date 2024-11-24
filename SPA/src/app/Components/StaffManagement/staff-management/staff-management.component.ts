@@ -9,7 +9,8 @@ import {EnterFilterNameComponent} from '../../Shared/enter-filter-name/enter-fil
 @Component({
   selector: 'app-staff-management',
   templateUrl: './staff-management.component.html',
-  styleUrls: ['./staff-management.component.css']
+  styleUrls: ['./staff-management.component.css'],
+  standalone: false
 })
 export class StaffManagementComponent implements OnInit {
   public staffList: Staff[] = [];

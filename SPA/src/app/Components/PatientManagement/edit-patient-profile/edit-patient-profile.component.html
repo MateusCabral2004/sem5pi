@@ -1,0 +1,75 @@
+﻿<div class="edit-patient-profile">
+  <h2>Edit Patient Profile</h2>
+
+  <div class="form-group">
+    <label for="firstName">First Name</label>
+    <input
+      id="firstName"
+      type="text"
+      [(ngModel)]="typedPatientProfile.firstName"
+      name="firstName"
+    />
+  </div>
+
+
+  <div class="form-group">
+    <label for="lastName">Last Name</label>
+    <input
+      id="lastName"
+      type="text"
+      [(ngModel)]="typedPatientProfile.lastName"
+      name="lastName"
+    />
+  </div>
+
+
+  <div class="form-group">
+    <label for="birthDate">Birth Date</label>
+    <input
+      id="birthDate"
+      type="text"
+      [(ngModel)]="typedPatientProfile.birthDate"
+      name="birthDate"
+    />
+  </div>
+
+
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input
+      id="email"
+      type="text"
+      [(ngModel)]="typedPatientProfile.email"
+      name="email"
+    />
+  </div>
+
+
+  <div class="form-group">
+    <label for="phoneNumber">Phone Number</label>
+    <input
+      id="phoneNumber"
+      type="number" min="900000000" max="999999999" step="1"
+      [(ngModel)]="typedPatientProfile.phoneNumber"
+      name="phoneNumber"
+    />
+  </div>
+
+  <button type="submit" [disabled]="!isAtLeastOneFieldFilled()" (click)="saveChanges()">Save Changes</button>
+
+  <div *ngIf="showConfirmationPopup || showErrorMessagePopup" class="blur-background">
+
+  <div *ngIf="showConfirmationPopup" class="confirmation-popup">
+      <p>{{ "A confirmation link was sent to the Patient's Email." }}</p>
+      <button (click)="closeConfirmationPopupAndRedirect()">Ok</button>
+  </div>
+
+  <div *ngIf="showErrorMessagePopup" class="error-popup">
+      <p>{{ "Error: " + errorMessage }}</p>
+      <button (click)="closeErrorMessagePopup()">Ok</button>
+  </div>
+  </div>
+
+  <app-home-button></app-home-button>
+  <app-go-back-button [goBackPath]="'/admin/patient'"></app-go-back-button>
+</div>

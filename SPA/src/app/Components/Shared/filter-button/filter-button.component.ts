@@ -3,7 +3,8 @@ import {Component, ElementRef, EventEmitter, Input, Output, Renderer2} from '@an
 @Component({
   selector: 'app-filter-button',
   templateUrl: './filter-button.component.html',
-  styleUrls: ['./filter-button.component.css']
+  styleUrls: ['./filter-button.component.css'],
+  standalone: false
 })
 export class FilterButtonComponent {
 
