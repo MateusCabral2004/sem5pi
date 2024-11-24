@@ -1,14 +1,14 @@
 ﻿import json from '../../../globalVariables.json';
 
-beforeEach(() => {
-  cy.clearCookies();   // Limpar cookies
-  cy.clearLocalStorage();  // Limpar o localStorage
-  cy.setCookie('.AspNetCore.Cookies', json.Cookies.Admin);  // Recarregar os cookies necessários
-  cy.visit('/admin/staff');
-  cy.wait(1000);  // Aguarde um pouco para garantir que a página carregue
-});
-
 describe("Staff Management", () => {
+
+  beforeEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+    cy.setCookie('.AspNetCore.Cookies', json.Cookies.Admin);
+    cy.visit('/admin/staff');
+    cy.wait(1000);
+  });
 
   it("Check the number of Staffs displayed", () => {
     cy.intercept('GET', '/Staff').as('getStaffs');

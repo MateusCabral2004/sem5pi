@@ -1,14 +1,14 @@
 ﻿import json from '../../../globalVariables.json';
 
-beforeEach(() => {
+describe("Patient Profile Management", ()=>{
+
+  beforeEach(() => {
   cy.setCookie('.AspNetCore.Cookies', json.Cookies.Admin);
   cy.visit('/admin/patient');
   cy.reload();
   cy.wait(1000);
 });
-
-describe("Patient Profile Management", ()=>{
-
+  
   it("Visits the Patient Profile Management Component", () => {
     cy.contains("h1", "Patient Profiles Management");
   });
@@ -149,7 +149,6 @@ describe("Patient Profile Management", ()=>{
       cy.get('.filter-options > :nth-child(2)').click();
       cy.get('#name-input').type(email);
       cy.get('.modal-actions > :nth-child(1)').click();
-
       cy.get('.patient-profile-list .patient-profile-item').should('have.length.at.least', 0);
     });
 
@@ -159,7 +158,6 @@ describe("Patient Profile Management", ()=>{
       cy.get('.filter-options > :nth-child(3)').click();
       cy.get('#name-input').type(birthDate);
       cy.get('.modal-actions > :nth-child(1)').click();
-
       cy.get('.patient-profile-list .patient-profile-item').should('have.length.at.least', 0);
     });
 
@@ -169,9 +167,7 @@ describe("Patient Profile Management", ()=>{
       cy.get('.filter-options > :nth-child(3)').click();
       cy.get('#name-input').type(mRNumber);
       cy.get('.modal-actions > :nth-child(1)').click();
-
       cy.get('.patient-profile-list .patient-profile-item').should('have.length.at.least', 0);
     });
-
   });
 })

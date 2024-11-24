@@ -3,6 +3,7 @@
 describe('Operation Request Tests', () => {
 
   beforeEach(() => {
+    cy.clearCookies();
     cy.setCookie('.AspNetCore.Cookies', json.Cookies.Doctor);
     cy.visit('/doctor/operationRequests');
   });
