@@ -42,7 +42,7 @@ public class PatientController : ControllerBase
     }
 
 
-    public string getEmail()
+    private string getEmail()
     {
         var claimsIdentity = User.Identity as ClaimsIdentity;
         return claimsIdentity?.FindFirst(ClaimTypes.Email).Value;
@@ -327,7 +327,7 @@ public class PatientController : ControllerBase
     }
     
     
-    [HttpGet]
+    [HttpGet("listAllActivePatientProfilesNames")]
     [Authorize(Roles = "Doctor")]
     public async Task<IActionResult> ListAllActivePatientProfilesNames()
     {
