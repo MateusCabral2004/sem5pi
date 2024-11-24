@@ -143,8 +143,6 @@ export class StaffManagementComponent implements OnInit {
 
         }else {
 
-          console.log('Error2:', error);
-
           this.showStaffList = false;
           this.showEmptySpecializationError = true;
           this.showResetFilterButton = true;

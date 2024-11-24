@@ -109,7 +109,7 @@ export class EditStaffProfileComponent implements OnInit {
 
 
   private checkForChangesInEmail(): boolean {
-    return this.typedStaffProfile.email !== this.originalStaffProfile.email;
+    return this.typedStaffProfile.email !== this.originalStaffProfile.email && this.typedStaffProfile.email.trim() !== '';
   }
 
   private checkForChangesInPhoneNumber(): boolean {
@@ -117,7 +117,7 @@ export class EditStaffProfileComponent implements OnInit {
   }
 
   private checkForChangesInSpecialization(): boolean {
-    return this.typedStaffProfile.specialization !== this.originalStaffProfile.specialization;
+    return this.typedStaffProfile.specialization !== this.originalStaffProfile.specialization && this.typedStaffProfile.specialization.trim() !== '';
   }
 
   public detectContactInfoChanges(): boolean {
