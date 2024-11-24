@@ -52,7 +52,7 @@ describe('SurgeryRoomService', () => {
 
       const req = httpMock.expectOne(`${apiUrl}/status`);
       expect(req.request.method).toBe('GET');
-      req.flush(mockError, { status: 500, statusText: 'Server Error' }); //create an error
+      req.flush(mockError, { status: 500, statusText: 'Server Error' });
     });
   });
 });

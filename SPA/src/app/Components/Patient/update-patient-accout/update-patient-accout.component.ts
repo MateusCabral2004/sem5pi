@@ -1,8 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {PatientService} from '../../../services/PatientService/patient.service';
-import {PatientProfile} from '../class/PatientProfile';
-
 
 @Component({
   selector: 'app-update-patient-accout',
@@ -26,8 +24,6 @@ export class UpdatePatientAccoutComponent  {
       appointmentHistory: ['2023-05-15, 2024-03-12']
     });
   }
-
-
 
   updateProfile(): void {
 

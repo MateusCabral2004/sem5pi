@@ -5,6 +5,7 @@ import {OperationRequest} from '../../Domain/OperationRequest';
 import {Observable, of} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import json from '../../appsettings.json';
+import {PatientProfile} from '../../Domain/PatientProfile';
 
 
 @Injectable({
@@ -25,14 +26,12 @@ export class OperationRequestService {
       priority: priority === '' ? null : priority,
       status: status === '' ? null : status
     };
-    console.log('Filters:', filters);
       return this.http.get<any>(`${this.apiUrl1}/search/requests/${normalizedFilters.patientName}/${normalizedFilters.operationType}/${normalizedFilters.priority}/${normalizedFilters.status}/`, {
       withCredentials: true
     });
   }
 
   deleteOperationRequest(operationId: string): Observable<any> {
-    console.log('Deleting operation request:', operationId);
     return this.http.delete(`${this.apiUrl1}/request/deleteRequest/${operationId}`, {
       withCredentials: true
       }
