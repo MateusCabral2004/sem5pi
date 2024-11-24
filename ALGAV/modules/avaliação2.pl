@@ -307,10 +307,10 @@ schedule_surgery(Surgery, Date, Room,Solucoes) :-
     findall(CommonIntervals, (member(Team, StaffList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals),
        % %format('Intervalos comuns encontrados para equipa de operação: ~w\n', [AllCommonIntervals]),
     
-    findall(CommonIntervals, (member(Team, StaffList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals_Anesthesia),
+    findall(CommonIntervals, (member(Team, Staff_AnesthesiaList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals_Anesthesia),
         %%format('Intervalos comuns encontrados para  equipa de anestesia: ~w\n', [AllCommonIntervals_Anesthesia]),
         
-    findall(CommonIntervals, (member(Team, StaffList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals_Cleaning),
+    findall(CommonIntervals, (member(Team, Staff_CleaningList), intersect_all_agendas(Team, Date, CommonIntervals)), AllCommonIntervals_Cleaning),
         %%format('Intervalos comuns encontrados para a equipa de limpeza: ~w\n', [AllCommonIntervals_Cleaning]),
 
     % Verificar se há intervalos suficientes para realizar a cirurgia
@@ -567,25 +567,34 @@ is_available_in_intervalsAnesthesia((Start, End), CommonIntervals,Tipo) :-
 
 set_new_interval([(I1, _), (_, _), (_, F3)], RoomAgenda, Duration, NewIntervals) :-
     % Encontra todos os intervalos válidos na agenda
-    findall((AEndAux, Aux), (
-            member((_, AEnd, _), RoomAgenda), 
-            I1 =< AEnd,                      
-            Aux is AEnd + 1 + Duration, 
-            AEndAux is AEnd + 1,
-            Aux =< F3                        
-        ), IntervalsFromEnd),
-        findall((I1, Aux), (
+    findall((AEndAuxIncrement, AuxIncrement), (
+        member((_, AEnd, _), RoomAgenda), 
+        I1 =< AEnd,                      
+        Aux is AEnd + 1 + Duration, 
+        AEndAux is AEnd + 1,
+        Aux =< F3,
+        between(0, 266, Step),            
+        AEndAuxIncrement is AEndAux + Step, 
+        AuxIncrement is Aux + Step        
+    ), IntervalsFromEnd),
+        findall((AEndAuxIncrement, AuxIncrement), (
                     member((_, AEnd, _), RoomAgenda), 
                     I1 > AEnd,                      
                     Aux is I1 + Duration, 
-                    Aux =< F3                        
+                    Aux =< F3       ,
+                    between(0, 266, Step),            
+                    AEndAuxIncrement is I1 + Step, 
+                    AuxIncrement is Aux + Step                         
                 ), IntervalsFromEnd2),
    
-    findall((I1, Aux), (
+    findall((AEndAuxIncrement, AuxIncrement), (
                  member((AStart, _, _), RoomAgenda), 
                  I1 =< AStart,                         
                  Aux is I1 + Duration,             
-                 Aux =< F3                            
+                 Aux =< F3,        
+                 between(1, 266, Step),            
+                 AEndAuxIncrement is I1 + Step, 
+                 AuxIncrement is Aux + Step                            
              ), IntervalsFromStart) ,                        
       append(IntervalsFromEnd, IntervalsFromEnd2, NewIntervals0),
 
