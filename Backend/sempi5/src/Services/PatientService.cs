@@ -302,8 +302,7 @@ public class PatientService
 
         await _accountToDeleteRepository.saveUserToDelete(userID);
     }
-
-
+    
     public async Task<List<SearchedPatientDTO>> ListPatientByName(NameDTO nameDto)
     {
         var patient = await _patientRepository.GetActivePatientsByName(new Name(nameDto.name));
@@ -323,7 +322,12 @@ public class PatientService
             Id = patient.Id.AsString(),
             FullName = patient.Person.FullName.ToString(),
             Email = patient.Person.ContactInfo.email().ToString(),
-            BirthDate = patient.BirthDate.ToString("MM/dd/yyyy")
+            BirthDate = patient.BirthDate.ToString("MM/dd/yyyy"),
+            PhoneNumber = patient.Person.ContactInfo._phoneNumber.phoneNumber(),
+            FirstName=patient.Person.FirstName.ToString(),
+            LastName = patient.Person.LastName.ToString(),
+            Gender=patient.Gender,
+            EmergencyContact = patient.EmergencyContact
         };
     }
 
@@ -388,10 +392,8 @@ public class PatientService
 
         var patient = await _patientRepository.GetActivePatientByEmail(new Email(email));
 
-        patient.Person = null;
-        patient.EmergencyContact = null;
-        patient.AllergiesAndMedicalConditions = null;
-
+        patient.PatientStatus = PatientStatusEnum.DEACTIVATED;        
+        
         await _unitOfWork.CommitAsync();
     }
 
@@ -428,7 +430,7 @@ public class PatientService
             patient.BirthDate = DateTime.Parse(editPatientDto.birthDate);
         }
 
-        if (editPatientDto.phoneNumber == -1)
+        if (editPatientDto.phoneNumber != null)
         {
             patient.Person.ContactInfo._phoneNumber = new PhoneNumber(editPatientDto.phoneNumber ?? 0);
         }
@@ -487,8 +489,37 @@ public class PatientService
         await VerifyEmailAvailability(email);
         
         var patient = patientDTOToPatient(patientDTO);
+
+        patient.PatientStatus = PatientStatusEnum.ACTIVATED;
         await _patientRepository.AddAsync(patient);
 
         await _unitOfWork.CommitAsync();
+    }
+    
+    public async Task<List<SearchedPatientDTO>> ListAllActivePatients()
+    {
+        var patientsList = await _patientRepository.GetAllActivePatients();
+        if (patientsList.Count == 0)
+        {
+            throw new ArgumentException("Patient profiles not found.");
+        }
+
+        var patientDtoList = buildSearchedPatientDtoList(patientsList);
+
+        return patientDtoList;
+    }
+    
+    
+    public async Task<List<SearchedPatientDTO>> ListAllActivePatientsNames()
+    {
+        var patientsList = await _patientRepository.GetAllActivePatientsNames();
+        if (patientsList.Count == 0)
+        {
+            throw new ArgumentException("Patient profiles not found.");
+        }
+
+        var patientDtoList = buildSearchedPatientDtoList(patientsList);
+
+        return patientDtoList;
     }
 }

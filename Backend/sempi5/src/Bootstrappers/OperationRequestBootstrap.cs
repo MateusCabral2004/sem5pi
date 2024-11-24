@@ -37,9 +37,7 @@ public class OperationRequestBootstrap
             PatientStatusEnum.ACTIVATED
         );
 
-        var specialization1 = new Specialization(new SpecializationName("Cleaner")
-        );
-
+        var specialization1 = new Specialization(new SpecializationName("Cleaner"));
         var specialization2 = new Specialization(new SpecializationName("Heart Surgeon"));
 
         var requiredStaff1 = new RequiredStaff(new NumberOfStaff(3), specialization1);
@@ -63,10 +61,13 @@ public class OperationRequestBootstrap
             StaffStatusEnum.ACTIVE
         );
 
-        var request1 = new OperationRequest(doctor, patient1, operationType1,
-            new DateTime(2021, 1, 1), PriorityEnum.HIGH);
+        var request1 = new OperationRequest(doctor, patient1, operationType1, new DateTime(2021, 1, 1), PriorityEnum.HIGH);
         
         await _operationRequestRepository.AddAsync(request1);
+        
+        
+        
+        
         
         
         var user2 = new SystemUser(new Email("exampleUser@gmail.com"), "Patient", true);
@@ -111,6 +112,8 @@ public class OperationRequestBootstrap
             new DateTime(2021, 5, 20), PriorityEnum.LOW);
 
         await _operationRequestRepository.AddAsync(request2);
+        
+
 
     }
 }

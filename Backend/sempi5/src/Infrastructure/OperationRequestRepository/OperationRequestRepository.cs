@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Sempi5.Domain.OperationRequestAggregate;
 using Sempi5.Domain.OperationTypeAggregate;
 using Sempi5.Domain.Shared;
+using Sempi5.Domain.StaffAggregate;
 using Sempi5.Infrastructure.Databases;
 using Sempi5.Infrastructure.OperationRequestAggregate;
 using Sempi5.Infrastructure.Shared;
@@ -83,6 +84,35 @@ public class OperationRequestRepository : BaseRepository<OperationRequest, Opera
         // Executa a consulta e retorna os resultados
         return await query.ToListAsync();
     }
+    
+    public async Task<List<OperationRequest>> SearchAsyncWithDoctocId(string patientName, string type,
+        string priority ,string doctorId)
+    {
+        var query = context.OperationRequests
+            .Include(r => r.Patient)
+            .Include(r => r.Patient).ThenInclude(o=>o.Person)
+            .Include(r => r.Patient).ThenInclude(o=>o.User)
+            .Include(r => r.OperationType)
+            .Include(r=>r.Doctor)
+            .AsQueryable();
+        
+        if (!string.IsNullOrEmpty(patientName))
+        {
+            query = query.Where(r => r.Patient.Person != null && r.Patient.Person.FullName.Equals(new Name(patientName)));
+        }
+        
+        if (!string.IsNullOrEmpty(type))
+        {
+            query = query.Where(r => r.OperationType.Name.Equals(new OperationName(type)));
+        }
+        
+        if (!string.IsNullOrEmpty(priority) && Enum.TryParse<PriorityEnum>(priority, true, out var parsedPriority))
+        {
+            query = query.Where(r => r.PriorityEnum == parsedPriority);
+        }
+        query = query.Where(r => r.Doctor.Id.Equals(new StaffId(doctorId)));
+        return await query.ToListAsync();
+    }
 
     public async Task<OperationRequest?> GetByDoctorId(string doctorId)
     {
@@ -107,4 +137,16 @@ public class OperationRequestRepository : BaseRepository<OperationRequest, Opera
             await context.SaveChangesAsync();
         }
     }
+
+    public async Task<List<OperationRequest>> GetDoctorsOperationsRequests(string doctorId)
+    {
+        return await context.OperationRequests
+            .Include(o => o.OperationType.Name)
+            .Include(o => o.Patient.Person.FullName)
+            .Include(o => o.DeadLineDate)
+            .Include(o => o.PriorityEnum)
+            .Where(o => o.Doctor.Id.Equals(doctorId))
+            .ToListAsync();
+    }
+    
 }

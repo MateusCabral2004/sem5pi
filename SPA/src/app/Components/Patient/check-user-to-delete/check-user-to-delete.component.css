@@ -1,0 +1,60 @@
+/* General Styling */
+.pendent-users-account-delete-container {
+  background-color: #f8f9fa; /* Light gray background */
+  border-radius: 12px; /* Aumentando as bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra mais destacada */
+  padding: 30px; /* Aumentando o padding */
+  max-width: 600px; /* Largura máxima aumentada */
+  margin: 80px auto; /* Maior margem vertical */
+  font-family: Arial, sans-serif;
+  text-align: center;
+}
+
+h2 {
+  color: #dc3545; /* Red color for heading */
+  font-size: 32px; /* Fonte maior para o título */
+  margin-bottom: 20px; /* Mais espaço abaixo */
+}
+
+p {
+  font-size: 18px; /* Fonte maior para o texto */
+  color: #495057; /* Darker text color */
+  margin-bottom: 25px; /* Maior espaçamento */
+}
+
+button {
+  background-color: #dc3545; /* Red background for delete button */
+  color: white;
+  font-size: 20px; /* Aumentando o tamanho da fonte do botão */
+  padding: 15px 30px; /* Mais espaçamento interno no botão */
+  border: none;
+  border-radius: 8px; /* Borda mais arredondada */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect for button */
+button:hover {
+  background-color: #c82333; /* Darker red when hovered */
+  transform: scale(1.05); /* Aumenta ligeiramente ao passar o mouse */
+}
+
+/* Espaçamento entre heading e texto */
+.delete-account-container h2,
+.delete-account-container p {
+  margin-bottom: 20px; /* Maior espaçamento */
+}
+
+/* Responsivo para telas menores */
+@media (max-width: 480px) {
+  .delete-account-container {
+    padding: 20px;
+    margin: 30px;
+  }
+  h2 {
+    font-size: 24px;
+  }
+  p {
+    font-size: 16px;
+  }
+}

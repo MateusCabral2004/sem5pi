@@ -48,6 +48,7 @@ public class OperationRequestService
 
     public async Task<OperationRequest> OperationRequestDtoToObject(OperationRequestDTO operationRequestDto)
     {
+        
         var patient = await _patientRepository.GetByPatientId(operationRequestDto.patientID);
         var doctor = await _staffRepository.GetActiveStaffById(new StaffId(operationRequestDto.doctorId));
         var operationType = await _operationTypeRepository.GetOperationTypeByName(new OperationName(operationRequestDto.operationType));
@@ -117,6 +118,17 @@ public class OperationRequestService
             throw new ArgumentException("Only the doctor that requested the operation can edit it!");
         }
         
+    }
+
+    public async Task<List<OperationRequest>> ListDoctorsOperationRequests(string doctorId)
+    {
+        var list = await _operationRequestRepository.GetDoctorsOperationsRequests(doctorId);
+        if (list.Count == 0)
+        {
+            throw new ArgumentException("Operation requests not found.");
+        }
+        
+        return list;
     }
 
    
