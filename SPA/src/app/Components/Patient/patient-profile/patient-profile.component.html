@@ -1,0 +1,15 @@
+<div class="patient-profile-container">
+  <app-home-button></app-home-button>
+  <h1>Patient Profile</h1>
+  <div class="patient-info">
+    <p><strong>Name:</strong> {{ patientData.name }}</p>
+    <p><strong>Date of Birth:</strong> {{ patientData.birthDate }}</p>
+    <p><strong>Email:</strong> {{ patientData.email }}</p>
+    <p><strong>Phone Number:</strong> {{ patientData.phoneNumber }}</p>
+    <p><strong>Gender:</strong> {{ patientData.gender }}</p>
+    <p><strong>Emergency Contact:</strong> {{ patientData.emergencyContact }}</p>
+    <p><strong>Allergies:</strong> {{ patientData.allergies }}</p>
+    <p><strong>Appointment History:</strong> {{ patientData.appointmentHistory }}</p>
+  </div>
+  <button (click)="router.navigate(['/patient/updateAccount'])">Edit Profile</button>
+</div>

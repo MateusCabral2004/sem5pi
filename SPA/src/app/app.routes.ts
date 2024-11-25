@@ -32,6 +32,7 @@ import {CheckUserToDeleteComponent} from './Components/Patient/check-user-to-del
 import {
   AddOperationRequestComponent
 } from './Components/OperationRequest/add-operation-request/add-operation-request.component';
+import {PatientProfileComponent} from './Components/Patient/patient-profile/patient-profile.component';
 
 
 
@@ -95,6 +96,11 @@ export const routes: Routes = [
     path: 'unregistered',
     component: RegisterPatientComponent,
     title: 'registerPatient',
+  },
+  {
+    path: 'patient/profile',
+    component: PatientProfileComponent,
+    title: 'Patirnt Profile',
   },
   {
     path: 'patient',

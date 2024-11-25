@@ -69,6 +69,7 @@ import {
 import {
   AddOperationRequestComponent
 } from './Components/OperationRequest/add-operation-request/add-operation-request.component';
+import { PatientProfileComponent } from './Components/Patient/patient-profile/patient-profile.component';
 
 
 
@@ -119,7 +120,8 @@ import {
     PatientHomeComponent,
     CheckUserToDeleteComponent,
     EditOperationRequestComponent,
-    AddOperationRequestComponent
+    AddOperationRequestComponent,
+    PatientProfileComponent
 
   ],
   imports: [

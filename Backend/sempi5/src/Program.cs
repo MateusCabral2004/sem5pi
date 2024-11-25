@@ -159,6 +159,7 @@ namespace Sempi5
                 var staffRepository = scope.ServiceProvider.GetRequiredService<IStaffRepository>();
                 var patentRepository = scope.ServiceProvider.GetRequiredService<IPatientRepository>();
                 var operationTypeRepository = scope.ServiceProvider.GetRequiredService<IOperationTypeRepository>();
+                var appointmentRepository = scope.ServiceProvider.GetRequiredService<IAppointmentRepository>();
                 var operationRequestRepository = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
                 var surgeryRoomRepository = scope.ServiceProvider.GetRequiredService<ISurgeryRoomRepository>();
                 
@@ -174,7 +175,7 @@ namespace Sempi5
                 patientBootstrap.SeedActivePatients().Wait();
                 unitOfWork.CommitAsync().Wait();
 
-                var operationRequestBootstrap = new OperationRequestBootstrap(operationRequestRepository);
+                var operationRequestBootstrap = new OperationRequestBootstrap(operationRequestRepository,appointmentRepository);
                 operationRequestBootstrap.SeedOperationRequests().Wait();
                 unitOfWork.CommitAsync().Wait();
                 

@@ -346,4 +346,37 @@ public class PatientController : ControllerBase
             return BadRequest(e.Message);
         }
     }
+    
+    [HttpGet("profile")]
+    [Authorize(Roles = "Patient")]
+
+    public async Task<IActionResult> SearchRequests()
+        {
+            try
+            {
+                 var patient = await patientService.GetPatientProfile(getEmail());
+                
+
+                    var tableData = new List<object>(); 
+                    tableData.Add(new
+                        { 
+                            Email=patient.Person?.ContactInfo.email().ToString(),
+                            PhoneNumber=patient.Person?.ContactInfo._phoneNumber.phoneNumber().ToString(),
+                            Name=patient.Person?.FullName._name,
+                            BirthDate=patient.BirthDate,
+                            Gender=patient.Gender,
+                            EmergencyContact=patient.EmergencyContact,
+                            Allergies=patient.AllergiesAndMedicalConditions,
+                            AppointmentHistory=patient.AppointmentHistory
+                        }
+                    );
+                    
+                    return Ok( tableData );
+                    
+            }
+            catch (Exception e)
+            {
+                return BadRequest($"Error: {e.Message}");
+            }
+        } 
 }
