@@ -17,7 +17,7 @@ public class AccountToDeleteRepository : BaseRepository<AccoutToDelete, SystemUs
 
     public async Task<int> saveUserToDelete(long userId)
     {
-        var accountToDelete = new AccoutToDelete(new SystemUserId(userId), DateTime.Now.AddDays(30));
+         var accountToDelete = new AccoutToDelete(new SystemUserId(userId), DateTime.Now.AddDays(30));
         Task.Run(() => context.AccoutToDelete.Add(accountToDelete));
         return await context.SaveChangesAsync();
     }
@@ -25,7 +25,9 @@ public class AccountToDeleteRepository : BaseRepository<AccoutToDelete, SystemUs
     public async Task<List<SystemUserId>> checkUserToDelete()
     {
         return await Task.Run(() =>
-            context.AccoutToDelete.Where(x => x.DateToDelete < DateTime.Now).Select(x => x.Id).ToList());
+            //context.AccoutToDelete.Where(x => x.DateToDelete < DateTime.Now).Select(x => x.Id).ToList());
+            context.AccoutToDelete.Where(x => x.DateToDelete > DateTime.Now).Select(x => x.Id).ToList());
+
     }
     
     public async Task removeUserbyId(SystemUserId userId)
