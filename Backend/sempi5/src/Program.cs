@@ -40,10 +40,9 @@ namespace Sempi5
     {
         public static void Main(string[] args)
         {
-            //teste(args).Wait();
-
             var builder = WebApplication.CreateBuilder(args);
-
+            builder.Configuration.AddCommandLine(args);
+            
             CreateLogginsMechanism(builder);
             CreateDataBase(builder);
             ConfigureMyServices(builder.Services);
@@ -53,7 +52,8 @@ namespace Sempi5
                 options.AddPolicy("AllowSpecificOrigin",
                     policy =>
                     {
-                        policy.WithOrigins("http://localhost:4200")
+                        policy
+                            .WithOrigins(builder.Configuration["FrontEnd:Url"]) // Make sure to use correct protocol (https/http)
                             .AllowAnyHeader()
                             .AllowAnyMethod()
                             .AllowCredentials();
@@ -62,11 +62,9 @@ namespace Sempi5
 
             builder.Services.AddAuthorization(options =>
             {
-                options.AddPolicy("Staff",
-                    policy => policy.RequireRole("Doctor", "Nurse", "Admin", "Technician"));
+                options.AddPolicy("Staff", policy => policy.RequireRole("Doctor", "Nurse", "Admin", "Technician"));
 
-                options.AddPolicy("Patient",
-                    policy => policy.RequireRole("Patient"));
+                options.AddPolicy("Patient", policy => policy.RequireRole("Patient"));
             });
 
             builder.Services.AddAuthentication(options =>
@@ -85,6 +83,7 @@ namespace Sempi5
                 {
                     options.ClientId = builder.Configuration["Google:ClientId"];
                     options.ClientSecret = builder.Configuration["Google:Client_Secret"];
+                    options.CallbackPath = "/signin-google";
                     options.SaveTokens = true;
 
                     options.Events.OnCreatingTicket = async context =>
@@ -94,7 +93,7 @@ namespace Sempi5
                         var email = claims.FirstOrDefault(x => x.Type == ClaimTypes.Email)?.Value;
 
                         var repo = context.HttpContext.RequestServices.GetRequiredService<IUserRepository>();
-                        var user = await  repo.GetByEmail(email);
+                        var user = await repo.GetByEmail(email);
                         if (user == null)
                         {
                             claimsIdentity.AddClaim(new Claim(ClaimTypes.Role, "Unregistered"));
@@ -111,12 +110,23 @@ namespace Sempi5
                             }
                         }
                     };
+                    
+                    options.Events.OnRemoteFailure = context =>
+                    {
+                        // Log failure details
+                        Log.Error("Google OAuth Error: " + context.Failure?.Message);
+                        context.Response.Redirect("/error/oauth-failure");
+                        return Task.CompletedTask;
+                    };
                 });
-            
+
             builder.Services.ConfigureApplicationCookie(options =>
             {
+                options.Cookie.Domain = ".sarm.com";
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.SlidingExpiration = true;
             });
 
 
@@ -136,7 +146,7 @@ namespace Sempi5
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
-            
+
             try
             {
                 SeedAllData(app.Services);
@@ -162,7 +172,7 @@ namespace Sempi5
                 var appointmentRepository = scope.ServiceProvider.GetRequiredService<IAppointmentRepository>();
                 var operationRequestRepository = scope.ServiceProvider.GetRequiredService<IOperationRequestRepository>();
                 var surgeryRoomRepository = scope.ServiceProvider.GetRequiredService<ISurgeryRoomRepository>();
-                
+
                 new UsersBootstrap(userRepository).SeedAdminUser().Wait();
                 unitOfWork.CommitAsync().Wait();
 
@@ -178,11 +188,11 @@ namespace Sempi5
                 var operationRequestBootstrap = new OperationRequestBootstrap(operationRequestRepository,appointmentRepository);
                 operationRequestBootstrap.SeedOperationRequests().Wait();
                 unitOfWork.CommitAsync().Wait();
-                
+
                 var operationTypeBootstrap = new OperationTypeBootstrap(operationTypeRepository);
                 operationTypeBootstrap.SeedOperationTypes().Wait();
                 unitOfWork.CommitAsync().Wait();
-                
+
                 var surgeryRoomBootstrap = new SurgeryRoomBootstrap(surgeryRoomRepository);
                 surgeryRoomBootstrap.SeedSurgeryRooms().Wait();
                 unitOfWork.CommitAsync().Wait();

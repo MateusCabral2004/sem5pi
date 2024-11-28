@@ -2,7 +2,7 @@
 const os = require('os');
 const path = require('path');
 
-const HOSTNAME = 'myapp.local';
+const HOSTNAME = 'frontend.sarm.com';
 const IP = '10.9.10.8';
 
 function getHostsPath() {
