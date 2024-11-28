@@ -1,12 +1,12 @@
-﻿<div class="add-operation-request">
+﻿<div class="edit-operation-request">
   <h2>Edit Operation Request</h2>
 
   <form (ngSubmit)="saveChanges()">
     <div class="form-group">
-      <label for="deadline">Operation Name</label>
+      <label for="deadline">Deadline</label>
       <input
         id="deadline"
-        type="text"
+        type="date"
         [(ngModel)]="updatedOperationRequest.deadline"
         name="deadline"
         required
