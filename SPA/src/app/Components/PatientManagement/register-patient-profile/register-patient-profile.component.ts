@@ -47,7 +47,9 @@ export class RegisterPatientProfileComponent {
       this.patientProfile.lastName !== '' &&
       this.patientProfile.birthDate !== '' &&
       this.patientProfile.email !== '' &&
-      this.patientProfile.phoneNumber != 0
+      this.patientProfile.phoneNumber != 0 &&
+        this.patientProfile.gender!=='' &&
+        this.patientProfile.emergencyContact!==''
     );
   }
 
