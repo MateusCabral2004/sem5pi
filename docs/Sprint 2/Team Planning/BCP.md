@@ -20,7 +20,7 @@ Esta reunião teve como objetivo a revisão dos requisitos do **Módulo de Conti
 
 - **Abordagem sugerida:** A implantação será automatizada utilizando scripts de deployment que também acionam o plano de testes programado. A verificação de sucesso de cada implantação será feita através de um relatório gerado automaticamente.
 
-- **Próximos Passos:** Desenvolver scripts de deployment e agendar a execução automatizada dos testes em uma base contínua. Definir a frequência das validações (ex: semanal ou mensal).
+- **Próximos Passos:** Desenvolver scripts de deployment e agendar a execução automatizada dos testes numa base contínua. Definir a frequência das validações (ex: semanal ou mensal).
 
 ### 2.2 Acesso Restrito à Rede Interna (6.4.2)
 
@@ -28,13 +28,13 @@ Esta reunião teve como objetivo a revisão dos requisitos do **Módulo de Conti
 
 - **Abordagem sugerida:** A segurança será configurada no firewall, garantindo que apenas endereços IP da rede interna (incluindo VPN) tenham permissão para acessar os módulos. Autenticações também poderão ser feitas via VPN para reforçar a segurança.
 
-- **Próximos Passos:** Configurar regras no firewall e VPN para restringir acessos. Validar com a equipe de rede se todas as políticas de segurança são aplicadas corretamente.
+- **Próximos Passos:** Configurar regras no firewall e VPN para restringir acessos. Validar com a equipa se todas as políticas de segurança são aplicadas corretamente.
 
 ### 2.3 Configuração Simples de Clientes (6.4.3)
 
 - **Objetivo:** Como Administrador do Sistema, a lista de clientes do requisito 6.3.2 deve poder ser configurada simplesmente alterando um arquivo de texto.
 
-- **Abordagem sugerida:** A lista de clientes será armazenada em um arquivo de configuração simples, com formato legível (ex: JSON ou XML), onde os administradores podem adicionar ou remover clientes diretamente. O sistema irá carregar essa lista automaticamente durante a inicialização ou ao verificar alterações no arquivo.
+- **Abordagem sugerida:** A lista de clientes será armazenada num arquivo de configuração simples, com formato legível (ex: JSON ou XML), onde os administradores podem adicionar ou remover clientes diretamente. O sistema irá carregar essa lista automaticamente durante a inicialização ou ao verificar alterações no arquivo.
 
 - **Próximos Passos:** Definir o formato do arquivo e a maneira como o sistema irá detectar e carregar as alterações feitas. Testar a facilidade de uso e a segurança dessa configuração.
 
@@ -42,9 +42,8 @@ Esta reunião teve como objetivo a revisão dos requisitos do **Módulo de Conti
 
 - **Objetivo:** Como Administrador, o sistema deve permitir a identificação e quantificação dos riscos envolvidos na solução recomendada.
 
-- **Abordagem sugerida:** Será necessário realizar uma análise de risco utilizando frameworks como FMEA (Failure Mode and Effects Analysis) ou análise SWOT (Strengths, Weaknesses, Opportunities, Threats). A solução identificada também deve ter um plano de mitigação de riscos.
-
-- **Próximos Passos:** Desenvolver a matriz de risco e definir um processo de revisão periódica. A equipe de segurança e gestão de riscos será envolvida para garantir que todas as ameaças e vulnerabilidades sejam identificadas.
+- **Abordagem sugerida:** Será necessário realizar uma análise de risco utilizando frameworks como FMEA (Failure Mode and Effects Analysis) ou análise SWOT (Strengths, Weaknesses, Opportunities, Threats).
+- **Próximos Passos:** Desenvolver a matriz de risco e definir um processo de revisão periódica. A equipa de segurança e gestão de riscos será envolvida para garantir que todas as ameaças e vulnerabilidades sejam identificadas.
 
 ### 2.5 Definição do MBCO (6.4.5)
 
@@ -52,7 +51,7 @@ Esta reunião teve como objetivo a revisão dos requisitos do **Módulo de Conti
 
 - **Abordagem sugerida:** O MBCO será definido com base nas necessidades de continuidade das operações essenciais da empresa. Será necessário envolver stakeholders-chave para entender as prioridades e estabelecer os parâmetros de recuperação.
 
-- **Próximos Passos:** Organizar workshops com os stakeholders para determinar o MBCO. Documentar e validar as prioridades de recuperação de negócios.
+- **Próximos Passos:** Documentar e validar as prioridades de recuperação de negócios.
 
 ### 2.6 Estratégia de Backup (6.4.6)
 
@@ -64,25 +63,25 @@ Esta reunião teve como objetivo a revisão dos requisitos do **Módulo de Conti
 
 ### 2.7 Criação de Pasta Pública (6.4.7)
 
-- **Objetivo:** Como Administrador, será criada uma pasta pública para todos os usuários registrados no sistema, onde poderão ler os conteúdos nela colocados.
+- **Objetivo:** Como Administrador, será criada uma pasta pública para todos os usuários registados no sistema, onde poderão ler os conteúdos nela colocados.
 
-- **Abordagem sugerida:** A pasta será criada em um servidor centralizado, com permissões de leitura para todos os usuários, mas sem a possibilidade de edição ou exclusão. O acesso à pasta será monitorado para garantir que as permissões de leitura sejam mantidas.
+- **Abordagem sugerida:** A pasta será criada em um servidor centralizado, com permissões de leitura para todos os utilizadores, mas sem a possibilidade de edição ou exclusão. O acesso à pasta será monitorado para garantir que as permissões de leitura sejam mantidas.
 
-- **Próximos Passos:** Criar e configurar a pasta pública. Garantir que os usuários tenham acesso adequado e monitorar as permissões de leitura.
+- **Próximos Passos:** Criar e configurar a pasta pública. Garantir que os utilizadores tenham acesso adequado e monitorar as permissões de leitura.
 
 ### 2.8 Monitoramento de Acessos Incorretos (6.4.8)
 
-- **Objetivo:** Como Administrador, o sistema deve identificar usuários com mais de 3 tentativas de acesso incorretas.
+- **Objetivo:** Como Administrador, o sistema deve identificar utilizadores com mais de 3 tentativas de acesso incorretas.
 
-- **Abordagem sugerida:** Será configurado um sistema de monitoramento de tentativas de login. Caso o número de tentativas incorretas ultrapasse 3, o usuário será temporariamente bloqueado ou sinalizado para revisão. Isso será feito com a ajuda de logs de autenticação e alertas automáticos.
+- **Abordagem sugerida:** Será configurado um sistema de monitoramento de tentativas de login. Caso o número de tentativas incorretas ultrapasse 3. Isso será feito com logs de autenticação.
 
-- **Próximos Passos:** Configurar a contagem de tentativas de login e estabelecer as ações a serem tomadas quando o limite for atingido (bloqueio temporário, alerta, etc.).
+- **Próximos Passos:** Configurar a contagem de tentativas de login.
 
 ---
 
 ## 3. Considerações Finais e Próximos Passos
 
-- **Avaliação de Segurança e Continuidade:** A equipe concorda que a implementação das políticas de segurança e continuidade deve ser feita de forma gradual, com testes contínuos para garantir que o sistema esteja sempre disponível e seguro.
+- **Avaliação de Segurança e Continuidade:** A equipa concorda que a implementação das políticas de segurança e continuidade deve ser feita de forma gradual, com testes contínuos para garantir que o sistema esteja sempre disponível e seguro.
 
-- **Ação de Seguimento:** Planejar a implementação das soluções discutidas, incluindo automação de testes, configuração de rede interna, análise de riscos, e estratégias de backup.
+- **Ação de Seguimento:** Planear a implementação das soluções discutidas, incluindo automação de testes, configuração de rede interna, análise de riscos, e estratégias de backup.
 

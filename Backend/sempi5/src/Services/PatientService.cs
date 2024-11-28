@@ -522,4 +522,10 @@ public class PatientService
 
         return patientDtoList;
     }
+
+    public async Task<Patient> GetPatientProfile(string getEmail)
+    {
+        var patient = await _patientRepository.GetByEmail(getEmail);
+        return patient;
+    }
 }

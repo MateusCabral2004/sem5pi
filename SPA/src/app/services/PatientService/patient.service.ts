@@ -25,6 +25,11 @@ export class PatientService {
       headers: headers
     });
   }
+  getProfile(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/profile`, {
+      withCredentials: true
+    });
+  }
 
   registerNumber(number: number): Observable<any> {
     const url = `${this.apiUrl}/register`;

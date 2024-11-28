@@ -9,15 +9,24 @@ using Sempi5.Domain.StaffAggregate;
 using Sempi5.Domain.User;
 using Sempi5.Infrastructure.OperationRequestAggregate;
 
+
+using Sempi5.Domain.AppointmentAggregate;
+using Sempi5.Domain.SurgeryRoomAggregate;
+using Sempi5.Infrastructure.AppointmentAggregate;
+
+
 namespace Sempi5.Bootstrappers;
 
 public class OperationRequestBootstrap
 {
     private readonly IOperationRequestRepository _operationRequestRepository;
+    private readonly IAppointmentRepository _appointmentRepository;
 
-    public OperationRequestBootstrap(IOperationRequestRepository operationRequestRepo)
+
+    public OperationRequestBootstrap(IOperationRequestRepository operationRequestRepo, IAppointmentRepository appointmentRepository)
     {
         _operationRequestRepository = operationRequestRepo;
+        _appointmentRepository = appointmentRepository;
     }
 
     public async Task SeedOperationRequests()
@@ -113,6 +122,13 @@ public class OperationRequestBootstrap
 
         await _operationRequestRepository.AddAsync(request2);
         
+        var room1 =  new SurgeryRoom(RoomTypeEnum.ICU, new RoomCapacity(10), new List<string>(), RoomStatusEnum.AVAILABLE,
+            new List<string>());
+
+        var appointment1 = new Appointment(request2,
+            room1, new DateTime(2021, 1, 1),
+            StatusEnum.NOT_SCHEDULED);
+        await _appointmentRepository.AddAsync(appointment1);
 
 
     }
