@@ -102,7 +102,7 @@ Desenvolver e integrar funcionalidades principais dos módulos Backoffice, Plann
 
 ---
 
-## Resumo do Planejamento por Semana
+## Resumo do Planeamento por Semana
 
 | Semana | Foco Principal                        | Tarefas                                                                                         |
 |--------|---------------------------------------|-------------------------------------------------------------------------------------------------|
