@@ -1,0 +1,10 @@
+.room-overlay {
+  position: fixed;
+  top: 5%;
+  left: 5%;
+  background: rgba(0, 128, 0, 0.8);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  z-index: 1000;
+}
