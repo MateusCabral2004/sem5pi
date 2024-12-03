@@ -1,2 +1,9 @@
 <ng-container #floorContainer></ng-container>
 
+<div *ngIf="showOverlay" class="room-overlay">
+  <h2>Room Details</h2>
+  <div *ngFor="let param of roomDetails">
+    <p><strong>{{ param.title }}:</strong> {{ param.body }}</p>
+  </div>
+</div>
+

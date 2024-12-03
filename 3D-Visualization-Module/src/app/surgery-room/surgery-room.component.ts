@@ -1,4 +1,4 @@
-import {Component, Input, ViewChild} from '@angular/core';
+import {Component, EventEmitter, Input, Output, ViewChild} from '@angular/core';
 import * as THREE from 'three';
 import { CSG } from 'three-csg-ts';
 import { GLTFLoader } from 'three-stdlib';
@@ -11,6 +11,7 @@ import {PerspectiveCamera, Scene, WebGLRenderer} from 'three';
   styleUrls: ['./surgery-room.component.css']
 })
 export class SurgeryRoomComponent {
+  @Output() tableClicked = new EventEmitter<void>();
 
   public roomGroup!: THREE.Group;
   public wallTexture: string = 'assets/wall.jpg';
@@ -30,6 +31,10 @@ export class SurgeryRoomComponent {
   private scene!: THREE.Scene; // Cena do Three.js
   private camera!: THREE.PerspectiveCamera; // Câmera
   private renderer!: THREE.WebGLRenderer; // Renderizador
+  private mouse = new THREE.Vector2();
+  private raycaster = new THREE.Raycaster();
+
+  private medicalTableModel: THREE.Object3D | null = null;
 
   private doorSize = { width: 1.4, height: 2.5, depth: 0.1,  gap: 0.0465 };
 
@@ -214,9 +219,31 @@ export class SurgeryRoomComponent {
       });
 
       this.roomGroup.add(medicalTableModel);
+      this.medicalTableModel = medicalTableModel;
     }, undefined, (error) => {
       console.error('Error loading medical table model:', error);
     });
+  }
+
+  private onMouseClick(event: MouseEvent): void {
+      this.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+      this.mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+      this.raycaster.setFromCamera(this.mouse, this.camera);
+
+      if(this.medicalTableModel){
+        const intersects = this.raycaster.intersectObjects(this.medicalTableModel.children, true);
+        if (intersects.length > 0) {
+          this.handleClickEvent();
+        }
+      }
+  }
+  private addClickListener(): void {
+    window.addEventListener('click', this.onMouseClick.bind(this));
+  }
+
+  private handleClickEvent(): void {
+    this.tableClicked.emit();
   }
 
   public startSurgery(): void {
@@ -390,6 +417,7 @@ export class SurgeryRoomComponent {
     this.camera = camera;
 
     this.animate();
+    this.addClickListener();
   }
 
 }

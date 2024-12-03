@@ -7,6 +7,7 @@ import {ValidateMap} from '../validateMap/validateMap';
 import json from '../../floorLayout/floorLayout.json';
 import {CorridorComponent} from '../corridor/corridor.component';
 import {EdgeWallComponent} from '../edge-wall/edge-wall.component';
+import appSettings from '../../appSettings.json';
 
 @Component({
   selector: 'app-operation-floor',
@@ -21,20 +22,21 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
   private camera!: THREE.PerspectiveCamera;
   private controls!: OrbitControls;
   private orbitTarget!: THREE.Vector3;
-  private targetMarker!: THREE.Mesh;
   private ambientLight!: THREE.AmbientLight;
   private directionalLight!: THREE.DirectionalLight;
   private roomNumber = 0;
-
   private rooms: { id: number; roomComponent: SurgeryRoomComponent }[] = [];
   private gui!: GUI;
   private map: number[][] = json.map;
   private width: number = json.size.width;
   private height: number = json.size.height;
-
+  protected showOverlay = false;
+  protected roomDetails: Array<{ title: string, body: string | number }> = [];
+  private selectedRoom: { roomIndex: number, isOperationActive:boolean, i: number, j: number } | null = null;
   private receivedData: boolean[] = [];
 
   constructor(private validateMapService: ValidateMap) {
+    window.addEventListener('keydown', this.handleKeyPress.bind(this));
   }
 
   ngOnInit(): void {
@@ -44,8 +46,61 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
     } catch (error) {
       console.error("An error occurred during initialization:", error);
     }
+    this.setUpEventListeners();
+  }
+
+  ngAfterViewInit(): void {
+    this.createRooms();
+    this.createCorridorsAndEdgeWalls();
+    this.setupCameraControls();
+    this.render();
+  }
+
+  private initialize(): void {
+    this.initScene();
+    this.initRenderer();
+    this.initCamera();
+    this.initGUI();
+  }
+
+  private initScene(): void {
+    this.scene = new THREE.Scene();
+    this.createAmbientLight();
+    this.createDirectionalLight();
+  }
+
+  private initRenderer(): void {
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(this.renderer.domElement);
+  }
+
+  private initCamera(): void {
+    const coords = this.getCoordsOfMiddleOfTheMap();
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera.position.set(coords.x, 15 * this.height, coords.z);
+    this.camera.lookAt(new THREE.Vector3(coords.x, 0, coords.z));
+    this.orbitTarget = new THREE.Vector3(coords.x, this.height, coords.z);
+  }
+
+  private initGUI(): void {
+    this.gui = new GUI();
+    this.createCameraGUI();
+    this.createOrbitTargetGUI();
+    this.ambientLightGUI();
+    this.directionLightGUI();
+    this.gui.close();
+  }
+
+  private render = () => {
+    this.controls.update();
+    this.renderer.render(this.scene, this.camera);
+    requestAnimationFrame(this.render);
+  };
+
+  private setUpEventListeners(): void {
     window.addEventListener("message", (event) => {
-      if (event.origin === "http://localhost:4200") {
+      if (event.origin === appSettings.eventOrigin) {
         this.receivedData = event.data;
         if (this.receivedData.length !== this.roomNumber) {
           console.error("The number of rooms is not equal to the number of received data");
@@ -68,6 +123,30 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
     }, false);
   }
 
+  private handleKeyPress(event: KeyboardEvent): void {
+    if (event.key.toLowerCase() === 'i') {
+      if (this.selectedRoom !== null) {
+        this.updateRoomDetails();
+        this.showOverlay = !this.showOverlay;
+      }
+    }
+  }
+
+  private updateRoomDetails(): void {
+    this.roomDetails = [
+      { title: 'Room Number', body: this.selectedRoom!.roomIndex},
+      { title: 'Operation Status', body: this.selectedRoom!.isOperationActive ? 'Active' : 'Inactive' },
+      { title: 'Room Coords', body: `${this.selectedRoom!.i * this.width}, ${this.height}, ${this.selectedRoom!.j * this.width}` },
+    ];
+  }
+
+  private updateOverlayData(isOperationActive: boolean, roomNumber: number): void {
+    if(this.selectedRoom !== null && this.selectedRoom.roomIndex === roomNumber) {
+      this.selectedRoom.isOperationActive = isOperationActive;
+      this.updateRoomDetails();
+    }
+  }
+
   private getFolderByName(name: string): GUI | null {
     for (const child of this.gui.children) {
       if (child instanceof GUI && child._title === name) {
@@ -75,50 +154,6 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
       }
     }
     return null;
-  }
-
-
-  private initialize(): void {
-    this.initScene();
-    this.initRenderer();
-    this.initCamera();
-    this.initGUI();
-  }
-
-  private initScene(): void {
-    this.scene = new THREE.Scene();
-    this.createAmbientLight();
-    this.createDirectionalLight();
-  }
-
-  private initGUI(): void {
-    this.gui = new GUI();
-    this.createCameraGUI();
-    this.createOrbitTargetGUI();
-    this.ambientLightGUI();
-    this.directionLightGUI();
-    this.gui.close();
-  }
-
-  private initRenderer(): void {
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-    document.body.appendChild(this.renderer.domElement);
-  }
-
-  private initCamera(): void {
-    const coords = this.getCoordsOfMiddleOfTheMap();
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.camera.position.set(coords.x, 15 * this.height, coords.z);
-    this.camera.lookAt(new THREE.Vector3(coords.x, 0, coords.z));
-    this.orbitTarget = new THREE.Vector3(coords.x, this.height, coords.z);
-  }
-
-  ngAfterViewInit(): void {
-    this.createRooms();
-    this.createCorridorsAndEdgeWalls();
-    this.setupCameraControls();
-    this.render();
   }
 
   private createAmbientLight(): void {
@@ -181,8 +216,39 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
     this.scene.add(edgeGroup);
   }
 
+  private medicalTableClicked(roomIndex: number, isOperationActive: boolean, i: number, j: number): void {
+    const targetPosition = new THREE.Vector3(i * this.width / 2, 5 * this.height, j * this.width / 2 + 1);
+    const targetOrbit = new THREE.Vector3(i * this.width / 2, 0, j * this.width / 2);
+
+    const startPosition = this.camera.position.clone();
+    const startOrbit = this.orbitTarget.clone();
+
+    const duration = 1.5;
+    const clock = new THREE.Clock();
+
+    const animate = () => {
+      const elapsed = clock.getElapsedTime();
+      const t = Math.min(elapsed / duration, 1);
+
+      this.camera.position.lerpVectors(startPosition, targetPosition, t);
+      this.orbitTarget.lerpVectors(startOrbit, targetOrbit, t);
+
+      this.updateOrbitTarget();
+
+      if (t < 1) {
+        requestAnimationFrame(animate);
+      }
+    };
+    this.selectedRoom = { roomIndex,isOperationActive, i:(i+1), j:(j+1) };
+    this.showOverlay = false;
+
+    animate();
+  }
+
+
   private createRoom(i: number, j: number): void {
     this.roomNumber++;
+    const roomNumber = this.roomNumber;
     const componentRef = this.floorContainer.createComponent(SurgeryRoomComponent);
     const roomComponent = componentRef.instance;
 
@@ -208,6 +274,11 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
       } else {
         roomComponent.stopSurgery();
       }
+      this.updateOverlayData(isOperationActive,roomNumber);
+    });
+
+    roomComponent.tableClicked.subscribe(() => {
+      this.medicalTableClicked(roomNumber,isOperationActive, i, j);
     });
 
     roomComponent.initializeAnimation(this.renderer, this.scene, this.camera);
@@ -317,7 +388,6 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
 
   private updateOrbitTarget(): void {
     this.controls.target.copy(this.orbitTarget);
-    this.targetMarker.position.copy(this.orbitTarget);
     this.controls.update();
   }
 
@@ -336,11 +406,4 @@ export class OperationFloorComponent implements OnInit, AfterViewInit {
       z: this.width / 2 * (this.map[0].length) / 2 - this.width / 2
     };
   }
-
-  private render = () => {
-    this.controls.update();
-    this.renderer.render(this.scene, this.camera);
-    requestAnimationFrame(this.render);
-  };
-
 }
